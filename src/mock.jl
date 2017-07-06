@@ -4,8 +4,17 @@ x = rand(100)
 A = rand(Float64,(100,100))
 
 f(x::Vector) = 2*(transpose(ones(Float64,100))*x) + transpose(x)*A*x
+n=150;L=2*eye(4);L0=.5*eye(4); l0=4; l=5; m=rand(4); mu=rand(Float64, (n,4)); M=.2*eye(4);
+lambda_a=zeros(Float64,(n,4,4))
+for i in 1:n
+  lambda_a[i,:,:] = rand(1).*eye(4)
+end
+f(L::Matrix) = (-l.*trace(inv(L0)*L)+l0*logdet(inv(L0)*L)+n.*logdet(L)-l.*(trace(L*(sum(inv(lambda_a[i]) for i in 1:n))+sum((mu[a,:]-m)*transpose(mu[a,:]-m) for a in 1:n)+n*inv(M))))
 
-f(x)
+f(L)
+mydiff=-l*transpose(sum(inv(lambda_a[i]) for i in 1:n)+sum((mu[a,:]-m)*transpose(mu[a,:]-m) for a in 1:n)+n*inv(M))
+mydiff
+ForwardDiff.gradient(f,L)
 ForwardDiff.gradient(f,x)
 ForwardDiff.hessian(f,x)
 ####

@@ -27,6 +27,7 @@ mutable struct LNMMSB <: AbstractMMSB
  mbsize::Int64
  mbids::Vector{Int64}
  function LNMSSB(network::Network, K::Int64)
+  network=load("data/network.jld")["network"]
   N = size(network,1)
   elbo=0
   newelbo=0
@@ -50,22 +51,21 @@ mutable struct LNMMSB <: AbstractMMSB
   b0=ones(Float64, K)
   b1=ones(Float64, K)
  end
- model = new(K, N, elbo, newelbo, Θ, μ, μ_var, m0, m, M0, M, Λ, Λ_var, l0, L0,
-  l, L, z_out, z_in, ϕ_lout, ϕ_lin, ϕ_nlout, ϕ_nlin, β, η0, η1, b0, b1,network)
+ model = new()
  return model
 end
 
 #Updates
 function elogpmu(model::LNMMSB)
- .5*(-model.K + logdet(model.M0)-trace(model.M0*(inv(model.M) + (model.m-model.m0)*transpose(model.m-model.m0))))
+
 
 end
 function elogpLambda(model::LNMMSB)
- .5*(-moedl.K*(model.K+1)*log(2)+(model.l0-model.k-1)*digamma(.5*model.l, model.K)-lgamma(.5*model.l0,model.K)-model.l*trace(inv(model.L0)*model.L)+(model.K+1)*logdet(model.L)+model.l0*logdet(inv(model.L0*model.L)))
+
 end
 
 function elogptheta(model::LNMMSB)
- .5*(-model.mbsize*K*log(2.0*pi)+model.mbsize*digamma(model.l,model.K)+model.mbsize*model.K*log(2)+model.mbsize*logdet(model.L))
+
 end
 function elogpzout(model::LNMMSB)
 end

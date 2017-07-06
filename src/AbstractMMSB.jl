@@ -1,1 +1,1 @@
-abstract AbstractMMSB
+abstract type AbstractMMSB end

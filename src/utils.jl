@@ -1,13 +1,13 @@
 
 const EPSILON = eps(1e-14)
-typealias VectorList{T} Vector{Vector{T}}
-typealias MatrixList{T} Vector{Matrix{T}}
-typealias Matrix2d{T} Matrix{T}
-typealias Matrix3d{T} Array{T,3}
-typealias Network{T} SparseMatrixCSC{T,T}
+VectorList{T} = Vector{Vector{T}}
+MatrixList{T} = Vector{Matrix{T}}
+Matrix2d{T} = Matrix{T}
+Matrix3d{T} = Array{T,3}
+Network{T} = SparseMatrixCSC{T,T}
+Network{T<:Integer}(nrows::T) = SparseMatrixCSC{T,T}(nrows, nrows, ones(T, nrows+1), Vector{T}(0), Vector{T}(0))
 Base.digamma{T<:Number,R<:Integer}(x::T, dim::R) = @fastmath @inbounds sum(digamma(x+.5*(1-i)) for i in 1:dim)
 Base.Math.lgamma{T<:Number,R<:Integer}(x::T, dim::R)=.25*(dim*dim-1)*pi+sum(lgamma(x+.5*(1-i)) for i in 1:dim)
-Network{T<:Integer}(nrows::T) = SparseMatrixCSC{T,T}(nrows, 2, ones(T, nrows+1), Vector{T}(0), Vector{T}(0))
 
 
 isnegative(x::Real) = x < 0
@@ -30,7 +30,7 @@ function expnormalize{T<:Real}(xs::Array{T})
   xs.=exp.(xs)./s
 end
 
-function sort_by_argmax!{T<:Real}(X::Matrix2d)
+function sort_by_argmax!{T<:Real}(X::Matrix2d{T})
   n_row=size(X,1)
   n_col = size(X,2)
   ind_max=zeros(Int64, n_row)
