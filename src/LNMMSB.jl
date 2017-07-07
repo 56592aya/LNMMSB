@@ -1,73 +1,90 @@
 using StatsBase
 mutable struct LNMMSB <: AbstractMMSB
- K::Int64
- N::Int64
- elbo::Float64
- newelbo::Float64
- μ::Vector{Float64}
- μ_var::Matrix2d{Float64}
- m0::Vector{Float64}
- m::Vector{Float64}
- M0::Matrix2d{Float64}
- M::Matrix2d{Float64}
- Λ::Matrix2d{Float64}
- Λ_var::Matrix3d{Float64}
- l0::Float64
- L0::Matrix2d{Float64}
- l::Float64
- L::Matrix2d{Float64}
- lzeta::Vector{Float64}
- ϕlinoutsum::Float64
- ϕnlinoutsum::Float64
- η0::Float64
- η1::Float64
- b0::Vector{Float64}
- b1::Vector{Float64}
- network::Network{Int64}
- mbsize::Int64
- mbids::Vector{Int64}
- function LNMSSB(network::Network, K::Int64)
-  network=load("data/network.jld")["network"]
-  N = size(network,1)
-  elbo=0
-  newelbo=0
-  μ=zeros(Float64,K)
-  μ_var=zeros(Float64, (N,K))
-  m0=zeros(Float64,K)
-  m=zeros(Float64,K)
-  M0=zeros(Float64,(K,K))
-  M=zeros(Float64,(K,K))
-  Λ=zeros(Float64,(K,K))
-  Λ_var=zeros(Float64,(N,K,K))
-  l0=zero(Float64)
-  L0=zeros(Float64,(K,K))
-  l=zero(Float64)
-  L=zeros(Float64,(K,K))
-  ϕlinoutsum=zero(Float64)
-  ϕnlinoutsum=zero(Float64)
-  lzeta=ones(Float64, N)
-  η0=ones(Float64, K)
-  η1=ones(Float64, K)
-  b0=ones(Float64, K)
-  b1=ones(Float64, K)
+ K          ::Int64             #number of communities
+ N          ::Int64             #number of individuals
+ elbo       ::Float64           #ELBO
+ newelbo    ::Float64           #new ELBO
+ μ          ::Vector{Float64}   #true mean of the MVN
+ μ_var      ::Matrix2d{Float64} #variational mean of the MVN
+ m0         ::Vector{Float64}   #hyperprior on mean
+ m          ::Vector{Float64}   #variational hyperprior on mean
+ M0         ::Matrix2d{Float64} #hyperprior on precision
+ M          ::Matrix2d{Float64} #hyperprior on variational precision
+ Λ          ::Matrix2d{Float64} #true precision
+ Λ_var      ::Matrix3d{Float64} #variational preicisoin
+ l0         ::Float64           #df for Preicision in Wishart
+ L0         ::Matrix2d{Float64} #scale for precision in Wishart
+ l          ::Float64           #variational df
+ L          ::Matrix2d{Float64} #variational scale
+ lzeta      ::Vector{Float64}   #additional variation param
+ ϕlinoutsum ::Float64           #sum of phi products for links
+ ϕnlinoutsum::Float64           #sum of phi products for nonlinks
+ η0         ::Float64           #hyperprior on beta
+ η1         ::Float64           #hyperprior on beta
+ b0         ::Vector{Float64}   #variational param for beta
+ b1         ::Vector{Float64}   #variational param for beta
+ network    ::Network{Int64}    #sparse view network
+ mbsize     ::Int64             #minibatch size
+ mbids      ::Vector{Int64}     #minibatch node ids
+ nval       ::Float64           # no. of validation links
+ function LNMMSB(network::Network{Int64}, K::Int64)
+  network     =load("data/network.jld")["network"] # network loaded
+  N           = size(network,1)                    #setting size of nodes
+  elbo        =0.0                                 #init ELBO at zero
+  newelbo     =0.0                                 #init new ELBO at zero
+  μ           =zeros(Float64,K)                    #zero the mu vector
+  μ_var       =zeros(Float64, (N,K))               # zero the mu_var vector
+  m0          =zeros(Float64,K)                    #zero m0 vector
+  m           =zeros(Float64,K)                    #zero m vector
+  M0          =eye(Float64,(K,K))                  #init M0 matrix
+  M           =zeros(Float64,(K,K))                # zero M matrix
+  Λ           =(1.0/K).*eye(Float64,(K,K))         #init Lambda matrix
+  Λ_var       =zeros(Float64,(N,K,K))              # zero Lambda_var matrix
+  l0          =K*1.0                               #init the df l0
+  L0          =(1.0/K).*eye(Float64,(K,K))         #init the scale L0
+  l           =K*1.0                               #init the df l
+  L           =zeros(Float64,(K,K))                #zero the scale L
+  ϕlinoutsum  =zero(Float64)                       #zero the phi link product sum
+  ϕnlinoutsum =zero(Float64)                       #zero the phi nonlink product sum
+  lzeta       =ones(Float64, N)                    #one additional variational param
+  η0          =1.0                                 #one the beta param
+  η1          =1.0                                 #one the beta param
+  b0          =ones(Float64, K)                    #one the beta variational param
+  b1          =ones(Float64, K)                    #one the beta variational param
+  mbsize      =5                                   #number of nodes in the minibatch
+  mbids       =zeros(Int64,mbsize)                 # to be extended
+  nval        =nnz(network)*0.025                  #init nval
+
+  model = new(K, N, elbo, newelbo, μ, μ_var, m0, m, M0, M, Λ, Λ_var, l0, L0, l,
+   L, lzeta, ϕlinoutsum, ϕnlinoutsum, η0, η1, b0, b1, network, mbsize, mbids,nval)
+  return model
  end
- model = new()
- return model
 end
+
 
 #Updates
 function elogpmu(model::LNMMSB)
-
-
+ .5*(-K*log(2*pi)-trace(inv(model.M))-model.m*transpose(model.m))
 end
 function elogpLambda(model::LNMMSB)
-
+ .5*(-K*(K+1)*log(2)-.5*K*(K-1)*log(pi)+digamma(.5*model.l,model.K)-2*lgamma(.5*model.K, model.K)-
+ model.l*model.K*trace(model.L)-logdet(model.L)+model.K*logdet(model.K.*eye(model.L0)))
 end
 
 function elogptheta(model::LNMMSB)
-
+ .5*(-model.mbsize*model.K*log(2*pi)+model.mbsize*digamma(.5*model.l, model.K)+model.mbsize*model.K*log(2*pi)+
+ model.mbsize*logdet(model.L)-model.l*(trace(model.L*sum(inv(model.Λ_var),1))+
+ trace(model.L*transpose(model.μ_var.-model.m)*(model.μ_var.-model.m))+model.mbsize*trace(model.L*inv(model.M)))
 end
 function elogpzout(model::LNMMSB)
+ s = zero(Float64)
+ for a in 1:model.N
+  for b in 1:model.N
+   if a == b
+    continue;
+   end
+  end
+ end
 end
 function elogpzin(model::LNMMSB)
 end
@@ -127,6 +144,7 @@ function updatephiout!(model::LNMMSB, a::Int64, b::Int64)
 end
 function updatephiin!(model::LNMMSB, a::Int64, b::Int64)
 end
-#Train
-# function train!(model::LNMMSB, iter::Int64, etol::Float64, niter::Int64, ntol::Float64, viter::Int64, vtol::Float64, elboevery::Int64)
-# end
+
+function train!(model::LNMMSB, iter::Int64, etol::Float64, niter::Int64, ntol::Float64, viter::Int64, vtol::Float64, elboevery::Int64)
+
+end
