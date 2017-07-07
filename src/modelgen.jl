@@ -37,7 +37,7 @@ function gennetwork(N::Int64, K::Int64)
 
   @save("data/network.jld",network)
 end
-gennetwork(150, 4)
+
 # Plots.heatmap(Θ, yflip=true)
 # network=load("data/network.jld")["network"]
 # Plots.heatmap(network, yflip=true)

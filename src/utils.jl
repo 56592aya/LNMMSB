@@ -1,3 +1,4 @@
+import Base: ==, hash
 
 const EPSILON = eps(1e-14)
 VectorList{T} = Vector{Vector{T}}
@@ -5,6 +6,39 @@ MatrixList{T} = Vector{Matrix{T}}
 Matrix2d{T}   = Matrix{T}
 Matrix3d{T}   = Array{T,3}
 Network{T}    = SparseMatrixCSC{T,T}
+struct Dyad <: AbstractDyad
+ src::Int64
+ dst::Int64
+ isholdout::Bool
+end
+
+mutable struct Link <: AbstractDyad
+  src::Int64
+  dst::Int64
+  ϕout::Vector{Float64}
+  ϕin::Vector{Float64}
+  isholdout::Bool
+end
+mutable struct NonLink <: AbstractDyad
+  src::Int64
+  dst::Int64
+  ϕout::Vector{Float64}
+  ϕin::Vector{Float64}
+  isholdout::Bool
+end
+==(x::Dyad, y::Dyad) = x.src == y.src && x.dst == y.dst
+==(x::Link, y::Link) = x.src == y.src && x.dst == y.dst
+==(x::NonLink, y::NonLink) = x.src == y.src && x.dst == y.dst
+hash(x::Dyad, h::UInt) = hash(x.src, hash(x.dst, hash(0x7d6979235cb005d0, h)))
+hash(x::Link, h::UInt) = hash(x.src, hash(x.dst, hash(0x7d6979235cb005d0, h)))
+hash(x::NonLink, h::UInt) = hash(x.src, hash(x.dst, hash(0x7d6979235cb005d0, h)))
+
+struct Triad <: AbstractTuple
+ head::Int64
+ middle::Int64
+ tail::Int64
+end
+
 
 Network{T<:Integer}(nrows::T) = SparseMatrixCSC{T,T}(nrows, nrows, ones(T, nrows+1), Vector{T}(0), Vector{T}(0))
 Base.digamma{T<:Number,R<:Integer}(x::T, dim::R) = @fastmath @inbounds sum(digamma(x+.5*(1-i)) for i in 1:dim)

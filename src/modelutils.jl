@@ -1,28 +1,4 @@
-struct Dyad <: AbstractDyad
- src::Int64
- dst::Int64
- isholdout::Bool
-end
-mutable struct Link <: AbstractDyad
-  src::Int64
-  dst::Int64
-  ϕout::Vector{Float64}
-  ϕin::Vector{Float64}
-  isholdout::Bool
-end
-mutable struct NonLink <: AbstractDyad
-  src::Int64
-  dst::Int64
-  ϕout::Vector{Float64}
-  ϕin::Vector{Float64}
-  isholdout::Bool
-end
 
-struct Triad <: AbstractTuple
- head::Int64
- middle::Int64
- tail::Int64
-end
 
 mutable struct MiniBatch
  mblinks::VectorList{Link}
@@ -37,5 +13,9 @@ function mbsampling(model::LNMMSB, mb::MiniBatch)
   neighbors()
 end
 function setholdout(model::LNMMSB)
-
+ # sample model.nval from nonzeros of model.network
+ # create link and dyad objects and set their dyad and link to isholdout=true
+ # sample model.nval from zeros of model.network
+ # create nonlink and dyad objects and set their dyad and nonlink to isholdout=true
+ # better be a dyad dict where search is easier, and if a key is not found it is for sure not in heldout
 end
