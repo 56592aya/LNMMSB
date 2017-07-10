@@ -16,8 +16,8 @@ ho_dyaddict = Dict{Dyad,Bool}()
 ho_linkdict = Dict{Link,Bool}()
 ho_nlinkdict = Dict{NonLink,Bool}()
 setholdout(model)
-mb = MiniBatch(Vector{Link}(),Vector{NonLink}(), Set{Int64}(), Dict{Int64,Vector{Int64}}(), Dict{Int64,Vector{Int64}}())
-mbsampling(model, mb)
+mb = MiniBatch()
+mbsampling!(mb,model)
 mb
 train_degree!(train_out, train_in, model)
 end

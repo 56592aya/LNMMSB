@@ -46,6 +46,14 @@ mutable struct MiniBatch
 	mballnodes::Set{Int64}
   mbfnadj::Dict{Int64,Vector{Int64}}
   mbbnadj::Dict{Int64,Vector{Int64}}
+  function MiniBatch()
+    mblinks=Vector{Link}()
+    mbnonlinks=Vector{NonLink}()
+    mballnodes=Set{Int64}()
+    mbfnadj=Dict{Int64,Vector{Int64}}()
+    mbbnadj=Dict{Int64,Vector{Int64}}()
+    new(mblinks,mbnonlinks,mballnodes,mbfnadj,mbbnadj)
+  end
 end
 
 Network{T<:Integer}(nrows::T) = SparseMatrixCSC{T,T}(nrows, nrows, ones(T, nrows+1), Vector{T}(0), Vector{T}(0))

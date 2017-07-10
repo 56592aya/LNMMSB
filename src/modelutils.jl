@@ -56,7 +56,7 @@ function train_degree!(train_out, train_in, model::LNMMSB)
 	end
 	train_out, train_in
 end
-function mbsampling(model::LNMMSB, mb::MiniBatch)
+function mbsampling!(mb::MiniBatch,model::LNMMSB )
 	mbcount  = 0
 	lcount = 0
 	while mbcount < model.mbsize
@@ -96,24 +96,16 @@ function mbsampling(model::LNMMSB, mb::MiniBatch)
 					if !haskey(mb.mbfnadj, a)
 						mb.mbfnadj[a] = get(mb.mbfnadj, a, Vector{Int64}())
 					end
-					if !haskey(mb.mbbnadj, b)
-						mb.mbbnadj[b] = get(mb.mbbnadj, b, Vector{Int64}())
-					end
 					push!(mb.mbfnadj[a],b)
-					push!(mb.mbbnadj[b],a)
 					nlcount+=1
 				end
 			else
 				if !(Dyad(b,a) in collect(keys(ho_dyaddict))) && !(isalink(model.network, b, a))
 					nl = NonLink(b,a,zeros(Float64, model.K),zeros(Float64, model.K))
 					push!(mb.mbnonlinks, nl)
-					if !haskey(mb.mbfnadj, b)
-						mb.mbfnadj[b] = get(mb.mbfnadj, b, Vector{Int64}())
-					end
 					if !haskey(mb.mbbnadj, a)
 						mb.mbbnadj[a] = get(mb.mbbnadj, a, Vector{Int64}())
 					end
-					push!(mb.mbfnadj[b],a)
 					push!(mb.mbbnadj[a],b)
 					# push!(mb.mballnodes, b)
 					nlcount+=1
