@@ -34,18 +34,14 @@ function setholdout(model::LNMMSB)
 		end
 	end
 end
-train_out = Dict{Int64,Int64}
-train_in = Dict{Int64,Int64}
 function train_degree!(train_out, train_in, model::LNMMSB)
+	train_out = zeros(Int64, model.N)
+	train_in = zeros(Int64, model.N)
 	for a in 1:model.N
 		Bsink=sinks(model.network, a, model.N)#length is fadj
 		Bsrc=sources(model.network, a, model.N)#length is bad
-		if !haskey(train_out, a)
-			train_out[a] = get(train_out, a, length(Bsink))
-		end
-		if !haskey(train_in, a)
-			train_in[a] = get(train_in, a, length(Bsrc))
-		end
+		train_out[a] = length(Bsink)
+		train_in[a] =  length(Bsrc)
 		for b1 in Bsink
 			if (Dyad(a,b1) in collect(keys(ho_linkdict)))
 				train_out[a]-=1
@@ -53,7 +49,7 @@ function train_degree!(train_out, train_in, model::LNMMSB)
 		end
 		for b2 in Bsrc
 			if (Dyad(b2,a) in collect(keys(ho_linkdict)))
-				train_in[b]-=1
+				train_in[a]-=1
 			end
 		end
 
