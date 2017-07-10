@@ -3,11 +3,18 @@ include("AbstractTuple.jl")
 include("AbstractDyad.jl")
 include("AbstractMMSB.jl")
 include("utils.jl")
+inputtomodelgen=[150,4] ## N, K
 include("modelgen.jl")
-gennetwork(150, 4)
+
 network=load("data/network.jld")["network"]
 include("LNMMSB.jl")
+model=LNMMSB(network, inputtomodelgen[2])
 include("modelutils.jl")
-model=LNMMSB(network,4)
-
+ho_dyaddict = Dict{Dyad,Bool}()
+ho_linkdict = Dict{Link,Bool}()
+ho_nlinkdict = Dict{NonLink,Bool}()
+setholdout(model)
+mb = MiniBatch(Vector{Link}(),Vector{NonLink}(), Set{Int64}(), Dict{Int64,Vector{Int64}}(), Dict{Int64,Vector{Int64}}())
+mbsampling(model, mb)
+mb
 end

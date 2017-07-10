@@ -26,7 +26,7 @@ mutable struct LNMMSB <: AbstractMMSB
  network    ::Network{Int64}    #sparse view network
  mbsize     ::Int64             #minibatch size
  mbids      ::Vector{Int64}     #minibatch node ids
- nval       ::Float64           # no. of validation links
+ nho       ::Float64           # no. of validation links
  function LNMMSB(network::Network{Int64}, K::Int64)
   network     =load("data/network.jld")["network"] # network loaded
   N           = size(network,1)                    #setting size of nodes
@@ -36,12 +36,12 @@ mutable struct LNMMSB <: AbstractMMSB
   μ_var       =zeros(Float64, (N,K))               # zero the mu_var vector
   m0          =zeros(Float64,K)                    #zero m0 vector
   m           =zeros(Float64,K)                    #zero m vector
-  M0          =eye(Float64,(K,K))                  #init M0 matrix
+  M0          =eye(Float64,K)                  #init M0 matrix
   M           =zeros(Float64,(K,K))                # zero M matrix
-  Λ           =(1.0/K).*eye(Float64,(K,K))         #init Lambda matrix
+  Λ           =(1.0/K).*eye(Float64,K)         #init Lambda matrix
   Λ_var       =zeros(Float64,(N,K,K))              # zero Lambda_var matrix
   l0          =K*1.0                               #init the df l0
-  L0          =(1.0/K).*eye(Float64,(K,K))         #init the scale L0
+  L0          =(1.0/K).*eye(Float64,K)         #init the scale L0
   l           =K*1.0                               #init the df l
   L           =zeros(Float64,(K,K))                #zero the scale L
   ϕlinoutsum  =zero(Float64)                       #zero the phi link product sum
@@ -51,12 +51,12 @@ mutable struct LNMMSB <: AbstractMMSB
   η1          =1.0                                 #one the beta param
   b0          =ones(Float64, K)                    #one the beta variational param
   b1          =ones(Float64, K)                    #one the beta variational param
-  mbsize      =5                                   #number of nodes in the minibatch
+  mbsize      =2                                   #number of nodes in the minibatch
   mbids       =zeros(Int64,mbsize)                 # to be extended
-  nval        =nnz(network)*0.025                  #init nval
+  nho        =nnz(network)*0.025                  #init nho
 
   model = new(K, N, elbo, newelbo, μ, μ_var, m0, m, M0, M, Λ, Λ_var, l0, L0, l,
-   L, lzeta, ϕlinoutsum, ϕnlinoutsum, η0, η1, b0, b1, network, mbsize, mbids,nval)
+   L, lzeta, ϕlinoutsum, ϕnlinoutsum, η0, η1, b0, b1, network, mbsize, mbids,nho)
   return model
  end
 end
@@ -72,9 +72,7 @@ function elogpLambda(model::LNMMSB)
 end
 
 function elogptheta(model::LNMMSB)
- .5*(-model.mbsize*model.K*log(2*pi)+model.mbsize*digamma(.5*model.l, model.K)+model.mbsize*model.K*log(2*pi)+
- model.mbsize*logdet(model.L)-model.l*(trace(model.L*sum(inv(model.Λ_var),1))+
- trace(model.L*transpose(model.μ_var.-model.m)*(model.μ_var.-model.m))+model.mbsize*trace(model.L*inv(model.M)))
+
 end
 function elogpzout(model::LNMMSB)
  s = zero(Float64)
@@ -148,3 +146,4 @@ end
 function train!(model::LNMMSB, iter::Int64, etol::Float64, niter::Int64, ntol::Float64, viter::Int64, vtol::Float64, elboevery::Int64)
 
 end
+println()

@@ -1,7 +1,7 @@
 using Distributions
 using JLD
 using Plots
-
+using ArgParse
 function gennetwork(N::Int64, K::Int64)
   network=Network(N)
   global Θ=zeros(Float64, (N,K))
@@ -38,6 +38,7 @@ function gennetwork(N::Int64, K::Int64)
   @save("data/network.jld",network)
 end
 
+isassigned(inputtomodelgen,2)?gennetwork(inputtomodelgen[1],inputtomodelgen[2]):println("you should set ARGS for gennetwork(N,K)")
 # Plots.heatmap(Θ, yflip=true)
 # network=load("data/network.jld")["network"]
 # Plots.heatmap(network, yflip=true)

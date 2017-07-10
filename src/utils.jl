@@ -6,10 +6,11 @@ MatrixList{T} = Vector{Matrix{T}}
 Matrix2d{T}   = Matrix{T}
 Matrix3d{T}   = Array{T,3}
 Network{T}    = SparseMatrixCSC{T,T}
+
 struct Dyad <: AbstractDyad
  src::Int64
  dst::Int64
- isholdout::Bool
+ # isholdout::Bool
 end
 
 mutable struct Link <: AbstractDyad
@@ -17,14 +18,14 @@ mutable struct Link <: AbstractDyad
   dst::Int64
   ϕout::Vector{Float64}
   ϕin::Vector{Float64}
-  isholdout::Bool
+  # isholdout::Bool
 end
 mutable struct NonLink <: AbstractDyad
   src::Int64
   dst::Int64
   ϕout::Vector{Float64}
   ϕin::Vector{Float64}
-  isholdout::Bool
+  # isholdout::Bool
 end
 ==(x::Dyad, y::Dyad) = x.src == y.src && x.dst == y.dst
 ==(x::Link, y::Link) = x.src == y.src && x.dst == y.dst
@@ -39,6 +40,13 @@ struct Triad <: AbstractTuple
  tail::Int64
 end
 
+mutable struct MiniBatch
+	mblinks::Vector{Link}
+	mbnonlinks::Vector{NonLink}
+	mballnodes::Set{Int64}
+  mbfnadj::Dict{Int64,Vector{Int64}}
+  mbbnadj::Dict{Int64,Vector{Int64}}
+end
 
 Network{T<:Integer}(nrows::T) = SparseMatrixCSC{T,T}(nrows, nrows, ones(T, nrows+1), Vector{T}(0), Vector{T}(0))
 Base.digamma{T<:Number,R<:Integer}(x::T, dim::R) = @fastmath @inbounds sum(digamma(x+.5*(1-i)) for i in 1:dim)
@@ -100,12 +108,14 @@ end
 function issource(network::Network{Int64},curr::Int64, q::Int64)
   network[q,curr] == 1
 end
-function sinks(network::Network{Int64},curr::Int64, q::Int64)
+function sinks(model::Network{Int64},curr::Int64, N::Int64)
+  [b for b in 1:N if isalink(network, curr, b)]
 end
-function sources(network::Network{Int64},curr::Int64, q::Int64)
+function sources(network::Network{Int64},curr::Int64, N::Int64)
+  [b for b in 1:N if isalink(network, b, curr)]
 end
-function neighbors(network::Network{Int64},curr::Int64, q::Int64)
-  vcat(sinks(network, curr, q), sources(network, curr, q))
+function neighbors(network::Network{Int64},curr::Int64, N::Int64)
+  vcat(sinks(network, curr, N), sources(network, curr, N))
 end
 
 
