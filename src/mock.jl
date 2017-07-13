@@ -132,3 +132,63 @@ function timeit(n, reps)
     println("GFlop/sec (SIMD) = ",2.0*n*reps/time*1E-9)
 end
 timeit(1000,1000)
+
+
+M = 4.*eye(4)
+l=4
+N=10
+L=diagm(rand(4))
+Minv = inv(M)
+f(Minv) = (logdet(Minv)-trace(Minv)-(l)*trace(N.*(L*Minv)))
+myexpr(M) = (M-eye(4)-(l*N).*L)
+x=ForwardDiff.gradient(f,Minv)
+mine=myexpr(M)
+diag(mine)./diag(x)
+####
+mu = reshape(rand(40) ,(N,4))
+m = rand(4)
+
+f(m) = trace(m*transpose(m)) + l*sum(transpose(mu[a,:]-m)*L*(mu[a,:]-m) for a in 1:N)
+x = ForwardDiff.gradient(f,m)
+myexpr(m) = 2*m - (2*l).*L*(sum(mu[a,:] for a in 1:N)) + (2*l*N).*L*m
+mine=myexpr(m)
+x
+mine
+###although equal but x - mine != 0####
+x - mine .==0## should resolve this
+
+
+Lambda = zeros(Float64, (N,4,4))
+for a in 1:N
+  Lambda[a,:,:] = diagm(rand(4))
+end
+l=5
+
+f(l)=l*4 + 2*sum(lgamma(.5*(l-i+1)) for i in 1:4) - (l-4-1)*sum(digamma(.5*(l-i+1)) for i in 1:4)-4*l*trace(L) - l*trace(L*(sum(inv(Lambda[a,:,:])+(mu[a,:]-m)*transpose(mu[a,:]-m) + inv(M) for a in 1:N )))
+
+f(l)
+ForwardDiff.derivative(f,l)
+myexpr(l) = 4 -.5*(l-4-1)*sum(trigamma(.5*(l-i+1)) for i in 1:4)-4*trace(L)-trace(L*(sum(inv(Lambda[a,:,:])+(mu[a,:]-m)*transpose(mu[a,:]-m) + inv(M) for a in 1:N )))
+myexpr(l)
+K=4
+g(L) = K*logdet(L)-K*l*trace(L)-l*trace(L*(sum((inv(Lambda[a,:,:])+(mu[a,:]-m)*transpose(mu[a,:]-m)+inv(M)) for a in 1:N)))
+g(L)
+x = ForwardDiff.gradient(g,L)
+myexpr(L) = K*inv(L) - (K*l).*eye(K) - l.*transpose(sum((inv(Lambda[a,:,:])+(mu[a,:]-m)*transpose(mu[a,:]-m)+inv(M)) for a in 1:N))
+mine = myexpr(L)
+
+mine ./ x
+logdet(2*eye(4))
+x = rand(4)
+transpose(x)*x == trace(x*transpose(x))==transpose(x)*eye(4)*x
+
+x=K*eye(K)+sum((inv(Lambda[a,:,:])+(mu[a,:]-m)*transpose(mu[a,:]-m)+inv(M)) for a in 1:N)
+transpose(x) ==x
+
+using Optim
+f(x) = -(transpose(x)*x)-transpose(x)*(x -3)
+function g!(storage,x)
+  storage = -4.*transpose(x) .+ 3
+end
+ForwardDiff.gradient(f,[2,2])
+optimize(f,g!,[2.0,2.0])

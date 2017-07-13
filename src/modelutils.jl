@@ -34,28 +34,52 @@ function setholdout(model::LNMMSB)
 		end
 	end
 end
-function train_degree!(train_out, train_in, model::LNMMSB)
-	train_out = zeros(Int64, model.N)
-	train_in = zeros(Int64, model.N)
+function train_ss!(train_sinks::VectorList{Int64},train_sources::VectorList{Int64}, model::LNMMSB)
 	for a in 1:model.N
+
 		Bsink=sinks(model.network, a, model.N)#length is fadj
-		Bsrc=sources(model.network, a, model.N)#length is bad
-		train_out[a] = length(Bsink)
-		train_in[a] =  length(Bsrc)
+		Bsrc=sources(model.network, a, model.N)#length is badj
+		xsink=Int64[]
+		xsrc=Int64[]
+
 		for b1 in Bsink
 			if (Dyad(a,b1) in collect(keys(ho_linkdict)))
-				train_out[a]-=1
+				push!(xsink,b1)
 			end
 		end
 		for b2 in Bsrc
 			if (Dyad(b2,a) in collect(keys(ho_linkdict)))
-				train_in[a]-=1
+				push!(xsrc,b2)
+			end
+		end
+		train_sinks[a] = setdiff(Bsink, xsink)
+		train_sources[a] = setdiff(Bsrc, xsrc)
+	end
+	train_sinks,train_sources
+end
+
+
+function train_degree!(train_outdeg::Vector{Int64}, train_indeg::Vector{Int64}, model::LNMMSB)
+	for a in 1:model.N
+		Bsink=sinks(model.network, a, model.N)#length is fadj
+		Bsrc=sources(model.network, a, model.N)#length is badj
+		train_outdeg[a] = length(Bsink)
+		train_indeg[a] =  length(Bsrc)
+		for b1 in Bsink
+			if (Dyad(a,b1) in collect(keys(ho_linkdict)))
+				train_outdeg[a]-=1
+			end
+		end
+		for b2 in Bsrc
+			if (Dyad(b2,a) in collect(keys(ho_linkdict)))
+				train_indeg[a]-=1
 			end
 		end
 
 	end
-	train_out, train_in
+	train_outdeg, train_indeg
 end
+##think about speeding this up
 function mbsampling!(mb::MiniBatch,model::LNMMSB )
 	mbcount  = 0
 	lcount = 0
@@ -117,3 +141,4 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB )
 	model.mbids = collect(mb.mballnodes)[:]
 	println()
 end
+println()

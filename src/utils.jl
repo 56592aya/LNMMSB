@@ -18,6 +18,7 @@ mutable struct Link <: AbstractDyad
   dst::Int64
   ϕout::Vector{Float64}
   ϕin::Vector{Float64}
+  # function Link(src, dst) = new(src, dst, ϕout,ϕin)
   # isholdout::Bool
 end
 mutable struct NonLink <: AbstractDyad
@@ -25,6 +26,7 @@ mutable struct NonLink <: AbstractDyad
   dst::Int64
   ϕout::Vector{Float64}
   ϕin::Vector{Float64}
+  # function NonLink(src, dst) = new(src, dst, ϕout,ϕin)
   # isholdout::Bool
 end
 ==(x::Dyad, y::Dyad) = x.src == y.src && x.dst == y.dst
@@ -57,7 +59,8 @@ mutable struct MiniBatch
 end
 
 Network{T<:Integer}(nrows::T) = SparseMatrixCSC{T,T}(nrows, nrows, ones(T, nrows+1), Vector{T}(0), Vector{T}(0))
-Base.digamma{T<:Number,R<:Integer}(x::T, dim::R) = @fastmath @inbounds sum(digamma(x+.5*(1-i)) for i in 1:dim)
+Base.digamma{T<:Number,R<:Integer}(x::T, dim::R) = @fastmath @inbounds return sum(digamma(x+.5*(1-i)) for i in 1:dim)
+
 Base.Math.lgamma{T<:Number,R<:Integer}(x::T, dim::R)=.25*(dim*dim-1)*pi+sum(lgamma(x+.5*(1-i)) for i in 1:dim)
 
 
