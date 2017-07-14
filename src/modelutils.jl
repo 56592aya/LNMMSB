@@ -12,7 +12,7 @@ function setholdout(model::LNMMSB)
 		if !haskey(model.ho_dyaddict, d)
 			model.ho_dyaddict[d] = get(model.ho_dyaddict, d, true)
 		end
-		l = Link(a,b,zeros(Float64, model.K),zeros(Float64, model.K))
+		l = Link(a,b,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
 		if !haskey(model.ho_linkdict, l)
 			model.ho_linkdict[l] = get(model.ho_linkdict, l, true)
 			countlink+=1
@@ -26,7 +26,7 @@ function setholdout(model::LNMMSB)
 			if !haskey(model.ho_dyaddict, d)
 				model.ho_dyaddict[d] = get(model.ho_dyaddict, d, true)
 			end
-			nl = NonLink(a,b,zeros(Float64, model.K),zeros(Float64, model.K))
+			nl = NonLink(a,b,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
 			if !haskey(model.ho_nlinkdict, nl)
 			model.ho_nlinkdict[nl] = get(model.ho_nlinkdict, nl, true)
 				countnonlink  += 1
@@ -92,7 +92,7 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB )
 
 		for b1 in Bsink
 			if !(Dyad(a,b1) in collect(keys(model.ho_dyaddict)))
-				l = Link(a,b1,zeros(Float64, model.K),zeros(Float64, model.K))
+				l = Link(a,b1,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
 				push!(mb.mblinks, l)
 				# push!(mb.mballnodes, a)
 				# push!(mb.mballnodes, b1)
@@ -101,7 +101,7 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB )
 		end
 		for b2 in Bsrc
 			if !(Dyad(b2,a) in collect(keys(model.ho_dyaddict)))
-				l = Link(b2,a,zeros(Float64, model.K),zeros(Float64, model.K))
+				l = Link(b2,a,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
 				push!(mb.mblinks, l)
 				# push!(mb.mballnodes, a)
 				# push!(mb.mballnodes, b2)
@@ -115,7 +115,7 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB )
 			r = rand()
 			if r  < .5
 				if !(Dyad(a,b) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, a, b))
-					nl = NonLink(a,b,zeros(Float64, model.K),zeros(Float64, model.K))
+					nl = NonLink(a,b,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
 					push!(mb.mbnonlinks, nl)
 					if !haskey(mb.mbfnadj, a)
 						mb.mbfnadj[a] = get(mb.mbfnadj, a, Vector{Int64}())
@@ -125,7 +125,7 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB )
 				end
 			else
 				if !(Dyad(b,a) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, b, a))
-					nl = NonLink(b,a,zeros(Float64, model.K),zeros(Float64, model.K))
+					nl = NonLink(b,a,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
 					push!(mb.mbnonlinks, nl)
 					if !haskey(mb.mbbnadj, a)
 						mb.mbbnadj[a] = get(mb.mbbnadj, a, Vector{Int64}())
@@ -139,7 +139,6 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB )
 		mbcount +=1
 	end
 	model.mbids = collect(mb.mballnodes)[:]
-	println()
 end
 
 function preparedata(model::LNMMSB)

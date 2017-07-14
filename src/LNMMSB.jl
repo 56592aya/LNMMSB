@@ -16,9 +16,9 @@ mutable struct LNMMSB <: AbstractMMSB
     L0           ::Matrix2d{Float64} #scale for precision in Wishart
     l            ::Float64           #variational df
     L            ::Matrix2d{Float64} #variational scale
-    lzeta        ::Vector{Float64}   #additional variation param
-    ϕlinoutsum   ::Float64           #sum of phi products for links
-    ϕnlinoutsum  ::Float64           #sum of phi products for nonlinks
+    ζ            ::Vector{Float64}   #additional variation param
+    ϕlinoutsum   ::Vector{Float64}   #sum of phi products for links
+    ϕnlinoutsum  ::Vector{Float64}   #sum of phi products for nonlinks
     η0           ::Float64           #hyperprior on beta
     η1           ::Float64           #hyperprior on beta
     b0           ::Vector{Float64}   #variational param for beta
@@ -40,20 +40,23 @@ mutable struct LNMMSB <: AbstractMMSB
   elbo          =0.0                     #init ELBO at zero
   newelbo       =0.0                     #init new ELBO at zero
   μ             =zeros(Float64,K)        #zero the mu vector
-  μ_var         =zeros(Float64, (N,K))   # zero the mu_var vector
+  μ_var         =zeros(Float64, (N,K))   #zero the mu_var vector
   m0            =zeros(Float64,K)        #zero m0 vector
   m             =zeros(Float64,K)        #zero m vector
-  M0            =eye(Float64,K)          #init M0 matrix
-  M             =zeros(Float64,(K,K))    # zero M matrix
+  M0            =eye(Float64,K)          #eye M0 matrix
+  M             =eye(Float64,K)          #eye M matrix
   Λ             =(1.0/K).*eye(Float64,K) #init Lambda matrix
-  Λ_var         =zeros(Float64,(N,K,K))  # zero Lambda_var matrix
+  Λ_var         =zeros(Float64,(N,K,K));
+  for a in 1:N
+    Λ_var[a,:,:] = diagm(rand(K))
+  end
   l0            =K*1.0                   #init the df l0
   L0            =(1.0/K).*eye(Float64,K) #init the scale L0
   l             =K*1.0                   #init the df l
-  L             =zeros(Float64,(K,K))    #zero the scale L
-  ϕlinoutsum    =zero(Float64)           #zero the phi link product sum
-  ϕnlinoutsum   =zero(Float64)           #zero the phi nonlink product sum
-  lzeta         =ones(Float64, N)        #one additional variational param
+  L             =(1.0/K).*eye(Float64,K) #zero the scale L
+  ϕlinoutsum    =zeros(Float64,K)        #zero the phi link product sum
+  ϕnlinoutsum   =zeros(Float64,K)        #zero the phi nonlink product sum
+  ζ             =ones(Float64, N)        #one additional variational param
   η0            =1.0                     #one the beta param
   η1            =1.0                     #one the beta param
   b0            =ones(Float64, K)        #one the beta variational param
@@ -70,7 +73,7 @@ mutable struct LNMMSB <: AbstractMMSB
  	train_sources = VectorList{Int64}(N)
 
   model = new(K, N, elbo, newelbo, μ, μ_var, m0, m, M0, M, Λ, Λ_var, l0, L0, l,
-   L, lzeta, ϕlinoutsum, ϕnlinoutsum, η0, η1, b0, b1, network, mbsize, mbids,nho,  ho_dyaddict,ho_linkdict,    ho_nlinkdict,train_out,train_in,train_sinks,train_sources)
+   L, ζ, ϕlinoutsum, ϕnlinoutsum, η0, η1, b0, b1, network, mbsize, mbids,nho,  ho_dyaddict,ho_linkdict,    ho_nlinkdict,train_out,train_in,train_sinks,train_sources)
   return model
  end
 end
