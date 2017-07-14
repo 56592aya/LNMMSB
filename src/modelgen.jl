@@ -1,5 +1,5 @@
 using Distributions
-using JLD
+using JLD:@save,@load
 using Plots
 using ArgParse
 function gennetwork(N::Int64, K::Int64)
@@ -35,7 +35,7 @@ function gennetwork(N::Int64, K::Int64)
     end
   end
 
-  @save("data/network.jld",network)
+  JLD.@save("data/network.jld",network)
 end
 if isfile("data/network.jld")
   println("There already exists a netwrok.jld, if you want to change it remove it first")

@@ -9,12 +9,12 @@ function setholdout(model::LNMMSB)
 		spidx = 1+floor(Int64,num_nonzeros*rand())
 		a,b = A[spidx], B[spidx]
 		d = Dyad(a,b)
-		if !haskey(ho_dyaddict, d)
-			ho_dyaddict[d] = get(ho_dyaddict, d, true)
+		if !haskey(model.ho_dyaddict, d)
+			model.ho_dyaddict[d] = get(model.ho_dyaddict, d, true)
 		end
 		l = Link(a,b,zeros(Float64, model.K),zeros(Float64, model.K))
-		if !haskey(ho_linkdict, l)
-			ho_linkdict[l] = get(ho_linkdict, l, true)
+		if !haskey(model.ho_linkdict, l)
+			model.ho_linkdict[l] = get(model.ho_linkdict, l, true)
 			countlink+=1
 		end
 	end
@@ -23,63 +23,63 @@ function setholdout(model::LNMMSB)
 		b = 1+floor(Int64,model.N*rand())
 		if !isalink(model.network,a, b)
 			d = a!=b ? Dyad(a,b) : continue
-			if !haskey(ho_dyaddict, d)
-				ho_dyaddict[d] = get(ho_dyaddict, d, true)
+			if !haskey(model.ho_dyaddict, d)
+				model.ho_dyaddict[d] = get(model.ho_dyaddict, d, true)
 			end
 			nl = NonLink(a,b,zeros(Float64, model.K),zeros(Float64, model.K))
-			if !haskey(ho_nlinkdict, nl)
-			ho_nlinkdict[nl] = get(ho_nlinkdict, nl, true)
+			if !haskey(model.ho_nlinkdict, nl)
+			model.ho_nlinkdict[nl] = get(model.ho_nlinkdict, nl, true)
 				countnonlink  += 1
 			end
 		end
 	end
+	println("holdout maps created")
 end
-function train_ss!(train_sinks::VectorList{Int64},train_sources::VectorList{Int64}, model::LNMMSB)
+function train_ss!(model::LNMMSB)
 	for a in 1:model.N
-
 		Bsink=sinks(model.network, a, model.N)#length is fadj
 		Bsrc=sources(model.network, a, model.N)#length is badj
 		xsink=Int64[]
 		xsrc=Int64[]
 
 		for b1 in Bsink
-			if (Dyad(a,b1) in collect(keys(ho_linkdict)))
+			if (Dyad(a,b1) in collect(keys(model.ho_linkdict)))
 				push!(xsink,b1)
 			end
 		end
 		for b2 in Bsrc
-			if (Dyad(b2,a) in collect(keys(ho_linkdict)))
+			if (Dyad(b2,a) in collect(keys(model.ho_linkdict)))
 				push!(xsrc,b2)
 			end
 		end
-		train_sinks[a] = setdiff(Bsink, xsink)
-		train_sources[a] = setdiff(Bsrc, xsrc)
+		model.train_sinks[a] = setdiff(Bsink, xsink)
+		model.train_sources[a] = setdiff(Bsrc, xsrc)
 	end
-	train_sinks,train_sources
+	println("training and minibatch sink and sources figured")
 end
 
 
-function train_degree!(train_outdeg::Vector{Int64}, train_indeg::Vector{Int64}, model::LNMMSB)
+function train_degree!(model::LNMMSB)
 	for a in 1:model.N
 		Bsink=sinks(model.network, a, model.N)#length is fadj
 		Bsrc=sources(model.network, a, model.N)#length is badj
-		train_outdeg[a] = length(Bsink)
-		train_indeg[a] =  length(Bsrc)
+		model.train_out[a] = length(Bsink)
+		model.train_in[a] =  length(Bsrc)
 		for b1 in Bsink
-			if (Dyad(a,b1) in collect(keys(ho_linkdict)))
-				train_outdeg[a]-=1
+			if (Dyad(a,b1) in collect(keys(model.ho_linkdict)))
+				model.train_out[a]-=1
 			end
 		end
 		for b2 in Bsrc
-			if (Dyad(b2,a) in collect(keys(ho_linkdict)))
-				train_indeg[a]-=1
+			if (Dyad(b2,a) in collect(keys(model.ho_linkdict)))
+				model.train_in[a]-=1
 			end
 		end
 
 	end
-	train_outdeg, train_indeg
+	println("outdeg and indeg of train and mb are figured")
 end
-##think about speeding this up
+##think about speeding this up-1ms not good
 function mbsampling!(mb::MiniBatch,model::LNMMSB )
 	mbcount  = 0
 	lcount = 0
@@ -91,7 +91,7 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB )
 		Bsrc=sources(model.network, a, model.N)#length is badj
 
 		for b1 in Bsink
-			if !(Dyad(a,b1) in collect(keys(ho_dyaddict)))
+			if !(Dyad(a,b1) in collect(keys(model.ho_dyaddict)))
 				l = Link(a,b1,zeros(Float64, model.K),zeros(Float64, model.K))
 				push!(mb.mblinks, l)
 				# push!(mb.mballnodes, a)
@@ -100,7 +100,7 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB )
 			end
 		end
 		for b2 in Bsrc
-			if !(Dyad(b2,a) in collect(keys(ho_dyaddict)))
+			if !(Dyad(b2,a) in collect(keys(model.ho_dyaddict)))
 				l = Link(b2,a,zeros(Float64, model.K),zeros(Float64, model.K))
 				push!(mb.mblinks, l)
 				# push!(mb.mballnodes, a)
@@ -114,7 +114,7 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB )
 			b=1+floor(Int64,model.N*rand())
 			r = rand()
 			if r  < .5
-				if !(Dyad(a,b) in collect(keys(ho_dyaddict))) && !(isalink(model.network, a, b))
+				if !(Dyad(a,b) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, a, b))
 					nl = NonLink(a,b,zeros(Float64, model.K),zeros(Float64, model.K))
 					push!(mb.mbnonlinks, nl)
 					if !haskey(mb.mbfnadj, a)
@@ -124,7 +124,7 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB )
 					nlcount+=1
 				end
 			else
-				if !(Dyad(b,a) in collect(keys(ho_dyaddict))) && !(isalink(model.network, b, a))
+				if !(Dyad(b,a) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, b, a))
 					nl = NonLink(b,a,zeros(Float64, model.K),zeros(Float64, model.K))
 					push!(mb.mbnonlinks, nl)
 					if !haskey(mb.mbbnadj, a)
@@ -140,5 +140,11 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB )
 	end
 	model.mbids = collect(mb.mballnodes)[:]
 	println()
+end
+
+function preparedata(model::LNMMSB)
+	setholdout(model)
+	train_degree!(model)
+	train_ss!(model)
 end
 println()

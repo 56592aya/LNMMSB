@@ -141,6 +141,10 @@ end
 function updatephiin!(model::LNMMSB, a::Int64, b::Int64)
 end
 
-function train!(model::LNMMSB, iter::Int64, etol::Float64, niter::Int64, ntol::Float64, viter::Int64, vtol::Float64, elboevery::Int64)
+function train!(model::LNMMSB, iter::Int64, etol::Float64, niter::Int64, ntol::Float64, viter::Int64, vtol::Float64, elboevery::Int64, mb::MiniBatch)##only initiated MiniBatch
+    preparedata(model)
+
+    
+    mb
 
 end
