@@ -80,9 +80,11 @@ function expnormalize!{T<:Real}(xs::Array{T})
   s=exp(logsumexp(xs))
   xs.=exp.(xs)./s
 end
+
 function softmax{T<:Real}(xs::Array{T}, k::Int64)
   exp(xs[k])/exp(logsumexp(xs))
 end
+
 function sort_by_argmax!{T<:Real}(X::Matrix2d{T})
   n_row=size(X,1)
   n_col = size(X,2)

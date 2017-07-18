@@ -205,6 +205,12 @@ function updatephilout!(model::LNMMSB,  mb::MiniBatch)
 	for l in mb.mblinks
 		expnormalize!(l.ϕout)
 	end
+	model.ϕloutsum=zeros(Float64,(model.N,model.K))
+	for l in mb.mblinks
+		for k in 1:model.K
+			model.ϕloutsum[l.src,k]+=l.ϕout[k]
+		end
+	end
 end
 function updatephilin!(model::LNMMSB,mb::MiniBatch)
 	for l in mb.mblinks
@@ -215,6 +221,13 @@ function updatephilin!(model::LNMMSB,mb::MiniBatch)
 	for l in mb.mblinks
 		expnormalize!(l.ϕin)
 	end
+	model.ϕlinsum=zeros(Float64,(model.N,model.K))
+	for l in mb.mblinks
+		for k in 1:model.K
+			model.ϕlinsum[l.dst,k]+=l.ϕin[k]
+		end
+	end
+
 
 end
 function updatephinlout!(model::LNMMSB, mb::MiniBatch)
@@ -226,6 +239,12 @@ function updatephinlout!(model::LNMMSB, mb::MiniBatch)
 	for nl in mb.mbnonlinks
 		expnormalize!(nl.ϕout)
 	end
+	model.ϕnloutsum=zeros(Float64,(model.N,model.K))
+	for nl in mb.mbnonlinks
+		for k in 1:model.K
+			model.ϕnloutsum[nl.src,k]+=nl.ϕout[k]
+		end
+	end
 end
 function updatephinlin!(model::LNMMSB,mb::MiniBatch)
 	for nl in mb.mbnonlinks
@@ -236,6 +255,12 @@ function updatephinlin!(model::LNMMSB,mb::MiniBatch)
 	for nl in mb.mbnonlinks
 		expnormalize!(nl.ϕin)
 	end
+	model.ϕnlinsum=zeros(Float64,(model.N,model.K))
+	for nl in mb.mbnonlinks
+		for k in 1:model.K
+			model.ϕnlinsum[nl.dst,k]+=nl.ϕin[k]
+		end
+	end
 end
 #MB dependent
 function updatezetaa!(model::LNMMSB, mb::MiniBatch, a::Int64)
@@ -244,33 +269,47 @@ end
 #Newton\
 #MB dependent
 ##here we need to think better about the accessing of phis or ways of recording them.
-function gmu!(storage,x)
-
+function gmu(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
+	sumb = model.train_out[a]+model.train_in[a]+mb.mbfnadj[a]+mb.mbbnadj[a]
+	-model.l*model.L[k,k]*(model.μ_var[a,k]-model.m[k])+
+	model.ϕloutsum[a,k]+model.ϕnloutsum[a,k]+model.ϕlinsum[a,k]+model.ϕnlinsum[a,k]-(sumb*softmax(model.μ_var[a,:]+diag(model.Λ_var[a,:,:]),k))
 end
-function hmu!(storage,x)
+function hmu(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
+	sumb = model.train_out[a]+model.train_in[a]+mb.mbfnadj[a]+mb.mbbnadj[a]
+	-model.l*model.L[k,k]-sumb*(softmax(model.μ_var[a,:]+diag(model.Λ_var[a,:,:]),k)-(softmax(model.μ_var[a,:]+diag(model.Λ_var[a,:,:]),k))^2)
 end
-function gLambda!(storage,x)
+function gLambda(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
+	sumb = model.train_out[a]+model.train_in[a]+mb.mbfnadj[a]+mb.mbbnadj[a]
+	model.l*modelL[k,k]-model.Λ_var[a,k,k]+sumb*(softmax(model.μ_var[a,:]+diag(model.Λ_var[a,:,:]),k))
 end
-function hLambda!(storage,x)
+function hLambda(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
+	sumb = model.train_out[a]+model.train_in[a]+mb.mbfnadj[a]+mb.mbbnadj[a]
+	-1.0-.5*sumb*(model.Λ_var[a,k,k]*(softmax(model.μ_var[a,:]+diag(model.Λ_var[a,:,:]),k)-(softmax(model.μ_var[a,:]+diag(model.Λ_var[a,:,:]),k))^2)
 end
 function updatemua!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
-	for i in 1:niter
-		μ_grad=-model.L[k,k]*(model.μ_var[a,k]-model.m[k])+sum()-sum(softmax(model.μ_var[a,:],k))
-		μ_invH=
-		model.μ_var[a,k] -= μ_invH * μ_grad
-		if norm(μ_grad) < ntol
-			break
+	for k in 1:model.K
+		for i in 1:niter
+			μ_grad=gmu(model, mb, a,k)
+			μ_invH=inv(hmu(model, mb, a, k))
+			model.μ_var[a,k] -= μ_invH * μ_grad
+			if norm(μ_grad) < ntol
+				break
+			end
 		end
 	end
 end
 #Newton
 #MB dependent
 function updateLambdaa!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
-	Λ_grad=
-	Λ_invH	=
-	model.Λ_var[a,k,k] -= Λ_invH * Λ_grad
-	if norm(Λ_grad) < ntol
-		break
+	for k in 1:model.K
+		for i in 1:niter
+			Λ_grad=gLambda(model, mb, a,k)
+			Λ_invH=inv(hLambda(model, mb, a, k))
+			model.Λ_var[a,k,k] -= Λ_invH * Λ_grad
+			if norm(Λ_grad) < ntol
+				break
+			end
+		end
 	end
 end
 ##only initiated MiniBatch
