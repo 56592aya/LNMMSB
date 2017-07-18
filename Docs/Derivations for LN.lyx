@@ -755,7 +755,7 @@ In minibatch node sampling this would be
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\boxed{m=\Big(\#mbnodes\times(\tfrac{1}{\#mbnodes}I+\ell L)\Big)^{-1}(\ell L\sum_{a\in mbnodes}\mu_{a})}
+\boxed{m=(I+N\ell L)^{-1}(\ell L\sum_{a\in mbnodes}\mu_{a})}
 \end{align*}
 
 \end_inset
@@ -784,21 +784,6 @@ Gradient with respect to
  & \overbrace{\Longrightarrow}^{M\times()\times M} & -I-N\ell L+M=0\\
  &  & \boxed{M=I+N\ell L}
 \end{eqnarray*}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-In minibatch node sampling this would be
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{align*}
-\boxed{M=\#mbnodes\times(\tfrac{1}{\#mbnodes}I+\ell L)}
-\end{align*}
 
 \end_inset
 
@@ -888,21 +873,6 @@ Gradient with respect to
 
 \end_layout
 
-\begin_layout Standard
-In minibatch node sampling this would be
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{align*}
-\boxed{\ell=K+\#mbnodes}
-\end{align*}
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsection
 Gradient with respect to 
 \begin_inset Formula $b_{k}$
@@ -922,9 +892,9 @@ Gradient with respect to
  &  & \text{simultaenously optimizing \ensuremath{b_{k0}}},\mbox{\ensuremath{b_{k1}}}\\
  & \Longrightarrow & \text{Similar to our previous results}\\
 \nabla_{b_{k0}}\mathcal{L}_{b_{k}} & = & 0\\
- & \Longrightarrow & \boxed{b_{k0}=\eta_{0}+\sum_{a,b\in mblinks}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}}\\
+ & \Longrightarrow & \boxed{b_{k0}=\eta_{0}+\dfrac{\#trainlinks}{\#mblinks}\sum_{a,b\in mblinks}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}}\\
 \nabla_{b_{k1}}\mathcal{L}_{b_{k}} & = & 0\\
- &  & \boxed{b_{k1}=1+\sum_{a,b\notin mblinks}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}}
+ &  & \boxed{b_{k1}=1+\dfrac{\#trainnonlinks}{\#mbnonlinks}\sum_{a,b\notin mblinks}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}}
 \end{eqnarray*}
 
 \end_inset
