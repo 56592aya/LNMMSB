@@ -1,3 +1,4 @@
+using Optim
 #negative cross entropies
 function elogpmu(model::LNMMSB)
 	-.5*(model.K*log(2*pi)+trace(model.m*model.m') + trace(inv(model.M)))
@@ -155,8 +156,8 @@ function updatem!(model::LNMMSB, mb::MiniBatch)
 end
 ##MB dependent
 function updateM!(model::LNMMSB,mb::MiniBatch)
-	model.M = model.mbsize*((1.0/mdoel.mbsize)*eye(model.K) + length(mb.mballnodes)*model.l*model.L)
 	##Only to make it MB dependent
+	model.M = model.mbsize*((1.0/model.mbsize)*eye(model.K) + length(mb.mballnodes)*model.l*model.L)
 end
 ##MB Dependent
 function updatel!(model::LNMMSB, mb::MiniBatch)
@@ -242,6 +243,16 @@ function updatezetaa!(model::LNMMSB, mb::MiniBatch, a::Int64)
 end
 #Newton\
 #MB dependent
+##here we need to think better about the accessing of phis or ways of recording them.
+function gmu!(storage,x)
+
+end
+function hmu!(storage,x)
+end
+function gLambda!(storage,x)
+end
+function hLambda!(storage,x)
+end
 function updatemua!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
 	for i in 1:niter
 		μ_grad=-model.L[k,k]*(model.μ_var[a,k]-model.m[k])+sum()-sum(softmax(model.μ_var[a,:],k))
@@ -262,7 +273,8 @@ function updateLambdaa!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb:
 		break
 	end
 end
-function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=1000, ntol::Float64=1.0/(model.K^2), viter::Int64=10, vtol::Float64=1.0/(model.K^2), elboevery::Int64=10, mb::MiniBatch,lr::Float64)##only initiated MiniBatch
+##only initiated MiniBatch
+function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=1000, ntol::Float64=1.0/(model.K^2), viter::Int64=10, vtol::Float64=1.0/(model.K^2), elboevery::Int64=10, mb::MiniBatch,lr::Float64)
 	preparedata(model)
 	##the following deepcopy is very important
 
@@ -281,9 +293,11 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		updatephinlin!(model, mb)
 		updateb0!(model, mb)
 		updateb1!(model, mb)
-			updatezetaa!()
-			updatemua!()
-			updateLambdaa!()
+		for a in mb.mballnodes
+			updatezetaa!(model,mb, a)
+			updatemua!(model,mb, a)
+			updateLambdaa!(model,mb, a)
+		end
 
 
 	end

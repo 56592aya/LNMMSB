@@ -35,6 +35,11 @@ mutable struct LNMMSB <: AbstractMMSB
     train_in     ::Vector{Int64}     #indeg of train and mb
     train_sinks  ::VectorList{Int64} #sinks of train and mb
     train_sources::VectorList{Int64} #sink sof train and mb
+    ϕloutsum     ::Matrix2d{Float64}
+    ϕnloutsum    ::Matrix2d{Float64}
+    ϕlinsum      ::Matrix2d{Float64}
+    ϕnlinsum     ::Matrix2d{Float64}
+
  function LNMMSB(network::Network{Int64}, K::Int64)
   # network       = network?isassigned(network,1):error("load network first")
   N             = size(network,1)        #setting size of nodes
@@ -73,9 +78,13 @@ mutable struct LNMMSB <: AbstractMMSB
  	train_in      = zeros(Int64, N)
   train_sinks   = VectorList{Int64}(N)
  	train_sources = VectorList{Int64}(N)
+  ϕloutsum      = zeros(Float64, (N,K))
+  ϕnloutsum     = zeros(Float64, (N,K))
+  ϕlinsum       = zeros(Float64, (N,K))
+  ϕnlinsum      = zeros(Float64, (N,K))
 
   model = new(K, N, elbo, newelbo, μ, μ_var, m0, m, M0, M, Λ, Λ_var, l0, L0, l,
-   L, ζ, ϕlinoutsum, ϕnlinoutsum,ϕbar, η0, η1, b0, b1, network, mbsize, mbids,nho,  ho_dyaddict,ho_linkdict,    ho_nlinkdict,train_out,train_in,train_sinks,train_sources)
+   L, ζ, ϕlinoutsum, ϕnlinoutsum,ϕbar, η0, η1, b0, b1, network, mbsize, mbids,nho,  ho_dyaddict,ho_linkdict,    ho_nlinkdict,train_out,train_in,train_sinks,train_sources,ϕloutsum,  ϕnloutsum,  ϕlinsum,  ϕnlinsum)
   return model
  end
 end
