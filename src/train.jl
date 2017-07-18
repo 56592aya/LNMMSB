@@ -327,21 +327,21 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		##the following deepcopy is very important
 		mb=deepcopy(mb_zeroer)
 		mbsampling!(mb,model)
-		updatem!(model, mb)
-		updateM!(model, mb)
-		updatel!(model, mb)
-		updateL!(model, mb)
 		updatephilout!(model, mb)
 		updatephilin!(model, mb)
 		updatephinlout!(model, mb)
 		updatephinlin!(model, mb)
-		updateb0!(model, mb)
-		updateb1!(model, mb)
+		updatem!(model, mb)
+		updateM!(model, mb)
+		updatel!(model, mb)
+		updateL!(model, mb)
 		for a in collect(mb.mballnodes)
 			updatezetaa!(model,mb, a)
 			updatemua!(model, a, niter, ntol,mb)
 			updateLambdaa!(model, a, niter, ntol,mb)
 		end
+		updateb0!(model, mb)
+		updateb1!(model, mb)
 		# think about the natural gradient update and reweightings
 		# compute elbo on holdout/whole data
 		# order of updates
