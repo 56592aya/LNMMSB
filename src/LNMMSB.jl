@@ -19,6 +19,7 @@ mutable struct LNMMSB <: AbstractMMSB
     ζ            ::Vector{Float64}   #additional variation param
     ϕlinoutsum   ::Vector{Float64}   #sum of phi products for links
     ϕnlinoutsum  ::Vector{Float64}   #sum of phi products for nonlinks
+    ϕbar         ::Matrix2d{Float64} #average of phis to be used for the next round
     η0           ::Float64           #hyperprior on beta
     η1           ::Float64           #hyperprior on beta
     b0           ::Vector{Float64}   #variational param for beta
@@ -56,6 +57,7 @@ mutable struct LNMMSB <: AbstractMMSB
   L             =(1.0/K).*eye(Float64,K) #zero the scale L
   ϕlinoutsum    =zeros(Float64,K)        #zero the phi link product sum
   ϕnlinoutsum   =zeros(Float64,K)        #zero the phi nonlink product sum
+  ϕbar          =(1.0/K).*ones(Float64, (N,K)) ## to be used for other rounds as init
   ζ             =ones(Float64, N)        #one additional variational param
   η0            =1.0                     #one the beta param
   η1            =1.0                     #one the beta param
@@ -73,7 +75,7 @@ mutable struct LNMMSB <: AbstractMMSB
  	train_sources = VectorList{Int64}(N)
 
   model = new(K, N, elbo, newelbo, μ, μ_var, m0, m, M0, M, Λ, Λ_var, l0, L0, l,
-   L, ζ, ϕlinoutsum, ϕnlinoutsum, η0, η1, b0, b1, network, mbsize, mbids,nho,  ho_dyaddict,ho_linkdict,    ho_nlinkdict,train_out,train_in,train_sinks,train_sources)
+   L, ζ, ϕlinoutsum, ϕnlinoutsum,ϕbar, η0, η1, b0, b1, network, mbsize, mbids,nho,  ho_dyaddict,ho_linkdict,    ho_nlinkdict,train_out,train_in,train_sinks,train_sources)
   return model
  end
 end

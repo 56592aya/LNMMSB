@@ -183,15 +183,54 @@ function updateb1!(model::LNMMSB)
 	model.b1[:] = model.ϕnlinoutsum[:].+1.0
 end
 
-function updatemzetaa!(model::LNMMSB, a::Int64)
-
+function updatemzetaa!(model::LNMMSB, mb::MiniBatch)
+	for a in mb.mballnodes
+		model.ζ[a]=exp(logsumexp(model.μ_var[a,:]+.5*diag(model.Λ_var[a,:,:])))
+	end
 end
 ##The following need update but need to think how it affects the actual phis? after an iteration
 ## But also local and used among first updates, so to be used by other updates with the same minibatch
 ## hence we may only need to keep average for init of the thetas
-function updatephiout!(model::LNMMSB, a::Int64, b::Int64)
+function updatephilout!(model::LNMMSB,  mb::MiniBatch)
+	for l in mb.mblinks
+		for k in 1:model.K
+			l.ϕout[k]=exp(model.μ_var[l.src,k] + l.ϕin[k]*(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-10))
+		end
+	end
+	for l in mb.mblinks
+		expnormalize!(l.ϕout)
+	end
 end
-function updatephiin!(model::LNMMSB, a::Int64, b::Int64)
+function updatephilin!(model::LNMMSB,mb::MiniBatch)
+	for l in mb.mblinks
+		for k in 1:model.K
+			l.ϕin[k]=exp(model.μ_var[l.dst,k] + l.ϕout[k]*(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-10))
+		end
+	end
+	for l in mb.mblinks
+		expnormalize!(l.ϕin)
+	end
+
+end
+function updatephinlout!(model::LNMMSB, mb::MiniBatch)
+	for nl in mb.mbnonlinks
+		for k in 1:model.K
+			nl.ϕout[k]=exp(model.μ_var[nl.src,k] + nl.ϕin[k]*(digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log(1.0-EPSILON)))
+		end
+	end
+	for nl in mb.mbnonlinks
+		expnormalize!(nl.ϕout)
+	end
+end
+function updatephinlin!(model::LNMMSB,mb::MiniBatch)
+	for nl in mb.mbnonlinks
+		for k in 1:model.K
+			nl.ϕin[k]=exp(model.μ_var[nl.dst,k] + nl.ϕout[k]*(digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log(1.0-EPSILON)))
+		end
+	end
+	for nl in mb.mbnonlinks
+		expnormalize!(nl.ϕin)
+	end
 end
 
 function train!(model::LNMMSB, iter::Int64, etol::Float64, niter::Int64, ntol::Float64, viter::Int64, vtol::Float64, elboevery::Int64, mb::MiniBatch)##only initiated MiniBatch

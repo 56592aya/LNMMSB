@@ -79,7 +79,7 @@ function logsumexp{T <:Real}(xs::Array{T})
   log(s)+a
 end
 
-function expnormalize{T<:Real}(xs::Array{T})
+function expnormalize!{T<:Real}(xs::Array{T})
   s = zero(eltype(xs))
   s=exp(logsumexp(xs))
   xs.=exp.(xs)./s
