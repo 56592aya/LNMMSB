@@ -748,6 +748,21 @@ Gradient with respect to
 
 \end_layout
 
+\begin_layout Standard
+In minibatch node sampling this would be
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\boxed{m=\Big(\#mbnodes\times(\tfrac{1}{\#mbnodes}I+\ell L)\Big)^{-1}(\ell L\sum_{a\in mbnodes}\mu_{a})}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Gradient with respect to 
 \begin_inset Formula $M$
@@ -769,6 +784,21 @@ Gradient with respect to
  & \overbrace{\Longrightarrow}^{M\times()\times M} & -I-N\ell L+M=0\\
  &  & \boxed{M=I+N\ell L}
 \end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In minibatch node sampling this would be
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\boxed{M=\#mbnodes\times(\tfrac{1}{\#mbnodes}I+\ell L)}
+\end{align*}
 
 \end_inset
 
@@ -812,7 +842,11 @@ optimizing simultaeneously with
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $\boxed{L=\Bigg((KI+\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1})\Bigg)^{-1}}$
+\begin_inset Formula 
+\begin{align*}
+\boxed{L=\Bigg((KI+\sum_{a\in mbnodes}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big))+\#mbnodes\times M^{-1})\Bigg)^{-1}}
+\end{align*}
+
 \end_inset
 
 
@@ -854,6 +888,21 @@ Gradient with respect to
 
 \end_layout
 
+\begin_layout Standard
+In minibatch node sampling this would be
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\boxed{\ell=K+\#mbnodes}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Gradient with respect to 
 \begin_inset Formula $b_{k}$
@@ -873,9 +922,9 @@ Gradient with respect to
  &  & \text{simultaenously optimizing \ensuremath{b_{k0}}},\mbox{\ensuremath{b_{k1}}}\\
  & \Longrightarrow & \text{Similar to our previous results}\\
 \nabla_{b_{k0}}\mathcal{L}_{b_{k}} & = & 0\\
- & \Longrightarrow & \boxed{b_{k0}=\eta_{0}+\sum_{a,b\in link}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}}\\
+ & \Longrightarrow & \boxed{b_{k0}=\eta_{0}+\sum_{a,b\in mblinks}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}}\\
 \nabla_{b_{k1}}\mathcal{L}_{b_{k}} & = & 0\\
- &  & \boxed{b_{k1}=1+\sum_{a,b\notin link}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}}
+ &  & \boxed{b_{k1}=1+\sum_{a,b\notin mblinks}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}}
 \end{eqnarray*}
 
 \end_inset
@@ -1001,24 +1050,25 @@ Gradient with respect to
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\mathcal{L}_{\mu_{a,k}} & = & -\tfrac{1}{2}\Big\{ L_{kk}\big[(\mu_{a,k}-m_{k})(\mu_{a,k}-m_{k})^{T}\\
- &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b,k}\mu_{a,k}\\
- &  & \sum_{b\notin sink(a)}\phi_{a\rightarrow b,k}\mu_{a,k}\\
- &  & \sum_{b\in source(a)}\phi_{b\leftarrow a,k}\mu_{a,k}\\
- &  & \sum_{b\notin source(a)}\phi_{b\leftarrow a,k}\mu_{a,k}\\
- &  & -\sum_{b}\zeta_{a}^{-1}\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}diag(\Lambda_{a}^{-1})_{ll})\\
+\mathcal{L}_{\mu_{a,k}} & = & -\tfrac{\ell}{2}\big[(\mu_{a,k}-m_{k})^{T}L_{kk}(\mu_{a,k}-m_{k})+\\
+ &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b,k}\mu_{a,k}+\\
+ &  & \sum_{b\notin sink(a)}\phi_{a\rightarrow b,k}\mu_{a,k}+\\
+ &  & \sum_{b\in source(a)}\phi_{b\leftarrow a,k}\mu_{a,k}+\\
+ &  & \sum_{b\notin source(a)}\phi_{b\leftarrow a,k}\mu_{a,k}-\\
+ &  & \sum_{b}\zeta_{a}^{-1}\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}diag(\Lambda_{a}^{-1})_{ll})\\
  & =\\
 \\
 \\
 \\
-\nabla_{\mu_{a,k}}\mathcal{L}_{\mu_{a,k}} & = & -L_{kk}(\mu_{a,k}-m_{k})+\sum_{b}(\phi_{a\rightarrow b,k}+\phi_{b\leftarrow a,k})-\sum_{b}\zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}diag(\Lambda_{a,k}^{-1}))\\
+\nabla_{\mu_{a,k}}\mathcal{L}_{\mu_{a,k}} & = & -\ell L_{kk}(\mu_{a,k}-m_{k})+\sum_{b}(\phi_{a\rightarrow b,k}+\phi_{b\leftarrow a,k})-\sum_{b}\zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}diag(\Lambda_{a,k}^{-1}))\\
 \\
  & Also\\
 \mathcal{L}_{\zeta_{a}} & = & -\zeta_{a}^{-1}\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}diag(\Lambda_{a}^{-1})_{ll})-ln\,\zeta_{a}\\
 \nabla_{\zeta_{a}}\mathcal{L}_{\zeta_{a}} & = & -\zeta_{a}^{-2}\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}diag(\Lambda_{a}^{-1})_{ll})-\zeta_{a}^{-1}=0\\
- & = & \sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}diag(\Lambda_{a}^{-1})_{ll})=\zeta_{a}\\
+ & = & \boxed{\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}diag(\Lambda_{a}^{-1})_{ll})=\zeta_{a}}\\
  & So & \zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}diag(\Lambda_{a,k}^{-1}))=softmax(\mu_{a,k}+\tfrac{1}{2}diag(\Lambda_{a,k}^{-1}))\\
-\nabla_{\mu_{a,k}}\mathcal{L}_{\mu_{a,k}} & \Longrightarrow & -L_{kk}(\mu_{a,k}-m_{k})+\sum_{b}(\phi_{a\rightarrow b,k}+\phi_{b\leftarrow a,k})-\sum_{b}softmax(\mu_{a,k}+\tfrac{1}{2}diag(\Lambda_{a,k}^{-1}))
+\nabla_{\mu_{a,k}}\mathcal{L}_{\mu_{a,k}} & \propto & \boxed{-\ell L_{kk}(\mu_{a,k}-m_{k})+\sum_{b}(\phi_{a\rightarrow b,k}+\phi_{b\leftarrow a,k})-\sum_{b}softmax(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})}\\
+\nabla_{\mu_{a,k}}^{2}\mathcal{L}_{\mu_{a,k}} & \propto & \boxed{-\ell L_{kk}-\sum_{b}\Big(softmax(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})-(softmax(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1}))^{2}\Big)}
 \end{eqnarray*}
 
 \end_inset
@@ -1037,10 +1087,11 @@ Gradient with respect to
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\mathcal{L}_{\Lambda_{a,k}} & = & -\tfrac{1}{2}ln\,|\Lambda_{a}|-\sum_{b}\zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})\\
- & = & -\tfrac{1}{2}\,\sum_{j!=k}ln\,\Lambda_{a,j}-\tfrac{1}{2}ln\,\Lambda_{a,k}-\sum_{b}\zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})\\
-\nabla_{\Lambda_{a,k}}\mathcal{L}_{\Lambda_{a,k}} & = & -\tfrac{1}{2}\Lambda_{a,k}^{-1}+\tfrac{1}{2}\sum_{b}\zeta_{a}^{-1}\Lambda_{a,k}^{-2}exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})\\
- & = & -\tfrac{1}{2}\Lambda_{a,k}+\tfrac{1}{2}\sum_{b}softmax(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})
+\mathcal{L}_{\Lambda_{a,k}} & = & -\tfrac{\ell}{2}tr\,(L\Lambda_{a}^{-1})-\tfrac{1}{2}ln\,|\Lambda_{a}|-\sum_{b}\zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})\\
+ & = & -\tfrac{\ell}{2}(L_{kk}\Lambda_{a,k}^{-1})-\tfrac{1}{2}\,\sum_{j!=k}ln\,\Lambda_{a,j}-\tfrac{1}{2}ln\,\Lambda_{a,k}-\sum_{b}\zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})\\
+\nabla_{\Lambda_{a,k}}\mathcal{L}_{\Lambda_{a,k}} & = & \boxed{+\tfrac{\ell}{2}L_{kk}\Lambda_{a,k}^{-2}-\tfrac{1}{2}\Lambda_{a,k}^{-1}+\tfrac{1}{2}\sum_{b}\zeta_{a}^{-1}\Lambda_{a,k}^{-2}exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})}\\
+or & \propto & \boxed{\tfrac{\ell}{2}L_{kk}-\tfrac{1}{2}\Lambda_{a,k}+\tfrac{1}{2}\sum_{b}softmax(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})}\\
+\nabla_{\Lambda_{a,k}}^{2}\mathcal{L}_{\Lambda_{a,k}} & \propto & \boxed{-\tfrac{1}{2}-\tfrac{1}{4}\sum_{b}\Lambda_{a,k}^{-2}\Big(softmax(.)-softmax^{2}(.)\Big)}
 \end{align*}
 
 \end_inset

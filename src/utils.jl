@@ -1,6 +1,6 @@
 import Base: ==, hash
 
-const EPSILON = eps(1e-14)
+const EPSILON = 1e-15
 VectorList{T} = Vector{Vector{T}}
 MatrixList{T} = Vector{Matrix{T}}
 Matrix2d{T}   = Matrix{T}
@@ -64,10 +64,6 @@ Base.digamma{T<:Number,R<:Integer}(x::T, dim::R) = @fastmath @inbounds return su
 Base.Math.lgamma{T<:Number,R<:Integer}(x::T, dim::R)=.25*(dim*dim-1)*pi+sum(lgamma(x+.5*(1-i)) for i in 1:dim)
 
 
-isnegative(x::Real) = x < 0
-ispositive(x::Real) = x > 0
-isnegative{T<:Real}(xs::Array{T}) = Bool[isnegative(x) for x in xs]
-ispositive{T<:Real}(xs::Array{T}) = Bool[ispositive(x) for x in xs]
 
 
 function logsumexp{T <:Real}(xs::Array{T})
@@ -84,7 +80,9 @@ function expnormalize!{T<:Real}(xs::Array{T})
   s=exp(logsumexp(xs))
   xs.=exp.(xs)./s
 end
-
+function softmax{T<:Real}(xs::Array{T}, k::Int64)
+  exp(xs[k])/exp(logsumexp(xs))
+end
 function sort_by_argmax!{T<:Real}(X::Matrix2d{T})
   n_row=size(X,1)
   n_col = size(X,2)
