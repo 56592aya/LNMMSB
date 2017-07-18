@@ -160,13 +160,14 @@ function updateM!(model::LNMMSB,mb::MiniBatch)
 end
 ##MB Dependent
 function updatel!(model::LNMMSB, mb::MiniBatch)
-	model.l = model.K+length(mb.mballnodes)
+	#model.l = model.K+length(mb.mballnodes)
+	model.l = model.K+model.N
 end
 #MB Dependent
 function updateL!(model::LNMMSB, mb::MiniBatch)
 	s1=view((model.μ_var .- model.m')', :,collect(mb.mballnodes))*view((model.μ_var .- model.m'), collect(mb.mballnodes),:)
 	s2 = reshape(sum(view(model.Λ_var, collect(mb.mballnodes), :, :),1),model.K, model.K)
-	inv(model.K*eye(model.K)+model.mbsize*inv(model.M) + inv(s2)+s1)
+	inv(model.K*eye(model.K)+(model.N*1.0/model.mbsize)*(model.mbsize*inv(model.M) + inv(s2)+s1))
 end
 
 #MB Dependent
@@ -177,7 +178,7 @@ function updateb0!(model::LNMMSB, mb::MiniBatch)
 			model.ϕlinoutsum[k]+=mbl.ϕout[k]*mbl.ϕin[k]
 		end
 	end
-	model.b0[:] = model.ϕlinoutsum[:].+model.η0;
+	model.b0[:] = (model.ϕlinoutsum[:]).+model.η0;
 end
 #MB Dependent
 function updateb1!(model::LNMMSB, mb::MiniBatch)
@@ -187,7 +188,8 @@ function updateb1!(model::LNMMSB, mb::MiniBatch)
 			model.ϕnlinoutsum[k]+=mbn.ϕout[k]*mbn.ϕin[k]
 		end
 	end
-	model.b1[:] = model.ϕnlinoutsum[:].+1.0;
+	train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyaddict) -length(mb.mblinks)
+	model.b1[:] = (train_nlinks_num*1.0/length(mb.mbnonlinks))*(model.ϕnlinoutsum[:]).+1.0;
 end
 
 
@@ -320,6 +322,8 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	for i in 1:iter
 		checkelbo = (i % elboevery == 0)
 		lr = 1.0/((1.0+Float64(i))^.9)
+		#locals:phis
+		#globals:m,M,l,L,mu, Lambda, b
 		##the following deepcopy is very important
 		mb=deepcopy(mb_zeroer)
 		mbsampling!(mb,model)
@@ -344,5 +348,5 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		#decide on global versus local
 
 	end
-	
+
 end
