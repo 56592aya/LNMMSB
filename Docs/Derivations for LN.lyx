@@ -755,7 +755,7 @@ In minibatch node sampling this would be
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\boxed{m=(I+N\ell L)^{-1}(\ell L\sum_{a\in mbnodes}\mu_{a})}
+\boxed{m=(I+N\ell L)^{-1}(\ell L\dfrac{N}{\#mbnodes}\sum_{a\in mbnodes}\mu_{a})}
 \end{align*}
 
 \end_inset
@@ -823,13 +823,13 @@ optimizing simultaeneously with
 \begin_inset Formula $\ell$
 \end_inset
 
-:
+ in the minibatch setting:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\boxed{L=\Bigg((KI+\sum_{a\in mbnodes}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big))+\#mbnodes\times M^{-1})\Bigg)^{-1}}
+\boxed{L=\Bigg((KI+\dfrac{N}{\#mbnodes}\sum_{a\in mbnodes}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big))+N\times M^{-1})\Bigg)^{-1}}
 \end{align*}
 
 \end_inset
@@ -1037,13 +1037,17 @@ Gradient with respect to
 \nabla_{\zeta_{a}}\mathcal{L}_{\zeta_{a}} & = & -\zeta_{a}^{-2}\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}diag(\Lambda_{a}^{-1})_{ll})-\zeta_{a}^{-1}=0\\
  & = & \boxed{\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}diag(\Lambda_{a}^{-1})_{ll})=\zeta_{a}}\\
  & So & \zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}diag(\Lambda_{a,k}^{-1}))=softmax(\mu_{a,k}+\tfrac{1}{2}diag(\Lambda_{a,k}^{-1}))\\
-\nabla_{\mu_{a,k}}\mathcal{L}_{\mu_{a,k}} & \propto & \boxed{-\ell L_{kk}(\mu_{a,k}-m_{k})+\sum_{b}(\phi_{a\rightarrow b,k}+\phi_{b\leftarrow a,k})-\sum_{b}softmax(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})}\\
-\nabla_{\mu_{a,k}}^{2}\mathcal{L}_{\mu_{a,k}} & \propto & \boxed{-\ell L_{kk}-\sum_{b}\Big(softmax(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})-(softmax(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1}))^{2}\Big)}
+\nabla_{\mu_{a,k}}\mathcal{L}_{\mu_{a,k}}=G_{\mu_{a,k}} & \propto & \boxed{-\ell L_{kk}(\mu_{a,k}-m_{k})+\sum_{b}(\phi_{a\rightarrow b,k}+\phi_{b\leftarrow a,k})-\sum_{b}softmax(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})}\\
+\nabla_{\mu_{a,k}}^{2}\mathcal{L}_{\mu_{a,k}}=H_{\mu_{a,k}} & \propto & \boxed{-\ell L_{kk}-\sum_{b}\Big(softmax(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})-(softmax(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1}))^{2}\Big)}
 \end{eqnarray*}
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The newton step would look like:
 \end_layout
 
 \begin_layout Subsection
@@ -1059,14 +1063,101 @@ Gradient with respect to
 \begin{align*}
 \mathcal{L}_{\Lambda_{a,k}} & = & -\tfrac{\ell}{2}tr\,(L\Lambda_{a}^{-1})-\tfrac{1}{2}ln\,|\Lambda_{a}|-\sum_{b}\zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})\\
  & = & -\tfrac{\ell}{2}(L_{kk}\Lambda_{a,k}^{-1})-\tfrac{1}{2}\,\sum_{j!=k}ln\,\Lambda_{a,j}-\tfrac{1}{2}ln\,\Lambda_{a,k}-\sum_{b}\zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})\\
-\nabla_{\Lambda_{a,k}}\mathcal{L}_{\Lambda_{a,k}} & = & \boxed{+\tfrac{\ell}{2}L_{kk}\Lambda_{a,k}^{-2}-\tfrac{1}{2}\Lambda_{a,k}^{-1}+\tfrac{1}{2}\sum_{b}\zeta_{a}^{-1}\Lambda_{a,k}^{-2}exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})}\\
-or & \propto & \boxed{\tfrac{\ell}{2}L_{kk}-\tfrac{1}{2}\Lambda_{a,k}+\tfrac{1}{2}\sum_{b}softmax(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})}\\
-\nabla_{\Lambda_{a,k}}^{2}\mathcal{L}_{\Lambda_{a,k}} & \propto & \boxed{-\tfrac{1}{2}-\tfrac{1}{4}\sum_{b}\Lambda_{a,k}^{-2}\Big(softmax(.)-softmax^{2}(.)\Big)}
+\nabla_{\Lambda_{a,k}^{-1}}\mathcal{L}_{\Lambda_{a,k}^{-1}}=G_{\Lambda_{a,k}^{-1}} & = & \boxed{-\tfrac{\ell}{2}L_{kk}+\tfrac{1}{2}\Lambda_{a,k}-\tfrac{1}{2}\sum_{b}\zeta_{a}^{-1}exp(.)\Big(1-\zeta_{a}^{-1}exp(.)\Big)}\\
+ &  & \boxed{}\\
+\nabla_{\Lambda_{a,k}^{-1}}^{2}\mathcal{L}_{\Lambda_{a,k}}=H_{\Lambda_{a,k}^{-1}} & \propto & \boxed{-\tfrac{1}{2}\Lambda_{a,k}^{-2}-\tfrac{1}{4}\sum_{b}\zeta_{a}^{-1}exp(.)\Big(1-3\zeta_{a}^{-1}exp(.)+2\zeta_{a}^{-2}exp^{2}(.)\Big)}
 \end{align*}
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The newton step would look like:
+\end_layout
+
+\begin_layout Section
+Other notes
+\end_layout
+
+\begin_layout Subsection
+Checknig ELBO
+\end_layout
+
+\begin_layout Standard
+I need to use the training data, perhaps all the training links and same
+ number sampled from nonlinks.
+ Depending on the size of the network and the sparsity, this could be costly,
+ so this only is needed every once in a while(not frequently) and only to
+ check whether the ELBO is improving with our optimization algorithm or
+ not.
+\end_layout
+
+\begin_layout Subsection
+some fixed ones
+\end_layout
+
+\begin_layout Standard
+I should ensure that 
+\begin_inset Formula $M$
+\end_inset
+
+ remains 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $I+N\ell L$
+\end_inset
+
+ with 
+\begin_inset Formula $N$
+\end_inset
+
+ the actual size of the nodes in the training set.
+ This also affects the update of 
+\begin_inset Formula $m$
+\end_inset
+
+ which is 
+\begin_inset Formula $M^{-1}(\ell L\dfrac{N}{\#mbnodes}\sum_{a\in mbnodes}\mu_{a})$
+\end_inset
+
+.Moreover 
+\begin_inset Formula $\ell=K+N$
+\end_inset
+
+ can be fixed in advanced, and there is no need for computation in the variation
+al loop.
+\end_layout
+
+\begin_layout Subsection
+Newton step behavior
+\end_layout
+
+\begin_layout Standard
+I should ensure if the ELBO does not improve, I should half the step in
+ the learning rate, other wise keep it the same.
+ In general ELBO should be in sample and not out-of-sample, so I should
+ think whether I want this ELBO to be on a sample training or just the minibatch.
+\end_layout
+
+\begin_layout Subsection
+Initialization
+\end_layout
+
+\begin_layout Standard
+I should check whether the initialization is very off or should I adopt
+ the Gopalan's initialization algorithm.
 \end_layout
 
 \end_body
