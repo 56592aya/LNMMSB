@@ -1050,6 +1050,13 @@ Gradient with respect to
 The newton step would look like:
 \end_layout
 
+\begin_layout Standard
+\begin_inset Formula $\mu_{a,k}=\mu_{a,k}-H_{\mu_{a,k}}^{-1}G_{\mu_{a,k}}$
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Gradient with respect to 
 \begin_inset Formula $\Lambda_{a}$
@@ -1075,6 +1082,13 @@ Gradient with respect to
 
 \begin_layout Standard
 The newton step would look like:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Lambda_{a,k}^{-1}=\Lambda_{a,k}^{-1}-H_{\Lambda_{a,k}^{-1}}^{-1}G_{\Lambda_{a,k}^{-1}}$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section

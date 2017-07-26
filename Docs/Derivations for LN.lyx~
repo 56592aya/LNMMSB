@@ -1037,13 +1037,17 @@ Gradient with respect to
 \nabla_{\zeta_{a}}\mathcal{L}_{\zeta_{a}} & = & -\zeta_{a}^{-2}\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}diag(\Lambda_{a}^{-1})_{ll})-\zeta_{a}^{-1}=0\\
  & = & \boxed{\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}diag(\Lambda_{a}^{-1})_{ll})=\zeta_{a}}\\
  & So & \zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}diag(\Lambda_{a,k}^{-1}))=softmax(\mu_{a,k}+\tfrac{1}{2}diag(\Lambda_{a,k}^{-1}))\\
-\nabla_{\mu_{a,k}}\mathcal{L}_{\mu_{a,k}} & \propto & \boxed{-\ell L_{kk}(\mu_{a,k}-m_{k})+\sum_{b}(\phi_{a\rightarrow b,k}+\phi_{b\leftarrow a,k})-\sum_{b}softmax(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})}\\
-\nabla_{\mu_{a,k}}^{2}\mathcal{L}_{\mu_{a,k}} & \propto & \boxed{-\ell L_{kk}-\sum_{b}\Big(softmax(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})-(softmax(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1}))^{2}\Big)}
+\nabla_{\mu_{a,k}}\mathcal{L}_{\mu_{a,k}}=G_{\mu_{a,k}} & \propto & \boxed{-\ell L_{kk}(\mu_{a,k}-m_{k})+\sum_{b}(\phi_{a\rightarrow b,k}+\phi_{b\leftarrow a,k})-\sum_{b}softmax(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})}\\
+\nabla_{\mu_{a,k}}^{2}\mathcal{L}_{\mu_{a,k}}=H_{\mu_{a,k}} & \propto & \boxed{-\ell L_{kk}-\sum_{b}\Big(softmax(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})-(softmax(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1}))^{2}\Big)}
 \end{eqnarray*}
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The newton step would look like:
 \end_layout
 
 \begin_layout Subsection
@@ -1059,14 +1063,18 @@ Gradient with respect to
 \begin{align*}
 \mathcal{L}_{\Lambda_{a,k}} & = & -\tfrac{\ell}{2}tr\,(L\Lambda_{a}^{-1})-\tfrac{1}{2}ln\,|\Lambda_{a}|-\sum_{b}\zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})\\
  & = & -\tfrac{\ell}{2}(L_{kk}\Lambda_{a,k}^{-1})-\tfrac{1}{2}\,\sum_{j!=k}ln\,\Lambda_{a,j}-\tfrac{1}{2}ln\,\Lambda_{a,k}-\sum_{b}\zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})\\
-\nabla_{\Lambda_{a,k}}\mathcal{L}_{\Lambda_{a,k}} & = & \boxed{+\tfrac{\ell}{2}L_{kk}\Lambda_{a,k}^{-2}-\tfrac{1}{2}\Lambda_{a,k}^{-1}+\tfrac{1}{2}\sum_{b}\zeta_{a}^{-1}\Lambda_{a,k}^{-2}exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})}\\
-or & \propto & \boxed{\tfrac{\ell}{2}L_{kk}-\tfrac{1}{2}\Lambda_{a,k}+\tfrac{1}{2}\sum_{b}softmax(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})}\\
-\nabla_{\Lambda_{a,k}}^{2}\mathcal{L}_{\Lambda_{a,k}} & \propto & \boxed{-\tfrac{1}{2}-\tfrac{1}{4}\sum_{b}\Lambda_{a,k}^{-2}\Big(softmax(.)-softmax^{2}(.)\Big)}
+\nabla_{\Lambda_{a,k}^{-1}}\mathcal{L}_{\Lambda_{a,k}^{-1}}=G_{\Lambda_{a,k}^{-1}} & = & \boxed{-\tfrac{\ell}{2}L_{kk}+\tfrac{1}{2}\Lambda_{a,k}-\tfrac{1}{2}\sum_{b}\zeta_{a}^{-1}exp(.)\Big(1-\zeta_{a}^{-1}exp(.)\Big)}\\
+ &  & \boxed{}\\
+\nabla_{\Lambda_{a,k}^{-1}}^{2}\mathcal{L}_{\Lambda_{a,k}}=H_{\Lambda_{a,k}^{-1}} & \propto & \boxed{-\tfrac{1}{2}\Lambda_{a,k}^{-2}-\tfrac{1}{4}\sum_{b}\zeta_{a}^{-1}exp(.)\Big(1-3\zeta_{a}^{-1}exp(.)+2\zeta_{a}^{-2}exp^{2}(.)\Big)}
 \end{align*}
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The newton step would look like:
 \end_layout
 
 \begin_layout Section
