@@ -8,6 +8,7 @@ function elogpLambda(model::LNMMSB)
 	model.K*(model.K)*log(2.0))
 end
 ##MB dependent
+##needs a better subset of nodes for computing the train ELBO
 function elogptheta(model::LNMMSB, mb::MiniBatch)
 	s = zero(Float64)
 	for a in mb.mballnodes

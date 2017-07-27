@@ -12,7 +12,9 @@ include("LNMMSB.jl")
 model=LNMMSB(network, inputtomodelgen[2])
 include("modelutils.jl")
 mb_zeroer = MiniBatch()
-
+train_zeroer = Training()
+train = deepcopy(train_zeroer)
+train_sampling!(train, model)
 
 
 

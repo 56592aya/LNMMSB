@@ -58,6 +58,22 @@ mutable struct MiniBatch
   end
 end
 
+mutable struct Training
+	trainlinks::Vector{Link}
+	trainnonlinks::Vector{NonLink}
+	trainallnodes::Set{Int64}
+  trainfnadj::Dict{Int64,Vector{Int64}}
+  trainbnadj::Dict{Int64,Vector{Int64}}
+  function Training()
+    traininglinks=Vector{Link}()
+    trainingnonlinks=Vector{NonLink}()
+    trainingallnodes=Set{Int64}()
+    trainingfnadj=Dict{Int64,Vector{Int64}}()
+    trainingbnadj=Dict{Int64,Vector{Int64}}()
+    new(traininglinks,trainingnonlinks,trainingallnodes,trainingfnadj,trainingbnadj)
+  end
+end
+
 Network{T<:Integer}(nrows::T) = SparseMatrixCSC{T,T}(nrows, nrows, ones(T, nrows+1), Vector{T}(0), Vector{T}(0))
 Base.digamma{T<:Number,R<:Integer}(x::T, dim::R) = @fastmath @inbounds return sum(digamma(x+.5*(1-i)) for i in 1:dim)
 

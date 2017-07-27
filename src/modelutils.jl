@@ -80,7 +80,7 @@ function train_degree!(model::LNMMSB)
 	println("outdeg and indeg of train and mb are figured")
 end
 ##think about speeding this up-1ms not good
-function mbsampling!(mb::MiniBatch,model::LNMMSB )
+function mbsampling!(mb::MiniBatch,model::LNMMSB)
 	mbcount  = 0
 	lcount = 0
 	while mbcount < model.mbsize
@@ -139,6 +139,67 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB )
 		mbcount +=1
 	end
 	model.mbids = collect(mb.mballnodes)[:]
+end
+
+function train_sampling!(train::Training,model::LNMMSB)
+	lcount = 0
+	trainsize=model.N
+	for a in 1:trainsize
+		lcount = 0
+		push!(train.trainallnodes, a)
+		Bsink=sinks(model.network, a, model.N)#length is fadj
+		Bsrc=sources(model.network, a, model.N)#length is bad
+		for b1 in Bsink
+			if !(Dyad(a,b1) in collect(keys(model.ho_dyaddict)))
+				l = Link(a,b1,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
+				if !(l in train.trainlinks)
+					push!(train.trainlinks, l)
+					lcount +=1
+				end
+			end
+		end
+		for b2 in Bsrc
+			if !(Dyad(b2,a) in collect(keys(model.ho_dyaddict)))
+				l = Link(b2,a,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
+				if !(l in train.trainlinks)
+					push!(train.trainlinks, l)
+					lcount +=1
+				end
+			end
+		end
+		# train.trainlinks = unique(train.trainlinks)
+		# lcount = length(train.trainlinks)
+		nlcount = 0
+		while nlcount < lcount
+			b=1+floor(Int64,model.N*rand())
+			r = rand()
+			if r  < .5
+				if !(Dyad(a,b) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, a, b))
+					nl = NonLink(a,b,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
+					if !(nl in train.trainnonlinks)
+						push!(train.trainnonlinks, nl)
+						if !haskey(train.trainfnadj, a)
+							train.trainfnadj[a] = get(train.trainfnadj, a, Vector{Int64}())
+						end
+						push!(train.trainfnadj[a],b)
+						nlcount+=1
+					end
+				end
+			else
+				if !(Dyad(b,a) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, b, a))
+					nl = NonLink(b,a,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
+					if !(nl in train.trainnonlinks)
+						push!(train.trainnonlinks, nl)
+						if !haskey(train.trainbnadj, a)
+							train.trainbnadj[a] = get(train.trainbnadj, a, Vector{Int64}())
+						end
+						push!(train.trainbnadj[a],b)
+						nlcount+=1
+					end
+				end
+			end
+		end
+	end
 end
 
 function preparedata(model::LNMMSB)
