@@ -93,19 +93,19 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB)
 		for b1 in Bsink
 			if !(Dyad(a,b1) in collect(keys(model.ho_dyaddict)))
 				l = Link(a,b1,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
-				push!(mb.mblinks, l)
-				# push!(mb.mballnodes, a)
-				# push!(mb.mballnodes, b1)
-				lcount +=1
+				if !(l in mb.mblinks)
+					push!(mb.mblinks, l)
+					lcount +=1
+				end
 			end
 		end
 		for b2 in Bsrc
 			if !(Dyad(b2,a) in collect(keys(model.ho_dyaddict)))
 				l = Link(b2,a,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
-				push!(mb.mblinks, l)
-				# push!(mb.mballnodes, a)
-				# push!(mb.mballnodes, b2)
-				lcount +=1
+				if !(l in mb.mblinks)
+					push!(mb.mblinks, l)
+					lcount +=1
+				end
 			end
 		end
 
@@ -116,23 +116,26 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB)
 			if r  < .5
 				if !(Dyad(a,b) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, a, b))
 					nl = NonLink(a,b,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
-					push!(mb.mbnonlinks, nl)
-					if !haskey(mb.mbfnadj, a)
-						mb.mbfnadj[a] = get(mb.mbfnadj, a, Vector{Int64}())
+					if !(nl in mb.mbnonlinks)
+						push!(mb.mbnonlinks, nl)
+						if !haskey(mb.mbfnadj, a)
+							mb.mbfnadj[a] = get(mb.mbfnadj, a, Vector{Int64}())
+						end
+						push!(mb.mbfnadj[a],b)
+						nlcount+=1
 					end
-					push!(mb.mbfnadj[a],b)
-					nlcount+=1
 				end
 			else
 				if !(Dyad(b,a) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, b, a))
 					nl = NonLink(b,a,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
-					push!(mb.mbnonlinks, nl)
-					if !haskey(mb.mbbnadj, a)
-						mb.mbbnadj[a] = get(mb.mbbnadj, a, Vector{Int64}())
+					if !(nl in mb.mbnonlinks)
+						push!(mb.mbnonlinks, nl)
+						if !haskey(mb.mbbnadj, a)
+							mb.mbbnadj[a] = get(mb.mbbnadj, a, Vector{Int64}())
+						end
+						push!(mb.mbbnadj[a],b)
+						nlcount+=1
 					end
-					push!(mb.mbbnadj[a],b)
-					# push!(mb.mballnodes, b)
-					nlcount+=1
 				end
 			end
 		end

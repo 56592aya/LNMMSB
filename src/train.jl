@@ -149,28 +149,28 @@ function computenewelbo!(model::LNMMSB)
 	model.newelbo = elogpmu(model)+	elogpLambda(model)+	elogptheta(model)+	elogpzlout(model)+	elogpzlin(model)+elogpznlout(model)+elogpznlin(model)+elogpbeta(model)+elogpnetwork(model)-
 	(elogqmu(model)+elogqLambda(model)+	elogqtheta(model)+elogqbeta(model)+elogqzl(model)+elogqznl(model))
 end
-##MB Dependent
-function updatem!(model::LNMMSB, mb::MiniBatch)
-	model.m= inv(model.mbsize*(model.l*model.L + (1.0/model.mbsize)*eye(model.K)))*
-	model.l*model.L*view(model.μ_var,collect(mb.mballnodes),:)'*ones(model.mbsize)
-end
 ##MB dependent
 function updateM!(model::LNMMSB,mb::MiniBatch)
 	##Only to make it MB dependent
-	model.M = model.mbsize*((1.0/model.mbsize)*eye(model.K) + length(mb.mballnodes)*model.l*model.L)
+	model.M = model.l*model.N*model.L + eye(model.K)
+end
+##MB Dependent
+function updatem!(model::LNMMSB, mb::MiniBatch)
+	#model.m= inv(model.l*model.N*model.L + eye(model.K))*(model.l*model.L*(model.N/model.mbsize)*sum(model.μ_var[a,:] for a in collect(mb.mballnodes)))
+	##or
+	model.m= inv(model.M)*(model.l*model.L*(model.N/model.mbsize)*sum(model.μ_var[a,:] for a in collect(mb.mballnodes)))
 end
 ##MB Dependent
 function updatel!(model::LNMMSB, mb::MiniBatch)
-	#model.l = model.K+length(mb.mballnodes)
+	##should be set in advance, not needed in the loop
 	model.l = model.K+model.N
 end
 #MB Dependent
 function updateL!(model::LNMMSB, mb::MiniBatch)
 	s1=view((model.μ_var .- model.m')', :,collect(mb.mballnodes))*view((model.μ_var .- model.m'), collect(mb.mballnodes),:)
 	s2 = reshape(sum(view(model.Λ_var, collect(mb.mballnodes), :, :),1),model.K, model.K)
-	inv(model.K*eye(model.K)+(model.N*1.0/model.mbsize)*(model.mbsize*inv(model.M) + inv(s2)+s1))
+	model.L = inv(model.K*eye(model.K) + model.N*inv(model.M) + (model.N/model.mbsize)*(s1+inv(s2)))
 end
-
 #MB Dependent
 function updateb0!(model::LNMMSB, mb::MiniBatch)
 	for k in 1:model.K
@@ -201,6 +201,7 @@ end
 function updatephilout!(model::LNMMSB,  mb::MiniBatch)
 	for l in mb.mblinks
 		for k in 1:model.K
+			#not using extreme epsilon and instead a fixed amount
 			l.ϕout[k]=exp(model.μ_var[l.src,k] + l.ϕin[k]*(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-10))
 		end
 	end
@@ -217,6 +218,7 @@ end
 function updatephilin!(model::LNMMSB,mb::MiniBatch)
 	for l in mb.mblinks
 		for k in 1:model.K
+			#not using extreme epsilon and instead a fixed amount
 			l.ϕin[k]=exp(model.μ_var[l.dst,k] + l.ϕout[k]*(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-10))
 		end
 	end
@@ -235,7 +237,8 @@ end
 function updatephinlout!(model::LNMMSB, mb::MiniBatch)
 	for nl in mb.mbnonlinks
 		for k in 1:model.K
-			nl.ϕout[k]=exp(model.μ_var[nl.src,k] + nl.ϕin[k]*(digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log(1.0-EPSILON)))
+			#not using extreme epsilon and instead a fixed amount
+			nl.ϕout[k]=exp(model.μ_var[nl.src,k] + nl.ϕin[k]*(digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-.2))
 		end
 	end
 	for nl in mb.mbnonlinks
@@ -251,7 +254,8 @@ end
 function updatephinlin!(model::LNMMSB,mb::MiniBatch)
 	for nl in mb.mbnonlinks
 		for k in 1:model.K
-			nl.ϕin[k]=exp(model.μ_var[nl.dst,k] + nl.ϕout[k]*(digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log(1.0-EPSILON)))
+			#not using extreme epsilon and instead a fixed amount
+			nl.ϕin[k]=exp(model.μ_var[nl.dst,k] + nl.ϕout[k]*(digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-.2))
 		end
 	end
 	for nl in mb.mbnonlinks
