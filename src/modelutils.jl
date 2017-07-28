@@ -143,7 +143,8 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB)
 	end
 	model.mbids = collect(mb.mballnodes)[:]
 end
-
+##For smaller data it is better to use the whole data, or at least use the nonlinks that are so far updated, so that
+#we can compare the elbo improvements
 function train_sampling!(train::Training,model::LNMMSB)
 	lcount = 0
 	trainsize=model.N
@@ -198,6 +199,61 @@ function train_sampling!(train::Training,model::LNMMSB)
 						end
 						push!(train.trainbnadj[a],b)
 						nlcount+=1
+					end
+				end
+			end
+		end
+	end
+end
+
+#sample all the training, so this means we have to update when needed the tain elements as well along with the mb
+function train_samplingall!(train::Training,model::LNMMSB)
+	trainsize=model.N
+	#sample all the links
+	for a in 1:trainsize
+		lcount = 0
+		push!(train.trainallnodes, a)
+		Bsink=sinks(model.network, a, model.N)#length is fadj
+		Bsrc=sources(model.network, a, model.N)#length is bad
+		for b1 in Bsink
+			if !(Dyad(a,b1) in collect(keys(model.ho_dyaddict)))
+				l = Link(a,b1,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
+				if !(l in train.trainlinks)
+					push!(train.trainlinks, l)
+				end
+			end
+		end
+		for b2 in Bsrc
+			if !(Dyad(b2,a) in collect(keys(model.ho_dyaddict)))
+				l = Link(b2,a,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
+				if !(l in train.trainlinks)
+					push!(train.trainlinks, l)
+				end
+			end
+		end
+	end
+	#sample all the nonlinks
+	for a in 1:trainsize
+		for b in 1:trainsize
+			if a != b
+				if !(Dyad(a,b) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, a, b))
+					nl = NonLink(a,b,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
+					if !(nl in train.trainnonlinks)
+						push!(train.trainnonlinks, nl)
+						if !haskey(train.trainfnadj, a)
+							train.trainfnadj[a] = get(train.trainfnadj, a, Vector{Int64}())
+						end
+						push!(train.trainfnadj[a],b)
+					end
+				end
+				if !(Dyad(b,a) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, b, a))
+					nl = NonLink(b,a,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
+					if !(nl in train.trainnonlinks)
+						push!(train.trainnonlinks, nl)
+						if !haskey(train.trainbnadj, a)
+							train.trainbnadj[a] = get(train.trainbnadj, a, Vector{Int64}())
+						end
+						push!(train.trainbnadj[a],b)
 					end
 				end
 			end

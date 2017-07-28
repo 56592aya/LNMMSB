@@ -1,18 +1,21 @@
 #negative cross entropies
 function elogpmu(model::LNMMSB)
-	-.5*(model.K*log(2*pi)+trace(model.m*model.m') + trace(inv(model.M)))
+	-.5*(model.K*log(2*pi)+trace(model.m*model.m') + sum(1.0./(model.M)))
 end
+
 function elogpLambda(model::LNMMSB)
-	-.5*(-(model.K^2.0)*log(model.K) + logdet(model.L) + model.l*model.K*trace(model.L)+
+	-.5*(-(model.K^2.0)*log(model.K) + sum(log.(model.L)) + model.l*model.K*sum(model.L)+
 	.5*model.K.*(model.K-1.0)*log(pi) + 2.0*lgamma(.5*model.K, model.K) + digamma(.5*model.l, model.K)+
 	model.K*(model.K)*log(2.0))
 end
-##MB dependent
+
+##?MB dependent
 ##needs a better subset of nodes for computing the train ELBO
+#so maybe changing it to the appropriate train
 function elogptheta(model::LNMMSB, mb::MiniBatch)
 	s = zero(Float64)
 	for a in mb.mballnodes
-		s += model.K*log(2pi) - digamma(.5*model.l, model.K) -model.K*log(2.0) - logdet(model.L)+
+		s += model.K*log(2pi) - digamma(.5*model.l, model.K) -model.K*log(2.0) - sum(log.(model.L))+
 		model.l*trace(model.L*(inv(model.M) + inv(model.Λ_var[a,:,:])+(model.μ_var[a,:] - model.m)*(model.μ_var[a,:] - model.m)'))
 	end
 	s*-.5
@@ -275,15 +278,19 @@ end
 #Newton\
 #MB dependent
 ##here we need to think better about the accessing of phis or ways of recording them.
+#question is whether I need to use softmax or model.ζ, this will be clear when I resolve the orderin of the updates
+#Do I need to reweight the sumb as well?
 function gmu(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	sfx = softmax(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,:,:])),k)
+	sfx = softmax(model.μ_var[a,:] + .5*inv(diag(model.Λ_var[a,:,:])),k)
+	#or sfx = exp(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,k,k])))*inv(model.ζ[a])
 	-model.l*model.L[k,k]*(model.μ_var[a,k] - model.m[k]) - sumb*(sfx)*(1-sfx))+(ϕloutsum+ϕnloutsum+ϕlinsum+ϕnlinsum)
 
 end
 function hmu(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	sfx = softmax(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,:,:])),k)
+	sfx = softmax(model.μ_var[a,:] + .5*inv(diag(model.Λ_var[a,:,:])),k)
+	#or sfx = exp(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,k,k])))*inv(model.ζ[a])
 	-model.l*model.L[k,k] - sumb*(sfx-3*sfx^2+2*sfx^3)
 end
 
@@ -303,22 +310,26 @@ end
 #MB dependent
 function gLambdainv(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	sfx = softmax(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,:,:])),k)
+	sfx = softmax(model.μ_var[a,:] + .5*inv(diag(model.Λ_var[a,:,:])),k)
+	#or sfx = exp(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,k,k])))*inv(model.ζ[a])
 	-.5*model.l*model.L[k,k] + .5*inv(model.Λ_var[a,k,k])-.5*sumb*(sfx)*(1-sfx)
 end
 function hLambdainv(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	sfx = softmax(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,:,:])),k)
-	.5+.25*(sumb)*(sfx-3*sfx^2+2*sfx^3)
+	sfx = softmax(model.μ_var[a,:] + .5*inv(diag(model.Λ_var[a,:,:])),k)
+	#or sfx = exp(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,k,k])))*inv(model.ζ[a])
+	.5-.25*(sumb)*(sfx-3*sfx^2+2*sfx^3)
 
 end
 function updateLambdaa!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
+	temp = deepcopy(inv(model.Λ_var[a,:,:]))
 	for k in 1:model.K
 		for i in 1:niter
-			Λ_grad=gLambda(model, mb, a,k)
-			Λ_invH=inv(hLambda(model, mb, a, k))
-			model.Λ_var[a,k,k] -= Λ_invH * Λ_grad
-			if norm(Λ_grad) < ntol
+			Λinv_grad=gLambdainv(model, mb, a,k)
+			Λinv_invH=inv(hLambdainv(model, mb, a, k))
+			temp[k,k] -= Λinv_invH * Λinv_grad
+			if norm(Λinv_grad) < ntol || i == niter
+				model.Λ_var[a,k,k] = inv(temp[k,k])
 				break
 			end
 		end
@@ -328,7 +339,8 @@ end
 ##only initiated MiniBatch
 function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=1000, ntol::Float64=1.0/(model.K^2), viter::Int64=10, vtol::Float64=1.0/(model.K^2), elboevery::Int64=10, mb::MiniBatch,lr::Float64)
 	preparedata(model)
-
+	#global update-- can be done outside
+	updatel!(model, mb)
 	for i in 1:iter
 		checkelbo = (i % elboevery == 0)
 		lr = 1.0/((1.0+Float64(i))^.9)
@@ -337,21 +349,22 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		##the following deepcopy is very important
 		mb=deepcopy(mb_zeroer)
 		mbsampling!(mb,model)
+		#local update
 		updatephilout!(model, mb)
 		updatephilin!(model, mb)
 		updatephinlout!(model, mb)
 		updatephinlin!(model, mb)
-		updatem!(model, mb)
+		#global update
 		updateM!(model, mb)
-		updatel!(model, mb)
+		updatem!(model, mb)
 		updateL!(model, mb)
+		updateb0!(model, mb)
+		updateb1!(model, mb)
 		for a in collect(mb.mballnodes)
 			updatezetaa!(model,mb, a)
 			updatemua!(model, a, niter, ntol,mb)
 			updateLambdaa!(model, a, niter, ntol,mb)
 		end
-		updateb0!(model, mb)
-		updateb1!(model, mb)
 		# think about the natural gradient update and reweightings
 		# compute elbo on holdout/whole data
 		# order of updates

@@ -1,4 +1,7 @@
 using StatsBase
+#I should think whether it is still understandable for diagonal matrices to be represented as vectors?
+# if any operation needs the matrice we can instead use the diagm(). Λ_var[a,k] and L[k] should be enough
+# This includes M0, M, Λ_var , L0, L
 mutable struct LNMMSB <: AbstractMMSB
     K            ::Int64             #number of communities
     N            ::Int64             #number of individuals
@@ -8,14 +11,19 @@ mutable struct LNMMSB <: AbstractMMSB
     μ_var        ::Matrix2d{Float64} #variational mean of the MVN
     m0           ::Vector{Float64}   #hyperprior on mean
     m            ::Vector{Float64}   #variational hyperprior on mean
-    M0           ::Matrix2d{Float64} #hyperprior on precision
-    M            ::Matrix2d{Float64} #hyperprior on variational precision
+    # M0           ::Matrix2d{Float64} #hyperprior on precision
+    M0           ::Vector{Float64} #hyperprior on precision diagonal
+    # M            ::Matrix2d{Float64} #hyperprior on variational precision
+    M            ::Vector{Float64} #hyperprior on variational precision diagonal
     Λ            ::Matrix2d{Float64} #true precision
-    Λ_var        ::Matrix3d{Float64} #variational preicisoin
+    # Λ_var        ::Matrix3d{Float64} #variational preicisoin
+    Λ_var        ::Matrix2d{Float64} #variational preicisoin diagonal
     l0           ::Float64           #df for Preicision in Wishart
-    L0           ::Matrix2d{Float64} #scale for precision in Wishart
+    # L0           ::Matrix2d{Float64} #scale for precision in Wishart
+    L0           ::Vector{Float64} #scale for precision in Wishart diagonal
     l            ::Float64           #variational df
-    L            ::Matrix2d{Float64} #variational scale
+    # L            ::Matrix2d{Float64} #variational scale
+    L            ::Vector{Float64} #variational scale diagonal
     ζ            ::Vector{Float64}   #additional variation param
     ϕlinoutsum   ::Vector{Float64}   #sum of phi products for links
     ϕnlinoutsum  ::Vector{Float64}   #sum of phi products for nonlinks
@@ -40,6 +48,7 @@ mutable struct LNMMSB <: AbstractMMSB
     ϕlinsum      ::Matrix2d{Float64}
     ϕnlinsum     ::Matrix2d{Float64}
 
+
  function LNMMSB(network::Network{Int64}, K::Int64)
   # network       = network?isassigned(network,1):error("load network first")
   N             = size(network,1)        #setting size of nodes
@@ -49,17 +58,22 @@ mutable struct LNMMSB <: AbstractMMSB
   μ_var         =zeros(Float64, (N,K))   #zero the mu_var vector
   m0            =zeros(Float64,K)        #zero m0 vector
   m             =zeros(Float64,K)        #zero m vector
-  M0            =eye(Float64,K)          #eye M0 matrix
-  M             =eye(Float64,K)          #eye M matrix
+  # M0            =eye(Float64,K)          #eye M0 matrix
+  M0            =ones(Float64,K)          #ones M0 matrix
+  # M             =eye(Float64,K)          #eye M matrix
+  M             =ones(Float64,K)          #ones M matrix
   Λ             =(1.0/K).*eye(Float64,K) #init Lambda matrix
-  Λ_var         =zeros(Float64,(N,K,K));
+  # Λ_var         =zeros(Float64,(N,K,K));
+  Λ_var         =zeros(Float64,(N,K));
   for a in 1:N
-    Λ_var[a,:,:] = diagm(rand(K))
+    Λ_var[a,:] = rand(K)
   end
   l0            =K*1.0                   #init the df l0
-  L0            =(1.0/K).*eye(Float64,K) #init the scale L0
+  # L0            =(1.0/K).*eye(Float64,K) #init the scale L0
+  L0            =(1.0/K).*ones(Float64,K) #init the scale L0
   l             =K*1.0                   #init the df l
-  L             =(1.0/K).*eye(Float64,K) #zero the scale L
+  # L             =(1.0/K).*eye(Float64,K) #zero the scale L
+  L             =(1.0/K).*ones(Float64,K) #zero the scale L
   ϕlinoutsum    =zeros(Float64,K)        #zero the phi link product sum
   ϕnlinoutsum   =zeros(Float64,K)        #zero the phi nonlink product sum
   ϕbar          =(1.0/K).*ones(Float64, (N,K)) ## to be used for other rounds as init
