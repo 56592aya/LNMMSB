@@ -1068,11 +1068,11 @@ Gradient with respect to
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\mathcal{L}_{\Lambda_{a,k}} & = & -\tfrac{\ell}{2}tr\,(L\Lambda_{a}^{-1})-\tfrac{1}{2}ln\,|\Lambda_{a}|-\sum_{b}\zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})\\
+\mathcal{L}_{\Lambda_{a,k}^{-1}} & = & -\tfrac{\ell}{2}tr\,(L\Lambda_{a}^{-1})+\tfrac{1}{2}ln\,|\Lambda_{a}^{-1}|-\sum_{b}\zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})\\
  & = & -\tfrac{\ell}{2}(L_{kk}\Lambda_{a,k}^{-1})-\tfrac{1}{2}\,\sum_{j!=k}ln\,\Lambda_{a,j}-\tfrac{1}{2}ln\,\Lambda_{a,k}-\sum_{b}\zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})\\
-\nabla_{\Lambda_{a,k}^{-1}}\mathcal{L}_{\Lambda_{a,k}^{-1}}=G_{\Lambda_{a,k}^{-1}} & = & \boxed{-\tfrac{\ell}{2}L_{kk}+\tfrac{1}{2}\Lambda_{a,k}-\tfrac{1}{2}\sum_{b}\zeta_{a}^{-1}exp(.)\Big(1-\zeta_{a}^{-1}exp(.)\Big)}\\
+\nabla_{\Lambda_{a,k}^{-1}}\mathcal{L}_{\Lambda_{a,k}^{-1}}=G_{\Lambda_{a,k}^{-1}} & = & \boxed{-\tfrac{\ell}{2}L_{kk}+\tfrac{1}{2}\Lambda_{a,k}-\tfrac{1}{2}\sum_{b}softmax(.)\Big(1-softmax(.)\Big)}\\
  &  & \boxed{}\\
-\nabla_{\Lambda_{a,k}^{-1}}^{2}\mathcal{L}_{\Lambda_{a,k}}=H_{\Lambda_{a,k}^{-1}} & \propto & \boxed{-\tfrac{1}{2}\Lambda_{a,k}^{-2}-\tfrac{1}{4}\sum_{b}\zeta_{a}^{-1}exp(.)\Big(1-3\zeta_{a}^{-1}exp(.)+2\zeta_{a}^{-2}exp^{2}(.)\Big)}
+\nabla_{\Lambda_{a,k}^{-1}}^{2}\mathcal{L}_{\Lambda_{a,k}}=H_{\Lambda_{a,k}^{-1}} & \propto & \boxed{-\tfrac{1}{2}\Lambda_{a,k}^{-2}-\tfrac{1}{4}\sum_{b}\Big(softmax(.)-3softmax^{2}(.)+2softmax^{3}(.)\Big)}
 \end{align*}
 
 \end_inset

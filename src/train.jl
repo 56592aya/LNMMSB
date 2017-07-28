@@ -277,12 +277,14 @@ end
 ##here we need to think better about the accessing of phis or ways of recording them.
 function gmu(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	-model.l*model.L[k,k]*(model.μ_var[a,k]-model.m[k])+
-	model.ϕloutsum[a,k]+model.ϕnloutsum[a,k]+model.ϕlinsum[a,k]+model.ϕnlinsum[a,k]-(sumb*softmax(model.μ_var[a,:]+diag(model.Λ_var[a,:,:]),k))
+	sfx = softmax(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,:,:])),k)
+	-model.l*model.L[k,k]*(model.μ_var[a,k] - model.m[k]) - sumb*(sfx)*(1-sfx))+(ϕloutsum+ϕnloutsum+ϕlinsum+ϕnlinsum)
+
 end
 function hmu(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	-model.l*model.L[k,k]-sumb*(softmax(model.μ_var[a,:]+diag(model.Λ_var[a,:,:]),k)-(softmax(model.μ_var[a,:]+diag(model.Λ_var[a,:,:]),k))^2)
+	sfx = softmax(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,:,:])),k)
+	-model.l*model.L[k,k] - sumb*(sfx-3*sfx^2+2*sfx^3)
 end
 
 function updatemua!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
@@ -299,13 +301,16 @@ function updatemua!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::Min
 end
 #Newton
 #MB dependent
-function gLambda(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
+function gLambdainv(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	model.l*model.L[k,k]-model.Λ_var[a,k,k]+sumb*(softmax(model.μ_var[a,:]+diag(model.Λ_var[a,:,:]),k))
+	sfx = softmax(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,:,:])),k)
+	-.5*model.l*model.L[k,k] + .5*inv(model.Λ_var[a,k,k])-.5*sumb*(sfx)*(1-sfx)
 end
-function hLambda(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
+function hLambdainv(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	-1.0-.5*sumb*(model.Λ_var[a,k,k]*(softmax(model.μ_var[a,:]+diag(model.Λ_var[a,:,:]),k)-(softmax(model.μ_var[a,:]+diag(model.Λ_var[a,:,:]),k))^2))
+	sfx = softmax(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,:,:])),k)
+	.5+.25*(sumb)*(sfx-3*sfx^2+2*sfx^3)
+
 end
 function updateLambdaa!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
 	for k in 1:model.K
