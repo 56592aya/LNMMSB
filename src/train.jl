@@ -1,179 +1,201 @@
 #negative cross entropies
-function elogpmu(model::LNMMSB)
-	-.5*(model.K*log(2*pi)+trace(model.m*model.m') + sum(1.0./(model.M)))
-end
-
-function elogpLambda(model::LNMMSB)
-	-.5*(-(model.K^2.0)*log(model.K) + sum(log.(model.L)) + model.l*model.K*sum(model.L)+
-	.5*model.K.*(model.K-1.0)*log(pi) + 2.0*lgamma(.5*model.K, model.K) + digamma(.5*model.l, model.K)+
-	model.K*(model.K)*log(2.0))
-end
-
-##?MB dependent
-##needs a better subset of nodes for computing the train ELBO
-#so maybe changing it to the appropriate train
-function elogptheta(model::LNMMSB, mb::MiniBatch)
-	s = zero(Float64)
-	for a in mb.mballnodes
-		s += model.K*log(2pi) - digamma(.5*model.l, model.K) -model.K*log(2.0) - sum(log.(model.L))+
-		model.l*trace(model.L*(inv(model.M) + inv(model.Λ_var[a,:,:])+(model.μ_var[a,:] - model.m)*(model.μ_var[a,:] - model.m)'))
-	end
-	s*-.5
-end
-#think about how to keep track of phis
-##MB dependent
-function elogpzlout(model::LNMMSB, mb::MiniBatch)
-	s1 = zero(Float64)
-	s2 = zero(Float64)
-	for mbl in mb.mblinks
-		for k in 1:model.K
-			s1+=mbl.ϕout[k]*model.μ_var[mbl.src,k]
-		end
-		for l in 1:model.K
-			s2-= (1.0/(model.ζ[mbl.src])*exp(model.μ_var[mbl.src,l]+1.0/model.Λ_var[mbl.src,l,l]) + log(model.ζ[mbl.src])-1)
-		end
-	end
-	s1+s2
-end
-##MB dependent
-function elogpzlin(model::LNMMSB, mb::MiniBatch)
-	s1 = zero(Float64)
-	s2 = zero(Float64)
-	for mbl in mb.mblinks
-		for k in 1:model.K
-			s1+=mbl.ϕin[k]*model.μ_var[mbl.dst,k]
-		end
-		for l in 1:model.K
-			s2-= (1.0/(model.ζ[mbl.dst])*exp(model.μ_var[mbl.dst,l]+1.0/model.Λ_var[mbl.dst,l,l]) + log(model.ζ[mbl.dst])-1)
-		end
-	end
-	s1+s2
-end
-##MB dependent
-function elogpznlout(model::LNMMSB, mb::MiniBatch)
-	s1 = zero(Float64)
-	s2 = zero(Float64)
-	for mbn in mb.mbnonlinks
-		for k in 1:model.K
-			s1+=mbn.ϕout[k]*model.μ_var[mbn.src,k]
-		end
-		for l in 1:model.K
-			s2-= (1.0/(model.ζ[mbn.src])*exp(model.μ_var[mbn.src,l]+1.0/model.Λ_var[mbn.src,l,l]) + log(model.ζ[mbn.src])-1)
-		end
-	end
-	s1+s2
-end
-##MB dependent
-function elogpznlin(model::LNMMSB, mb::MiniBatch)
-	s1 = zero(Float64)
-	s2 = zero(Float64)
-	for mbn in mb.mbnonlinks
-		for k in 1:model.K
-			s1+=mbn.ϕin[k]*model.μ_var[mbn.dst,k]
-		end
-		for l in 1:model.K
-			s2-= (1.0/(model.ζ[mbn.dst])*exp(model.μ_var[mbn.dst,l]+1.0/model.Λ_var[mbn.dst,l,l]) + log(model.ζ[mbn.dst])-1)
-		end
-	end
-	s1+s2
-end
-function elogpbeta(model::LNMMSB)
-	s = zero(Float64)
-	for k in 1:model.K
-		(model.η0-1)*digamma(model.b0[k]) - (model.η0-2)*digamma(model.b0[k]+model.b1[k])
-	end
-	s
-end
-##MB dependent
-function elogpnetwork(model::LNMMSB, mb::MiniBatch)
-	s = zero(Float64)
-	for mbl in mb.mblinks
-		# a = link.src;b=link.dst;
-		ϕout=mbl.ϕout;ϕin=mbl.ϕin;
-		for k in 1:model.K
-			s+=ϕout[k]*ϕin[k]*(digamma(model.b0[k])- digamma(model.b1[k]+model.b0[k])-log(EPSILON))+log(EPSILON)
-		end
-	end
-	for mbn in mb.mbnonlinks
-		# a = nonlink.src;b=nonlink.dst;
-		ϕout=mbn.ϕout;ϕin=mbn.ϕin;
-		for k in 1:model.K
-			s+=ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log1p(-EPSILON))+log1p(-EPSILON)
-		end
-	end
-	s
-end
-function elogqmu(model::LNMMSB)
-	-.5*(model.K*log(2pi) + model.K - logdet(model.M))
-end
-function elogqLambda(model::LNMMSB)
-	-.5*((model.K+1)*logdet(model.L) + model.K*(model.K+1)*log(2)+model.K*model.l+
-	.5*model.K*(model.K-1)*log(pi) + 2*lgamma(.5*model.l, model.K) - (model.l-model.K-1)*digamma(.5*model.l, model.K))
-end
-function elogqtheta(model::LNMMSB)
-	s = zero(Float64)
-	for a in model.mbids
-		s += model.K*log(2pi)-logdet(model.Λ_var[a,:,:]+model.K)
-	end
-	-.5*s
-end
-function elogqbeta(model::LNMMSB)
-	s = zero(Float64)
-	for k in 1:model.K
-		s+=lbeta(model.b0[k],model.b1[k]) - (model.b0[k]-1)*digamma(model.b0[k]) -(model.b1[k]-1)*digamma(model.b1[k]) +(model.b0[k]+model.b1[k]-2)*digamma(model.b0[k]+model.b1[k])
-	end
-	-s
-end
-function elogqzl(model::LNMMSB)
-	s = zero(Float64)
-	for mbl in mb.mblinks
-		for k in 1:model.K
-			s+=(mbl.ϕout[k]*log(mbl.ϕout[k])+mbl.ϕin[k]*log(mbl.ϕin[k]))
-		end
-	end
-	s
-end
-function elogqznl(model::LNMMSB)
-	s = zero(Float64)
-	for mbn in mb.mbnonlinks
-		for k in 1:model.K
-			s+=(mbn.ϕout[k]*log(mbn.ϕout[k])+mbn.ϕin[k]*log(mbn.ϕin[k]))
-		end
-	end
-	s
-end
-function computeelbo!(model::LNMMSB)
-	model.elbo=model.newelbo
-	model.newelbo=0
-	return model.elbo
-end
-##Pay attention to the weightings of them accordint the the train/mb
-function computenewelbo!(model::LNMMSB)
-	model.newelbo = elogpmu(model)+	elogpLambda(model)+	elogptheta(model)+	elogpzlout(model)+	elogpzlin(model)+elogpznlout(model)+elogpznlin(model)+elogpbeta(model)+elogpnetwork(model)-
-	(elogqmu(model)+elogqLambda(model)+	elogqtheta(model)+elogqbeta(model)+elogqzl(model)+elogqznl(model))
-end
+# ELOGS NEED SERIOUS REVISIONS
+# function elogpmu(model::LNMMSB)
+# 	-.5*(model.K*log(2*pi)+trace(model.m*model.m') + sum(1.0./(model.M)))
+# end
+#
+# function elogpLambda(model::LNMMSB)
+# 	-.5*(-(model.K^2.0)*log(model.K) + logdet(model.L) + model.l*model.K*trace(model.L)+
+# 	.5*model.K.*(model.K-1.0)*log(pi) + 2.0*lgamma(.5*model.K, model.K) + digamma(.5*model.l, model.K)+
+# 	model.K*(model.K)*log(2.0))
+# end
+#
+# ##?MB dependent
+# ##needs a better subset of nodes for computing the train ELBO
+# #so maybe changing it to the appropriate train
+# # For now I skip the elbo on the full in sample data
+# function elogptheta(model::LNMMSB, mb::MiniBatch)
+# 	s = zero(Float64)
+# 	for a in mb.mballnodes
+# 		s += model.K*log(2pi) - digamma(.5*model.l, model.K) -model.K*log(2.0) - logdet(model.L)+
+# 		model.l*(
+# 		sum(model.L.*(1.0./model.Λ_var[a,:])) + sum(model.L.*(1.0./(model.M))) + sum(model.L.*(model.μ_var[a,:]-model.m).^2)
+# 		)
+# 	end
+# 	s*-.5
+# end
+# elogptheta(model, mb)
+# #think about how to keep track of phis
+# ##MB dependent
+# function elogpzlout(model::LNMMSB, mb::MiniBatch)
+# 	s1 = zero(Float64)
+# 	s2 = zero(Float64)
+# 	for mbl in mb.mblinks
+# 		for k in 1:model.K
+# 			s1+=mbl.ϕout[k]*model.μ_var[mbl.src,k]
+# 		end
+# 		for l in 1:model.K
+# 			s2-= (1.0/(model.ζ[mbl.src])*exp(model.μ_var[mbl.src,l]+1.0/model.Λ_var[mbl.src,l]) + log(model.ζ[mbl.src])-1)
+# 		end
+# 	end
+# 	s1+s2
+# end
+#
+# ##MB dependent
+# function elogpzlin(model::LNMMSB, mb::MiniBatch)
+# 	s1 = zero(Float64)
+# 	s2 = zero(Float64)
+# 	for mbl in mb.mblinks
+# 		for k in 1:model.K
+# 			s1+=mbl.ϕin[k]*model.μ_var[mbl.dst,k]
+# 		end
+# 		for l in 1:model.K
+# 			s2-= (1.0/(model.ζ[mbl.dst])*exp(model.μ_var[mbl.dst,l]+1.0/model.Λ_var[mbl.dst,l]) + log(model.ζ[mbl.dst])-1)
+# 		end
+# 	end
+# 	s1+s2
+# end
+# elogpzlin(model, mb)
+# ##MB dependent
+# function elogpznlout(model::LNMMSB, mb::MiniBatch)
+# 	s1 = zero(Float64)
+# 	s2 = zero(Float64)
+# 	for mbn in mb.mbnonlinks
+# 		for k in 1:model.K
+# 			s1+=mbn.ϕout[k]*model.μ_var[mbn.src,k]
+# 		end
+# 		for l in 1:model.K
+# 			s2-= (1.0/(model.ζ[mbn.src])*exp(model.μ_var[mbn.src,l]+1.0/model.Λ_var[mbn.src,l]) + log(model.ζ[mbn.src])-1)
+# 		end
+# 	end
+# 	s1+s2
+# end
+# ##MB dependent
+# function elogpznlin(model::LNMMSB, mb::MiniBatch)
+# 	s1 = zero(Float64)
+# 	s2 = zero(Float64)
+# 	for mbn in mb.mbnonlinks
+# 		for k in 1:model.K
+# 			s1+=mbn.ϕin[k]*model.μ_var[mbn.dst,k]
+# 		end
+# 		for l in 1:model.K
+# 			s2-= (1.0/(model.ζ[mbn.dst])*exp(model.μ_var[mbn.dst,l]+1.0/model.Λ_var[mbn.dst,l]) + log(model.ζ[mbn.dst])-1)
+# 		end
+# 	end
+# 	s1+s2
+# end
+#
+# function elogpbeta(model::LNMMSB)
+# 	s = zero(Float64)
+# 	for k in 1:model.K
+# 		(model.η0-1)*digamma(model.b0[k]) - (model.η0-2)*digamma(model.b0[k]+model.b1[k])
+# 	end
+# 	s
+# end
+#
+# ##MB dependent
+# function elogpnetwork(model::LNMMSB, mb::MiniBatch)
+# 	s = zero(Float64)
+# 	for mbl in mb.mblinks
+# 		# a = link.src;b=link.dst;
+# 		ϕout=mbl.ϕout;ϕin=mbl.ϕin;
+# 		for k in 1:model.K
+# 			s+=ϕout[k]*ϕin[k]*(digamma(model.b0[k])- digamma(model.b1[k]+model.b0[k])-log(EPSILON))+log(EPSILON)
+# 		end
+# 	end
+# 	for mbn in mb.mbnonlinks
+# 		# a = nonlink.src;b=nonlink.dst;
+# 		ϕout=mbn.ϕout;ϕin=mbn.ϕin;
+# 		for k in 1:model.K
+# 			s+=ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log1p(-EPSILON))+log1p(-EPSILON)
+# 		end
+# 	end
+# 	s
+# end
+#
+# function elogqmu(model::LNMMSB)
+# 	-.5*(model.K*log(2pi) + model.K - sum(log.(model.M)))
+# end
+# function elogqLambda(model::LNMMSB)
+# 	-.5*((model.K+1)*sum(log.(model.L)) + model.K*(model.K+1)*log(2)+model.K*model.l+
+# 	.5*model.K*(model.K-1)*log(pi) + 2*lgamma(.5*model.l, model.K) - (model.l-model.K-1)*digamma(.5*model.l, model.K))
+# end
+#
+# function elogqtheta(model::LNMMSB)
+# 	s = zero(Float64)
+# 	for a in model.mbids
+# 		s += model.K*log(2pi)-sum(log.(model.Λ_var))+model.K
+# 	end
+# 	-.5*s
+# end
+#
+# function elogqbeta(model::LNMMSB)
+# 	s = zero(Float64)
+# 	for k in 1:model.K
+# 		s+=lbeta(model.b0[k],model.b1[k]) - (model.b0[k]-1)*digamma(model.b0[k]) -(model.b1[k]-1)*digamma(model.b1[k]) +(model.b0[k]+model.b1[k]-2)*digamma(model.b0[k]+model.b1[k])
+# 	end
+# 	s
+# end
+#
+# function elogqzl(model::LNMMSB)
+# 	s = zero(Float64)
+# 	for mbl in mb.mblinks
+# 		for k in 1:model.K
+# 			s+=(mbl.ϕout[k]*log(mbl.ϕout[k])+mbl.ϕin[k]*log(mbl.ϕin[k]))
+# 		end
+# 	end
+# 	s
+# end
+# function elogqznl(model::LNMMSB)
+# 	s = zero(Float64)
+# 	for mbn in mb.mbnonlinks
+# 		for k in 1:model.K
+# 			s+=(mbn.ϕout[k]*log(mbn.ϕout[k])+mbn.ϕin[k]*log(mbn.ϕin[k]))
+# 		end
+# 	end
+# 	s
+# end
+# function computeelbo!(model::LNMMSB)
+# 	model.elbo=model.newelbo
+# 	model.newelbo=0
+# 	return model.elbo
+# end
+# ##Pay attention to the weightings of them accordint the the train/mb
+# function computenewelbo!(model::LNMMSB)
+# 	model.newelbo = elogpmu(model)+	elogpLambda(model)+	elogptheta(model)+	elogpzlout(model)+	elogpzlin(model)+elogpznlout(model)+elogpznlin(model)+elogpbeta(model)+elogpnetwork(model)-
+# 	(elogqmu(model)+elogqLambda(model)+	elogqtheta(model)+elogqbeta(model)+elogqzl(model)+elogqznl(model))
+# end
 ##MB dependent
 function updateM!(model::LNMMSB,mb::MiniBatch)
 	##Only to make it MB dependent
-	model.M = model.l*model.N*model.L + eye(model.K)
+	model.M_old = deepcopy(model.M)
+	model.M = model.l.*model.N.*model.L + eye(model.K)
 end
+#updateM!(model,mb)
 ##MB Dependent
 function updatem!(model::LNMMSB, mb::MiniBatch)
 	#model.m= inv(model.l*model.N*model.L + eye(model.K))*(model.l*model.L*(model.N/model.mbsize)*sum(model.μ_var[a,:] for a in collect(mb.mballnodes)))
 	##or
+	model.m_old = deepcopy(model.m)
 	model.m= inv(model.M)*(model.l*model.L*(model.N/model.mbsize)*sum(model.μ_var[a,:] for a in collect(mb.mballnodes)))
 end
+#updatem!(model, mb)
 ##MB Dependent
 function updatel!(model::LNMMSB, mb::MiniBatch)
 	##should be set in advance, not needed in the loop
 	model.l = model.K+model.N
 end
+#updatel!(model,mb)
 #MB Dependent
+##Realized that L is symmetric but not diagonal
 function updateL!(model::LNMMSB, mb::MiniBatch)
-	s1=view((model.μ_var .- model.m')', :,collect(mb.mballnodes))*view((model.μ_var .- model.m'), collect(mb.mballnodes),:)
-	s2 = reshape(sum(view(model.Λ_var, collect(mb.mballnodes), :, :),1),model.K, model.K)
-	model.L = inv(model.K*eye(model.K) + model.N*inv(model.M) + (model.N/model.mbsize)*(s1+inv(s2)))
+	x=model.μ_var[collect(mb.mballnodes),:]'.-model.m
+	s1= x*x'
+	s2 = diagm(sum(1.0./model.Λ_var[a,:] for a in collect(mb.mballnodes)))
+	model.L_old = deepcopy(model.L)
+	model.L = inv(model.K*eye(model.K) + model.N*inv(model.M) + (model.N/model.mbsize)*(s1+s2))
 end
+#updateL!(model, mb)
 #MB Dependent
 function updateb0!(model::LNMMSB, mb::MiniBatch)
 	for k in 1:model.K
@@ -182,8 +204,10 @@ function updateb0!(model::LNMMSB, mb::MiniBatch)
 			model.ϕlinoutsum[k]+=mbl.ϕout[k]*mbl.ϕin[k]
 		end
 	end
+	model.b0_old = deepcopy(model.b0)
 	model.b0[:] = (model.ϕlinoutsum[:]).+model.η0;
 end
+#updateb0!(model, mb)
 #MB Dependent
 function updateb1!(model::LNMMSB, mb::MiniBatch)
 	for k in 1:model.K
@@ -193,8 +217,10 @@ function updateb1!(model::LNMMSB, mb::MiniBatch)
 		end
 	end
 	train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyaddict) -length(mb.mblinks)
+	model.b1_old = deepcopy(model.b1)
 	model.b1[:] = (train_nlinks_num*1.0/length(mb.mbnonlinks))*(model.ϕnlinoutsum[:]).+1.0;
 end
+#updateb1!(model, mb)
 
 
 
@@ -218,6 +244,7 @@ function updatephilout!(model::LNMMSB,  mb::MiniBatch)
 		end
 	end
 end
+#updatephilout!(model, mb)
 function updatephilin!(model::LNMMSB,mb::MiniBatch)
 	for l in mb.mblinks
 		for k in 1:model.K
@@ -237,6 +264,8 @@ function updatephilin!(model::LNMMSB,mb::MiniBatch)
 
 
 end
+#updatephilin!(model, mb)
+
 function updatephinlout!(model::LNMMSB, mb::MiniBatch)
 	for nl in mb.mbnonlinks
 		for k in 1:model.K
@@ -254,6 +283,8 @@ function updatephinlout!(model::LNMMSB, mb::MiniBatch)
 		end
 	end
 end
+#updatephinlout!(model, mb)
+
 function updatephinlin!(model::LNMMSB,mb::MiniBatch)
 	for nl in mb.mbnonlinks
 		for k in 1:model.K
@@ -271,10 +302,15 @@ function updatephinlin!(model::LNMMSB,mb::MiniBatch)
 		end
 	end
 end
+#updatephinlin!(model, mb)
+
 #MB dependent
 function updatezetaa!(model::LNMMSB, mb::MiniBatch, a::Int64)
-	model.ζ[a]=exp(logsumexp(model.μ_var[a,:]+.5*diag(model.Λ_var[a,:,:])))
+	model.ζ_old[a]=deepcopy(model.ζ[a])
+	model.ζ[a]=exp(logsumexp(model.μ_var[a,:]+.5./(model.Λ_var[a,:])))
 end
+#
+#updatezetaa!(model,mb,model.mbids[1])
 #Newton\
 #MB dependent
 ##here we need to think better about the accessing of phis or ways of recording them.
@@ -339,37 +375,64 @@ end
 ##only initiated MiniBatch
 function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=1000, ntol::Float64=1.0/(model.K^2), viter::Int64=10, vtol::Float64=1.0/(model.K^2), elboevery::Int64=10, mb::MiniBatch,lr::Float64)
 	preparedata(model)
+
+	zeta_curr=ones(model.N)
+	mu_curr=ones(model.N)
+	Lambda_curr=ones(model.N)
+	lr_zeta = zeros(Float64, model.N)
+	lr_mu = zeros(Float64, model.N)
+	lr_Lambda = zeros(Float64, model.N)
 	#global update-- can be done outside
 	updatel!(model, mb)
+
 	for i in 1:iter
-		checkelbo = (i % elboevery == 0)
-		lr = 1.0/((1.0+Float64(i))^.9)
-		#locals:phis
-		#globals:m,M,l,L,mu, Lambda, b
+		#Minibatch sampling/new sample
 		##the following deepcopy is very important
 		mb=deepcopy(mb_zeroer)
 		mbsampling!(mb,model)
+		checkelbo = (i % elboevery == 0)
+		#Learning rates
+		lr_M = 1.0/((1.0+Float64(i))^.5)
+		lr_m = 1.0/((1.0+Float64(i))^.7)
+		lr_L = 1.0/((1.0+Float64(i))^.9)
+		lr_b = 1.0/((1.0+Float64(i))^.5)
+		lr_zeta = 1.0/((1.0+Float64(i))^.9)
+		lr_mu = 1.0/((1.0+Float64(i))^.9)
+		lr_Lambda = 1.0/((1.0+Float64(Lambda_curr))^.9)
+
+
+		#locals:phis
 		#local update
 		updatephilout!(model, mb)
 		updatephilin!(model, mb)
 		updatephinlout!(model, mb)
 		updatephinlin!(model, mb)
 		#global update
+		#globals:m,M,L,mu, Lambda, b
 		updateM!(model, mb)
+
+		model.M = model.M_old*(1.0-lr_M)+lr_M*model.M
 		updatem!(model, mb)
+		model.m = model.m_old*(1.0-lr_m)+lr_m*model.m
 		updateL!(model, mb)
+		model.L = model.L_old*(1.0-lr_L)+lr_L*model.L
 		updateb0!(model, mb)
 		updateb1!(model, mb)
+		model.b0 = model.b0_old*(1.0-lr_b)+lr_b*model.b0
+		model.b1 = model.b1_old*(1.0-lr_b)+lr_b*model.b1
 		for a in collect(mb.mballnodes)
 			updatezetaa!(model,mb, a)
+			lr_zeta[a] = 1.0/((1.0+Float64(zeta_curr[a]))^.9)##could be  a macro
+			zeta_curr[a] += 1
+			model.ζ[a] = model.ζ_old[a]*(1.0-lr_zeta[a])+lr_zeta[a]*model.ζ[a]
 			updatemua!(model, a, niter, ntol,mb)
+			lr_mu[a] = 1.0/((1.0+Float64(mu_curr[a]))^.9)##could be  a macro
+			mu_curr[a] += 1
+			model.ζ[a] = model.μ_var_old[a]*(1.0-lr_mu[a])+lr_mu[a]*model.μ_var[a]
 			updateLambdaa!(model, a, niter, ntol,mb)
+			lr_Lambda[a] = 1.0/((1.0+Float64(Lambda_curr[a]))^.9)##could be  a macro
+			Lambda_curr[a] += 1
+			model.Λ_var[a] = model.Λ_var_old[a]*(1.0-lr_Lambda[a])+lr_Lambda[a]*model.Λ_var[a]
 		end
-		# think about the natural gradient update and reweightings
-		# compute elbo on holdout/whole data
-		# order of updates
-		#decide on global versus local
-
 	end
-
 end
