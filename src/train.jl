@@ -169,21 +169,22 @@
 function updateM!(model::LNMMSB,mb::MiniBatch)
 	##Only to make it MB dependent
 	model.M_old = deepcopy(model.M)
-	model.M = model.l.*model.N.*model.L + eye(model.K)
+	model.M = model.l.*model.N.*model.L + model.M0
 end
+
 #updateM!(model,mb)
 ##MB Dependent
 function updatem!(model::LNMMSB, mb::MiniBatch)
 	#model.m= inv(model.l*model.N*model.L + eye(model.K))*(model.l*model.L*(model.N/model.mbsize)*sum(model.μ_var[a,:] for a in collect(mb.mballnodes)))
 	##or
 	model.m_old = deepcopy(model.m)
-	model.m= inv(model.M)*(model.l*model.L*(model.N/model.mbsize)*sum(model.μ_var[a,:] for a in collect(mb.mballnodes)))
+	model.m= inv(model.M)*(model.M0*model.m0+model.l*model.L*(model.N/model.mbsize)*sum(model.μ_var[a,:] for a in collect(mb.mballnodes)))
 end
 #updatem!(model, mb)
 ##MB Dependent
 function updatel!(model::LNMMSB, mb::MiniBatch)
 	##should be set in advance, not needed in the loop
-	model.l = model.K+model.N
+	model.l = model.l0+model.N
 end
 #updatel!(model,mb)
 #MB Dependent
@@ -193,7 +194,7 @@ function updateL!(model::LNMMSB, mb::MiniBatch)
 	s1= x*x'
 	s2 = diagm(sum(1.0./model.Λ_var[a,:] for a in collect(mb.mballnodes)))
 	model.L_old = deepcopy(model.L)
-	model.L = inv(model.K*eye(model.K) + model.N*inv(model.M) + (model.N/model.mbsize)*(s1+s2))
+	model.L = inv(inv(model.L0) + model.N*inv(model.M) + (model.N/model.mbsize)*(s1+s2))
 end
 #updateL!(model, mb)
 #MB Dependent
@@ -218,7 +219,7 @@ function updateb1!(model::LNMMSB, mb::MiniBatch)
 	end
 	train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyaddict) -length(mb.mblinks)
 	model.b1_old = deepcopy(model.b1)
-	model.b1[:] = (train_nlinks_num*1.0/length(mb.mbnonlinks))*(model.ϕnlinoutsum[:]).+1.0;
+	model.b1[:] = (train_nlinks_num*1.0/length(mb.mbnonlinks))*(model.ϕnlinoutsum[:]).+model.η1
 end
 #updateb1!(model, mb)
 
@@ -235,7 +236,7 @@ function updatephilout!(model::LNMMSB,  mb::MiniBatch)
 		end
 	end
 	for l in mb.mblinks
-		expnormalize!(l.ϕout)
+		l.ϕout[:]=expnormalize(l.ϕout)
 	end
 	model.ϕloutsum=zeros(Float64,(model.N,model.K))
 	for l in mb.mblinks
@@ -253,7 +254,7 @@ function updatephilin!(model::LNMMSB,mb::MiniBatch)
 		end
 	end
 	for l in mb.mblinks
-		expnormalize!(l.ϕin)
+		l.ϕin[:]=expnormalize(l.ϕin)
 	end
 	model.ϕlinsum=zeros(Float64,(model.N,model.K))
 	for l in mb.mblinks
@@ -274,7 +275,7 @@ function updatephinlout!(model::LNMMSB, mb::MiniBatch)
 		end
 	end
 	for nl in mb.mbnonlinks
-		expnormalize!(nl.ϕout)
+		nl.ϕout[:]=expnormalize(nl.ϕout)
 	end
 	model.ϕnloutsum=zeros(Float64,(model.N,model.K))
 	for nl in mb.mbnonlinks
@@ -293,7 +294,7 @@ function updatephinlin!(model::LNMMSB,mb::MiniBatch)
 		end
 	end
 	for nl in mb.mbnonlinks
-		expnormalize!(nl.ϕin)
+		nl.ϕin[:]=expnormalize(nl.ϕin)
 	end
 	model.ϕnlinsum=zeros(Float64,(model.N,model.K))
 	for nl in mb.mbnonlinks
@@ -382,23 +383,24 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	lr_zeta = zeros(Float64, model.N)
 	lr_mu = zeros(Float64, model.N)
 	lr_Lambda = zeros(Float64, model.N)
-	#global update-- can be done outside
-	updatel!(model, mb)
+
+
 
 	for i in 1:iter
 		#Minibatch sampling/new sample
 		##the following deepcopy is very important
 		mb=deepcopy(mb_zeroer)
 		mbsampling!(mb,model)
-		checkelbo = (i % elboevery == 0)
+		#global update-- can be done outside
+		updatel!(model, mb)
+
+		#checkelbo = (i % elboevery == 0)
 		#Learning rates
+
 		lr_M = 1.0/((1.0+Float64(i))^.5)
 		lr_m = 1.0/((1.0+Float64(i))^.7)
 		lr_L = 1.0/((1.0+Float64(i))^.9)
 		lr_b = 1.0/((1.0+Float64(i))^.5)
-		lr_zeta = 1.0/((1.0+Float64(i))^.9)
-		lr_mu = 1.0/((1.0+Float64(i))^.9)
-		lr_Lambda = 1.0/((1.0+Float64(Lambda_curr))^.9)
 
 
 		#locals:phis
@@ -407,10 +409,10 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		updatephilin!(model, mb)
 		updatephinlout!(model, mb)
 		updatephinlin!(model, mb)
+		mb.mblinks[1]
 		#global update
 		#globals:m,M,L,mu, Lambda, b
 		updateM!(model, mb)
-
 		model.M = model.M_old*(1.0-lr_M)+lr_M*model.M
 		updatem!(model, mb)
 		model.m = model.m_old*(1.0-lr_m)+lr_m*model.m
@@ -420,6 +422,7 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		updateb1!(model, mb)
 		model.b0 = model.b0_old*(1.0-lr_b)+lr_b*model.b0
 		model.b1 = model.b1_old*(1.0-lr_b)+lr_b*model.b1
+		## KEEP AN AVERAGE FOR MUS AND LAMBDAS TO INITIATE THE PHIS EACH TIME
 		for a in collect(mb.mballnodes)
 			updatezetaa!(model,mb, a)
 			lr_zeta[a] = 1.0/((1.0+Float64(zeta_curr[a]))^.9)##could be  a macro

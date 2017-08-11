@@ -11,6 +11,7 @@ include("LNMMSB.jl")
 ##should move to LNMMSB
 model=LNMMSB(network, inputtomodelgen[2])
 include("modelutils.jl")
+include("init.jl")
 mb_zeroer = MiniBatch()
 train_zeroer = Training()
 train = deepcopy(train_zeroer)

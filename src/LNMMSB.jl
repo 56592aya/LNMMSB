@@ -13,20 +13,15 @@ mutable struct LNMMSB <: AbstractMMSB
     m0           ::Vector{Float64}    #hyperprior on mean
     m            ::Vector{Float64}    #variational hyperprior on mean
     m_old        ::Vector{Float64}    #variational hyperprior on mean
-    # M0         ::Matrix2d{Float64}  #hyperprior on precision
-    M0           ::Vector{Float64}    #hyperprior on precision diagonal
+    M0           ::Matrix2d{Float64}    #hyperprior on precision diagonal
     M            ::Matrix2d{Float64}  #hyperprior on variational precision
     M_old        ::Matrix2d{Float64}  #hyperprior on variational precision
-    # M          ::Vector{Float64}    #hyperprior on variational precision diagonal
     Λ            ::Matrix2d{Float64}  #true precision
-    # Λ_var      ::Matrix3d{Float64}  #variational preicisoin
     Λ_var        ::Matrix2d{Float64}  #variational preicisoin diagonal
     Λ_var_old    ::Matrix2d{Float64}  #variational preicisoin diagonal
     l0           ::Float64            #df for Preicision in Wishart
-    # L0         ::Matrix2d{Float64}  #scale for precision in Wishart
-    L0           ::Vector{Float64}    #scale for precision in Wishart diagonal
+    L0           ::Matrix2d{Float64}    #scale for precision in Wishart diagonal
     l            ::Float64            #variational df
-    # L          ::Matrix2d{Float64}  #variational scale
     L            ::Matrix2d{Float64}  #variational scale diagonal
     L_old        ::Matrix2d{Float64}  #variational scale diagonal
     ζ            ::Vector{Float64}    #additional variation param
@@ -58,7 +53,6 @@ mutable struct LNMMSB <: AbstractMMSB
 
 
  function LNMMSB(network::Network{Int64}, K::Int64)
-  # network       = network?isassigned(network,1):error("load network first")
   N             = size(network,1) #setting size of nodes
   elbo          =0.0 #init ELBO at zero
   newelbo       =0.0 #init new ELBO at zero
@@ -68,13 +62,10 @@ mutable struct LNMMSB <: AbstractMMSB
   m0            =zeros(Float64,K) #zero m0 vector
   m             =zeros(Float64,K) #zero m vector
   m_old         = deepcopy(m)
-  # M0          =eye(Float64,K) #eye M0 matrix
-  M0            =ones(Float64,K) #ones M0 matrix
+  M0            =eye(Float64,K) #ones M0 matrix
   M             =eye(Float64,K) #eye M matrix
   M_old         = deepcopy(M)
-  # M           =ones(Float64,K) #ones M matrix
   Λ             =(1.0/K).*eye(Float64,K) #init Lambda matrix
-  # Λ_var       =zeros(Float64,(N,K,K));
   Λ_var         =zeros(Float64,(N,K));
   for a in 1:N
     Λ_var[a,:]  = rand(K)
@@ -82,10 +73,9 @@ mutable struct LNMMSB <: AbstractMMSB
   Λ_var_old     = deepcopy(Λ_var)
 
   l0            =K*1.0 #init the df l0
-  # L0          =(1.0/K).*eye(Float64,K) #init the scale L0
-  L0            =(1.0/K).*ones(Float64,K) #init the scale L0
+  L0            =(0.05).*eye(Float64,K) #init the scale L0
+
   l             =K*1.0 #init the df l
-  # L           =(1.0/K).*eye(Float64,K) #zero the scale L
   L             =(1.0/K).*eye(Float64,K) #zero the scale L
   L_old         = deepcopy(L)
   ϕlinoutsum    =zeros(Float64,K) #zero the phi link product sum
@@ -93,7 +83,7 @@ mutable struct LNMMSB <: AbstractMMSB
   ϕbar          =(1.0/K).*ones(Float64, (N,K)) ## to be used for other rounds as init
   ζ             =ones(Float64, N) #one additional variational param
   ζ_old         = deepcopy(ζ)
-  η0            =1.0 #one the beta param
+  η0            =9.0 #one the beta param
   η1            =1.0 #one the beta param
   b0            =ones(Float64, K) #one the beta variational param
   b0_old        = deepcopy(b0)

@@ -2,22 +2,36 @@ using Distributions
 using JLD:@save,@load
 using Plots
 using ArgParse
+srand(1234)
+K=4
+m0            =zeros(Float64,K)
+M0            =eye(Float64,K) #ones M0 matrix
+l0            =K*1.0 #init the df l0
+L0            =(.05).*eye(Float64,K) #init the scale L0
+η0            =9.0 #one the beta param
+η1            =1.0 #one the beta param
 function gennetwork(N::Int64, K::Int64)
   network=Network(N)
   global Θ=zeros(Float64, (N,K))
   ###note the scalar
   Λ = zeros(Float64, (K,K))
   for i in 1:N
-    Λ .+= rand(Wishart(K,0.05*eye(Float64,K)))
+    Λ .+= rand(Wishart(l0,L0))
   end
-  Λ ./= N
-  μ = rand(MvNormalCanon(eye(Float64,K)))
 
-  β = rand(Beta(9, 1),K)
+
+  Λ ./= N
+  μ = rand(MvNormalCanon(M0*m0,M0))
+  β = rand(Beta(η0, η1),K)
+  ##We need to make sure that these probabilities are all positive
   for a in 1:N
     Θ[a,:] = rand(MvNormalCanon(Λ*μ, Λ))
     Θ[a,:] = expnormalize(Θ[a,:])
   end
+
+
+
+
   z_in=zeros(Float64, (N,N,K))
   z_out = zeros(Float64,(N,N,K))
   sort_by_argmax!(Θ)
@@ -36,12 +50,25 @@ function gennetwork(N::Int64, K::Int64)
   end
 
   JLD.@save("data/network.jld",network)
+  open("data/true.txt", "w") do f
+    write(f, "mu=")
+    for k in 1:K
+      write(f, "$(μ[k])  ")
+    end
+    write(f, "\n")
+    write(f, "diag(Lambda)=")
+    for k in 1:K
+      write(f, "$(Λ[k,k])  ")
+    end
+    write(f, "\n")
+  end
 end
 if isfile("data/network.jld")
   println("There already exists a netwrok.jld, if you want to change it remove it first")
 else
   isassigned(inputtomodelgen,2)?gennetwork(inputtomodelgen[1],inputtomodelgen[2]):println("you should set ARGS for gennetwork(N,K)")
+
+  Plots.heatmap(Θ, yflip=true)
+  network=FileIO.load("data/network.jld")["network"]
+  Plots.heatmap(network, yflip=true)
 end
-# Plots.heatmap(Θ, yflip=true)
-# network=load("data/network.jld")["network"]
-# Plots.heatmap(network, yflip=true)

@@ -19,7 +19,7 @@ Base.zero(::Type{KeyVal}) = KeyVal(0,0.0)
 
 # N_=size(DGP.adj,1)
 topK = 5
-alpha = 1.0/model.N
+_α = 1.0/model.N
 mu = [KeyVal(0,0.0) for i=1:model.N, j=1:topK]
 munext = [Dict{Int64, Int64}() for i in 1:model.N]
 maxmu = zeros(Int64,model.N)
@@ -189,15 +189,14 @@ function batch_infer()
              k = sample(1:model.N)
           end :while (k in keys(m))
           v[c].first = k
-          v[c].second = alpha
+          v[c].second = _α
           c+=1
-        end
-
+        end 
         v = sort_by_values(v)
         mu[i,:]
         for k in 1:topK
           mu[i,k].first = v[k].first
-          mu[i,k].second = v[k].second + alpha
+          mu[i,k].second = v[k].second + _α
         end
         maxmu[i] = v[1].first
         munext[i] = Dict{Int64, Int64}()
@@ -219,4 +218,3 @@ communities = batch_infer()
 ####
 ####
 ####
-end

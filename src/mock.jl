@@ -192,3 +192,31 @@ function g!(storage,x)
 end
 ForwardDiff.gradient(f,[2,2])
 optimize(f,g!,[2.0,2.0])
+
+K=4
+p = rand(K)
+mu = rand(K)
+p'*mu
+f(mu) = p'*mu
+ForwardDiff.gradient(f, mu)
+ones(K)'*mu
+temp=zeros(Int64,K)
+temp[1] = 1
+temp
+δ(x) = circshift(temp,x-1)
+δ(2)
+g(mu,l) = exp(δ(l)'*mu)
+g(mu) = [g(mu,l) for l in 1:K]
+f(mu) = log(ones(K)'*[exp(circshift(temp,l-1)'*mu) for l in 1:K])
+res=ForwardDiff.gradient(f, mu)
+g(mu)./res
+sum(g(mu))
+g(mu)./sum(g(mu))
+
+resHess=ForwardDiff.hessian(f, mu)
+
+L0 = 2.*eye(2)
+L=reshape([5.0,4.0,4.0,5.0], (2,2))
+f(L) = logdet(inv(L0)*L)
+ForwardDiff.gradient(f, L)
+inv(L)

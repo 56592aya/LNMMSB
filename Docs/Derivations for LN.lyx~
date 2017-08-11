@@ -688,11 +688,11 @@ Finally, we have the following:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\mathcal{L} & = & -\tfrac{1}{2}\Big(Kln\,2\pi+tr\,(mm^{T})+tr\,M^{-1}\Big)\\
- &  & -\tfrac{1}{2}\Big(-K^{2}ln\,K+ln\,|L|+\ell K+tr\,L+\tfrac{K(K-1)}{2}ln\,\pi+\\
- &  & 2\sum_{i}ln\,\Gamma(\tfrac{K-i+1}{2})+\sum_{i}\Psi(\tfrac{\ell-i+1}{2})+K(K+1)ln\,2\Big)\\
- &  & -\tfrac{1}{2}\Big(Kln\,2\pi-\sum_{i}\Psi(\tfrac{\ell-i+1}{2})-Kln\,2-ln\,|L|+\\
- &  & \ell tr\,\Big\{ L\big[(\mu_{a}-m)(\mu_{a}-m)^{T}+M^{-1}+\Lambda_{a}^{-1}\big]\Big\}\Big)\\
+\mathcal{L} & = & -\tfrac{1}{2}\Bigg(Kln\,2\pi-ln\,|M_{0}|+tr\,M_{0}(m-m_{0})(m-m_{0})^{T}+tr\,M_{0}M^{-1}\Bigg)\\
+ &  & +\tfrac{1}{2}\Bigg(-K(K+1)ln\,2+(\ell_{0}-K-1)\sum_{i}\Psi(\tfrac{\ell-i+1}{2})-\tfrac{K(K-1)}{2}ln\,\pi-2\sum_{i}ln\,\Gamma(\tfrac{\ell_{0}-i+1}{2})\\
+ &  & -\ell tr\,(L_{0}^{-1}L)-(K+1)ln\,|L|+\ell_{0}ln\,|L_{0}^{-1}L|\Bigg)\\
+ &  & -\tfrac{1}{2}\sum_{a}\Bigg(Kln\,2\pi-\sum_{i}\Psi(\tfrac{\ell-i+1}{2})-Kln\,2-ln\,|L|+\\
+ &  & \ell tr\,\Big\{ L\big[(\mu_{a}-m)(\mu_{a}-m)^{T}+M^{-1}+\Lambda_{a}^{-1}\big]\Big\}\Bigg)\\
  &  & +\sum_{a}\sum_{b\in sink(a)}\Big(\sum_{k}\phi_{a\rightarrow b,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)\\
  &  & +\sum_{a}\sum_{b\notin sink(a)}\Big(\sum_{k}\phi_{a\rightarrow b,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)\\
  &  & +\sum_{a}\sum_{b\in source(a)}\Big(\sum_{k}\phi_{b\leftarrow a,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)\\
@@ -702,7 +702,7 @@ Finally, we have the following:
  &  & +\sum_{a}\sum_{b\notin sink(a)}\sum_{k}\Big(\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}(\Psi(b_{k1})-\Psi(b_{k0}+b_{k1})-ln\,(1-\epsilon))+ln\,(1-\epsilon)\Big)\\
  &  & +\tfrac{1}{2}\Big(Kln\,2\pi+K-ln\,|M|\Big)\\
  &  & +\tfrac{1}{2}\Big((K+1)ln\,|L|+K(K+1)ln\,2+\ell K+\tfrac{1}{2}K(K-1)ln\,\pi\\
- &  & +2\sum_{i}ln\,\Gamma(\tfrac{\ell-i+1}{2})-\tfrac{\ell-K-1}{2}\sum_{i}\Psi(\tfrac{\ell-i+1}{2})\Big)\\
+ &  & +2\sum_{i}ln\,\Gamma(\tfrac{\ell-i+1}{2})-(\ell-K-1)\sum_{i}\Psi(\tfrac{\ell-i+1}{2})\Big)\\
  &  & +\tfrac{1}{2}\sum_{a}\Big(Kln\,2\pi-ln\,|\Lambda_{a}|+K\Big)\\
  &  & +\sum_{k}\Big(ln\,\Gamma(b_{k0})+ln\,\Gamma(b_{k1})-ln\,\Gamma(b_{k0}+b_{k1})-(b_{k0}-1)\Psi(b_{k0})-\\
  &  & (b_{k1}-1)\Psi(b_{k1})+(b_{k0}+b_{k1}-2)\Psi(b_{k0}+b_{k1})\Big)\\
@@ -732,15 +732,15 @@ Gradient with respect to
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\mathcal{L}_{m} & = & -\tfrac{1}{2}\Big(Tr\,mm{}^{T}\Big]\Big)\\
- &  & -\tfrac{\ell}{2}\Big(Tr\,L\Big(\sum_{a}(m-\mu_{a})(m-\mu_{a})^{T}\Big)\Big)\\
- & \propto & Tr\,mm^{T}\\
+\mathcal{L}_{m} & = & -\tfrac{1}{2}\Big(Tr\,M_{0}(m-m_{0})(m-m_{0}){}^{T}\Big]\Big)\\
+ &  & -\tfrac{\ell}{2}\Big(Tr\,L\Big(\sum_{a}(\mu_{a}-m)(\mu_{a}-m)^{T}\Big)\Big)\\
+ & \propto & Tr\,M_{0}(m-m_{0})(m-m_{0}){}^{T}\\
  &  & +\ell\Big(Tr\,L\big(\sum_{a}mm^{T}+\mu_{a}\mu_{a}^{T}-m\mu_{a}^{T}-\mu_{a}m^{T}\big)\Big)\\
- & = & m^{T}\Big(I+N\ell L)m-m^{T}\Big(\ell L\sum_{a}\mu_{a})-\Big(\ell\sum_{a}\mu_{a}^{T}L)m\\
+ & =\\
  & \Longrightarrow\\
-\nabla_{m}\mathcal{L}_{m} & \propto & (I+N\ell L)m-(\ell L\sum_{a}\mu_{a})=0\\
+\nabla_{m}\mathcal{L}_{m} & \propto & 2M_{0}(m-m_{0})-2\ell L\sum_{a}(\mu_{a}-m)=0\\
  & \Longrightarrow\\
- &  & \boxed{m=(I+N\ell L)^{-1}(\ell L\sum_{a}\mu_{a})}
+ &  & \boxed{m=(M_{0}+N\ell L)^{-1}(M_{0}m_{0}+\ell L\sum_{a}\mu_{a})}
 \end{eqnarray*}
 
 \end_inset
@@ -755,7 +755,7 @@ In minibatch node sampling this would be
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\boxed{m=(I+N\ell L)^{-1}(\ell L\dfrac{N}{\#mbnodes}\sum_{a\in mbnodes}\mu_{a})}
+\boxed{m=M^{-1}(M_{0}m_{0}+\ell L\dfrac{N}{\#mbnodes}\sum_{a\in mbnodes}\mu_{a})}
 \end{align*}
 
 \end_inset
@@ -774,15 +774,15 @@ Gradient with respect to
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\mathcal{L}_{M} & = & -\tfrac{1}{2}\Big(Tr\,M^{-1}\Big)\\
+\mathcal{L}_{M} & = & -\tfrac{1}{2}\Big(Tr\,M_{0}M^{-1}\Big)\\
  &  & -\tfrac{\ell}{2}Tr\,NLM^{-1}\\
  &  & -\tfrac{1}{2}ln\,|M|\\
- & \propto & Tr\,M^{-1}+\ell Tr\,NLM^{-1}+ln\,|M|\\
+ & \propto & Tr\,M_{0}M^{-1}+\ell Tr\,NLM^{-1}+ln\,|M|\\
  & \Longrightarrow\\
-\nabla_{M}\mathcal{L}_{M} & = & -(M^{-1}M^{-1})^{T}-\ell N(M^{-1}LM^{-1})^{T}+(M^{-1})^{T}=0\\
- & transpose\\
- & \overbrace{\Longrightarrow}^{M\times()\times M} & -I-N\ell L+M=0\\
- &  & \boxed{M=I+N\ell L}
+\nabla_{M^{-1}}\mathcal{L}_{M} & = & 0\\
+\\
+ & = & -M_{0}-N\ell L+M=0\\
+ &  & \boxed{M=M_{0}+N\ell L}
 \end{eqnarray*}
 
 \end_inset
@@ -801,16 +801,16 @@ Gradient with respect to
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\mathcal{L}_{L} & = & -\tfrac{\ell}{2}Tr\,(KIL)-\tfrac{K+1}{2}ln\,|L|+\tfrac{K}{2}ln\,|L_{0}^{-1}L|\\
- &  & +\tfrac{1}{2}\sum_{a}ln\,|L|-\tfrac{\ell}{2}\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}\Big)\\
+\mathcal{L}_{L} & = & -\tfrac{\ell}{2}Tr\,(L_{0}^{-1}L)-\tfrac{K+1}{2}ln\,|L|+\tfrac{\ell_{0}}{2}ln\,|L_{0}^{-1}L|\\
+ &  & +\tfrac{1}{2}\sum_{a}ln\,|L|-\tfrac{\ell}{2}\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(\mu_{a}-m)(\mu_{a}-m)^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}\Big)\\
  &  & +\tfrac{K+1}{2}ln\,|L|\\
- & \propto & -\ell Tr\,(KIL)\bcancel{-(K+1)ln\,|L}|+Kln\,|KIL|\\
- &  & +\sum_{a}ln\,|L|-\ell\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}\Big)\\
+ & \propto & -\ell Tr\,(L_{0}^{-1}L)\bcancel{-(K+1)ln\,|L}|+\ell_{0}ln\,|L_{0}^{-1}L|\\
+ &  & +\sum_{a}ln\,|L|-\ell\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(\mu_{a}-m)(\mu_{a}-m)^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}\Big)\\
  &  & +\bcancel{(K+1)ln\,|L|}\\
  & \Longrightarrow\\
-\nabla_{L}\mathcal{L}_{L} & = & -\ell(KI)^{T}+K(L^{-1})^{T}+N(L^{-1})^{T}-\ell\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)^{T}=0\\
- &  & \ell(KI+\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1})=(N+K)L^{-1}\\
- & \Longrightarrow & \boxed{L=\dfrac{N+K}{\ell}\Bigg((KI+\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1})\Bigg)^{-1}}
+\nabla_{L}\mathcal{L}_{L} & = & -\ell L_{0}^{-1}+\tfrac{1}{2}(\ell_{0}+N)L^{-1}-\ell\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(\mu_{a}-m)(\mu_{a}-m)^{T}\big)+\sum_{a}M^{-1}\Big)^{T}=0\\
+ &  & \ell(L_{0}^{-1}+\sum_{a}\Lambda_{a}^{-1}+\sum_{a}(\mu_{a}-m)(\mu_{a}-m)^{T}+NM^{-1})=(N+\ell_{0})L^{-1}\\
+ & \Longrightarrow & \boxed{L=\dfrac{(N+\ell_{0})}{\ell}\Bigg((L_{0}^{-1}+\sum_{a}\big(\Lambda_{a}^{-1}+(\mu_{a}-m)(\mu_{a}-m)^{T}\big)+\sum_{a}M^{-1})\Bigg)^{-1}}
 \end{eqnarray*}
 
 \end_inset
@@ -829,7 +829,7 @@ optimizing simultaeneously with
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\boxed{L=\Bigg((KI+\dfrac{N}{\#mbnodes}\sum_{a\in mbnodes}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big))+N\times M^{-1})\Bigg)^{-1}}
+\boxed{L=\Bigg((L_{0}^{-1}+\dfrac{N}{\#mbnodes}\big\{\sum_{a}\Lambda_{a}^{-1}+\sum_{a}(\mu_{a}-m)(\mu_{a}-m)^{T}\big\}+NM^{-1})\Bigg)^{-1}}
 \end{align*}
 
 \end_inset
@@ -848,24 +848,24 @@ Gradient with respect to
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\mathcal{L}_{\ell} & = & \tfrac{-1}{2}\psi_{K}(\tfrac{\ell}{2})+\tfrac{1}{2}\sum_{a}\psi_{K}(\tfrac{\ell}{2})-\tfrac{\ell}{2}Tr\,(KIL)\\
- &  & -\tfrac{\ell}{2}\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}\Big)\\
- &  & -\tfrac{\ell-K-1}{2}\psi_{K}(\tfrac{\ell}{2})+ln\,\Gamma_{K}(\tfrac{\ell}{2})+\tfrac{K\ell}{2}\\
- & \propto & (-1)\psi_{K}(\tfrac{\ell}{2})+\sum_{a}\psi_{K}(\tfrac{\ell}{2})-\ell Tr\,(KIL)\\
- &  & -\ell\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}\Big)\\
- &  & -(\ell-K-1)\psi_{K}(\tfrac{\ell}{2})+2ln\,\Gamma_{K}(\tfrac{\ell}{2})+K\ell\\
- & \Longrightarrow & (\sum_{i:1}^{K}\psi(\tfrac{\ell-i+1}{2}))\Big(K-\bcancel{K}-\bcancel{1}+N-l+\bcancel{K}+\bcancel{1}\Big)+2(\tfrac{K(K-1)}{4}ln\,\pi+\sum_{i:1}^{K}ln\,\Gamma(\tfrac{\ell-i+1}{2}))\\
- &  & +\ell(K-Tr\,\Big[L\Big(KI+\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)\Big\})\\
- & \propto & (\sum_{i:1}^{K}\psi(\tfrac{\ell-i+1}{2}))\Big(K+N-\ell\Big)+2(\sum_{i:1}^{K}ln\,\Gamma(\tfrac{\ell-i+1}{2}))\\
- &  & +\ell(K-Tr\,\Big[L\Big(KI+\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)\Big\})\\
+\mathcal{L}_{\ell} & = & revise\\
+\\
+\\
+ & \propto\\
+\\
+\\
  & \Longrightarrow\\
-\nabla_{\ell}\mathcal{L}_{\ell} & = & \tfrac{1}{2}(\sum_{i:1}^{K}\psi'(\tfrac{\ell-i+1}{2}))\Big(K+N-\ell\Big)\\
- &  & +K-Tr\,\Big[L\Big(KI+\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}=0\\
- &  & \text{simultaenously with \ensuremath{L}}\\
- & \Longrightarrow & L\Big(KI+\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)=I_{K}\\
- & hence, & K-Tr\,I_{K}=0\\
+\\
+ & \propto\\
+\\
  & \Longrightarrow\\
- &  & \boxed{\ell=K+N}
+\nabla_{\ell}\mathcal{L}_{\ell} & =\\
+\\
+\\
+ & \Longrightarrow\\
+ & hence,\\
+ & \Longrightarrow\\
+ &  & \boxed{\ell=\ell_{0}+N}
 \end{eqnarray*}
 
 \end_inset
@@ -1072,7 +1072,7 @@ Gradient with respect to
  & = & -\tfrac{\ell}{2}(L_{kk}\Lambda_{a,k}^{-1})+\tfrac{1}{2}\,\sum_{j!=k}ln\,\Lambda_{a,j}^{-1}+\tfrac{1}{2}ln\,\Lambda_{a,k}^{-1}-\sum_{b}\zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})\\
 \nabla_{\Lambda_{a,k}^{-1}}\mathcal{L}_{\Lambda_{a,k}^{-1}}=G_{\Lambda_{a,k}^{-1}} & = & \boxed{-\tfrac{\ell}{2}L_{kk}+\tfrac{1}{2}\Lambda_{a,k}^{-1}-\tfrac{1}{2}\sum_{b}softmax(.)\Big(1-softmax(.)\Big)}\\
  &  & \boxed{}\\
-\nabla_{\Lambda_{a,k}^{-1}}^{2}\mathcal{L}_{\Lambda_{a,k}}=H_{\Lambda_{a,k}^{-1}} & \propto & \boxed{+\tfrac{1}{2}-\tfrac{1}{4}\sum_{b}\Big(softmax(.)-3softmax^{2}(.)+2softmax^{3}(.)\Big)}
+\nabla_{\Lambda_{a,k}^{-1}}^{2}\mathcal{L}_{\Lambda_{a,k}^{-1}}=H_{\Lambda_{a,k}^{-1}} & \propto & \boxed{+\tfrac{1}{2}-\tfrac{1}{4}\sum_{b}\Big(softmax(.)-3softmax^{2}(.)+2softmax^{3}(.)\Big)}
 \end{align*}
 
 \end_inset
@@ -1106,6 +1106,106 @@ I need to use the training data, perhaps all the training links and same
  so this only is needed every once in a while(not frequently) and only to
  check whether the ELBO is improving with our optimization algorithm or
  not.
+\end_layout
+
+\begin_layout Subsection
+Other forms of evluations of the model
+\end_layout
+
+\begin_layout Standard
+Perplexity of a model 
+\begin_inset Formula $q$
+\end_inset
+
+, given a stochastic process 
+\begin_inset Formula $p$
+\end_inset
+
+ (here a joint generative model that can produce inifinite streams of data)
+ is defined as: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $perplexity(p,q)\triangleq2^{H(p,q)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where the cross entropy 
+\begin_inset Formula 
+\begin{align*}
+H(p,q) & \triangleq lim_{N\rightarrow\infty}-\tfrac{1}{N}\sum_{y_{1:N}}p(y_{1:N})log\,q(y_{1:N})\\
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and perplexity the lower the better.
+ But we use the empirical distribution for p.
+ 
+\begin_inset Formula $p_{emp}(y_{1:N})=\delta_{y_{1:N}^{*}}(y_{1:N}),$
+\end_inset
+
+where 
+\begin_inset Formula $y^{*}$
+\end_inset
+
+ is a single long test sequence.
+ Then 
+\begin_inset Formula $H(p_{emp},q)=-\tfrac{1}{N}log\,q(y_{1:N}^{*})$
+\end_inset
+
+, so the perplexity becomes:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+perplexity(p_{emp},q) & = & q(y_{1:N}^{*})^{1/N}=^{N}\sqrt{\prod_{i=1}^{N}\dfrac{1}{q(y_{i}^{*}|y_{1:i-1}^{*})}}\\
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which is the geometric mean of the inverse of the predictive probability.
+\end_layout
+
+\begin_layout Standard
+We could also think of it as exponential of the negative average log likelihood
+ of the data.
+ average perplexity on a test set is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+perp_{avg}(Test|params) & = & exp\,\Bigg(-\dfrac{\sum_{(a,b)\in Test}log\,(\tfrac{1}{T})\sum_{t=1}^{T}p(y_{ab}|params)}{|Test|}\Bigg)\\
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can set for example a 1% of the links and the nonlinks as the test set.
+\end_layout
+
+\begin_layout Standard
+For the data with ground truth we can also use normalized mutual information(how
+ever, there have been ups and downs for this approach).
+\end_layout
+
+\begin_layout Standard
+Further write more about some post predictive checks(PPC).
 \end_layout
 
 \begin_layout Subsection
