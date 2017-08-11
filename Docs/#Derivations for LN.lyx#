@@ -802,15 +802,15 @@ Gradient with respect to
 \begin_inset Formula 
 \begin{eqnarray*}
 \mathcal{L}_{L} & = & -\tfrac{\ell}{2}Tr\,(L_{0}^{-1}L)-\tfrac{K+1}{2}ln\,|L|+\tfrac{\ell_{0}}{2}ln\,|L_{0}^{-1}L|\\
- &  & +\tfrac{1}{2}\sum_{a}ln\,|L|-\tfrac{\ell}{2}\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}\Big)\\
+ &  & +\tfrac{1}{2}\sum_{a}ln\,|L|-\tfrac{\ell}{2}\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(\mu_{a}-m)(\mu_{a}-m)^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}\Big)\\
  &  & +\tfrac{K+1}{2}ln\,|L|\\
  & \propto & -\ell Tr\,(L_{0}^{-1}L)\bcancel{-(K+1)ln\,|L}|+\ell_{0}ln\,|L_{0}^{-1}L|\\
- &  & +\sum_{a}ln\,|L|-\ell\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}\Big)\\
+ &  & +\sum_{a}ln\,|L|-\ell\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(\mu_{a}-m)(\mu_{a}-m)^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}\Big)\\
  &  & +\bcancel{(K+1)ln\,|L|}\\
  & \Longrightarrow\\
-\nabla_{L}\mathcal{L}_{L} & = & -L_{0}^{-1}+\tfrac{1}{2}(\ell_{0}+N)L^{-1}-\ell\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)^{T}=0\\
- &  & \ell(\sum_{a}\Lambda_{a}^{-1}+\sum_{a}(m-\mu_{a})(m-\mu_{a})^{T}+NM^{-1})+L_{0}^{-1}=(N+\ell_{0})L^{-1}\\
- & \Longrightarrow & \boxed{L=(N+\ell_{0})\Bigg((L_{0}^{-1}+\ell\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1})\Bigg)^{-1}}
+\nabla_{L}\mathcal{L}_{L} & = & -\ell L_{0}^{-1}+\tfrac{1}{2}(\ell_{0}+N)L^{-1}-\ell\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(\mu_{a}-m)(\mu_{a}-m)^{T}\big)+\sum_{a}M^{-1}\Big)^{T}=0\\
+ &  & \ell(L_{0}^{-1}+\sum_{a}\Lambda_{a}^{-1}+\sum_{a}(\mu_{a}-m)(\mu_{a}-m)^{T}+NM^{-1})=(N+\ell_{0})L^{-1}\\
+ & \Longrightarrow & \boxed{L=\dfrac{(N+\ell_{0})}{\ell}\Bigg((L_{0}^{-1}+\sum_{a}\big(\Lambda_{a}^{-1}+(\mu_{a}-m)(\mu_{a}-m)^{T}\big)+\sum_{a}M^{-1})\Bigg)^{-1}}
 \end{eqnarray*}
 
 \end_inset
@@ -829,7 +829,7 @@ optimizing simultaeneously with
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\boxed{L=\Bigg((KI+\dfrac{N}{\#mbnodes}\sum_{a\in mbnodes}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big))+N\times M^{-1})\Bigg)^{-1}}
+\boxed{L=\Bigg((L_{0}^{-1}+\dfrac{N}{\#mbnodes}\big\{\sum_{a}\Lambda_{a}^{-1}+\sum_{a}(\mu_{a}-m)(\mu_{a}-m)^{T}\big\}+NM^{-1})\Bigg)^{-1}}
 \end{align*}
 
 \end_inset
@@ -848,24 +848,24 @@ Gradient with respect to
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\mathcal{L}_{\ell} & = & \tfrac{-1}{2}\psi_{K}(\tfrac{\ell}{2})+\tfrac{1}{2}\sum_{a}\psi_{K}(\tfrac{\ell}{2})-\tfrac{\ell}{2}Tr\,(KIL)\\
- &  & -\tfrac{\ell}{2}\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}\Big)\\
- &  & -\tfrac{\ell-K-1}{2}\psi_{K}(\tfrac{\ell}{2})+ln\,\Gamma_{K}(\tfrac{\ell}{2})+\tfrac{K\ell}{2}\\
- & \propto & (-1)\psi_{K}(\tfrac{\ell}{2})+\sum_{a}\psi_{K}(\tfrac{\ell}{2})-\ell Tr\,(KIL)\\
- &  & -\ell\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}\Big)\\
- &  & -(\ell-K-1)\psi_{K}(\tfrac{\ell}{2})+2ln\,\Gamma_{K}(\tfrac{\ell}{2})+K\ell\\
- & \Longrightarrow & (\sum_{i:1}^{K}\psi(\tfrac{\ell-i+1}{2}))\Big(K-\bcancel{K}-\bcancel{1}+N-l+\bcancel{K}+\bcancel{1}\Big)+2(\tfrac{K(K-1)}{4}ln\,\pi+\sum_{i:1}^{K}ln\,\Gamma(\tfrac{\ell-i+1}{2}))\\
- &  & +\ell(K-Tr\,\Big[L\Big(KI+\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)\Big\})\\
- & \propto & (\sum_{i:1}^{K}\psi(\tfrac{\ell-i+1}{2}))\Big(K+N-\ell\Big)+2(\sum_{i:1}^{K}ln\,\Gamma(\tfrac{\ell-i+1}{2}))\\
- &  & +\ell(K-Tr\,\Big[L\Big(KI+\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)\Big\})\\
+\mathcal{L}_{\ell} & = & revise\\
+\\
+\\
+ & \propto\\
+\\
+\\
  & \Longrightarrow\\
-\nabla_{\ell}\mathcal{L}_{\ell} & = & \tfrac{1}{2}(\sum_{i:1}^{K}\psi'(\tfrac{\ell-i+1}{2}))\Big(K+N-\ell\Big)\\
- &  & +K-Tr\,\Big[L\Big(KI+\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}=0\\
- &  & \text{simultaenously with \ensuremath{L}}\\
- & \Longrightarrow & L\Big(KI+\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)=I_{K}\\
- & hence, & K-Tr\,I_{K}=0\\
+\\
+ & \propto\\
+\\
  & \Longrightarrow\\
- &  & \boxed{\ell=K+N}
+\nabla_{\ell}\mathcal{L}_{\ell} & =\\
+\\
+\\
+ & \Longrightarrow\\
+ & hence,\\
+ & \Longrightarrow\\
+ &  & \boxed{\ell=\ell_{0}+N}
 \end{eqnarray*}
 
 \end_inset
@@ -884,17 +884,17 @@ Gradient with respect to
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\mathcal{L}_{b_{k}} & = & (\eta_{0}-1)\psi(b_{k0})+-(\eta_{0}-2)\psi(b_{k0}+b_{k1})\\
- &  & +\sum_{a,b\in link}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})\big)\\
- &  & +\sum_{a,b\notin link}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})\big)\\
- &  & +ln\,\Gamma(b_{k0})+ln\,\Gamma(b_{k1})-ln\,\Gamma(b_{k0}+b_{k1})-(b_{k0}-1)\psi(b_{k0})\\
- &  & -(b_{k1}-1)\psi(b_{k1})+(b_{k0}+b_{k1}-2)\psi(b_{k0}+b_{k1})\\
+\mathcal{L}_{b_{k}} & = & revise\\
+\\
+\\
+\\
+\\
  &  & \text{simultaenously optimizing \ensuremath{b_{k0}}},\mbox{\ensuremath{b_{k1}}}\\
  & \Longrightarrow & \text{Similar to our previous results}\\
 \nabla_{b_{k0}}\mathcal{L}_{b_{k}} & = & 0\\
  & \Longrightarrow & \boxed{b_{k0}=\eta_{0}+\dfrac{\#trainlinks}{\#mblinks}\sum_{a,b\in mblinks}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}}\\
 \nabla_{b_{k1}}\mathcal{L}_{b_{k}} & = & 0\\
- &  & \boxed{b_{k1}=1+\dfrac{\#trainnonlinks}{\#mbnonlinks}\sum_{a,b\notin mblinks}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}}
+ &  & \boxed{b_{k1}=\eta_{1}+\dfrac{\#trainnonlinks}{\#mbnonlinks}\sum_{a,b\notin mblinks}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}}
 \end{eqnarray*}
 
 \end_inset
@@ -1020,26 +1020,131 @@ Gradient with respect to
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\mathcal{L}_{\mu_{a,k}} & = & -\tfrac{\ell}{2}\big[(\mu_{a,k}-m_{k})^{T}L_{kk}(\mu_{a,k}-m_{k})+\\
- &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b,k}\mu_{a,k}+\\
- &  & \sum_{b\notin sink(a)}\phi_{a\rightarrow b,k}\mu_{a,k}+\\
- &  & \sum_{b\in source(a)}\phi_{b\leftarrow a,k}\mu_{a,k}+\\
- &  & \sum_{b\notin source(a)}\phi_{b\leftarrow a,k}\mu_{a,k}-\\
- &  & \sum_{b}\zeta_{a}^{-1}\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}diag(\Lambda_{a}^{-1})_{ll})\\
- & =\\
-\\
-\\
-\\
-\nabla_{\mu_{a,k}}\mathcal{L}_{\mu_{a,k}} & = & -\ell L_{kk}(\mu_{a,k}-m_{k})+\sum_{b}(\phi_{a\rightarrow b,k}+\phi_{b\leftarrow a,k})-\sum_{b}\zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}diag(\Lambda_{a,k}^{-1}))\\
-\\
- & Also\\
-\mathcal{L}_{\zeta_{a}} & = & -\zeta_{a}^{-1}\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}diag(\Lambda_{a}^{-1})_{ll})-ln\,\zeta_{a}\\
-\nabla_{\zeta_{a}}\mathcal{L}_{\zeta_{a}} & = & -\zeta_{a}^{-2}\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}diag(\Lambda_{a}^{-1})_{ll})-\zeta_{a}^{-1}=0\\
- & = & \boxed{\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}diag(\Lambda_{a}^{-1})_{ll})=\zeta_{a}}\\
- & So & \zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}diag(\Lambda_{a,k}^{-1}))=softmax(\mu_{a,k}+\tfrac{1}{2}diag(\Lambda_{a,k}^{-1}))\\
-\nabla_{\mu_{a,k}}\mathcal{L}_{\mu_{a,k}}=G_{\mu_{a,k}} & \propto & \boxed{-\ell L_{kk}(\mu_{a,k}-m_{k})+\sum_{b}(\phi_{a\rightarrow b,k}+\phi_{b\leftarrow a,k})-\sum_{b}softmax(.)\Big(1-softmax(.)\Big)}\\
-\nabla_{\mu_{a,k}}^{2}\mathcal{L}_{\mu_{a,k}}=H_{\mu_{a,k}} & \propto & \boxed{-\ell L_{kk}-\sum_{b}\Big(softmax(.)-3softmax^{2}(.)+2softmax^{3}(.)\Big)}
+\mathcal{L}_{\mu_{a}} & = & -\tfrac{\ell}{2}\big[(\mu_{a}-m_{k})^{T}L(\mu_{a}-m_{k})+\\
+ &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b}^{T}\mu_{a}+\\
+ &  & \sum_{b\notin sink(a)}\phi_{a\rightarrow b}^{T}\mu_{a}+\\
+ &  & \sum_{b\in source(a)}\phi_{b\leftarrow a}^{T}\mu_{a}+\\
+ &  & \sum_{b\notin source(a)}\phi_{b\leftarrow a}^{T}\mu_{a}-\\
+ &  & \sum_{b}log\,\Big(\boldsymbol{1}^{T}\underbar{f}(\mu_{a},\Lambda_{a})\Big)
 \end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\underbar{f}(\mu_{a},\Lambda_{a})=\left(\begin{array}{c}
+exp(\mu_{a,1}+\tfrac{1}{2}\Lambda_{a,1}^{-1})\\
+\vdots\\
+exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})\\
+\vdots\\
+exp(\mu_{a,K}+\tfrac{1}{2}\Lambda_{a,K}^{-1})
+\end{array}\right)$
+\end_inset
+
+, and we may for convenience interchangably use 
+\begin_inset Formula $\underbar{f}_{a}$
+\end_inset
+
+ to refer to 
+\begin_inset Formula $\underbar{f}(\mu_{a},\Lambda_{a}):$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Hence the geradient is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\nabla_{\mu_{a}}\mathcal{L}_{\mu_{a}} & = & -\ell L(\mu_{a}-m)+\\
+ &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b}+\sum_{b\notin sink(a)}\phi_{a\rightarrow b}+\\
+ &  & \sum_{b\in source(a)}\phi_{b\leftarrow a}+\sum_{b\notin source(a)}\phi_{b\leftarrow a}-\\
+ &  & \sum_{b}\dfrac{\partial\underbar{f}(\mu_{a},\Lambda_{a})}{\partial\mu_{a}}(\boldsymbol{1})\\
+ & = & -\ell L(\mu_{a}-m)+\\
+ &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b}+\sum_{b\notin sink(a)}\phi_{a\rightarrow b}+\\
+ &  & \sum_{b\in source(a)}\phi_{b\leftarrow a}+\sum_{b\notin source(a)}\phi_{b\leftarrow a}-\\
+ &  & \sum_{b}\dfrac{\boldsymbol{J}_{\underbar{f}}\times\boldsymbol{1}}{\boldsymbol{1}^{T}\underbar{f}(\mu_{a},\Lambda_{a})}\\
+ & = & -\ell L(\mu_{a}-m)+\\
+ &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b}+\sum_{b\notin sink(a)}\phi_{a\rightarrow b}+\\
+ &  & \sum_{b\in source(a)}\phi_{b\leftarrow a}+\sum_{b\notin source(a)}\phi_{b\leftarrow a}-\\
+ &  & \sum_{b}\dfrac{\left(\begin{array}{ccccc}
+\dfrac{\partial\underbar{f}_{a1}}{\partial\mu_{a1}} & \ldots & \dfrac{\partial\underbar{f}_{a1}}{\partial\mu_{ak}} & \ldots & \dfrac{\partial\underbar{f}_{a1}}{\partial\mu_{aK}}\\
+\vdots & \ddots &  &  & \vdots\\
+\dfrac{\partial\underbar{f}_{ak}}{\partial\mu_{a1}} & \ldots & \dfrac{\partial\underbar{f}_{ak}}{\partial\mu_{ak}} & \ldots & \dfrac{\partial\underbar{f}_{ak}}{\partial\mu_{aK}}\\
+\vdots &  &  & \ddots & \vdots\\
+\dfrac{\partial\underbar{f}_{aK}}{\partial\mu_{a1}} &  & \ldots &  & \dfrac{\partial\underbar{f}_{aK}}{\partial\mu_{aK}}
+\end{array}\right)}{\boldsymbol{1}^{T}\underbar{f}(\mu_{a},\Lambda_{a})}\\
+ & = & -\ell L(\mu_{a}-m)+\\
+ &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b}+\sum_{b\notin sink(a)}\phi_{a\rightarrow b}+\\
+ &  & \sum_{b\in source(a)}\phi_{b\leftarrow a}+\sum_{b\notin source(a)}\phi_{b\leftarrow a}-\\
+ &  & \sum_{b}\underbar{sfx}(a)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\underbar{sfx}(a)=\left(\begin{array}{c}
+\dfrac{exp(\mu_{a,1}+\tfrac{1}{2}\:\Lambda_{a,1}^{-1})}{\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\:\Lambda_{a,l}^{-1})}\\
+\vdots\\
+\dfrac{exp(\mu_{a,k}+\tfrac{1}{2}\:\Lambda_{a,k}^{-1})}{\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\:\Lambda_{a,l}^{-1})}\\
+\vdots\\
+\dfrac{exp(\mu_{a,1}+\tfrac{1}{2}\:\Lambda_{a,1}^{-1})}{\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\:\Lambda_{a,l}^{-1})}
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+so all in all the gradient is :
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\nabla_{\mu_{a}}\mathcal{L}_{\mu_{a}}=\boxed{-\ell L(\mu_{a}-m)+\sum_{b\in sink(a)}\phi_{a\rightarrow b}+\sum_{b\notin sink(a)}\phi_{a\rightarrow b}+\sum_{b\in source(a)}\phi_{b\leftarrow a}+\sum_{b\notin source(a)}\phi_{b\leftarrow a}-\sum_{b}\underbar{sfx}(a)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Similarly the Hessian will be as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\nabla_{\mu_{a}}^{2}\mathcal{L}_{\mu_{a}} & = & -\ell L-\\
+ &  & \sum_{b}\dfrac{\partial\underbar{sfx}(a)}{\partial\mu_{a}^{T}}\\
+ & = & \ell L-\\
+ &  & \sum_{b}\boldsymbol{J}_{\underbar{sfx}(a)}\\
+ & = & -\ell L-\\
+ &  & \sum_{b}\left(\begin{array}{ccccc}
+\dfrac{\partial\underbar{sfx}_{a1}}{\partial\mu_{a1}} & \ldots & \dfrac{\partial\underbar{sfx}_{a1}}{\partial\mu_{ak}} & \ldots & \dfrac{\partial\underbar{sfx}_{a1}}{\partial\mu_{aK}}\\
+\vdots & \ddots &  &  & \vdots\\
+\dfrac{\partial\underbar{sfx}_{ak}}{\partial\mu_{a1}} & \ldots & \dfrac{\partial\underbar{sfx}_{ak}}{\partial\mu_{ak}} & \ldots & \dfrac{\partial\underbar{sfx}_{ak}}{\partial\mu_{aK}}\\
+\vdots &  &  & \ddots & \vdots\\
+\dfrac{\partial s\underbar{fx}_{aK}}{\partial\mu_{a1}} &  & \ldots &  & \dfrac{\partial\underbar{sfx}_{aK}}{\partial\mu_{aK}}
+\end{array}\right)\\
+ & = & -\ell L-\\
+ &  & \sum_{b}\left(\begin{array}{ccccc}
+\underbar{sfx}_{a1}-\underbar{sfx}_{a1}^{2} & \ldots & -\underbar{sfx}_{a1}\underbar{sfx}_{ak} & \ldots & \underbar{-sfx}_{a1}\underbar{sfx}_{aK}\\
+\vdots & \ddots &  &  & \vdots\\
+\underbar{-sfx}_{a1}\underbar{sfx}_{ak} & \ldots & \underbar{sfx}_{ak}-\underbar{sfx}_{ak}^{2} & \ldots & \underbar{-sfx}_{ak}\underbar{sfx}_{ak}\\
+\vdots &  &  & \ddots & \vdots\\
+-\underbar{sfx}_{a1}\underbar{sfx}_{aK} &  & \ldots &  & \underbar{-sfx}_{aK}-\underbar{sfx}_{aK}^{2}
+\end{array}\right)\\
+ & = & \boxed{-\ell L-\sum_{b}\Big(diagm(\underbar{sfx}_{a})-\underbar{sfx}_{a}\underbar{sfx}_{a}^{T}\Big)}
+\end{align*}
 
 \end_inset
 
@@ -1066,13 +1171,21 @@ Gradient with respect to
 \end_layout
 
 \begin_layout Standard
+similarly assuming that 
+\begin_inset Formula $\Lambda_{a}$
+\end_inset
+
+ is a diagonal matrix(or a column vector).
+\end_layout
+
+\begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\mathcal{L}_{\Lambda_{a,k}^{-1}} & = & -\tfrac{\ell}{2}tr\,(L\Lambda_{a}^{-1})+\tfrac{1}{2}ln\,|\Lambda_{a}^{-1}|-\sum_{b}\zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})\\
- & = & -\tfrac{\ell}{2}(L_{kk}\Lambda_{a,k}^{-1})+\tfrac{1}{2}\,\sum_{j!=k}ln\,\Lambda_{a,j}^{-1}+\tfrac{1}{2}ln\,\Lambda_{a,k}^{-1}-\sum_{b}\zeta_{a}^{-1}exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})\\
-\nabla_{\Lambda_{a,k}^{-1}}\mathcal{L}_{\Lambda_{a,k}^{-1}}=G_{\Lambda_{a,k}^{-1}} & = & \boxed{-\tfrac{\ell}{2}L_{kk}+\tfrac{1}{2}\Lambda_{a,k}^{-1}-\tfrac{1}{2}\sum_{b}softmax(.)\Big(1-softmax(.)\Big)}\\
+\mathcal{L}_{\Lambda_{a}^{-1}} & = & -\tfrac{\ell}{2}tr\,(L\Lambda_{a}^{-1})+\tfrac{1}{2}ln\,|\Lambda_{a}^{-1}|-\sum_{b}log\,\Big(\boldsymbol{1}^{T}\underbar{f}(\mu_{a},\Lambda_{a})\Big)\\
+ & =\\
+\nabla_{\Lambda_{a}^{-1}}\mathcal{L}_{\Lambda_{a}^{-1}}=G_{\Lambda_{a}^{-1}} & = & \boxed{-\tfrac{\ell}{2}L+\tfrac{1}{2}\Lambda_{a}^{-1}-\tfrac{1}{2}\sum_{b}\underbar{sfx}(a)}\\
  &  & \boxed{}\\
-\nabla_{\Lambda_{a,k}^{-1}}^{2}\mathcal{L}_{\Lambda_{a,k}^{-1}}=H_{\Lambda_{a,k}^{-1}} & \propto & \boxed{+\tfrac{1}{2}-\tfrac{1}{4}\sum_{b}\Big(softmax(.)-3softmax^{2}(.)+2softmax^{3}(.)\Big)}
+\nabla_{\Lambda_{a}^{-1}}^{2}\mathcal{L}_{\Lambda_{a}^{-1}}=H_{\Lambda_{a}^{-1}} & \propto & \boxed{+\boldsymbol{\tfrac{1}{2}}-\tfrac{1}{4}\sum_{b}}
 \end{align*}
 
 \end_inset

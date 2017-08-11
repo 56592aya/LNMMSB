@@ -1,3 +1,5 @@
+using SpecialFunctions
+
 #negative cross entropies
 # ELOGS NEED SERIOUS REVISIONS
 # function elogpmu(model::LNMMSB)
@@ -171,12 +173,9 @@ function updateM!(model::LNMMSB,mb::MiniBatch)
 	model.M_old = deepcopy(model.M)
 	model.M = model.l.*model.N.*model.L + model.M0
 end
-
 #updateM!(model,mb)
 ##MB Dependent
 function updatem!(model::LNMMSB, mb::MiniBatch)
-	#model.m= inv(model.l*model.N*model.L + eye(model.K))*(model.l*model.L*(model.N/model.mbsize)*sum(model.μ_var[a,:] for a in collect(mb.mballnodes)))
-	##or
 	model.m_old = deepcopy(model.m)
 	model.m= inv(model.M)*(model.M0*model.m0+model.l*model.L*(model.N/model.mbsize)*sum(model.μ_var[a,:] for a in collect(mb.mballnodes)))
 end
@@ -188,7 +187,6 @@ function updatel!(model::LNMMSB, mb::MiniBatch)
 end
 #updatel!(model,mb)
 #MB Dependent
-##Realized that L is symmetric but not diagonal
 function updateL!(model::LNMMSB, mb::MiniBatch)
 	x=model.μ_var[collect(mb.mballnodes),:]'.-model.m
 	s1= x*x'
@@ -228,6 +226,7 @@ end
 ##The following need update but need to think how it affects the actual phis? after an iteration
 ## But also local and used among first updates, so to be used by other updates with the same minibatch
 ## hence we may only need to keep average for init of the thetas
+#MB Dependent
 function updatephilout!(model::LNMMSB,  mb::MiniBatch)
 	for l in mb.mblinks
 		for k in 1:model.K
@@ -246,6 +245,7 @@ function updatephilout!(model::LNMMSB,  mb::MiniBatch)
 	end
 end
 #updatephilout!(model, mb)
+#MB Dependent
 function updatephilin!(model::LNMMSB,mb::MiniBatch)
 	for l in mb.mblinks
 		for k in 1:model.K
@@ -266,7 +266,7 @@ function updatephilin!(model::LNMMSB,mb::MiniBatch)
 
 end
 #updatephilin!(model, mb)
-
+#MB Dependent
 function updatephinlout!(model::LNMMSB, mb::MiniBatch)
 	for nl in mb.mbnonlinks
 		for k in 1:model.K
@@ -285,7 +285,7 @@ function updatephinlout!(model::LNMMSB, mb::MiniBatch)
 	end
 end
 #updatephinlout!(model, mb)
-
+#MB Dependent
 function updatephinlin!(model::LNMMSB,mb::MiniBatch)
 	for nl in mb.mbnonlinks
 		for k in 1:model.K

@@ -220,3 +220,17 @@ L=reshape([5.0,4.0,4.0,5.0], (2,2))
 f(L) = logdet(inv(L0)*L)
 ForwardDiff.gradient(f, L)
 inv(L)
+
+f(mu) = log(ones(K)'*[exp(mu[i]) for i in 1:K])
+ForwardDiff.gradient(f,mu)
+temp=[exp(mu[i])/sum(exp.(mu)) for i in 1:K]
+
+ForwardDiff.hessian(f,mu)
+diagm(temp)-temp*temp'
+
+Lam = (rand(K))
+f(Lam) = log(ones(K)'*[exp(.5*Lam[i]) for i in 1:K])
+ForwardDiff.gradient(f,Lam)
+temp=[exp(.5*Lam[i])/sum(exp.(.5.*diag(Lam))) for i in 1:K]
+.5*diagm(temp)
+ForwardDiff.hessian(f,Lam)
