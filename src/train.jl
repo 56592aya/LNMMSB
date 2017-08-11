@@ -227,11 +227,12 @@ end
 ## But also local and used among first updates, so to be used by other updates with the same minibatch
 ## hence we may only need to keep average for init of the thetas
 #MB Dependent
-function updatephilout!(model::LNMMSB,  mb::MiniBatch)
+function updatephilout!(model::LNMMSB,  mb::MiniBatch, early::Bool)
 	for l in mb.mblinks
 		for k in 1:model.K
 			#not using extreme epsilon and instead a fixed amount
-			l.ϕout[k]=exp(model.μ_var[l.src,k] + l.ϕin[k]*(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-10))
+			depdom = early?4.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
+			l.ϕout[k]=exp(model.μ_var[l.src,k] + l.ϕin[k]*depdom)
 		end
 	end
 	for l in mb.mblinks
@@ -246,11 +247,12 @@ function updatephilout!(model::LNMMSB,  mb::MiniBatch)
 end
 #updatephilout!(model, mb)
 #MB Dependent
-function updatephilin!(model::LNMMSB,mb::MiniBatch)
+function updatephilin!(model::LNMMSB,mb::MiniBatch, early::Bool)
 	for l in mb.mblinks
 		for k in 1:model.K
 			#not using extreme epsilon and instead a fixed amount
-			l.ϕin[k]=exp(model.μ_var[l.dst,k] + l.ϕout[k]*(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-10))
+			depdom = early?4.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
+			l.ϕin[k]=exp(model.μ_var[l.dst,k] + l.ϕout[k]*depdom)
 		end
 	end
 	for l in mb.mblinks
@@ -267,11 +269,12 @@ function updatephilin!(model::LNMMSB,mb::MiniBatch)
 end
 #updatephilin!(model, mb)
 #MB Dependent
-function updatephinlout!(model::LNMMSB, mb::MiniBatch)
+function updatephinlout!(model::LNMMSB, mb::MiniBatch,early::Bool, dep2::Float64)
 	for nl in mb.mbnonlinks
 		for k in 1:model.K
 			#not using extreme epsilon and instead a fixed amount
-			nl.ϕout[k]=exp(model.μ_var[nl.src,k] + nl.ϕin[k]*(digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-.2))
+          	depdom = early ? log(dep2) : digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log1p(-EPSILON)
+			nl.ϕout[k]=exp(model.μ_var[nl.src,k] + nl.ϕin[k]*depdom)
 		end
 	end
 	for nl in mb.mbnonlinks
@@ -286,11 +289,12 @@ function updatephinlout!(model::LNMMSB, mb::MiniBatch)
 end
 #updatephinlout!(model, mb)
 #MB Dependent
-function updatephinlin!(model::LNMMSB,mb::MiniBatch)
+function updatephinlin!(model::LNMMSB,mb::MiniBatch,early::Bool, dep2::Float64)
 	for nl in mb.mbnonlinks
 		for k in 1:model.K
 			#not using extreme epsilon and instead a fixed amount
-			nl.ϕin[k]=exp(model.μ_var[nl.dst,k] + nl.ϕout[k]*(digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-.2))
+			depdom = early ? log(dep2) : digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log1p(-EPSILON)
+			nl.ϕin[k]=exp(model.μ_var[nl.dst,k] + nl.ϕout[k]*depdom)
 		end
 	end
 	for nl in mb.mbnonlinks
@@ -305,13 +309,7 @@ function updatephinlin!(model::LNMMSB,mb::MiniBatch)
 end
 #updatephinlin!(model, mb)
 
-#MB dependent
-function updatezetaa!(model::LNMMSB, mb::MiniBatch, a::Int64)
-	model.ζ_old[a]=deepcopy(model.ζ[a])
-	model.ζ[a]=exp(logsumexp(model.μ_var[a,:]+.5./(model.Λ_var[a,:])))
-end
-#
-#updatezetaa!(model,mb,model.mbids[1])
+#implement the newton step
 #Newton\
 #MB dependent
 ##here we need to think better about the accessing of phis or ways of recording them.
@@ -376,17 +374,15 @@ end
 ##only initiated MiniBatch
 function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=1000, ntol::Float64=1.0/(model.K^2), viter::Int64=10, vtol::Float64=1.0/(model.K^2), elboevery::Int64=10, mb::MiniBatch,lr::Float64)
 	preparedata(model)
-
-	zeta_curr=ones(model.N)
 	mu_curr=ones(model.N)
 	Lambda_curr=ones(model.N)
-	lr_zeta = zeros(Float64, model.N)
 	lr_mu = zeros(Float64, model.N)
 	lr_Lambda = zeros(Float64, model.N)
-
+	early=true
 
 
 	for i in 1:iter
+		# i=1
 		#Minibatch sampling/new sample
 		##the following deepcopy is very important
 		mb=deepcopy(mb_zeroer)
@@ -405,11 +401,21 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 
 		#locals:phis
 		#local update
-		updatephilout!(model, mb)
-		updatephilin!(model, mb)
-		updatephinlout!(model, mb)
-		updatephinlin!(model, mb)
-		mb.mblinks[1]
+		ExpectedAllSeen=(model.N/model.mbsize)*1.5#round(Int64,nv(network)*sum([1.0/i for i in 1:nv(network)]))
+    	if i == round(Int64,ExpectedAllSeen)
+        	early = false
+    	end
+		train_links_num=nnz(model.network)-length(model.ho_linkdict)
+		train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyaddict) -length(mb.mblinks)
+		dep2 = (train_links_num)/(train_links_num+train_nlinks_num)
+		updatephilout!(model, mb, early)
+		updatephilin!(model, mb,early)
+		updatephinlout!(model, mb,early,dep2)
+		updatephinlin!(model, mb,early,dep2)
+		mb.mblinks[1].ϕout
+		mb.mblinks[1].ϕin
+		mb.mbnonlinks[1].ϕout
+		mb.mbnonlinks[1].ϕout
 		#global update
 		#globals:m,M,L,mu, Lambda, b
 		updateM!(model, mb)
@@ -423,19 +429,17 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		model.b0 = model.b0_old*(1.0-lr_b)+lr_b*model.b0
 		model.b1 = model.b1_old*(1.0-lr_b)+lr_b*model.b1
 		## KEEP AN AVERAGE FOR MUS AND LAMBDAS TO INITIATE THE PHIS EACH TIME
-		for a in collect(mb.mballnodes)
-			updatezetaa!(model,mb, a)
-			lr_zeta[a] = 1.0/((1.0+Float64(zeta_curr[a]))^.9)##could be  a macro
-			zeta_curr[a] += 1
-			model.ζ[a] = model.ζ_old[a]*(1.0-lr_zeta[a])+lr_zeta[a]*model.ζ[a]
-			updatemua!(model, a, niter, ntol,mb)
-			lr_mu[a] = 1.0/((1.0+Float64(mu_curr[a]))^.9)##could be  a macro
-			mu_curr[a] += 1
-			model.ζ[a] = model.μ_var_old[a]*(1.0-lr_mu[a])+lr_mu[a]*model.μ_var[a]
-			updateLambdaa!(model, a, niter, ntol,mb)
-			lr_Lambda[a] = 1.0/((1.0+Float64(Lambda_curr[a]))^.9)##could be  a macro
-			Lambda_curr[a] += 1
-			model.Λ_var[a] = model.Λ_var_old[a]*(1.0-lr_Lambda[a])+lr_Lambda[a]*model.Λ_var[a]
-		end
+
+		# for a in collect(mb.mballnodes)
+		# 	updatemua!(model, a, niter, ntol,mb)
+		# 	lr_mu[a] = 1.0/((1.0+Float64(mu_curr[a]))^.9)##could be  a macro
+		# 	mu_curr[a] += 1
+		# 	model.ζ[a] = model.μ_var_old[a]*(1.0-lr_mu[a])+lr_mu[a]*model.μ_var[a]
+		# 	updateLambdaa!(model, a, niter, ntol,mb)
+		# 	lr_Lambda[a] = 1.0/((1.0+Float64(Lambda_curr[a]))^.9)##could be  a macro
+		# 	Lambda_curr[a] += 1
+		# 	model.Λ_var[a] = model.Λ_var_old[a]*(1.0-lr_Lambda[a])+lr_Lambda[a]*model.Λ_var[a]
+		# end
+		# i=i+1
 	end
 end

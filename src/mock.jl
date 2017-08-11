@@ -231,6 +231,7 @@ diagm(temp)-temp*temp'
 Lam = (rand(K))
 f(Lam) = log(ones(K)'*[exp(.5*Lam[i]) for i in 1:K])
 ForwardDiff.gradient(f,Lam)
-temp=[exp(.5*Lam[i])/sum(exp.(.5.*diag(Lam))) for i in 1:K]
-.5*diagm(temp)
+temp=[exp(.5*Lam[i])/sum(exp.(.5.*(Lam))) for i in 1:K]
+.5*(temp)
 ForwardDiff.hessian(f,Lam)
+.25*(diagm(temp)-temp*temp')
