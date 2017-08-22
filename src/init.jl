@@ -16,8 +16,6 @@ Base.zero(::Type{KeyVal}) = KeyVal(0,0.0)
 ###this needs to be n from data
 #using DGP
 
-
-# N_=size(DGP.adj,1)
 topK = 5
 _α = 1.0/model.N
 mu = [KeyVal(0,0.0) for i=1:model.N, j=1:topK]
@@ -50,7 +48,7 @@ function sort_by_values(v::Vector{KeyVal})
   end
   return temp
 end
-##INIT_GAMMA
+##INIT_mu
 function init_mu(mu, maxmu)
   for i in 1:model.N
       mu[i,1].first=i
@@ -191,7 +189,7 @@ function batch_infer()
           v[c].first = k
           v[c].second = _α
           c+=1
-        end 
+        end
         v = sort_by_values(v)
         mu[i,:]
         for k in 1:topK
