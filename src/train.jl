@@ -282,14 +282,10 @@ function updatephil!(model::LNMMSB,  mb::MiniBatch, early::Bool, switchrounds::B
 		end
 	end
 	model.ϕloutsum=zeros(Float64,(model.N,model.K))
-	for l in mb.mblinks
-		for k in 1:model.K
-			model.ϕloutsum[l.src,k]+=l.ϕout[k]
-		end
-	end
 	model.ϕlinsum=zeros(Float64,(model.N,model.K))
 	for l in mb.mblinks
 		for k in 1:model.K
+			model.ϕloutsum[l.src,k]+=l.ϕout[k]
 			model.ϕlinsum[l.dst,k]+=l.ϕin[k]
 		end
 	end
@@ -347,14 +343,10 @@ function updatephinl!(model::LNMMSB, mb::MiniBatch,early::Bool, dep2::Float64,sw
 		end
 	end
 	model.ϕnloutsum=zeros(Float64,(model.N,model.K))
-	for nl in mb.mbnonlinks
-		for k in 1:model.K
-			model.ϕnloutsum[nl.src,k]+=nl.ϕout[k]
-		end
-	end
 	model.ϕnlinsum=zeros(Float64,(model.N,model.K))
 	for nl in mb.mbnonlinks
 		for k in 1:model.K
+			model.ϕnloutsum[nl.src,k]+=nl.ϕout[k]
 			model.ϕnlinsum[nl.dst,k]+=nl.ϕin[k]
 		end
 	end
@@ -447,7 +439,7 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		##the following deepcopy is very important
 		mb=deepcopy(mb_zeroer)
 		mbsampling!(mb,model)
-		communities
+		# communities
 		#global update-- can be done outside
 		updatel!(model, mb)
 
