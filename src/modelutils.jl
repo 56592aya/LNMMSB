@@ -151,7 +151,6 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB)
 	end
 	model.mbids = collect(mb.mballnodes)[:]
 end
-mb = deepcopy(mb_zeroer)
 
 #better to call this all the time
 function mbsampling!(mb::MiniBatch,model::LNMMSB, isfullsample::Bool)
