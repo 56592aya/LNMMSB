@@ -3,14 +3,12 @@ using SpecialFunctions
 #negative cross entropies
 # ELOGS NEED SERIOUS REVISIONS
 function elogpmu(model::LNMMSB)
-	-.5*(model.K*logdet(model.M0)+trace(model.M0)*(model.m-model.m0)*(model.m-model.m0)'+trace(model.M0*inv(M)))
+	-.5*(model.K*logdet(model.M0)+trace(model.M0*(model.m-model.m0)*(model.m-model.m0)')+trace(model.M0*inv(model.M)))
 end
 #
-# function elogpLambda(model::LNMMSB)
-# 	-.5*(-(model.K^2.0)*log(model.K) + logdet(model.L) + model.l*model.K*trace(model.L)+
-# 	.5*model.K.*(model.K-1.0)*log(pi) + 2.0*lgamma(.5*model.K, model.K) + digamma(.5*model.l, model.K)+
-# 	model.K*(model.K)*log(2.0))
-# end
+function elogpLambda(model::LNMMSB)
+	+.5*(-model.K*(model.K+1)*log(2)+(model.l0-model.K-1)*digamma(.5*model.l,model.K)- .5*model.K*(model.K-1)log(pi)-2*lgamma(.5*model.l0, model.K)-model.l*trace(inv(model.L0)*model.L)- (model.K+1)*(logdet(model.L))+model.l0*logdet(inv(model.L0)*(model.L)))
+end
 #
 # ##?MB dependent
 # ##needs a better subset of nodes for computing the train ELBO
@@ -433,11 +431,15 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	model.l = model.K+1
 	model.L=diagm(1.0./[0.1963771801404379,  0.18922306769147973,  0.19457540225231443,  0.19951992669472524])./model.l
 	i=1
+	isfullsample=false
+	if model.mbsize == model.N
+		isfullsample = true
+	end
 	for i in 1:iter
 		#Minibatch sampling/new sample
 		##the following deepcopy is very important
 		mb=deepcopy(mb_zeroer)
-		mbsampling!(mb,model)
+		mbsampling!(mb,model, isfullsample)
 		# communities
 		#global update-- can be done outside
 		updatel!(model, mb)

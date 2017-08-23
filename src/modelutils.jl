@@ -122,6 +122,10 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB)
 							mb.mbfnadj[a] = get(mb.mbfnadj, a, Vector{Int64}())
 						end
 						push!(mb.mbfnadj[a],b)
+						if !haskey(mb.mbbnadj, b)
+							mb.mbbnadj[b] = get(mb.mbbnadj, b, Vector{Int64}())
+						end
+						push!(mb.mbbnadj[b],a)
 						nlcount+=1
 					end
 				end
@@ -130,6 +134,10 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB)
 					nl = NonLink(b,a,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
 					if !(nl in mb.mbnonlinks)
 						push!(mb.mbnonlinks, nl)
+						if !haskey(mb.mbfnadj, b)
+							mb.mbfnadj[b] = get(mb.mbfnadj, b, Vector{Int64}())
+						end
+						push!(mb.mbfnadj[b],a)
 						if !haskey(mb.mbbnadj, a)
 							mb.mbbnadj[a] = get(mb.mbbnadj, a, Vector{Int64}())
 						end
@@ -142,6 +150,72 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB)
 		mbcount +=1
 	end
 	model.mbids = collect(mb.mballnodes)[:]
+end
+mb = deepcopy(mb_zeroer)
+
+#better to call this all the time
+function mbsampling!(mb::MiniBatch,model::LNMMSB, isfullsample::Bool)
+	if !isfullsample
+		mbsampling!(mb::MiniBatch,model::LNMMSB)
+	else
+		mb.mballnodes = Set(collect(1:model.mbsize))
+		model.mbids = collect(mb.mballnodes)
+		for a in 1:model.mbsize
+			Bsink=sinks(model.network, a, model.N)#length is fadj
+			Bsrc=sources(model.network, a, model.N)#length is badj
+
+			for b1 in Bsink
+				if !(Dyad(a,b1) in collect(keys(model.ho_dyaddict)))
+					l = Link(a,b1,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
+					if !(l in mb.mblinks)
+						push!(mb.mblinks, l)
+					end
+				end
+			end
+			for b2 in Bsrc
+				if !(Dyad(b2,a) in collect(keys(model.ho_dyaddict)))
+					l = Link(b2,a,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
+					if !(l in mb.mblinks)
+						push!(mb.mblinks, l)
+					end
+				end
+			end
+		end
+		for a in 1:model.mbsize
+			for b in 1:model.mbsize
+				if a != b
+					if !(Dyad(a,b) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, a, b))
+						nl = NonLink(a,b,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
+						if !(nl in mb.mbnonlinks)
+							push!(mb.mbnonlinks, nl)
+							if !haskey(mb.mbfnadj, a)
+								mb.mbfnadj[a] = get(mb.mbfnadj, a, Vector{Int64}())
+							end
+							push!(mb.mbfnadj[a],b)
+							if !haskey(mb.mbbnadj, b)
+								mb.mbbnadj[b] = get(mb.mbbnadj, b, Vector{Int64}())
+							end
+							push!(mb.mbbnadj[b],a)
+						end
+					end
+					if !(Dyad(b,a) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, b, a))
+						nl = NonLink(b,a,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
+						if !(nl in mb.mbnonlinks)
+							push!(mb.mbnonlinks, nl)
+							if !haskey(mb.mbfnadj, b)
+								mb.mbfnadj[b] = get(mb.mbfnadj, b, Vector{Int64}())
+							end
+							push!(mb.mbfnadj[b],a)
+							if !haskey(mb.mbbnadj, a)
+								mb.mbbnadj[a] = get(mb.mbbnadj, a, Vector{Int64}())
+							end
+							push!(mb.mbbnadj[a],b)
+						end
+					end
+				end
+			end
+		end
+	end
 end
 ##For smaller data it is better to use the whole data, or at least use the nonlinks that are so far updated, so that
 #we can compare the elbo improvements
