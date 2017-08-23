@@ -24,11 +24,11 @@ mutable struct LNMMSB <: AbstractMMSB
     l            ::Float64            #variational df
     L            ::Matrix2d{Float64}  #variational scale diagonal
     L_old        ::Matrix2d{Float64}  #variational scale diagonal
-    ζ            ::Vector{Float64}    #additional variation param
-    ζ_old        ::Vector{Float64}    #additional variation param
+    # ζ            ::Vector{Float64}    #additional variation param
+    # ζ_old        ::Vector{Float64}    #additional variation param
     ϕlinoutsum   ::Vector{Float64}    #sum of phi products for links
     ϕnlinoutsum  ::Vector{Float64}    #sum of phi products for nonlinks
-    ϕbar         ::Matrix2d{Float64}  #average of phis to be used for the next round
+    # ϕbar         ::Matrix2d{Float64}  #average of phis to be used for the next round
     η0           ::Float64            #hyperprior on beta
     η1           ::Float64            #hyperprior on beta
     b0           ::Vector{Float64}    #variational param for beta
@@ -55,7 +55,7 @@ mutable struct LNMMSB <: AbstractMMSB
  function LNMMSB(network::Network{Int64}, K::Int64)
   N             = size(network,1) #setting size of nodes
   elbo          =0.0 #init ELBO at zero
-  newelbo       =0.0 #init new ELBO at zero
+  oldelbo       =-Inf #init new ELBO at zero
   μ             =zeros(Float64,K) #zero the mu vector
   μ_var         =zeros(Float64, (N,K)) #zero the mu_var vector
   μ_var_old     = deepcopy(μ_var)
@@ -85,11 +85,11 @@ mutable struct LNMMSB <: AbstractMMSB
   # ζ_old         = deepcopy(ζ)
   η0            =9.0 #one the beta param
   η1            =1.0 #one the beta param
-  b0            =ones(Float64, K) #one the beta variational param
+  b0            =9.0.*ones(Float64, K) #one the beta variational param
   b0_old        = deepcopy(b0)
   b1            =ones(Float64, K) #one the beta variational param
   b1_old        = deepcopy(b1)
-  mbsize        =10 #number of nodes in the minibatch
+  mbsize        =N #number of nodes in the minibatch
   mbids         =zeros(Int64,mbsize) # to be extended
   nho           =nnz(network)*0.025 #init nho
   ho_dyaddict   = Dict{Dyad,Bool}()
@@ -104,7 +104,7 @@ mutable struct LNMMSB <: AbstractMMSB
   ϕlinsum       = zeros(Float64, (N,K))
   ϕnlinsum      = zeros(Float64, (N,K))
 
-  model = new(K, N, elbo, newelbo, μ, μ_var,μ_var_old, m0, m,m_old, M0, M,M_old, Λ, Λ_var,Λ_var_old, l0, L0, l,
+  model = new(K, N, elbo, oldelbo, μ, μ_var,μ_var_old, m0, m,m_old, M0, M,M_old, Λ, Λ_var,Λ_var_old, l0, L0, l,
    L,L_old, ϕlinoutsum, ϕnlinoutsum, η0, η1, b0,b0_old, b1,b1_old, network, mbsize, mbids,nho,  ho_dyaddict,ho_linkdict,    ho_nlinkdict,train_out,train_in,train_sinks,train_sources,ϕloutsum,  ϕnloutsum,  ϕlinsum,  ϕnlinsum)
   return model
  end
