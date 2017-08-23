@@ -12,7 +12,7 @@ include("LNMMSB.jl")
 model=LNMMSB(network, inputtomodelgen[2])
 include("modelutils.jl")
 include("init.jl")
-
+communities
 mb_zeroer = MiniBatch()
 train_zeroer = Training()
 train = deepcopy(train_zeroer)

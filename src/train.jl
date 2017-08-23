@@ -2,9 +2,9 @@ using SpecialFunctions
 
 #negative cross entropies
 # ELOGS NEED SERIOUS REVISIONS
-# function elogpmu(model::LNMMSB)
-# 	-.5*(model.K*log(2*pi)+trace(model.m*model.m') + sum(1.0./(model.M)))
-# end
+function elogpmu(model::LNMMSB)
+	-.5*(model.K*logdet(model.M0)+trace(model.M0)*(model.m-model.m0)*(model.m-model.m0)'+trace(model.M0*inv(M)))
+end
 #
 # function elogpLambda(model::LNMMSB)
 # 	-.5*(-(model.K^2.0)*log(model.K) + logdet(model.L) + model.l*model.K*trace(model.L)+
@@ -236,49 +236,47 @@ function updatephil!(model::LNMMSB,  mb::MiniBatch, early::Bool, switchrounds::B
 			#send
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early?10.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
+				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
 				l.ϕout[k]=exp(model.μ_var[l.src,k] + l.ϕin[k]*depdom)
 			end
 			l.ϕout[:]=expnormalize(l.ϕout)
 			#recv
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early?10.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
+				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
 				l.ϕin[k]=exp(model.μ_var[l.dst,k] + l.ϕout[k]*depdom)
 			end
 			l.ϕin[:]=expnormalize(l.ϕin)
 			#send
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early?10.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
+				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
 				l.ϕout[k]=exp(model.μ_var[l.src,k] + l.ϕin[k]*depdom)
 			end
-
 			l.ϕout[:]=expnormalize(l.ϕout)
-			switchrounds = !switchrounds
+
 		else
 			#recv
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early?10.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
+				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
 				l.ϕin[k]=exp(model.μ_var[l.dst,k] + l.ϕout[k]*depdom)
 			end
 			l.ϕin[:]=expnormalize(l.ϕin)
 			#send
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early?10.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
+				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
 				l.ϕout[k]=exp(model.μ_var[l.src,k] + l.ϕin[k]*depdom)
 			end
 			l.ϕout[:]=expnormalize(l.ϕout)
 			#recv
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early?10.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
+				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
 				l.ϕin[k]=exp(model.μ_var[l.dst,k] + l.ϕout[k]*depdom)
 			end
 			l.ϕin[:]=expnormalize(l.ϕin)
-			switchrounds = !switchrounds
 		end
 	end
 	model.ϕloutsum=zeros(Float64,(model.N,model.K))
@@ -359,61 +357,61 @@ end
 ##here we need to think better about the accessing of phis or ways of recording them.
 #question is whether I need to use softmax or model.ζ, this will be clear when I resolve the orderin of the updates
 #Do I need to reweight the sumb as well?
-function gmu(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
-	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	sfx = softmax(model.μ_var[a,:] + .5*inv(diag(model.Λ_var[a,:,:])),k)
-	#or sfx = exp(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,k,k])))*inv(model.ζ[a])
-	-model.l*model.L[k,k]*(model.μ_var[a,k] - model.m[k]) - sumb*(sfx)*(1-sfx))+(ϕloutsum+ϕnloutsum+ϕlinsum+ϕnlinsum)
-
-end
-function hmu(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
-	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	sfx = softmax(model.μ_var[a,:] + .5*inv(diag(model.Λ_var[a,:,:])),k)
-	#or sfx = exp(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,k,k])))*inv(model.ζ[a])
-	-model.l*model.L[k,k] - sumb*(sfx-3*sfx^2+2*sfx^3)
-end
-
-function updatemua!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
-	for k in 1:model.K
-		for i in 1:niter
-			μ_grad=gmu(model, mb, a,k)
-			μ_invH=inv(hmu(model, mb, a, k))
-			model.μ_var[a,k] -= μ_invH * μ_grad
-			if norm(μ_grad) < ntol
-				break
-			end
-		end
-	end
-end
-#Newton
-#MB dependent
-function gLambdainv(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
-	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	sfx = softmax(model.μ_var[a,:] + .5*inv(diag(model.Λ_var[a,:,:])),k)
-	#or sfx = exp(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,k,k])))*inv(model.ζ[a])
-	-.5*model.l*model.L[k,k] + .5*inv(model.Λ_var[a,k,k])-.5*sumb*(sfx)*(1-sfx)
-end
-function hLambdainv(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
-	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	sfx = softmax(model.μ_var[a,:] + .5*inv(diag(model.Λ_var[a,:,:])),k)
-	#or sfx = exp(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,k,k])))*inv(model.ζ[a])
-	.5-.25*(sumb)*(sfx-3*sfx^2+2*sfx^3)
-
-end
-function updateLambdaa!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
-	temp = deepcopy(inv(model.Λ_var[a,:,:]))
-	for k in 1:model.K
-		for i in 1:niter
-			Λinv_grad=gLambdainv(model, mb, a,k)
-			Λinv_invH=inv(hLambdainv(model, mb, a, k))
-			temp[k,k] -= Λinv_invH * Λinv_grad
-			if norm(Λinv_grad) < ntol || i == niter
-				model.Λ_var[a,k,k] = inv(temp[k,k])
-				break
-			end
-		end
-	end
-end
+# function gmu(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
+# 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
+# 	sfx = softmax(model.μ_var[a,:] + .5*inv(diag(model.Λ_var[a,:,:])),k)
+# 	#or sfx = exp(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,k,k])))*inv(model.ζ[a])
+# 	-model.l*model.L[k,k]*(model.μ_var[a,k] - model.m[k]) - sumb*(sfx)*(1-sfx))+(ϕloutsum+ϕnloutsum+ϕlinsum+ϕnlinsum)
+#
+# end
+# function hmu(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
+# 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
+# 	sfx = softmax(model.μ_var[a,:] + .5*inv(diag(model.Λ_var[a,:,:])),k)
+# 	#or sfx = exp(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,k,k])))*inv(model.ζ[a])
+# 	-model.l*model.L[k,k] - sumb*(sfx-3*sfx^2+2*sfx^3)
+# end
+#
+# function updatemua!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
+# 	for k in 1:model.K
+# 		for i in 1:niter
+# 			μ_grad=gmu(model, mb, a,k)
+# 			μ_invH=inv(hmu(model, mb, a, k))
+# 			model.μ_var[a,k] -= μ_invH * μ_grad
+# 			if norm(μ_grad) < ntol
+# 				break
+# 			end
+# 		end
+# 	end
+# end
+# #Newton
+# #MB dependent
+# function gLambdainv(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
+# 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
+# 	sfx = softmax(model.μ_var[a,:] + .5*inv(diag(model.Λ_var[a,:,:])),k)
+# 	#or sfx = exp(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,k,k])))*inv(model.ζ[a])
+# 	-.5*model.l*model.L[k,k] + .5*inv(model.Λ_var[a,k,k])-.5*sumb*(sfx)*(1-sfx)
+# end
+# function hLambdainv(model::LNMMSB, mb::MiniBatch, a::Int64, k::Int64)
+# 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
+# 	sfx = softmax(model.μ_var[a,:] + .5*inv(diag(model.Λ_var[a,:,:])),k)
+# 	#or sfx = exp(model.μ_var[a,k] + .5*inv(diag(model.Λ_var[a,k,k])))*inv(model.ζ[a])
+# 	.5-.25*(sumb)*(sfx-3*sfx^2+2*sfx^3)
+#
+# end
+# function updateLambdaa!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
+# 	temp = deepcopy(inv(model.Λ_var[a,:,:]))
+# 	for k in 1:model.K
+# 		for i in 1:niter
+# 			Λinv_grad=gLambdainv(model, mb, a,k)
+# 			Λinv_invH=inv(hLambdainv(model, mb, a, k))
+# 			temp[k,k] -= Λinv_invH * Λinv_grad
+# 			if norm(Λinv_grad) < ntol || i == niter
+# 				model.Λ_var[a,k,k] = inv(temp[k,k])
+# 				break
+# 			end
+# 		end
+# 	end
+# end
 
 ##only initiated MiniBatch
 ##initialization for the check is very important, havent yet figured it out.
@@ -426,6 +424,7 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	early=true
 	switchrounds=true
 	#let's say for now:
+
 	for a in 1:model.N
 		model.μ_var[a,:]=[-0.16645342111013306,  -0.6374507015168214,  0.052970559974790075,  0.031601875772308]
 		model.Λ_var[a,:]=[0.1963771801404379,  0.18922306769147973,  0.19457540225231443,  0.19951992669472524]
@@ -460,7 +459,7 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
     	end
 		train_links_num=nnz(model.network)-length(model.ho_linkdict)
 		train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyaddict) -length(mb.mblinks)
-		dep2 = (train_links_num)/(train_links_num+train_nlinks_num)
+		dep2 = .1*(train_links_num)/(train_links_num+train_nlinks_num)
 
 		updatephil!(model, mb, early,switchrounds)
 		updatephinl!(model, mb,early,dep2,switchrounds)
@@ -485,12 +484,14 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		mb.mblinks[1].ϕout
 		mb.mblinks[1].ϕin
 		mb.mbnonlinks[1].ϕout
-		mb.mbnonlinks[1].ϕout
+		mb.mbnonlinks[1].ϕin
 		model.M
 		model.m
 		model.L
 		model.b0
 		model.b1
+		println(i)
+		println(model.b0./(model.b0.+model.b1))
 		## KEEP AN AVERAGE FOR MUS AND LAMBDAS TO INITIATE THE PHIS EACH TIME
 
 		# for a in collect(mb.mballnodes)
@@ -503,6 +504,7 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		# 	Lambda_curr[a] += 1
 		# 	model.Λ_var[a] = model.Λ_var_old[a]*(1.0-lr_Lambda[a])+lr_Lambda[a]*model.Λ_var[a]
 		# end
-		 i=i+1
+		switchrounds = !switchrounds
+		i=i+1
 	end
 end

@@ -80,16 +80,16 @@ mutable struct LNMMSB <: AbstractMMSB
   L_old         = deepcopy(L)
   ϕlinoutsum    =zeros(Float64,K) #zero the phi link product sum
   ϕnlinoutsum   =zeros(Float64,K) #zero the phi nonlink product sum
-  ϕbar          =(1.0/K).*ones(Float64, (N,K)) ## to be used for other rounds as init
-  ζ             =ones(Float64, N) #one additional variational param
-  ζ_old         = deepcopy(ζ)
+  # ϕbar          =(1.0/K).*ones(Float64, (N,K)) ## to be used for other rounds as init
+  # ζ             =ones(Float64, N) #one additional variational param
+  # ζ_old         = deepcopy(ζ)
   η0            =9.0 #one the beta param
   η1            =1.0 #one the beta param
   b0            =ones(Float64, K) #one the beta variational param
   b0_old        = deepcopy(b0)
   b1            =ones(Float64, K) #one the beta variational param
   b1_old        = deepcopy(b1)
-  mbsize        =2 #number of nodes in the minibatch
+  mbsize        =10 #number of nodes in the minibatch
   mbids         =zeros(Int64,mbsize) # to be extended
   nho           =nnz(network)*0.025 #init nho
   ho_dyaddict   = Dict{Dyad,Bool}()
@@ -105,7 +105,7 @@ mutable struct LNMMSB <: AbstractMMSB
   ϕnlinsum      = zeros(Float64, (N,K))
 
   model = new(K, N, elbo, newelbo, μ, μ_var,μ_var_old, m0, m,m_old, M0, M,M_old, Λ, Λ_var,Λ_var_old, l0, L0, l,
-   L,L_old, ζ,ζ_old, ϕlinoutsum, ϕnlinoutsum,ϕbar, η0, η1, b0,b0_old, b1,b1_old, network, mbsize, mbids,nho,  ho_dyaddict,ho_linkdict,    ho_nlinkdict,train_out,train_in,train_sinks,train_sources,ϕloutsum,  ϕnloutsum,  ϕlinsum,  ϕnlinsum)
+   L,L_old, ϕlinoutsum, ϕnlinoutsum, η0, η1, b0,b0_old, b1,b1_old, network, mbsize, mbids,nho,  ho_dyaddict,ho_linkdict,    ho_nlinkdict,train_out,train_in,train_sinks,train_sources,ϕloutsum,  ϕnloutsum,  ϕlinsum,  ϕnlinsum)
   return model
  end
 end

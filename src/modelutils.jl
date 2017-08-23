@@ -110,7 +110,7 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB)
 		end
 
 		nlcount = 0
-		while nlcount < lcount
+		while nlcount < 2*lcount
 			b=1+floor(Int64,model.N*rand())
 			r = rand()
 			if r  < .5
