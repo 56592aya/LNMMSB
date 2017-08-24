@@ -1198,7 +1198,7 @@ The newton step would look like:
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $\Lambda_{a,k}^{-1}=\Lambda_{a,k}^{-1}-H_{\Lambda_{a,k}^{-1}}^{-1}G_{\Lambda_{a,k}^{-1}}$
+\begin_inset Formula $\Lambda_{a}^{-1}=\Lambda_{a}^{-1}-H_{\Lambda_{a}^{-1}}^{-1}G_{\Lambda_{a}^{-1}}$
 \end_inset
 
 
