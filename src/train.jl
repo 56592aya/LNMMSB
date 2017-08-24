@@ -388,11 +388,11 @@ function Lambdainv_grad(model::LNMMSB, mb::MiniBatch, a::Int64)
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
 	sfx_vec = [softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:],k) for k in 1:model.K]
 	##check the diagm if this is correct
-	s = -.5*model.l*model.L + .5*diagm(1.0./model.Λ_var[a,:])-.5*sumb*diagm(sfx_vec)
+	s = -.5*model.l*model.L + .5*diagm(model.Λ_var[a,:])-.5*sumb*diagm(sfx_vec)
 
 	return s
 end
-function Lambdainv_hess(model::LNMMSB, mb::MiniBatch, a::Int64)
+function Lambdainv_hess(model::LNMMSB, mb::MiniBatch, a::Int64)#####CHECK
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
 	sfx_vec = [softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:],k) for k in 1:model.K]
 	s =  .5*eye(Float64, model.K)-.25*sumb*(diagm(sfx_vec)-sfx_vec*sfx_vec')

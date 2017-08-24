@@ -228,10 +228,24 @@ temp=[exp(mu[i])/sum(exp.(mu)) for i in 1:K]
 ForwardDiff.hessian(f,mu)
 diagm(temp)-temp*temp'
 
-Lam = (rand(K))
-f(Lam) = log(ones(K)'*[exp(.5*Lam[i]) for i in 1:K])
+Lam = diagm(rand(K))
+f(Lam) = log(ones(K)'*[exp(.5*Lam[i,i]) for i in 1:K])
 ForwardDiff.gradient(f,Lam)
-temp=[exp(.5*Lam[i])/sum(exp.(.5.*(Lam))) for i in 1:K]
-.5*(temp)
+
+temp=diagm(.5*[exp(.5*Lam[i,i])/sum(exp.(.5.*(diag(Lam)))) for i in 1:K])
+
 ForwardDiff.hessian(f,Lam)
 .25*(diagm(temp)-temp*temp')
+g(Lam) = logdet(Lam)
+ForwardDiff.hessian(g, Lam)
+g(Lam) = inv(Lam)
+ForwardDiff.gradient(g, Lam)
+inv(eye(4))
+
+
+l=4
+L=diagm(rand(K))
+Laminv = diagm(rand(K))
+f(Laminv) = -.5*l*trace(L*(Laminv)) + .5*logdet(Laminv)
+ForwardDiff.gradient(f, Laminv)
+-.5*l*L* + .5*inv(Laminv)
