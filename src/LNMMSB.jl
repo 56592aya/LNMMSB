@@ -99,6 +99,8 @@ mutable struct LNMMSB <: AbstractMMSB
  	train_in      = zeros(Int64, N)
   train_sinks   = VectorList{Int64}(N)
  	train_sources = VectorList{Int64}(N)
+  train_sinks   = VectorList{Int64}(N)
+ 	train_sources = VectorList{Int64}(N)
   ϕloutsum      = zeros(Float64, (N,K))
   ϕnloutsum     = zeros(Float64, (N,K))
   ϕlinsum       = zeros(Float64, (N,K))
