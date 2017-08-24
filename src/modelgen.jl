@@ -12,7 +12,7 @@ L0            =(.05).*eye(Float64,K) #init the scale L0
 η1            =1.0 #one the beta param
 function gennetwork(N::Int64, K::Int64)
   network=Network(N)
-  global Θ=zeros(Float64, (N,K))
+  Θ=zeros(Float64, (N,K))
   ###note the scalar
   Λ = zeros(Float64, (K,K))
   for i in 1:N
@@ -35,6 +35,8 @@ function gennetwork(N::Int64, K::Int64)
   z_in=zeros(Float64, (N,N,K))
   z_out = zeros(Float64,(N,N,K))
   sort_by_argmax!(Θ)
+  writedlm("data/true_theta.txt", Θ)
+
   for a in 1:N
     for b in 1:N
       if a!= b
@@ -50,25 +52,29 @@ function gennetwork(N::Int64, K::Int64)
   end
 
   JLD.@save("data/network.jld",network)
-  open("data/true.txt", "w") do f
-    write(f, "mu=")
-    for k in 1:K
-      write(f, "$(μ[k])  ")
-    end
-    write(f, "\n")
-    write(f, "diag(Lambda)=")
-    for k in 1:K
-      write(f, "$(Λ[k,k])  ")
-    end
-    write(f, "\n")
-  end
+#   open("data/mu_true.txt", "w") do f
+#     write(f, "mu=")
+#     for k in 1:K
+#       write(f, "$(μ[k])  ")
+#     end
+#     write(f, "\n")
+#     write(f, "diag(Lambda)=")
+#     for k in 1:K
+#       write(f, "$(Λ[k,k])  ")
+#     end
+#     write(f, "\n")
+#   end
+  writedlm("data/true_mu.txt", μ)
+  writedlm("data/true_Lambda.txt", Λ)
+  writedlm("data/true_beta.txt", β)
 end
+
 if isfile("data/network.jld")
   println("There already exists a netwrok.jld, if you want to change it remove it first")
 else
   isassigned(inputtomodelgen,2)?gennetwork(inputtomodelgen[1],inputtomodelgen[2]):println("you should set ARGS for gennetwork(N,K)")
 
-  Plots.heatmap(Θ, yflip=true)
+  # Plots.heatmap(Θ, yflip=true)
   network=FileIO.load("data/network.jld")["network"]
   Plots.heatmap(network, yflip=true)
 end

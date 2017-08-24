@@ -16,10 +16,10 @@ communities
 mb_zeroer = MiniBatch()
 mb=deepcopy(mb_zeroer)
 
-train_zeroer = Training()
-train = deepcopy(train_zeroer)
-train_sampling!(train, model)
-train_samplingall!(train, model)
+# train_zeroer = Training()
+# train = deepcopy(train_zeroer)
+# train_sampling!(train, model)
+# train_samplingall!(train, model)
 
 
 
