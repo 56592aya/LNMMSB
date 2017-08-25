@@ -114,6 +114,8 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		end
 		switchrounds = !switchrounds
 		model.oldelbo=model.elbo
+		push!(model.elborecord, model.elbo)
 		i=i+1
 	end
 end
+Plots.plot(1:length(model.elborecord),model.elborecord)
