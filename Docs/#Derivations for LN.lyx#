@@ -697,7 +697,7 @@ Finally, we have the following:
  &  & +\sum_{a}\sum_{b\notin sink(a)}\Big(\sum_{k}\phi_{a\rightarrow b,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)\\
  &  & +\sum_{a}\sum_{b\in source(a)}\Big(\sum_{k}\phi_{b\leftarrow a,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)\\
  &  & +\sum_{a}\sum_{b\notin source(a)}\Big(\sum_{k}\phi_{b\leftarrow a,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)\\
- &  & +\sum_{k}(\eta_{0}-1)\Psi(b_{k0})-\sum_{k}(\eta_{0}-2)\Psi(b_{k0}+b_{k1})\\
+ &  & +\sum_{k}ln\,\Gamma(\eta_{0}+\eta_{1})-\sum_{k}ln\,\Gamma(\eta_{0})-\sum_{k}ln\,\Gamma(\eta_{1})+\sum_{k}(\eta_{0}-1)\Psi(b_{k0})-\sum_{k}(\eta_{0}+\eta_{1}-2)\Psi(b_{k0}+b_{k1})\\
  &  & +\sum_{a}\sum_{b\in sink(a)}\sum_{k}\Big(\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}(\Psi(b_{k0})-\Psi(b_{k0}+b_{k1})-ln\,\epsilon)+ln\,\epsilon\Big)\\
  &  & +\sum_{a}\sum_{b\notin sink(a)}\sum_{k}\Big(\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}(\Psi(b_{k1})-\Psi(b_{k0}+b_{k1})-ln\,(1-\epsilon))+ln\,(1-\epsilon)\Big)\\
  &  & +\tfrac{1}{2}\Big(Kln\,2\pi+K-ln\,|M|\Big)\\
@@ -1183,9 +1183,9 @@ similarly assuming that
 \begin{align*}
 \mathcal{L}_{\Lambda_{a}^{-1}} & = & -\tfrac{\ell}{2}tr\,(L\Lambda_{a}^{-1})+\tfrac{1}{2}ln\,|\Lambda_{a}^{-1}|-\sum_{b}log\,\Big(\boldsymbol{1}^{T}\underbar{f}(\mu_{a},\Lambda_{a})\Big)\\
  & =\\
-\nabla_{\Lambda_{a}^{-1}}\mathcal{L}_{\Lambda_{a}^{-1}}=G_{\Lambda_{a}^{-1}} & = & \boxed{-\tfrac{\ell}{2}L+\tfrac{1}{2}\Lambda_{a}^{-1}-\tfrac{1}{2}\sum_{b}\underbar{sfx}(a)}\\
+\nabla_{\Lambda_{a}^{-1}}\mathcal{L}_{\Lambda_{a}^{-1}}=G_{\Lambda_{a}^{-1}} & = & \boxed{-\tfrac{\ell}{2}L+\tfrac{1}{2}\Lambda_{a}-\tfrac{1}{2}\sum_{b}diagm(\underbar{sfx}(a))}\#\#CHECK\\
  &  & \boxed{}\\
-\nabla_{\Lambda_{a}^{-1}}^{2}\mathcal{L}_{\Lambda_{a}^{-1}}=H_{\Lambda_{a}^{-1}} & \propto & \boxed{+\boldsymbol{\tfrac{1}{2}}-\tfrac{1}{4}\sum_{b}}
+\nabla_{\Lambda_{a}^{-1}}^{2}\mathcal{L}_{\Lambda_{a}^{-1}}=H_{\Lambda_{a}^{-1}} & \propto & \boxed{+\tfrac{1}{2}\Lambda_{a}^{2}-\tfrac{1}{4}\sum_{b}\Big(diagm(\underbar{sfx}_{a})-\underbar{sfx}_{a}\underbar{sfx}_{a}^{T}\Big)_{b}\#\#\#CHECK}
 \end{align*}
 
 \end_inset
@@ -1198,7 +1198,7 @@ The newton step would look like:
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $\Lambda_{a,k}^{-1}=\Lambda_{a,k}^{-1}-H_{\Lambda_{a,k}^{-1}}^{-1}G_{\Lambda_{a,k}^{-1}}$
+\begin_inset Formula $\Lambda_{a}^{-1}=\Lambda_{a}^{-1}-H_{\Lambda_{a}^{-1}}^{-1}G_{\Lambda_{a}^{-1}}$
 \end_inset
 
 
