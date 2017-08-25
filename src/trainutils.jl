@@ -400,6 +400,7 @@ function Lambdainv_hess(model::LNMMSB, mb::MiniBatch, a::Int64)#####CHECK
 	return s
 
 end
+print("");
 # function updateLambdaa!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
 # 	temp = deepcopy(inv(model.Λ_var[a,:,:]))
 # 	for k in 1:model.K

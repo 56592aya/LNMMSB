@@ -258,7 +258,7 @@ ForwardDiff.gradient(f, Laminv)
 dat = readcsv("data/Network.csv")
 dat = convert(Matrix2d{Int64},dat[2:end,[5,6]])
 dat = sortrows(dat, by=x->(x[1],x[2]))
-dat = unique(dat)
+# dat = unique(dat)
 using LightGraphs
 test=DiGraph(maximum(vcat(dat[:,1],dat[:,2])))
 for r in 1:size(dat,1)
@@ -266,7 +266,7 @@ for r in 1:size(dat,1)
 end
 test
 x = strongly_connected_components(test)
-y=indmax(y)([length(i) for i in x])
+y=[length(i) for i in x]
 x = x[indmax(y)]
 test=induced_subgraph(test,x)
 test = test[1]
@@ -485,4 +485,6 @@ end
 
 #init_heldout(ratio,heldout_pairs, heldout_map)
 communities = batch_infer()
-sort([length(i) for i in values(communities)],rev=true)
+comm_sizes=sort([length(i) for i in values(communities)],rev=true)
+comm_sizes[comm_sizes .> 20]
+Plots.histogram(comm_sizes)

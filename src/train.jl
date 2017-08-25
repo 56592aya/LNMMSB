@@ -10,13 +10,9 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	switchrounds=true
 	#let's say for now:
 	elboevery=10
-	# for a in 1:model.N
-	# 	model.μ_var[a,:]=[-0.16645342111013306,  -0.6374507015168214,  0.052970559974790075,  0.031601875772308]
-	# 	model.Λ_var[a,:]=[0.1963771801404379,  0.18922306769147973,  0.19457540225231443,  0.19951992669472524]
-	# end
 	true_θ=readdlm("data/true_theta.txt")
 	model.μ_var=deepcopy(true_θ);
-	
+
 	for i in 1:model.N
 		model.μ_var[i,:] = log(model.μ_var[i,:])
 	end
