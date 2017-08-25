@@ -6,7 +6,7 @@ mutable struct LNMMSB <: AbstractMMSB
     K            ::Int64              #number of communities
     N            ::Int64              #number of individuals
     elbo         ::Float64            #ELBO
-    newelbo      ::Float64            #new ELBO
+    oldelbo      ::Float64            #new ELBO
     μ            ::Vector{Float64}    #true mean of the MVN
     μ_var        ::Matrix2d{Float64}  #variational mean of the MVN
     μ_var_old    ::Matrix2d{Float64}  #variational mean of the MVN

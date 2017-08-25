@@ -252,5 +252,5 @@ ForwardDiff.gradient(f, Laminv)
 ForwardDiff.hessian(f, Laminv)
 -.5*kron(inv(Laminv),inv(Laminv'))
 Laminv = rand(K)
-f(Laminv) = .5*1./(Laminv)
+f(Laminv) = .5*Laminv
 ForwardDiff.gradient(f, Laminv)

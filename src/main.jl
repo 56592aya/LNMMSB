@@ -15,7 +15,7 @@ include("init.jl")
 communities
 mb_zeroer = MiniBatch()
 mb=deepcopy(mb_zeroer)
-
+include("trainutils.jl")
 # train_zeroer = Training()
 # train = deepcopy(train_zeroer)
 # train_sampling!(train, model)
