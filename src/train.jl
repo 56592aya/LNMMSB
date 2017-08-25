@@ -15,11 +15,18 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	# 	model.Λ_var[a,:]=[0.1963771801404379,  0.18922306769147973,  0.19457540225231443,  0.19951992669472524]
 	# end
 	true_θ=readdlm("data/true_theta.txt")
-	model.μ_var=deepcopy(true_θ)
+	model.μ_var=deepcopy(true_θ);
+	
+	for i in 1:model.N
+		model.μ_var[i,:] = log(model.μ_var[i,:])
+	end
 	model.Λ_var = 10.0*ones(Float64, (model.N, model.K))
-	model.m = [-0.16,  -0.63,  0.05,  0.03]
+	true_mu = readdlm("data/true_mu.txt")
+	model.m = deepcopy(reshape(true_mu,model.K))
 	model.l = model.K
-	model.L=diagm(1.0./ones(Float64, model.K))./model.l
+	true_Lambda = readdlm("data/true_Lambda.txt")
+	Lambda = deepcopy(true_Lambda)
+	model.L=inv(Lambda)./model.l
 	i=1
 
 	isfullsample=false
@@ -43,10 +50,14 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 
 		#Learning rates
 
-		lr_M = 1.0/((1.0+Float64(i))^.5)
-		lr_m = 1.0/((1.0+Float64(i))^.7)
-		lr_L = 1.0/((1.0+Float64(i))^.9)
-		lr_b = 1.0/((1.0+Float64(i))^.5)
+		lr_M = 1.0
+		lr_m = 1.0
+		lr_L = 1.0
+		lr_b = 1.0
+		# lr_M = 1.0/((1.0+Float64(i))^.5)
+		# lr_m = 1.0/((1.0+Float64(i))^.7)
+		# lr_L = 1.0/((1.0+Float64(i))^.9)
+		# lr_b = 1.0/((1.0+Float64(i))^.5)
 
 
 		#locals:phis

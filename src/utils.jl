@@ -6,7 +6,7 @@ MatrixList{T} = Vector{Matrix{T}}
 Matrix2d{T}   = Matrix{T}
 Matrix3d{T}   = Array{T,3}
 Network{T}    = SparseMatrixCSC{T,T}
-
+model.network
 struct Dyad <: AbstractDyad
  src::Int64
  dst::Int64
