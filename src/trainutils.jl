@@ -5,13 +5,16 @@ using SpecialFunctions
 function elogpmu(model::LNMMSB)
 	-.5*(model.K*logdet(model.M0)+trace(model.M0*(model.m-model.m0)*(model.m-model.m0)')+trace(model.M0*inv(model.M)))
 end
+# elogpmu(model)
 #
 function elogpLambda(model::LNMMSB)
 	+.5*(-model.K*(model.K+1)*log(2.0)-.5*model.K*(model.K-1)*log(pi)+
 	(model.l0-model.K-1)*digamma(.5*model.l,model.K)-2.0*lgamma(.5*model.l0,model.K)-
 	model.l*trace(inv(model.L0)*model.L)- (model.K+1)*(logdet(model.L))+model.l0*logdet(inv(model.L0)*(model.L)))
 end
+# elogpLambda(model)
 #
+##Very large in magnitude
 function elogptheta(model::LNMMSB, mb::MiniBatch)
 	s = zero(Float64)
 	for a in collect(mb.mballnodes)
@@ -22,7 +25,6 @@ function elogptheta(model::LNMMSB, mb::MiniBatch)
 end
 # elogptheta(model, mb)
 # #think about how to keep track of phis
-# ##MB dependent
 function elogpzlout(model::LNMMSB, mb::MiniBatch)
 	s1 = zero(Float64)
 	s2 = zero(Float64)
@@ -36,8 +38,7 @@ function elogpzlout(model::LNMMSB, mb::MiniBatch)
 	end
 	s1-log(s2)
 end
-#
-# ##MB dependent
+# elogpzlout(model, mb)
 function elogpzlin(model::LNMMSB, mb::MiniBatch)
 	s1 = zero(Float64)
 	s2 = zero(Float64)
@@ -51,7 +52,7 @@ function elogpzlin(model::LNMMSB, mb::MiniBatch)
 	end
 	s1-log(s2)
 end
-# ##MB dependent
+# elogpzlin(model, mb)
 function elogpznlout(model::LNMMSB, mb::MiniBatch)
 	s1 = zero(Float64)
 	s2 = zero(Float64)
@@ -65,7 +66,7 @@ function elogpznlout(model::LNMMSB, mb::MiniBatch)
 	end
 	s1-log(s2)
 end
-# ##MB dependent
+# elogpznlout(model, mb)
 function elogpznlin(model::LNMMSB, mb::MiniBatch)
 	s1 = zero(Float64)
 	s2 = zero(Float64)
@@ -79,7 +80,7 @@ function elogpznlin(model::LNMMSB, mb::MiniBatch)
 	end
 	s1-log(s2)
 end
-#
+# elogpznlin(model, mb)
 function elogpbeta(model::LNMMSB)
 	s = zero(Float64)
 	for k in 1:model.K
@@ -89,8 +90,6 @@ function elogpbeta(model::LNMMSB)
 	s
 end
 elogpbeta(model)
-#
-# ##MB dependent
 ##check the effect of epsilon on the size of the change, so that in computations maybe we can skip it.
 function elogpnetwork(model::LNMMSB, mb::MiniBatch)
 	s = zero(Float64)
@@ -115,11 +114,12 @@ end
 function elogqmu(model::LNMMSB)
 	-.5*(model.K*log(2.0*pi) + model.K - logdet(model.M))
 end
+# elogqmu(model)
 function elogqLambda(model::LNMMSB)
 	-.5*((model.K+1)*logdet(model.L) + model.K*(model.K+1)*log(2)+model.K*model.l+
 	.5*model.K*(model.K-1)*log(pi) + 2*lgamma(.5*model.l, model.K) - (model.l-model.K-1)*digamma(.5*model.l, model.K))
 end
-#
+# elogqLambda(model)
 function elogqtheta(model::LNMMSB)
 	s = zero(Float64)
 	for a in collect(mb.mballnodes)
@@ -127,8 +127,7 @@ function elogqtheta(model::LNMMSB)
 	end
 	-.5*s
 end
-
-#
+# elogqtheta(model)
 function elogqbeta(model::LNMMSB)
 	s = zero(Float64)
 
@@ -137,8 +136,7 @@ function elogqbeta(model::LNMMSB)
 	end
 	-s
 end
-
-#
+# elogqbeta(model)
 function elogqzl(model::LNMMSB)
 	s = zero(Float64)
 	for mbl in mb.mblinks
@@ -148,6 +146,7 @@ function elogqzl(model::LNMMSB)
 	end
 	s
 end
+# elogqzl(model)
 function elogqznl(model::LNMMSB)
 	s = zero(Float64)
 	for mbn in mb.mbnonlinks
@@ -157,37 +156,31 @@ function elogqznl(model::LNMMSB)
 	end
 	s
 end
+# elogqznl(model)
 function computeelbo!(model::LNMMSB, mb::MiniBatch)
 	model.elbo=elogpmu(model)+elogpLambda(model)+elogptheta(model,mb)+elogpzlout(model,mb)+elogpzlin(model,mb)+
 	elogpznlout(model,mb)+elogpznlin(model,mb)+elogpbeta(model)+elogpnetwork(model,mb)-
 	(elogqmu(model)+elogqLambda(model)+elogqtheta(model)+elogqbeta(model)+elogqzl(model)+elogqznl(model))
 	return model.elbo
 end
-# ##Pay attention to the weightings of them accordint the the train/mb
-# function computenewelbo!(model::LNMMSB)
-# 	model.newelbo = elogpmu(model)+	elogpLambda(model)+	elogptheta(model)+	elogpzlout(model)+	elogpzlin(model)+elogpznlout(model)+elogpznlin(model)+elogpbeta(model)+elogpnetwork(model)-
-# 	(elogqmu(model)+elogqLambda(model)+	elogqtheta(model)+elogqbeta(model)+elogqzl(model)+elogqznl(model))
-# end
-##MB dependent
+# computeelbo!(model, mb)
+
 function updateM!(model::LNMMSB,mb::MiniBatch)
 	##Only to make it MB dependent
 	model.M_old = deepcopy(model.M)
 	model.M = model.l.*model.N.*model.L + model.M0
 end
 #updateM!(model,mb)
-##MB Dependent
 function updatem!(model::LNMMSB, mb::MiniBatch)
 	model.m_old = deepcopy(model.m)
 	model.m= inv(model.M)*(model.M0*model.m0+model.l*model.L*(model.N/model.mbsize)*sum(model.μ_var[a,:] for a in collect(mb.mballnodes)))
 end
 #updatem!(model, mb)
-##MB Dependent
 function updatel!(model::LNMMSB, mb::MiniBatch)
 	##should be set in advance, not needed in the loop
 	model.l = model.l0+model.N
 end
 #updatel!(model,mb)
-#MB Dependent
 function updateL!(model::LNMMSB, mb::MiniBatch)
 	x=model.μ_var[collect(mb.mballnodes),:]'.-model.m
 	s1= x*x'
@@ -196,8 +189,6 @@ function updateL!(model::LNMMSB, mb::MiniBatch)
 	model.L = inv(inv(model.L0) + model.N*inv(model.M) + (model.N/model.mbsize)*(s1+s2))
 end
 #updateL!(model, mb)
-#MB Dependent
-# sometihng wrong with b updates and weightings of ϕnlinoutsum
 function updateb0!(model::LNMMSB, mb::MiniBatch)
 	for k in 1:model.K
 		model.ϕlinoutsum[k] = zero(Float64)
@@ -210,7 +201,6 @@ function updateb0!(model::LNMMSB, mb::MiniBatch)
 	model.b0[:] = (train_links_num)/length(mb.mblinks)*(model.ϕlinoutsum[:]).+model.η0;
 end
 #updateb0!(model, mb)
-#MB Dependent
 function updateb1!(model::LNMMSB, mb::MiniBatch)
 	for k in 1:model.K
 		model.ϕnlinoutsum[k] = zero(Float64)
@@ -223,8 +213,6 @@ function updateb1!(model::LNMMSB, mb::MiniBatch)
 	model.b1[:] = (train_nlinks_num*1.0/length(mb.mbnonlinks))*(model.ϕnlinoutsum[:]).+model.η1
 end
 #updateb1!(model, mb)
-
-
 
 ##The following need update but need to think how it affects the actual phis? after an iteration
 ## But also local and used among first updates, so to be used by other updates with the same minibatch
@@ -292,7 +280,6 @@ function updatephil!(model::LNMMSB,  mb::MiniBatch, early::Bool, switchrounds::B
 end
 
 #updatephilin!(model, mb)
-#MB Dependent
 ##need switching rounds between out and in
 function updatephinl!(model::LNMMSB, mb::MiniBatch,early::Bool, dep2::Float64,switchrounds::Bool)
 	for nl in mb.mbnonlinks
@@ -383,7 +370,6 @@ end
 # 	end
 # end
 # #Newton
-# #MB dependent
 function Lambdainv_grad(model::LNMMSB, mb::MiniBatch, a::Int64)
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
 	sfx_vec = [softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:],k) for k in 1:model.K]

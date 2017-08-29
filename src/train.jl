@@ -14,11 +14,12 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	model.μ_var=deepcopy(true_θ);
 
 	for i in 1:model.N
-		model.μ_var[i,:] = log(model.μ_var[i,:])
+		model.μ_var[i,:] = log.(model.μ_var[i,:])
 	end
 	model.Λ_var = 10.0*ones(Float64, (model.N, model.K))
 	true_mu = readdlm("data/true_mu.txt")
 	model.m = deepcopy(reshape(true_mu,model.K))
+	model.M = 10.0*eye(Float64, K)
 	model.l = model.K
 	true_Lambda = readdlm("data/true_Lambda.txt")
 	Lambda = deepcopy(true_Lambda)
@@ -101,7 +102,7 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		model.b1
 		print(i);print(": ")
 		println(model.b0./(model.b0.+model.b1))
-		## KEEP AN AVERAGE FOR MUS AND LAMBDAS TO INITIATE THE PHIS EACH TIME
+
 
 		# for a in collect(mb.mballnodes)
 		# 	updatemua!(model, a, niter, ntol,mb)
@@ -117,11 +118,12 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		if checkelbo || i == 1
 			computeelbo!(model, mb)
 			print(i);print("-ElBO:");println(model.elbo)
+			model.oldelbo=model.elbo
+			push!(model.elborecord, model.elbo)
 			abs(model.oldelbo-model.elbo)/model.oldelbo
 		end
 		switchrounds = !switchrounds
-		model.oldelbo=model.elbo
-		push!(model.elborecord, model.elbo)
+
 		i=i+1
 	end
 end

@@ -82,6 +82,7 @@ Base.Math.lgamma{T<:Number,R<:Integer}(x::T, dim::R)=.25*(dim*dim-1)*pi+sum(lgam
 
 
 
+
 function logsumexp{T <:Real}(xs::Array{T})
   a = maximum(xs)
   s = zero(eltype(xs))
@@ -93,9 +94,13 @@ end
 
 function expnormalize{T<:Real}(xs::Array{T})
   s = zero(eltype(xs))
-  s=exp(logsumexp(xs))
+  a = maximum(xs)
   for i in 1:size(xs,1)
-    xs[i] = exp(xs[i])/s
+    xs[i] = exp(xs[i]-a)
+    s+=xs[i]##check
+  end
+  for i in 1:size(xs,1)
+    xs[i] = xs[i]/s##check
   end
   xs[:]
 end
