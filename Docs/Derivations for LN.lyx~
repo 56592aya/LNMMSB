@@ -1185,7 +1185,7 @@ similarly assuming that
  & =\\
 \nabla_{\Lambda_{a}^{-1}}\mathcal{L}_{\Lambda_{a}^{-1}}=G_{\Lambda_{a}^{-1}} & = & \boxed{-\tfrac{\ell}{2}L+\tfrac{1}{2}diagm(\Lambda_{a})-\tfrac{1}{2}\sum_{b}diagm(\underbar{sfx}(a))}\#\#CHECK\\
  &  & \boxed{}\\
-\nabla_{\Lambda_{a}^{-1}}^{2}\mathcal{L}_{\Lambda_{a}^{-1}}=H_{\Lambda_{a}^{-1}} & \propto & \boxed{+\tfrac{1}{2}diagm(\Lambda_{a})\odot diagm(\Lambda_{a})-\tfrac{1}{4}\sum_{b}\Big(diagm(\underbar{sfx}_{a})-\underbar{sfx}_{a}\underbar{sfx}_{a}^{T}\Big)_{b}\#\#\#CHECK}
+\nabla_{\Lambda_{a}^{-1}}^{2}\mathcal{L}_{\Lambda_{a}^{-1}}=H_{\Lambda_{a}^{-1}} & \propto & \boxed{-\tfrac{1}{2}diagm(\Lambda_{a})\odot diagm(\Lambda_{a})-\tfrac{1}{4}\sum_{b}\Big(diagm(\underbar{sfx}_{a})-\underbar{sfx}_{a}\underbar{sfx}_{a}^{T}\Big)_{b}\#\#\#CHECK}
 \end{align*}
 
 \end_inset

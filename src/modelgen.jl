@@ -4,10 +4,10 @@ using Plots
 using ArgParse
 srand(1234)
 K=4
-m0            =zeros(Float64,K)
-M0            =eye(Float64,K) #ones M0 matrix
+m0            =(1.0/K).*ones(Float64,K)
+M0            =(K).*eye(Float64,K) #ones M0 matrix
 l0            =K*1.0 #init the df l0
-L0            =(.05).*eye(Float64,K) #init the scale L0
+L0            =(.005).*eye(Float64,K) #init the scale L0
 η0            =9.0 #one the beta param
 η1            =1.0 #one the beta param
 function gennetwork(N::Int64, K::Int64)
@@ -20,8 +20,11 @@ function gennetwork(N::Int64, K::Int64)
   end
 
 
+
   Λ ./= N
   μ = rand(MvNormalCanon(M0*m0,M0))
+
+  # cov(1.0./(reshape(repeat(rand(MvNormalCanon(M0*m0,M0)), outer=[1000]),(4,1000)))')
   β = rand(Beta(η0, η1),K)
   ##We need to make sure that these probabilities are all positive
   for a in 1:N
@@ -67,6 +70,12 @@ function gennetwork(N::Int64, K::Int64)
   writedlm("data/true_mu.txt", μ)
   writedlm("data/true_Lambda.txt", Λ)
   writedlm("data/true_beta.txt", β)
+  writedlm("data/true_m0.txt", m0)
+  writedlm("data/true_M0.txt", M0)
+  writedlm("data/true_l0.txt", l0)
+  writedlm("data/true_BigL0.txt", L0)
+  writedlm("data/true_eta0.txt", η0)
+  writedlm("data/true_eta1.txt", η1)
 end
 
 if isfile("data/network.jld")

@@ -19,7 +19,7 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	model.Λ_var = 10.0*ones(Float64, (model.N, model.K))
 	true_mu = readdlm("data/true_mu.txt")
 	model.m = deepcopy(reshape(true_mu,model.K))
-	model.M = 10.0*eye(Float64, K)
+	model.M = (K).*eye(Float64,K)
 	model.l = model.K
 	true_Lambda = readdlm("data/true_Lambda.txt")
 	Lambda = deepcopy(true_Lambda)
@@ -120,7 +120,7 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 			print(i);print("-ElBO:");println(model.elbo)
 			model.oldelbo=model.elbo
 			push!(model.elborecord, model.elbo)
-			abs(model.oldelbo-model.elbo)/model.oldelbo
+			print("elbo improvement:");println(abs(model.oldelbo-model.elbo)/model.oldelbo)
 		end
 		switchrounds = !switchrounds
 

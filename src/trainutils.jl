@@ -356,20 +356,19 @@ function mu_hess(model::LNMMSB, mb::MiniBatch, a::Int64)
 	return s
 
 end
-#
-# function updatemua!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
-# 	for k in 1:model.K
-# 		for i in 1:niter
-# 			μ_grad=gmu(model, mb, a,k)
-# 			μ_invH=inv(hmu(model, mb, a, k))
-# 			model.μ_var[a,k] -= μ_invH * μ_grad
-# 			if norm(μ_grad) < ntol
-# 				break
-# 			end
-# 		end
-# 	end
-# end
-# #Newton
+#Newton
+function updatemua!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
+
+	for i in 1:niter
+		μ_grad=mu_grad(model, mb, a)
+		μ_invH=inv(mu_hess(model, mb, a))
+		model.μ_var[a,:] -= μ_invH * μ_grad
+		if norm(μ_grad) < ntol || i == niter
+			break
+		end
+	end
+end
+
 function Lambdainv_grad(model::LNMMSB, mb::MiniBatch, a::Int64)
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
 	sfx_vec = [softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:],k) for k in 1:model.K]
@@ -378,26 +377,29 @@ function Lambdainv_grad(model::LNMMSB, mb::MiniBatch, a::Int64)
 
 	return s
 end
+##still needs some fixing
 function Lambdainv_hess(model::LNMMSB, mb::MiniBatch, a::Int64)#####CHECK
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
 	sfx_vec = [softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:],k) for k in 1:model.K]
-	s =  .5*ones(Float64,(K,K))*(model.Λ_var[a,:])*(model.Λ_var[a,:])'-.25*sumb*(diagm(sfx_vec)-sfx_vec*sfx_vec')
-
+	s =  -.5*diagm(model.Λ_var[a,:].*model.Λ_var[a,:])-.25*sumb*(diagm(sfx_vec)-sfx_vec*sfx_vec')
 	return s
 
 end
 print("");
-# function updateLambdaa!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
-# 	temp = deepcopy(inv(model.Λ_var[a,:,:]))
-# 	for k in 1:model.K
-# 		for i in 1:niter
-# 			Λinv_grad=gLambdainv(model, mb, a,k)
-# 			Λinv_invH=inv(hLambdainv(model, mb, a, k))
-# 			temp[k,k] -= Λinv_invH * Λinv_grad
-# 			if norm(Λinv_grad) < ntol || i == niter
-# 				model.Λ_var[a,k,k] = inv(temp[k,k])
-# 				break
-# 			end
-# 		end
-# 	end
-# end
+#Newton
+###Needs fixings
+function updateLambdaa!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
+
+	temp = deepcopy(inv(diagm(model.Λ_var[a,:])))
+	for i in 1:niter
+		Λinv_grad=Lambdainv_grad(model, mb, a)
+		Λinv_invH=inv(Lambdainv_hess(model, mb, a))
+		temp -= Λinv_invH * Λinv_grad
+		model.Λ_var[a,:] = diag(inv(temp))
+		norm(Λinv_grad)
+		if norm(Λinv_grad) < ntol || i == niter
+			model.Λ_var[a,k,k] = inv(temp[k,k])
+			break
+		end
+	end
+end
