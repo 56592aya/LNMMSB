@@ -38,7 +38,10 @@ function gennetwork(N::Int64, K::Int64)
   z_in=zeros(Float64, (N,N,K))
   z_out = zeros(Float64,(N,N,K))
   sort_by_argmax!(Θ)
-  writedlm("data/true_theta.txt", Θ)
+  if isfile("data/true_thetas.txt")
+  else
+    writedlm("data/true_thetas.txt",Θ)
+  end
 
   for a in 1:N
     for b in 1:N
@@ -67,11 +70,23 @@ function gennetwork(N::Int64, K::Int64)
 #     end
 #     write(f, "\n")
 #   end
+  if isfile("data/true_mu.txt")
+    rm("data/network.jld")
+    rm("data/true_mu.txt")
+    rm("data/true_Lambda.txt")
+    rm("data/true_beta.txt")
+    rm("data/true_m0.txt")
+    rm("data/true_BigM0.txt")
+    rm("data/true_l0.txt")
+    rm("data/true_BigL0.txt")
+    rm("data/true_eta0.txt")
+    rm("data/true_eta1.txt")
+  end
   writedlm("data/true_mu.txt", μ)
   writedlm("data/true_Lambda.txt", Λ)
   writedlm("data/true_beta.txt", β)
   writedlm("data/true_m0.txt", m0)
-  writedlm("data/true_M0.txt", M0)
+  writedlm("data/true_BigM0.txt", M0)
   writedlm("data/true_l0.txt", l0)
   writedlm("data/true_BigL0.txt", L0)
   writedlm("data/true_eta0.txt", η0)
@@ -79,7 +94,8 @@ function gennetwork(N::Int64, K::Int64)
 end
 
 if isfile("data/network.jld")
-  println("There already exists a netwrok.jld, if you want to change it remove it first")
+  JLD.@save("data/network.jld",network)
+  #println("There already exists a netwrok.jld, if you want to change it remove it first")
 else
   isassigned(inputtomodelgen,2)?gennetwork(inputtomodelgen[1],inputtomodelgen[2]):println("you should set ARGS for gennetwork(N,K)")
 

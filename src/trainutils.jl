@@ -389,7 +389,6 @@ print("");
 #Newton
 ###Needs fixings
 function updateLambdaa!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
-
 	temp = deepcopy(inv(diagm(model.Λ_var[a,:])))
 	for i in 1:niter
 		Λinv_grad=Lambdainv_grad(model, mb, a)
@@ -398,8 +397,20 @@ function updateLambdaa!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb:
 		model.Λ_var[a,:] = diag(inv(temp))
 		norm(Λinv_grad)
 		if norm(Λinv_grad) < ntol || i == niter
-			model.Λ_var[a,k,k] = inv(temp[k,k])
+			model.Λ_var[a,:] = diag(inv(temp))
 			break
 		end
 	end
+end
+
+function estimate_βs(model::LNMMSB, mb::MiniBatch)
+end
+
+function estimate_θs(model::LNMMSB, mb::MiniBatch)
+end
+
+function estimate_μs(model::LNMMSB, mb::MiniBatch)
+end
+
+function estimate_Λs(model::LNMMSB, mb::MiniBatch)
 end
