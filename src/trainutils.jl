@@ -367,7 +367,7 @@ function updatemua!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::Min
 			break
 		end
 	end
-	model.μ_var_old[a,:] = deepcopy(model.μ_var[[a,:]]);
+	model.μ_var_old[a,:] = deepcopy(model.μ_var[a,:]);
 	print();
 end
 

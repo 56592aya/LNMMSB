@@ -103,8 +103,14 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		model.b1
 		print(i);print(": ")
 		println(model.b0./(model.b0.+model.b1))
-
-
+		# niter=500; ntol=1e-5;
+		# for a in collect(mb.mballnodes)
+		#
+		# 	updatemua!(model, a, niter, ntol,mb)
+		# 	lr_mu[a] = 1.0/((1.0+Float64(mu_curr[a]))^.9)##could be  a macro
+		# 	mu_curr[a] += 1
+		#   model.μ_var[a,:] = model.μ_var_old[a,:]*(1.0-lr_mu[a])+lr_mu[a]*model.μ_var[a,:]
+		# end
 		# for a in collect(mb.mballnodes)
 		# 	updatemua!(model, a, niter, ntol,mb)
 		# 	lr_mu[a] = 1.0/((1.0+Float64(mu_curr[a]))^.9)##could be  a macro
