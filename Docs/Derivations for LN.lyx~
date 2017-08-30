@@ -668,11 +668,11 @@ Note that here I assume the following for the hyperparameters:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-m_{0} & =0\\
-M_{0} & =I\\
+m_{0} & =\tfrac{1}{K}I\\
+M_{0} & =K\times I\\
 \ell_{0} & =K\\
-L_{0} & =\tfrac{1}{K}I\\
-\eta_{0} & >1\\
+L_{0} & =0.005I\\
+\eta_{0} & >1=9\\
 \eta_{1} & =1
 \end{align*}
 

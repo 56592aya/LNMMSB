@@ -16,7 +16,7 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	# 	model.μ_var[i,:] = log.(model.μ_var[i,:])
 	# end
 	#
-	init_mu(model,communities)
+	init_mu(model,communities)##from Gopalan
 	model.Λ_var = 10.0*ones(Float64, (model.N, model.K))
 	true_mu = readdlm("data/true_mu.txt")
 	model.m = deepcopy(reshape(true_mu,model.K))
