@@ -408,12 +408,17 @@ function updateLambdaa!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb:
 end
 
 function estimate_βs(model::LNMMSB, mb::MiniBatch)
+	model.est_β=model.b0./(model.b0.+model.b1)
 end
 
 function estimate_θs(model::LNMMSB, mb::MiniBatch)
+	for a in 1:collect(mb.mballnodes)
+		model.est_θ[a,:] = expnormalize(model.μ_var[a,:])
+	end
 end
 
 function estimate_μs(model::LNMMSB, mb::MiniBatch)
+	model.est_μ = reshape(reduce(mean, model.μ_var, 1)',model.K)
 end
 
 function estimate_Λs(model::LNMMSB, mb::MiniBatch)
