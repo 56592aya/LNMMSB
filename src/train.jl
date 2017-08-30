@@ -10,12 +10,14 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	switchrounds=true
 	#let's say for now:
 	elboevery=10
-	true_θ=readdlm("data/true_thetas.txt")
-	model.μ_var=deepcopy(true_θ);
-
-	for i in 1:model.N
-		model.μ_var[i,:] = log.(model.μ_var[i,:])
-	end
+	# true_θ=readdlm("data/true_thetas.txt")
+	# model.μ_var=deepcopy(true_θ);
+	# for i in 1:model.N
+	# 	model.μ_var[i,:] = log.(model.μ_var[i,:])
+	# end
+	#
+	init_mu(model,communities)
+	model.μ_var[i,:]
 	model.Λ_var = 10.0*ones(Float64, (model.N, model.K))
 	true_mu = readdlm("data/true_mu.txt")
 	model.m = deepcopy(reshape(true_mu,model.K))
@@ -118,9 +120,9 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		if checkelbo || i == 1
 			computeelbo!(model, mb)
 			print(i);print("-ElBO:");println(model.elbo)
-			model.oldelbo=model.elbo
-			push!(model.elborecord, model.elbo)
 			print("elbo improvement:");println(abs(model.oldelbo-model.elbo)/model.oldelbo)
+			model.oldelbo=deepcopy(model.elbo)
+			push!(model.elborecord, model.elbo)
 		end
 		switchrounds = !switchrounds
 

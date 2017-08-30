@@ -94,8 +94,9 @@ function gennetwork(N::Int64, K::Int64)
 end
 
 if isfile("data/network.jld")
-  JLD.@save("data/network.jld",network)
-  #println("There already exists a netwrok.jld, if you want to change it remove it first")
+  #JLD.@save("data/network.jld",network)
+  println("There already exists a netwrok.jld, if you want to change it remove it first")
+
 else
   isassigned(inputtomodelgen,2)?gennetwork(inputtomodelgen[1],inputtomodelgen[2]):println("you should set ARGS for gennetwork(N,K)")
 
