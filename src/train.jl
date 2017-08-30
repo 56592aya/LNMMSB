@@ -17,7 +17,6 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	# end
 	#
 	init_mu(model,communities)
-	model.μ_var[i,:]
 	model.Λ_var = 10.0*ones(Float64, (model.N, model.K))
 	true_mu = readdlm("data/true_mu.txt")
 	model.m = deepcopy(reshape(true_mu,model.K))
@@ -49,14 +48,14 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 
 		#Learning rates
 
-		lr_M = 1.0
-		lr_m = 1.0
-		lr_L = 1.0
-		lr_b = 1.0
-		# lr_M = 1.0/((1.0+Float64(i))^.5)
-		# lr_m = 1.0/((1.0+Float64(i))^.7)
-		# lr_L = 1.0/((1.0+Float64(i))^.9)
-		# lr_b = 1.0/((1.0+Float64(i))^.5)
+		# lr_M = 1.0
+		# lr_m = 1.0
+		# lr_L = 1.0
+		# lr_b = 1.0
+		lr_M = 1.0/((1.0+Float64(i))^.5)
+		lr_m = 1.0/((1.0+Float64(i))^.7)
+		lr_L = 1.0/((1.0+Float64(i))^.9)
+		lr_b = 1.0/((1.0+Float64(i))^.5)
 
 
 		#locals:phis
@@ -110,11 +109,11 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		# 	updatemua!(model, a, niter, ntol,mb)
 		# 	lr_mu[a] = 1.0/((1.0+Float64(mu_curr[a]))^.9)##could be  a macro
 		# 	mu_curr[a] += 1
-		# 	model.ζ[a] = model.μ_var_old[a]*(1.0-lr_mu[a])+lr_mu[a]*model.μ_var[a]
+		#   model.μ_var[a,:] = model.μ_var_old[a,:]*(1.0-lr_mu[a])+lr_mu[a]*model.μ_var[a,:]
 		# 	updateLambdaa!(model, a, niter, ntol,mb)
 		# 	lr_Lambda[a] = 1.0/((1.0+Float64(Lambda_curr[a]))^.9)##could be  a macro
 		# 	Lambda_curr[a] += 1
-		# 	model.Λ_var[a] = model.Λ_var_old[a]*(1.0-lr_Lambda[a])+lr_Lambda[a]*model.Λ_var[a]
+		# 	model.Λ_var[a] = model.Λ_var_old[a,:]*(1.0-lr_Lambda[a])+lr_Lambda[a]*model.Λ_var[a,:]
 		# end
 		checkelbo = (i % elboevery == 0)
 		if checkelbo || i == 1

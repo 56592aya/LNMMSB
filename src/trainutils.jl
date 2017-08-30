@@ -367,6 +367,8 @@ function updatemua!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::Min
 			break
 		end
 	end
+	model.μ_var_old[a,:] = deepcopy(model.μ_var[[a,:]]);
+	print();
 end
 
 function Lambdainv_grad(model::LNMMSB, mb::MiniBatch, a::Int64)
@@ -401,6 +403,8 @@ function updateLambdaa!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb:
 			break
 		end
 	end
+	model.Λ_var_old[a,:] = deepcopy(model.Λ_var[[a,:]]);
+	print();
 end
 
 function estimate_βs(model::LNMMSB, mb::MiniBatch)
