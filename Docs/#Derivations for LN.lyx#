@@ -10,6 +10,7 @@
 %\usepackage{pgfplots}
 %\pgfplotsset{compat=<version>}
 \usepackage{inputenc}
+\usepackage{mathtools}
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false
@@ -668,12 +669,32 @@ Note that here I assume the following for the hyperparameters:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-m_{0} & =0\\
-M_{0} & =I\\
-\ell_{0} & =K\\
-L_{0} & =\tfrac{1}{K}I\\
-\eta_{0} & >1\\
+m_{0} & =\boldsymbol{0}\\
+M_{0} & =10\times\boldsymbol{I}\\
+\ell_{0} & =K+2\\
+L_{0} & =\dfrac{.1}{\ell_{0}}\boldsymbol{I}\\
+\eta_{0} & >1=9\\
 \eta_{1} & =1
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that here I assume the following for the variational parameters:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+m & =\boldsymbol{0}\\
+M & =10\times\boldsymbol{I}\\
+\ell & =K+2\\
+L & =\dfrac{.1}{\ell_{0}}\boldsymbol{I}\\
+b_{0} & >1=9\\
+b_{1} & =1
 \end{align*}
 
 \end_inset
@@ -688,7 +709,7 @@ Finally, we have the following:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\mathcal{L} & = & -\tfrac{1}{2}\Bigg(Kln\,2\pi-ln\,|M_{0}|+tr\,M_{0}(m-m_{0})(m-m_{0})^{T}+tr\,M_{0}M^{-1}\Bigg)\\
+\mathcal{L} & = & -\tfrac{1}{2}\Bigg(Kln\,2\pi-ln\,|M_{0}|+tr\,M_{0}(m-m_{0})(m-m_{0})^{T}+tr\,M_{0}M^{-1}\Bigg)\right{}\\
  &  & +\tfrac{1}{2}\Bigg(-K(K+1)ln\,2+(\ell_{0}-K-1)\sum_{i}\Psi(\tfrac{\ell-i+1}{2})-\tfrac{K(K-1)}{2}ln\,\pi-2\sum_{i}ln\,\Gamma(\tfrac{\ell_{0}-i+1}{2})\\
  &  & -\ell tr\,(L_{0}^{-1}L)-(K+1)ln\,|L|+\ell_{0}ln\,|L_{0}^{-1}L|\Bigg)\\
  &  & -\tfrac{1}{2}\sum_{a}\Bigg(Kln\,2\pi-\sum_{i}\Psi(\tfrac{\ell-i+1}{2})-Kln\,2-ln\,|L|+\\
@@ -941,7 +962,7 @@ Gradient with respect to
  &  & +\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)\\
  &  & -\phi_{a\leftarrow b,k}ln\,\phi_{a\leftarrow b,k}\\
  & = & \phi_{a\leftarrow b,k}\Big(\mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)-ln\,\phi_{a\leftarrow b,k}\Big)\\
-\nabla_{\phi_{a\rightarrow b,k}}\mathcal{L}_{\phi_{a\rightarrow b,k}} & = & \mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)-ln\,\phi_{a\leftarrow b,k}=0\\
+\nabla_{\phi_{a\leftarrow b,k}}\mathcal{L}_{\phi_{a\leftarrow b,k}} & = & \mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)-ln\,\phi_{a\leftarrow b,k}=0\\
  &  & \boxed{\phi_{a\leftarrow b,k}\propto exp\Bigg\{\mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)\Bigg\}}
 \end{eqnarray*}
 
@@ -989,8 +1010,8 @@ Gradient with respect to
  &  & +\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)\\
  &  & -\phi_{a\leftarrow b,k}ln\,\phi_{a\leftarrow b,k}\\
  & = & \phi_{a\leftarrow b,k}\Big(\mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)-ln\,\phi_{a\leftarrow b,k}\Big)\\
-\nabla_{\phi_{a\rightarrow b,k}}\mathcal{L}_{\phi_{a\rightarrow b,k}} & = & \mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)-ln\,\phi_{a\leftarrow b,k}=0\\
- &  & \boxed{\phi_{a\rightarrow b,k}\propto exp\Bigg\{\mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)\Bigg\}}
+\nabla_{\phi_{a\leftarrow b,k}}\mathcal{L}_{\phi_{a\leftarrow b,k}} & = & \mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)-ln\,\phi_{a\leftarrow b,k}=0\\
+ &  & \boxed{\phi_{a\leftarrow b,k}\propto exp\Bigg\{\mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)\Bigg\}}
 \end{eqnarray*}
 
 \end_inset
@@ -1020,7 +1041,7 @@ Gradient with respect to
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\mathcal{L}_{\mu_{a}} & = & -\tfrac{\ell}{2}\big[(\mu_{a}-m_{k})^{T}L(\mu_{a}-m_{k})+\\
+\mathcal{L}_{\mu_{a}} & = & -\tfrac{\ell}{2}\big[(\mu_{a}-m)^{T}L(\mu_{a}-m)\big]+\\
  &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b}^{T}\mu_{a}+\\
  &  & \sum_{b\notin sink(a)}\phi_{a\rightarrow b}^{T}\mu_{a}+\\
  &  & \sum_{b\in source(a)}\phi_{b\leftarrow a}^{T}\mu_{a}+\\
@@ -1183,9 +1204,9 @@ similarly assuming that
 \begin{align*}
 \mathcal{L}_{\Lambda_{a}^{-1}} & = & -\tfrac{\ell}{2}tr\,(L\Lambda_{a}^{-1})+\tfrac{1}{2}ln\,|\Lambda_{a}^{-1}|-\sum_{b}log\,\Big(\boldsymbol{1}^{T}\underbar{f}(\mu_{a},\Lambda_{a})\Big)\\
  & =\\
-\nabla_{\Lambda_{a}^{-1}}\mathcal{L}_{\Lambda_{a}^{-1}}=G_{\Lambda_{a}^{-1}} & = & \boxed{-\tfrac{\ell}{2}L+\tfrac{1}{2}\Lambda_{a}-\tfrac{1}{2}\sum_{b}diagm(\underbar{sfx}(a))}\#\#CHECK\\
+\nabla_{\Lambda_{a}^{-1}}\mathcal{L}_{\Lambda_{a}^{-1}}=G_{\Lambda_{a}^{-1}} & = & \boxed{-\tfrac{\ell}{2}L+\tfrac{1}{2}diagm(\Lambda_{a})-\tfrac{1}{2}\sum_{b}diagm(\underbar{sfx}(a))}\#\#CHECK\\
  &  & \boxed{}\\
-\nabla_{\Lambda_{a}^{-1}}^{2}\mathcal{L}_{\Lambda_{a}^{-1}}=H_{\Lambda_{a}^{-1}} & \propto & \boxed{+\tfrac{1}{2}\Lambda_{a}^{2}-\tfrac{1}{4}\sum_{b}\Big(diagm(\underbar{sfx}_{a})-\underbar{sfx}_{a}\underbar{sfx}_{a}^{T}\Big)_{b}\#\#\#CHECK}
+\nabla_{\Lambda_{a}^{-1}}^{2}\mathcal{L}_{\Lambda_{a}^{-1}}=H_{\Lambda_{a}^{-1}} & \propto & \boxed{-\tfrac{1}{2}diagm(\Lambda_{a})\odot diagm(\Lambda_{a})-\tfrac{1}{4}\sum_{b}\Big(diagm(\underbar{sfx}_{a})-\underbar{sfx}_{a}\underbar{sfx}_{a}^{T}\Big)_{b}\#\#\#CHECK}
 \end{align*}
 
 \end_inset

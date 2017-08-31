@@ -340,4 +340,4 @@ function preparedata(model::LNMMSB)
 	train_degree!(model)
 	train_ss!(model)
 end
-println()
+print();

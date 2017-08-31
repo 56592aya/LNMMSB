@@ -10,6 +10,7 @@
 %\usepackage{pgfplots}
 %\pgfplotsset{compat=<version>}
 \usepackage{inputenc}
+\usepackage{mathtools}
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false
@@ -668,12 +669,32 @@ Note that here I assume the following for the hyperparameters:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-m_{0} & =\tfrac{1}{K}I\\
-M_{0} & =K\times I\\
-\ell_{0} & =K\\
-L_{0} & =0.005I\\
+m_{0} & =\boldsymbol{0}\\
+M_{0} & =10\times\boldsymbol{I}\\
+\ell_{0} & =K+2\\
+L_{0} & =\dfrac{.1}{\ell_{0}}\boldsymbol{I}\\
 \eta_{0} & >1=9\\
 \eta_{1} & =1
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that here I assume the following for the variational parameters:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+m & =\boldsymbol{0}\\
+M & =10\times\boldsymbol{I}\\
+\ell & =K+2\\
+L & =\dfrac{.1}{\ell_{0}}\boldsymbol{I}\\
+b_{0} & >1=9\\
+b_{1} & =1
 \end{align*}
 
 \end_inset
@@ -1020,7 +1041,7 @@ Gradient with respect to
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\mathcal{L}_{\mu_{a}} & = & -\tfrac{\ell}{2}\big[(\mu_{a}-m)^{T}L(\mu_{a}-m_{})+\\
+\mathcal{L}_{\mu_{a}} & = & -\tfrac{\ell}{2}\big[(\mu_{a}-m)^{T}L(\mu_{a}-m)\big]+\\
  &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b}^{T}\mu_{a}+\\
  &  & \sum_{b\notin sink(a)}\phi_{a\rightarrow b}^{T}\mu_{a}+\\
  &  & \sum_{b\in source(a)}\phi_{b\leftarrow a}^{T}\mu_{a}+\\

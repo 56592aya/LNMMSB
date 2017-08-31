@@ -4,12 +4,13 @@ using Plots
 using ArgParse
 srand(1234)
 K=4
-m0            =(1.0/K).*ones(Float64,K)
-M0            =(K).*eye(Float64,K) #ones M0 matrix
-l0            =K*1.0 #init the df l0
-L0            =(.005).*eye(Float64,K) #init the scale L0
+m0            =zeros(Float64,K)
+M0            =10.0*eye(Float64,K) #ones M0 matrix
+l0            =(K+2.0)*1.0 #init the df l0
+L0            =(.1/l0).*eye(Float64,K) #init the scale L0
 η0            =9.0 #one the beta param
 η1            =1.0 #one the beta param
+
 function gennetwork(N::Int64, K::Int64)
   network=Network(N)
   Θ=zeros(Float64, (N,K))
@@ -29,7 +30,7 @@ function gennetwork(N::Int64, K::Int64)
   ##We need to make sure that these probabilities are all positive
   for a in 1:N
     Θ[a,:] = rand(MvNormalCanon(Λ*μ, Λ))
-    Θ[a,:] = expnormalize(Θ[a,:])
+    # Θ[a,:] = expnormalize(Θ[a,:])
   end
 
 
@@ -38,6 +39,7 @@ function gennetwork(N::Int64, K::Int64)
   z_in=zeros(Float64, (N,N,K))
   z_out = zeros(Float64,(N,N,K))
   sort_by_argmax!(Θ)
+
   if isfile("data/true_thetas.txt")
   else
     writedlm("data/true_thetas.txt",Θ)
@@ -46,8 +48,8 @@ function gennetwork(N::Int64, K::Int64)
   for a in 1:N
     for b in 1:N
       if a!= b
-        z_out[a,b,:] = rand(Multinomial(1,Θ[a,:]))
-        z_in[a,b,:] = rand(Multinomial(1,Θ[b,:]))
+        z_out[a,b,:] = rand(Multinomial(1,expnormalize(Θ[a,:])))
+        z_in[a,b,:] = rand(Multinomial(1,expnormalize(Θ[b,:])))
         if z_in[a,b,:] == z_out[a,b,:]
           network[a,b]=rand(Binomial(1,β[indmax(z_out[a,b,:])]),1)[1]
         else
@@ -57,7 +59,6 @@ function gennetwork(N::Int64, K::Int64)
     end
   end
 
-  JLD.@save("data/network.jld",network)
 #   open("data/mu_true.txt", "w") do f
 #     write(f, "mu=")
 #     for k in 1:K
@@ -70,37 +71,38 @@ function gennetwork(N::Int64, K::Int64)
 #     end
 #     write(f, "\n")
 #   end
-  if isfile("data/true_mu.txt")
-    rm("data/network.jld")
-    rm("data/true_mu.txt")
-    rm("data/true_Lambda.txt")
-    rm("data/true_beta.txt")
-    rm("data/true_m0.txt")
-    rm("data/true_BigM0.txt")
-    rm("data/true_l0.txt")
-    rm("data/true_BigL0.txt")
-    rm("data/true_eta0.txt")
-    rm("data/true_eta1.txt")
-  end
-  writedlm("data/true_mu.txt", μ)
-  writedlm("data/true_Lambda.txt", Λ)
-  writedlm("data/true_beta.txt", β)
-  writedlm("data/true_m0.txt", m0)
-  writedlm("data/true_BigM0.txt", M0)
-  writedlm("data/true_l0.txt", l0)
-  writedlm("data/true_BigL0.txt", L0)
-  writedlm("data/true_eta0.txt", η0)
-  writedlm("data/true_eta1.txt", η1)
+	if isfile("data/true_mu.txt")
+	    rm("data/true_mu.txt")
+	    rm("data/true_Lambda.txt")
+	    rm("data/true_beta.txt")
+	    rm("data/true_m0.txt")
+	    rm("data/true_BigM0.txt")
+	    rm("data/true_l0.txt")
+	    rm("data/true_BigL0.txt")
+	    rm("data/true_eta0.txt")
+	    rm("data/true_eta1.txt")
+	end
+	if isfile("data/network.jld")
+		rm("data/network.jld")
+		JLD.@save("data/network.jld",network)
+	else
+		JLD.@save("data/network.jld",network)
+	end
+	writedlm("data/true_mu.txt", μ)
+	writedlm("data/true_Lambda.txt", Λ)
+	writedlm("data/true_beta.txt", β)
+	writedlm("data/true_m0.txt", m0)
+	writedlm("data/true_BigM0.txt", M0)
+	writedlm("data/true_l0.txt", l0)
+	writedlm("data/true_BigL0.txt", L0)
+	writedlm("data/true_eta0.txt", η0)
+	writedlm("data/true_eta1.txt", η1)
+
 end
 
-if isfile("data/network.jld")
-  #JLD.@save("data/network.jld",network)
-  println("There already exists a netwrok.jld, if you want to change it remove it first")
+isassigned(inputtomodelgen,2)?gennetwork(inputtomodelgen[1],inputtomodelgen[2]):println("you should set ARGS for gennetwork(N,K)")
 
-else
-  isassigned(inputtomodelgen,2)?gennetwork(inputtomodelgen[1],inputtomodelgen[2]):println("you should set ARGS for gennetwork(N,K)")
-
-  # Plots.heatmap(Θ, yflip=true)
-  network=FileIO.load("data/network.jld")["network"]
-  Plots.heatmap(network, yflip=true)
-end
+# Plots.heatmap(Θ, yflip=true)
+network=FileIO.load("data/network.jld")["network"]
+Plots.heatmap(network, yflip=true)
+Plots.heatmap(readdlm("data/true_thetas.txt"), yflip=true)
