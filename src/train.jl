@@ -2,7 +2,50 @@
 function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=1000, ntol::Float64=1.0/(model.K^2), viter::Int64=10, vtol::Float64=1.0/(model.K^2), elboevery::Int64=10, mb::MiniBatch,lr::Float64)
 	####TESTING ELBO INCREASE:#########
 	###################################
+	if isfile("data/messages.txt")
+		rm("data/messages.txt")
+	end
 	f = open("data/messages.txt","w")
+
+
+	##############################
+	##############################
+	preparedata(model)
+	iter=50
+	mu_curr=ones(model.N)
+	Lambda_curr=ones(model.N)
+	lr_mu = zeros(Float64, model.N)
+	lr_Lambda = zeros(Float64, model.N)
+	early=true
+	switchrounds=true
+	#let's say for now:
+	elboevery=10
+	model.elborecord = Vector{Float64}()
+	model.elbo = 0.0
+  	model.oldelbo= -Inf
+	# true_θ=readdlm("data/true_thetas.txt")
+	# model.μ_var=deepcopy(true_θ);
+	# for i in 1:model.N
+	# 	model.μ_var[i,:] = log.(model.μ_var[i,:])
+	# end
+	#
+	init_mu(model,communities)##from Gopalan
+	model.Λ_var = 1.0*ones(Float64, (model.N, model.K))
+	true_mu = readdlm("data/true_mu.txt")
+	model.m = deepcopy(reshape(true_mu,model.K))
+	# model.M = (10.0).*eye(Float64,K)
+	model.M = (0.1).*eye(Float64,K)##to move around more
+	model.l = model.K+3
+	true_Lambda = readdlm("data/true_Lambda.txt")
+	Lambda = deepcopy(true_Lambda)
+	model.L=0.1.*(Lambda)./model.l
+	# i=1
+
+	isfullsample=false
+	if model.mbsize == model.N
+		isfullsample = true
+	end
+
 	ELBO_Lrecord = Vector{Float64}()
 	ELBO_mrecord = Vector{Float64}()
 	ELBO_Mrecord = Vector{Float64}()
@@ -29,55 +72,17 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	ELBO_ϕnlin =elogpznlin(model,mb)+elogpnetwork(model,mb)-(elogqznl(model))
 
 
-	ELBO_Lold = deepcopy(ELBO_L)
-	ELBO_mold = deepcopy(ELBO_m)
-	ELBO_Mold = deepcopy(ELBO_M)
-	ELBO_μaold = deepcopy(ELBO_μa)
-	ELBO_Λaold = deepcopy(ELBO_Λa)
-	ELBO_b0old = deepcopy(ELBO_b0)
-	ELBO_b1old = deepcopy(ELBO_b1)
-	ELBO_ϕloutold = deepcopy(ELBO_ϕlout)
-	ELBO_ϕlinold = deepcopy(ELBO_ϕlin)
-	ELBO_ϕnloutold = deepcopy(ELBO_ϕnlout)
-	ELBO_ϕnlinold = deepcopy(ELBO_ϕnlin)
-
-
-	##############################
-	##############################
-	preparedata(model)
-	iter=200
-	mu_curr=ones(model.N)
-	Lambda_curr=ones(model.N)
-	lr_mu = zeros(Float64, model.N)
-	lr_Lambda = zeros(Float64, model.N)
-	early=true
-	switchrounds=true
-	#let's say for now:
-	elboevery=10
-	model.elborecord = Vector{Float64}()
-	model.elbo = 0.0
-  	model.oldelbo= -Inf
-	# true_θ=readdlm("data/true_thetas.txt")
-	# model.μ_var=deepcopy(true_θ);
-	# for i in 1:model.N
-	# 	model.μ_var[i,:] = log.(model.μ_var[i,:])
-	# end
-	#
-	init_mu(model,communities)##from Gopalan
-	model.Λ_var = 1.0*ones(Float64, (model.N, model.K))
-	true_mu = readdlm("data/true_mu.txt")
-	model.m = deepcopy(reshape(true_mu,model.K))
-	model.M = (10.0).*eye(Float64,K)
-	model.l = model.K+3
-	true_Lambda = readdlm("data/true_Lambda.txt")
-	Lambda = deepcopy(true_Lambda)
-	model.L=0.1.*(Lambda)./model.l
-	# i=1
-
-	isfullsample=false
-	if model.mbsize == model.N
-		isfullsample = true
-	end
+	ELBO_Lold = -Inf
+	ELBO_mold = -Inf
+	ELBO_Mold = -Inf
+	ELBO_μaold = -Inf
+	ELBO_Λaold = -Inf
+	ELBO_b0old = -Inf
+	ELBO_b1old = -Inf
+	ELBO_ϕloutold = -Inf
+	ELBO_ϕlinold = -Inf
+	ELBO_ϕnloutold = -Inf
+	ELBO_ϕnlinold = -Inf
 
 	for i in 1:iter
 		#Minibatch sampling/new sample
@@ -157,7 +162,7 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		# 	lr_mu[a] = 1.0/((1.0+Float64(mu_curr[a]))^.9)##could be  a macro
 		# 	mu_curr[a] += 1
 		#   model.μ_var[a,:] = model.μ_var_old[a,:]*(1.0-lr_mu[a])+lr_mu[a]*model.μ_var[a,:]
-		# end
+		# endf = open("data/messages.txt","w")
 		###############SEPARATE ELBO TESTING###########
 		###############################################
 		ELBO_L = elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model))
@@ -184,6 +189,63 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		push!(ELBO_ϕnloutrecord, ELBO_ϕnlout)
 		push!(ELBO_ϕnlinrecord, ELBO_ϕnlin)
 
+
+
+		if (ELBO_L-ELBO_Lold) < 0
+			write(f, "ELBO_L decreased\n")
+			# println("Whaaaat L")
+			# break;
+		end
+		if (ELBO_m-ELBO_mold) < 0
+			write(f, "ELBO_m decreased\n")
+			# println("Whaaaat m")
+			# break;
+		end
+		if (ELBO_M-ELBO_Mold) < 0
+			write(f, "ELBO_M decreased\n")
+			# println("Whaaaat M")
+			# break
+		end
+		if (ELBO_μa-ELBO_μaold) < 0
+			write(f, "ELBO_μa decreased\n")
+			# println("Whaaaat μa")
+			# break;
+		end
+		if (ELBO_Λa-ELBO_Λaold) < 0
+			write(f, "ELBO_Λa decreased\n")
+			# println("Whaaaat Λa")
+			# break
+		end
+		if (ELBO_b0-ELBO_b0old) < 0
+			write(f, "ELBO_b0 decreased\n")
+			# println("Whaaaat b0")
+			# break;
+		end
+		if (ELBO_b1-ELBO_b1old) < 0
+			write(f, "ELBO_b1 decreased\n")
+			# println("Whaaaat b1")
+			# break;
+		end
+		if (ELBO_ϕlout-ELBO_ϕloutold) < 0
+			write(f, "ELBO_ϕlout decreased\n")
+			# println("Whaaaat ϕlout")
+			# break;
+		end
+		if (ELBO_ϕlin-ELBO_ϕlinold) < 0
+			write(f, "ELBO_ϕlin decreased\n")
+			# println("Whaaaat ϕlin")
+			# break;
+		end
+		if (ELBO_ϕnlout-ELBO_ϕnloutold) < 0
+			write(f, "ELBO_ϕnlout decreased\n")
+			# println("Whaaaat ϕnlout")
+			# break;
+		end
+		if (ELBO_ϕnlin-ELBO_ϕnlinold) < 0
+			write(f, "ELBO_ϕnlin decreased\n")
+			# println("Whaaaat ϕnlin")
+			# break;
+		end
 		ELBO_Lold = deepcopy(ELBO_L)
 		ELBO_mold = deepcopy(ELBO_m)
 		ELBO_Mold = deepcopy(ELBO_M)
@@ -195,63 +257,8 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		ELBO_ϕlinold = deepcopy(ELBO_ϕlin)
 		ELBO_ϕnloutold = deepcopy(ELBO_ϕnlout)
 		ELBO_ϕnlinold = deepcopy(ELBO_ϕnlin)
-
-		if (ELBO_L-ELBO_Lold) < 0
-			write(f, "ELBO_L decreased\n")
-			println("Whaaaat L")
-			break;
-		end
-		if (ELBO_m-ELBO_mold) < 0
-			write(f, "ELBO_m decreased\n")
-			println("Whaaaat m")
-			break;
-		end
-		if (ELBO_M-ELBO_Mold) < 0
-			write(f, "ELBO_M decreased\n")
-			println("Whaaaat M")
-			break
-		end
-		if (ELBO_μa-ELBO_μaold) < 0
-			write(f, "ELBO_μa decreased\n")
-			println("Whaaaat μa")
-			break;
-		end
-		if (ELBO_Λa-ELBO_Λaold) < 0
-			write(f, "ELBO_Λa decreased\n")
-			println("Whaaaat Λ")
-			break
-		end
-		if (ELBO_b0-ELBO_b0old) < 0
-			write(f, "ELBO_b0 decreased\n")
-			println("Whaaaat b0")
-			break;
-		end
-		if (ELBO_b1-ELBO_b1old) < 0
-			write(f, "ELBO_b1 decreased\n")
-			println("Whaaaat b1")
-			break;
-		end
-		if (ELBO_ϕlout-ELBO_ϕloutold) < 0
-			write(f, "ELBO_ϕlout decreased\n")
-			println("Whaaaat ϕlout")
-			break;
-		end
-		if (ELBO_ϕlin-ELBO_ϕlinold) < 0
-			write(f, "ELBO_ϕlin decreased\n")
-			println("Whaaaat ϕlin")
-			break;
-		end
-		if (ELBO_ϕnlout-ELBO_ϕnloutold) < 0
-			write(f, "ELBO_ϕnlout decreased\n")
-			println("Whaaaat ϕnlout")
-			break;
-		end
-		if (ELBO_ϕnlin-ELBO_ϕnlinold) < 0
-			write(f, "ELBO_ϕnlin decreased\n")
-			println("Whaaaat ϕnlin")
-			break;
-		end
-
+		###############SEPARATE ELBO TESTING###########
+		###############################################
 		########################################################
 		########################################################
 		###############
@@ -260,11 +267,11 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 			computeelbo!(model, mb)
 			print(i);print("-ElBO:");println(model.elbo)
 			print("elbo improvement:");
-			increase=(model.elbo-model.oldelbo)/model.oldelbo;
+			increase=isinf(model.oldelbo)?65535.0:(model.elbo-model.oldelbo)/model.oldelbo;
 			println(increase);
-			# if increase < 0 && i > 10
-			# 	break;
-			# end
+			if increase < 0 && i > 10
+			 	break;
+			end
 
 
 
@@ -272,7 +279,6 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 			push!(model.elborecord, model.elbo)
 		end
 		switchrounds = !switchrounds
-
 		# i=i+1
 	end
 	close(f)
