@@ -488,3 +488,18 @@ communities = batch_infer()
 comm_sizes=sort([length(i) for i in values(communities)],rev=true)
 comm_sizes[comm_sizes .> 20]
 Plots.histogram(comm_sizes)
+
+
+
+
+ELBO_L = elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model))
+ELBO_m = elogpmu(model) + elogptheta(model,mb)
+ELBO_M =  elogpmu(model) + elogptheta(model,mb) - (elogqmu(model))
+ELBO_μa = elogptheta(model,mb)+elogpzlout(model,mb)+elogpzlin(model,mb)+elogpznlout(model,mb)+	elogpznlin(model,mb)
+ELBO_Λa = elogptheta(model,mb)+elogpzlout(model,mb)+elogpzlin(model,mb)+elogpznlout(model,mb)+	elogpznlin(model,mb)-(elogqtheta(model))
+ELBO_b0 =elogpbeta(model)+elogpnetwork(model,mb)-(elogqbeta(model))
+ELBO_b1 =elogpbeta(model)+elogpnetwork(model,mb)-(elogqbeta(model))
+ELBO_ϕlout =elogpzlout(model,mb)+elogpnetwork(model,mb)-(elogqzl(model))
+ELBO_ϕlin = elogpzlin(model,mb)+elogpnetwork(model,mb)-(elogqzl(model))
+ELBO_ϕnlout =elogpznlout(model,mb)+elogpnetwork(model,mb)-(elogqznl(model))
+ELBO_ϕnlin =elogpznlin(model,mb)+elogpnetwork(model,mb)-(elogqznl(model))

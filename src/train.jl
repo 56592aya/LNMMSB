@@ -23,13 +23,13 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	model.elborecord = Vector{Float64}()
 	model.elbo = 0.0
   	model.oldelbo= -Inf
+
+	init_mu(model,communities)##from Gopalan
 	# true_θ=readdlm("data/true_thetas.txt")
 	# model.μ_var=deepcopy(true_θ);
 	# for i in 1:model.N
-	# 	model.μ_var[i,:] = log.(model.μ_var[i,:])
+	# 	model.μ_var[i,:] = (model.μ_var[i,:])
 	# end
-	#
-	init_mu(model,communities)##from Gopalan
 	model.Λ_var = 1.0*ones(Float64, (model.N, model.K))
 	true_mu = readdlm("data/true_mu.txt")
 	model.m = deepcopy(reshape(true_mu,model.K))
@@ -45,7 +45,7 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	if model.mbsize == model.N
 		isfullsample = true
 	end
-
+	updatel!(model)
 	ELBO_Lrecord = Vector{Float64}()
 	ELBO_mrecord = Vector{Float64}()
 	ELBO_Mrecord = Vector{Float64}()
@@ -59,17 +59,17 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	ELBO_ϕnlinrecord = Vector{Float64}()
 
 
-	ELBO_L = elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model))
-	ELBO_m = elogpmu(model) + elogptheta(model,mb)
-	ELBO_M =  elogpmu(model) + elogptheta(model,mb) - (elogqmu(model))
-	ELBO_μa = elogptheta(model,mb)+elogpzlout(model,mb)+elogpzlin(model,mb)+elogpznlout(model,mb)+	elogpznlin(model,mb)
-	ELBO_Λa = elogptheta(model,mb)+elogpzlout(model,mb)+elogpzlin(model,mb)+elogpznlout(model,mb)+	elogpznlin(model,mb)-(elogqtheta(model))
-	ELBO_b0 =elogpbeta(model)+elogpnetwork(model,mb)-(elogqbeta(model))
-	ELBO_b1 =elogpbeta(model)+elogpnetwork(model,mb)-(elogqbeta(model))
-	ELBO_ϕlout =elogpzlout(model,mb)+elogpnetwork(model,mb)-(elogqzl(model))
-	ELBO_ϕlin = elogpzlin(model,mb)+elogpnetwork(model,mb)-(elogqzl(model))
-	ELBO_ϕnlout =elogpznlout(model,mb)+elogpnetwork(model,mb)-(elogqznl(model))
-	ELBO_ϕnlin =elogpznlin(model,mb)+elogpnetwork(model,mb)-(elogqznl(model))
+	# ELBO_L = elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model))
+	# ELBO_m = elogpmu(model) + elogptheta(model,mb)
+	# ELBO_M =  elogpmu(model) + elogptheta(model,mb) - (elogqmu(model))
+	# ELBO_μa = elogptheta(model,mb)+elogpzlout(model,mb)+elogpzlin(model,mb)+elogpznlout(model,mb)+	elogpznlin(model,mb)
+	# ELBO_Λa = elogptheta(model,mb)+elogpzlout(model,mb)+elogpzlin(model,mb)+elogpznlout(model,mb)+	elogpznlin(model,mb)-(elogqtheta(model))
+	# ELBO_b0 =elogpbeta(model)+elogpnetwork(model,mb)-(elogqbeta(model))
+	# ELBO_b1 =elogpbeta(model)+elogpnetwork(model,mb)-(elogqbeta(model))
+	# ELBO_ϕlout =elogpzlout(model,mb)+elogpnetwork(model,mb)-(elogqzl(model))
+	# ELBO_ϕlin = elogpzlin(model,mb)+elogpnetwork(model,mb)-(elogqzl(model))
+	# ELBO_ϕnlout =elogpznlout(model,mb)+elogpnetwork(model,mb)-(elogqznl(model))
+	# ELBO_ϕnlin =elogpznlin(model,mb)+elogpnetwork(model,mb)-(elogqznl(model))
 
 
 	ELBO_Lold = -Inf
@@ -84,6 +84,18 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	ELBO_ϕnloutold = -Inf
 	ELBO_ϕnlinold = -Inf
 
+	# push!(ELBO_Lrecord, ELBO_L)
+	# push!(ELBO_mrecord, ELBO_m)
+	# push!(ELBO_Mrecord, ELBO_M)
+	# push!(ELBO_μarecord, ELBO_μa)
+	# push!(ELBO_Λarecord, ELBO_Λa)
+	# push!(ELBO_b0record, ELBO_b0)
+	# push!(ELBO_b1record, ELBO_b1)
+	# push!(ELBO_ϕloutrecord, ELBO_ϕlout)
+	# push!(ELBO_ϕlinrecord, ELBO_ϕlin)
+	# push!(ELBO_ϕnloutrecord, ELBO_ϕnlout)
+	# push!(ELBO_ϕnlinrecord, ELBO_ϕnlin)
+
 	for i in 1:iter
 		#Minibatch sampling/new sample
 		##the following deepcopy is very important
@@ -96,7 +108,7 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 			mbsampling!(mb,model, isfullsample)
 		end
 		#global update-- can be done outside
-		updatel!(model, mb)
+
 
 		#Learning rates
 
@@ -120,28 +132,69 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyaddict) -length(mb.mblinks)
 		dep2 = .1*(train_links_num)/(train_links_num+train_nlinks_num)
 
-		updatephil!(model, mb, early,switchrounds)
-		updatephinl!(model, mb,early,dep2,switchrounds)
+		# updatephil!(model, mb, early,switchrounds)
+		# updatephinl!(model, mb,early,dep2,switchrounds)
 
 
 		#global update
 		#globals:m,M,L,mu, Lambda, b
+		ELBO_pre=  elogpmu(model) + elogptheta(model,mb) - (elogqmu(model))
 		updateM!(model, mb)
+		model.M = model.M_old.*(1.0-lr_M)+lr_M.*model.M
+		ELBO_post=  elogpmu(model) + elogptheta(model,mb) - (elogqmu(model))
+		if (ELBO_post<ELBO_pre)
+			println("have decrease in ELBO in updateM")
+			break
+		end
 
-		model.M = model.M_old*(1.0-lr_M)+lr_M*model.M
+
+		ELBO_pre = elogpmu(model) + elogptheta(model,mb)
 		updatem!(model, mb)
-		model.m = model.m_old*(1.0-lr_m)+lr_m*model.m
+		model.m = model.m_old.*(1.0-lr_m)+lr_m.*model.m
+		ELBO_post = elogpmu(model) + elogptheta(model,mb)
+		if (ELBO_post<ELBO_pre)
+			println("have decrease in ELBO in updatem")
+			break
+		end
 
+		#
+		ELBO_pre = elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model))
+		println(ELBO_pre)
 		updateL!(model, mb)
-		model.L = model.L_old*(1.0-lr_L)+lr_L*model.L
+		model.L = model.L_old.*(1.0-lr_L)+lr_L*model.L
+		ELBO_post = elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model))
+		println(model.L)
+		println(model.L_old)
+		println(ELBO_post)
+		if (ELBO_post<ELBO_pre)
+			println("have decrease in ELBO in updateL")
+			println(ELBO_post-ELBO_pre)
+			break
+		end
+
+
+		ELBO_pre=elogpbeta(model)+elogpnetwork(model,mb)-(elogqbeta(model))
 		updateb0!(model, mb)
-		model.b0 = model.b0_old*(1.0-lr_b)+lr_b*model.b0
+		model.b0 = model.b0_old.*(1.0-lr_b)+lr_b.*model.b0
 		println(model.b0)
 		println(model.b0_old)
+		ELBO_post=elogpbeta(model)+elogpnetwork(model,mb)-(elogqbeta(model))
+		if (ELBO_post<ELBO_pre)
+			println("have decrease in ELBO in updateb0")
+			println(ELBO_post-ELBO_pre)
+			break
+		end
+		ELBO_pre=elogpbeta(model)+elogpnetwork(model,mb)-(elogqbeta(model))
 		updateb1!(model, mb)
-		model.b1 = model.b1_old*(1.0-lr_b)+lr_b*model.b1
+		model.b1 = model.b1_old.*(1.0-lr_b)+lr_b.*model.b1
 		println(model.b1)
 		println(model.b1_old)
+		ELBO_post=elogpbeta(model)+elogpnetwork(model,mb)-(elogqbeta(model))
+		if (ELBO_post<ELBO_pre)
+			println("have decrease in ELBO in updateb1")
+			println(ELBO_post-ELBO_pre)
+			break
+		end
 
 
 		mb.mblinks[1].ϕout
@@ -269,9 +322,9 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 			print("elbo improvement:");
 			increase=isinf(model.oldelbo)?65535.0:(model.elbo-model.oldelbo)/model.oldelbo;
 			println(increase);
-			if increase < 0 && i > 10
-			 	break;
-			end
+			# if increase < 0 && i > 10
+			#  	break;
+			# end
 
 
 
@@ -284,3 +337,9 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	close(f)
 	Plots.plot(1:length(model.elborecord),model.elborecord)
 end
+isposdef(.5.*(model.L+model.L'))
+###DO ONE BY ONE
+#FOR PHIS ALL ELBOS CAN DECREASE, THE REASON IS NOT NECESSARILY FOR EARLY STAGES WE DO CRAP
+##ALSO IT COULD BE BECAUSE OF THE BACK AND FORTH ORDER OF UPDATES OF PHI OUT AND IN AND THE FACT THAT
+## WE UPDATE PHI LINKS AND PHI NONLINK AS COMPARED TO PHI OUT/IN LINK OR NONLINK
+## WE ALSO USE ANOTHER JENSEN INEQUALITY FOR THE E[LSE].

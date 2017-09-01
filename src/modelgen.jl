@@ -38,7 +38,6 @@ function gennetwork(N::Int64, K::Int64)
 
   z_in=zeros(Float64, (N,N,K))
   z_out = zeros(Float64,(N,N,K))
-  sort_by_argmax!(Θ)
 
   if isfile("data/true_thetas.txt")
   else
@@ -46,10 +45,15 @@ function gennetwork(N::Int64, K::Int64)
   end
 
   for a in 1:N
+	  #Θ[a,:] = rand(MvNormalCanon(Λ*μ, Λ))
+	  Θ[a,:] = expnormalize(Θ[a,:])
+  end
+  sort_by_argmax!(Θ)
+  for a in 1:N
     for b in 1:N
       if a!= b
-        z_out[a,b,:] = rand(Multinomial(1,expnormalize(Θ[a,:])))
-        z_in[a,b,:] = rand(Multinomial(1,expnormalize(Θ[b,:])))
+        z_out[a,b,:] = rand(Multinomial(1,Θ[a,:]))
+        z_in[a,b,:] = rand(Multinomial(1,Θ[b,:]))
         if z_in[a,b,:] == z_out[a,b,:]
           network[a,b]=rand(Binomial(1,β[indmax(z_out[a,b,:])]),1)[1]
         else

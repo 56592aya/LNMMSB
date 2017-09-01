@@ -173,10 +173,11 @@ end
 #updateM!(model,mb)
 function updatem!(model::LNMMSB, mb::MiniBatch)
 	model.m_old = deepcopy(model.m)
-	model.m= inv(model.M)*(model.M0*model.m0+model.l*model.L*(model.N/model.mbsize)*sum(model.μ_var[a,:] for a in collect(mb.mballnodes)))
+	# model.m= inv(model.M)*(model.M0*model.m0+model.l*model.L*(model.N/model.mbsize)*sum(model.μ_var[a,:] for a in collect(mb.mballnodes)))
+	model.m=inv(model.M0+model.N*model.l*model.L)*(model.M0*model.m0+model.l*model.L*(model.N/model.mbsize)*sum(model.μ_var[a,:] for a in collect(mb.mballnodes)))
 end
 #updatem!(model, mb)
-function updatel!(model::LNMMSB, mb::MiniBatch)
+function updatel!(model::LNMMSB)
 	##should be set in advance, not needed in the loop
 	model.l = model.l0+model.N
 end
