@@ -109,6 +109,28 @@ function elogpnetwork(model::LNMMSB, mb::MiniBatch)
 	end
 	s
 end
+function elogpnetwork1(model::LNMMSB, mb::MiniBatch)
+	s = zero(Float64)
+	for mbl in mb.mblinks
+		# a = link.src;b=link.dst;
+		ϕout=mbl.ϕout;ϕin=mbl.ϕin;
+		for k in 1:model.K
+			s+=ϕout[k]*ϕin[k]*(digamma(model.b0[k])- digamma(model.b1[k]+model.b0[k])-log1p(-1.0+EPSILON))+log1p(-1.0+EPSILON)
+		end
+	end
+	s
+end
+function elogpnetwork0(model::LNMMSB, mb::MiniBatch)
+	s = zero(Float64)
+	for mbn in mb.mbnonlinks
+		# a = nonlink.src;b=nonlink.dst;
+		ϕout=mbn.ϕout;ϕin=mbn.ϕin;
+		for k in 1:model.K
+			s+=ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log1p(-EPSILON))+log1p(-EPSILON)
+		end
+	end
+	s
+end
 #
 ####The negative entropies
 function elogqmu(model::LNMMSB)

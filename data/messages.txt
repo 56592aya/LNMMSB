@@ -1,0 +1,6 @@
+ELBO_μa decreased
+ELBO_Λa decreased
+ELBO_μa decreased
+ELBO_Λa decreased
+ELBO_μa decreased
+ELBO_Λa decreased
