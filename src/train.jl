@@ -110,35 +110,37 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 
 
 
-		ELBO_pre=elogpzlout(model,mb)+elogpzlin(model,mb)+elogpnetwork(model,mb)-(elogqzl(model))
+		ELBO_pre=elogpzlout(model,mb)+elogpzlin(model,mb)+elogpnetwork1(model,mb)-(elogqzl(model))
 		# ELBO_pre=elogpzlout(model,mb)+elogpzlin(model,mb)+elogpnetwork(model,mb)+elogpznlout(model,mb)+elogpznlin(model,mb)-(elogqzl(model))-(elogqznl(model))
 		updatephil!(model, mb, early,switchrounds)
-		ELBO_post=elogpzlout(model,mb)+elogpzlin(model,mb)+elogpnetwork(model,mb)-(elogqzl(model))
+		ELBO_post=elogpzlout(model,mb)+elogpzlin(model,mb)+elogpnetwork1(model,mb)-(elogqzl(model))
 		if (ELBO_post<ELBO_pre)
 			println("have decrease in ELBO in updatephilink")
+			println(ELBO_pre)
+			println(ELBO_post)
 			break
 		end
 
-		# ELBO_pre = elogpznlout(model,mb)+elogpznlin(model,mb)+elogpnetwork0(model,mb)-(elogqznl(model))
+		ELBO_pre = elogpznlout(model,mb)+elogpznlin(model,mb)+elogpnetwork0(model,mb)-(elogqznl(model))
 		# println(ELBO_pre)
 		# println(mb.mbnonlinks[17].ϕout)
 		# println(mb.mbnonlinks[17].ϕin)
- 	# 	updatephinl!(model, mb,early, dep2,switchrounds)
+ 		updatephinl!(model, mb,early, dep2,switchrounds)
 		# println(mb.mbnonlinks[17].ϕout)
 		# println(mb.mbnonlinks[17].ϕin)
-		# # ELBO_post = elogpznlout(model,mb)+elogpznlin(model,mb)+elogpnetwork(model,mb)-(elogqznl(model))
+		ELBO_post = elogpznlout(model,mb)+elogpznlin(model,mb)+elogpnetwork0(model,mb)-(elogqznl(model))
 		# ELBO_post = elogpzlout(model,mb)+elogpzlin(model,mb)+elogpnetwork(model,mb)+elogpznlout(model,mb)+elogpznlin(model,mb)-(elogqzl(model))-(elogqznl(model))
 		# # println(ELBO_post)
 		# # if (ELBO_post<ELBO_pre)
 		# # 	println("have decrease in ELBO in updatephinonlink")
 		# # 	# break
 		# # end
-		# if (ELBO_post<ELBO_pre)
-		# 	println("have decrease in ELBO in updatephi")
-		# 	println(ELBO_pre)
-		# 	println(ELBO_post)
-		# 	break
-		# end
+		if (ELBO_post<ELBO_pre)
+			println("have decrease in ELBO in updatephi")
+			 println(ELBO_pre)
+			 println(ELBO_post)
+			break
+		end
 
 
 		#global update
@@ -149,6 +151,8 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		ELBO_post=  elogpmu(model) + elogptheta(model,mb) - (elogqmu(model))
 		if (ELBO_post<ELBO_pre)
 			println("have decrease in ELBO in updateM")
+			println(ELBO_pre)
+			println(ELBO_post)
 			break
 		end
 
@@ -159,50 +163,38 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		ELBO_post = elogpmu(model) + elogptheta(model,mb)
 		if (ELBO_post<ELBO_pre)
 			println("have decrease in ELBO in updatem")
+			println(ELBO_pre)
+			println(ELBO_post)
 			break
 		end
 
-		# ELBO_pre = elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model))
-		# println(ELBO_pre)
-		# updateL!(model, mb)
-		# model.L = model.L_old.*(1.0-lr_L)+lr_L*model.L
-		# ELBO_post = elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model))
-		# println(model.L)
-		# println(model.L_old)
-		# println(ELBO_post)
-		# if (ELBO_post<ELBO_pre)
-		# 	println("have decrease in ELBO in updateL")
-		# 	println(ELBO_post-ELBO_pre)
-		# 	break
-		# end
+		ELBO_pre = elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model))
+		updateL!(model, mb)
+		model.L = model.L_old.*(1.0-lr_L)+lr_L*model.L
+		ELBO_post = elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model))
+
+		if (ELBO_post<ELBO_pre)
+			println("have decrease in ELBO in updateL")
+			println(ELBO_pre)
+			println(ELBO_post)
+			break
+		end
 
 
 		ELBO_pre=elogpbeta(model)+elogpnetwork(model,mb)-(elogqbeta(model))
 		updateb0!(model, mb)
+		model.b0 = model.b0_old.*(1.0-lr_b).+lr_b.*model.b0
 
-		model.b0 = model.b0_old.*(1.0-lr_b)+lr_b.*model.b0
-		# println(model.b0)
-		# println(model.b0_old)
 		updateb1!(model, mb)
-		model.b1 = model.b1_old.*(1.0-lr_b)+lr_b.*model.b1
-		# println(model.b1)
-		# println(model.b1_old)
+		model.b1 = model.b1_old.*(1.0-lr_b).+lr_b.*model.b1
+
 		ELBO_post=elogpbeta(model)+elogpnetwork(model,mb)-(elogqbeta(model))
 		if (ELBO_post<ELBO_pre)
+			println(ELBO_pre)
+			println(ELBO_post)
 			println("have decrease in ELBO in updateb")
-			# println(ELBO_post-ELBO_pre)
 			break
 		end
-
-		mb.mblinks[1].ϕout
-		mb.mblinks[1].ϕin
-		mb.mbnonlinks[1].ϕout
-		mb.mbnonlinks[1].ϕin
-		model.M
-		model.m
-		model.L
-		model.b0
-		model.b1
 		print(i);print(": ")
 		println(model.b0./(model.b0.+model.b1))
 		# niter=500; ntol=1e-5;
@@ -315,7 +307,7 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		checkelbo = (i % elboevery == 0)
 		if checkelbo || i == 1
 			computeelbo!(model, mb)
-			print(i);print("-ElBO:");println(model.elbo)
+			# print(i);print("-ElBO:");println(model.elbo)
 			# print("elbo improvement:");
 			increase=isinf(model.oldelbo)?65535.0:(model.elbo-model.oldelbo)/model.oldelbo;
 			# println(increase);
@@ -334,9 +326,9 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	close(f)
 	Plots.plot(1:length(model.elborecord),model.elborecord)
 end
-isposdef(.5.*(model.L+model.L'))
+nextfloat(-2297.7346893202157)
+# isposdef(.5.*(model.L+model.L'))
 ###DO ONE BY ONE
-#FOR PHIS ALL ELBOS CAN DECREASE, THE REASON IS NOT NECESSARILY FOR EARLY STAGES WE DO CRAP
 ##ALSO IT COULD BE BECAUSE OF THE BACK AND FORTH ORDER OF UPDATES OF PHI OUT AND IN AND THE FACT THAT
 ## WE UPDATE PHI LINKS AND PHI NONLINK AS COMPARED TO PHI OUT/IN LINK OR NONLINK
 ## WE ALSO USE ANOTHER JENSEN INEQUALITY FOR THE E[LSE].

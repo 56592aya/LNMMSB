@@ -2,7 +2,7 @@ using Distributions
 using JLD:@save,@load
 using Plots
 using ArgParse
-srand(1234)
+srand(4321)
 K=4
 m0            =zeros(Float64,K)
 M0            =10.0*eye(Float64,K) #ones M0 matrix

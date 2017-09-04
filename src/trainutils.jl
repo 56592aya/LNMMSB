@@ -3,14 +3,25 @@ using SpecialFunctions
 #negative cross entropies
 # ELOGS NEED SERIOUS REVISIONS
 function elogpmu(model::LNMMSB)
-	-.5*(model.K*logdet(model.M0)+trace(model.M0*(model.m-model.m0)*(model.m-model.m0)')+trace(model.M0*inv(model.M)))
+	-.5*(
+	model.K*log(2.0*pi)-
+	logdet(model.M0)+
+	trace(model.M0*(model.m-model.m0)*(model.m-model.m0)')+
+	trace(model.M0*inv(model.M))
+	)
 end
 # elogpmu(model)
 #
 function elogpLambda(model::LNMMSB)
-	+.5*(-model.K*(model.K+1)*log(2.0)-.5*model.K*(model.K-1)*log(pi)+
-	(model.l0-model.K-1)*digamma(.5*model.l,model.K)-2.0*lgamma(.5*model.l0,model.K)-
-	model.l*trace(inv(model.L0)*model.L)- (model.K+1)*(logdet(model.L))+model.l0*logdet(inv(model.L0)*(model.L)))
+	+.5*(
+	-model.K*(model.K+1)*log(2.0)-
+	.5*model.K*(model.K-1)*log(pi)+
+	(model.l0-model.K-1)*digamma(.5*model.l,model.K)-
+	2.0*lgamma(.5*model.l0,model.K)-
+	model.l*trace(inv(model.L0)*model.L)-
+	(model.K+1)*logdet(model.L)+
+	model.l0*logdet(inv(model.L0)*(model.L))
+	)
 end
 # elogpLambda(model)
 #
@@ -18,8 +29,16 @@ end
 function elogptheta(model::LNMMSB, mb::MiniBatch)
 	s = zero(Float64)
 	for a in collect(mb.mballnodes)
-		s += model.K*log(2.0*pi)-model.K*log(2.0) - digamma(.5*model.l, model.K)  - logdet(model.L)+
-		model.l*trace(model.L*(model.μ_var[a,:]-model.m)*(model.μ_var[a,:]-model.m)'+inv(model.M)+diagm(1.0./model.Λ_var[a,:]))
+		s +=
+		(
+		model.K*log(2.0*pi)-
+		model.K*log(2.0) -
+		digamma(.5*model.l, model.K)-
+		logdet(model.L)+
+		model.l*trace(model.L*((model.μ_var[a,:]-model.m)*(model.μ_var[a,:]-model.m)'+inv(model.M)+diagm(1.0./model.Λ_var[a,:])
+		)
+		)
+		)
 	end
 	s*-.5
 end
@@ -32,11 +51,9 @@ function elogpzlout(model::LNMMSB, mb::MiniBatch)
 		for k in 1:model.K
 			s1+=mbl.ϕout[k]*model.μ_var[mbl.src,k]
 		end
-		for l in 1:model.K
-			s2+= exp(model.μ_var[mbl.src,l]+.5/model.Λ_var[mbl.src,l])
-		end
+		s2+= logsumexp(model.μ_var[mbl.src,:].+.5./model.Λ_var[mbl.src,:])
 	end
-	s1-log(s2)
+	s1-s2
 end
 # elogpzlout(model, mb)
 function elogpzlin(model::LNMMSB, mb::MiniBatch)
@@ -46,11 +63,9 @@ function elogpzlin(model::LNMMSB, mb::MiniBatch)
 		for k in 1:model.K
 			s1+=mbl.ϕin[k]*model.μ_var[mbl.dst,k]
 		end
-		for l in 1:model.K
-			s2+= exp(model.μ_var[mbl.dst,l]+.5/model.Λ_var[mbl.dst,l])
-		end
+		s2+= logsumexp(model.μ_var[mbl.dst,:].+.5./model.Λ_var[mbl.dst,:])
 	end
-	s1-log(s2)
+	s1-s2
 end
 # elogpzlin(model, mb)
 function elogpznlout(model::LNMMSB, mb::MiniBatch)
@@ -60,11 +75,9 @@ function elogpznlout(model::LNMMSB, mb::MiniBatch)
 		for k in 1:model.K
 			s1+=mbn.ϕout[k]*model.μ_var[mbn.src,k]
 		end
-		for l in 1:model.K
-			s2+= exp(model.μ_var[mbn.src,l]+.5/model.Λ_var[mbn.src,l])
-		end
+		s2+= logsumexp(model.μ_var[mbn.src,:].+.5./model.Λ_var[mbn.src,:])
 	end
-	s1-log(s2)
+	s1-s2
 end
 # elogpznlout(model, mb)
 function elogpznlin(model::LNMMSB, mb::MiniBatch)
@@ -74,37 +87,42 @@ function elogpznlin(model::LNMMSB, mb::MiniBatch)
 		for k in 1:model.K
 			s1+=mbn.ϕin[k]*model.μ_var[mbn.dst,k]
 		end
-		for l in 1:model.K
-			s2+= exp(model.μ_var[mbn.dst,l]+.5/model.Λ_var[mbn.dst,l])
-		end
+		s2+= logsumexp(model.μ_var[mbn.dst,:].+.5./model.Λ_var[mbn.dst,:])
 	end
-	s1-log(s2)
+	s1-s2
 end
 # elogpznlin(model, mb)
 function elogpbeta(model::LNMMSB)
 	s = zero(Float64)
 	for k in 1:model.K
-		s+=lgamma(model.η0+model.η1)-lgamma(model.η0)-lgamma(model.η1)+(model.η0-1)*digamma(model.b0[k])+
-		(model.η1-1)*digamma(model.b1[k]) - (model.η0+model.η1-2)*digamma(model.b0[k]+model.b1[k])
+		s+=(
+		lgamma(model.η0+model.η1)-
+		lgamma(model.η0)-
+		lgamma(model.η1)+
+		(model.η0-1)*digamma(model.b0[k])+
+		(model.η1-1)*digamma(model.b1[k]) -
+		(model.η0+model.η1-2)*digamma(model.b0[k]+model.b1[k])
+		)
 	end
 	s
 end
-elogpbeta(model)
+# elogpbeta(model)
 ##check the effect of epsilon on the size of the change, so that in computations maybe we can skip it.
 function elogpnetwork(model::LNMMSB, mb::MiniBatch)
 	s = zero(Float64)
 	for mbl in mb.mblinks
+
 		# a = link.src;b=link.dst;
 		ϕout=mbl.ϕout;ϕin=mbl.ϕin;
 		for k in 1:model.K
-			s+=ϕout[k]*ϕin[k]*(digamma(model.b0[k])- digamma(model.b1[k]+model.b0[k])-log1p(-1.0+EPSILON))+log1p(-1.0+EPSILON)
+			s+=(ϕout[k]*ϕin[k]*(digamma(model.b0[k])- digamma(model.b1[k]+model.b0[k])-log1p(-1.0+EPSILON)))#+log1p(-1.0+EPSILON))#as is constant for numerical stability for now
 		end
 	end
 	for mbn in mb.mbnonlinks
 		# a = nonlink.src;b=nonlink.dst;
 		ϕout=mbn.ϕout;ϕin=mbn.ϕin;
 		for k in 1:model.K
-			s+=ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log1p(-EPSILON))+log1p(-EPSILON)
+			s+=(ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log1p(-EPSILON)))#+log1p(-EPSILON))#as is constant for numerical stability for now
 		end
 	end
 	s
@@ -115,7 +133,7 @@ function elogpnetwork1(model::LNMMSB, mb::MiniBatch)
 		# a = link.src;b=link.dst;
 		ϕout=mbl.ϕout;ϕin=mbl.ϕin;
 		for k in 1:model.K
-			s+=ϕout[k]*ϕin[k]*(digamma(model.b0[k])- digamma(model.b1[k]+model.b0[k])-log1p(-1.0+EPSILON))+log1p(-1.0+EPSILON)
+			s+=(ϕout[k]*ϕin[k]*(digamma(model.b0[k])- digamma(model.b1[k]+model.b0[k])-log1p(-1.0+EPSILON)))#+log1p(-1.0+EPSILON))#as is constant for numerical stability for now
 		end
 	end
 	s
@@ -126,7 +144,7 @@ function elogpnetwork0(model::LNMMSB, mb::MiniBatch)
 		# a = nonlink.src;b=nonlink.dst;
 		ϕout=mbn.ϕout;ϕin=mbn.ϕin;
 		for k in 1:model.K
-			s+=ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log1p(-EPSILON))+log1p(-EPSILON)
+			s+=(ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log1p(-EPSILON)))#+log1p(-EPSILON))#as is constant for numerical stability for now
 		end
 	end
 	s
@@ -138,14 +156,20 @@ function elogqmu(model::LNMMSB)
 end
 # elogqmu(model)
 function elogqLambda(model::LNMMSB)
-	-.5*((model.K+1)*logdet(model.L) + model.K*(model.K+1)*log(2)+model.K*model.l+
-	.5*model.K*(model.K-1)*log(pi) + 2*lgamma(.5*model.l, model.K) - (model.l-model.K-1)*digamma(.5*model.l, model.K))
+	-.5*(
+	(model.K+1)*logdet(model.L) +
+	model.K*(model.K+1)*log(2.0)+
+	model.K*model.l+
+	.5*model.K*(model.K-1)*log(pi) +
+	2.0*lgamma(.5*model.l, model.K) -
+	(model.l-model.K-1)*digamma(.5*model.l, model.K)
+	)
 end
 # elogqLambda(model)
 function elogqtheta(model::LNMMSB)
 	s = zero(Float64)
 	for a in collect(mb.mballnodes)
-		s += model.K*log(2.0*pi)-logdet(diagm(model.Λ_var[a,:]))+model.K
+		s += (model.K*log(2.0*pi)-logdet(diagm(model.Λ_var[a,:]))+model.K)
 	end
 	-.5*s
 end
@@ -154,7 +178,14 @@ function elogqbeta(model::LNMMSB)
 	s = zero(Float64)
 
 	for k in 1:model.K
-		s+=lgamma(model.b0[k])+lgamma(model.b1[k])-lgamma(model.b0[k]+model.b1[k]) - (model.b0[k]-1)*digamma(model.b0[k]) -(model.b1[k]-1)*digamma(model.b1[k]) +(model.b0[k]+model.b1[k]-2)*digamma(model.b0[k]+model.b1[k])
+		s+=(
+		lgamma(model.b0[k])+
+		lgamma(model.b1[k])-
+		lgamma(model.b0[k]+model.b1[k]) -
+		(model.b0[k]-1)*digamma(model.b0[k]) -
+		(model.b1[k]-1)*digamma(model.b1[k]) +
+		(model.b0[k]+model.b1[k]-2)*digamma(model.b0[k]+model.b1[k])
+		)
 	end
 	-s
 end
