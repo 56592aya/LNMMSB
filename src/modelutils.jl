@@ -166,7 +166,8 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB, isfullsample::Bool)
 			for b1 in Bsink
 				if !(Dyad(a,b1) in collect(keys(model.ho_dyaddict)))
 					# l = Link(a,b1,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
-					l = Link(a,b1,expnormalize(model.μ_var[a,:]),expnormalize(model.μ_var[b1,:]))
+
+					l = Link(a,b1,softmax(model.μ_var[a,:]),softmax(model.μ_var[b1,:]))
 					if !(l in mb.mblinks)
 						push!(mb.mblinks, l)
 					end
@@ -174,7 +175,8 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB, isfullsample::Bool)
 			end
 			for b2 in Bsrc
 				if !(Dyad(b2,a) in collect(keys(model.ho_dyaddict)))
-					l = Link(b2,a,expnormalize(model.μ_var[b2,:]),expnormalize(model.μ_var[a,:]))
+
+					l = Link(b2,a,softmax(model.μ_var[b2,:]),softmax(model.μ_var[a,:]))
 					if !(l in mb.mblinks)
 						push!(mb.mblinks, l)
 					end
@@ -185,7 +187,7 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB, isfullsample::Bool)
 			for b in 1:model.mbsize
 				if a != b
 					if !(Dyad(a,b) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, a, b))
-						nl = NonLink(a,b,expnormalize(model.μ_var[a,:]),expnormalize(model.μ_var[b,:]))
+						nl = NonLink(a,b,softmax(model.μ_var[a,:]),softmax(model.μ_var[b,:]))
 						if !(nl in mb.mbnonlinks)
 							push!(mb.mbnonlinks, nl)
 							if !haskey(mb.mbfnadj, a)
@@ -199,7 +201,7 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB, isfullsample::Bool)
 						end
 					end
 					if !(Dyad(b,a) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, b, a))
-						nl = NonLink(b,a,expnormalize(model.μ_var[b,:]),expnormalize(model.μ_var[a,:]))
+						nl = NonLink(b,a,softmax(model.μ_var[b,:]),softmax(model.μ_var[a,:]))
 						if !(nl in mb.mbnonlinks)
 							push!(mb.mbnonlinks, nl)
 							if !haskey(mb.mbfnadj, b)

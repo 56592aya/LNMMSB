@@ -7,13 +7,13 @@ K=4
 m0            =zeros(Float64,K)
 M0            =10.0*eye(Float64,K) #ones M0 matrix
 l0            =(K+2.0)*1.0 #init the df l0
-L0            =(.1/l0).*eye(Float64,K) #init the scale L0
+L0            =(.01/l0).*eye(Float64,K) #init the scale L0
 η0            =9.0 #one the beta param
 η1            =1.0 #one the beta param
 
 function gennetwork(N::Int64, K::Int64)
   network=Network(N)
-  Θ=zeros(Float64, (N,K))
+  θ=zeros(Float64, (N,K))
   ###note the scalar
   Λ = zeros(Float64, (K,K))
   for i in 1:N
@@ -29,8 +29,7 @@ function gennetwork(N::Int64, K::Int64)
   β = rand(Beta(η0, η1),K)
   ##We need to make sure that these probabilities are all positive
   for a in 1:N
-    Θ[a,:] = rand(MvNormalCanon(Λ*μ, Λ))
-    # Θ[a,:] = expnormalize(Θ[a,:])
+    θ[a,:] = rand(MvNormalCanon(Λ*μ, Λ))
   end
 
 
@@ -41,19 +40,19 @@ function gennetwork(N::Int64, K::Int64)
 
   if isfile("data/true_thetas.txt")
   else
-    writedlm("data/true_thetas.txt",Θ)
+    writedlm("data/true_thetas.txt",θ)
   end
 
   for a in 1:N
-	  #Θ[a,:] = rand(MvNormalCanon(Λ*μ, Λ))
-	  Θ[a,:] = expnormalize(Θ[a,:])
+	θ[a,:]=softmax!(θ[a,:])
   end
-  sort_by_argmax!(Θ)
+
+  sort_by_argmax!(θ)
   for a in 1:N
     for b in 1:N
       if a!= b
-        z_out[a,b,:] = rand(Multinomial(1,Θ[a,:]))
-        z_in[a,b,:] = rand(Multinomial(1,Θ[b,:]))
+        z_out[a,b,:] = rand(Multinomial(1,θ[a,:]))
+        z_in[a,b,:] = rand(Multinomial(1,θ[b,:]))
         if z_in[a,b,:] == z_out[a,b,:]
           network[a,b]=rand(Binomial(1,β[indmax(z_out[a,b,:])]),1)[1]
         else

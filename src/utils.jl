@@ -1,6 +1,6 @@
 import Base: ==, hash
 
-const EPSILON = 1e-15
+const EPSILON = 1e-5
 VectorList{T} = Vector{Vector{T}}
 MatrixList{T} = Vector{Matrix{T}}
 Matrix2d{T}   = Matrix{T}
@@ -83,13 +83,16 @@ Base.Math.lgamma{T<:Number,R<:Integer}(x::T, dim::R)=.25*(dim*dim-1)*pi+sum(lgam
 
 
 
-function logsumexp{T <:Real}(xs::Array{T})
-  a = maximum(xs)
-  s = zero(eltype(xs))
-  @simd for x in xs
-    @inbounds @fastmath s+=exp(x-a)
-  end
-  log(s)+a
+function logsumexp{T<:Real}(x::AbstractArray{T})
+    S = typeof(exp(zero(T)))    # because of 0.4.0
+    isempty(x) && return -S(Inf)
+    u = maximum(x)
+    abs(u) == Inf && return any(isnan, x) ? S(NaN) : u
+    s = zero(S)
+    for i = 1:length(x)
+        @inbounds s += exp(x[i] - u)
+    end
+    log(s) + u
 end
 
 function expnormalize{T<:Real}(xs::Array{T})
@@ -105,32 +108,46 @@ function expnormalize{T<:Real}(xs::Array{T})
   xs[:]
 end
 
-function softmax{T<:Real}(xs::Array{T}, k::Int64)
-  exp(xs[k])/exp(logsumexp(xs))
+function softmax!{R<:AbstractFloat,T<:Real}(r::AbstractArray{R}, x::AbstractArray{T})
+    n = length(x)
+    length(r) == n || throw(DimensionMismatch("Inconsistent array lengths."))
+    u = maximum(x)
+    s = 0.
+    @inbounds for i = 1:n
+        s += (r[i] = exp(x[i] - u))
+    end
+    invs = convert(R, inv(s))
+    @inbounds for i = 1:n
+        r[i] *= invs
+    end
+    r
 end
 
+softmax!{T<:AbstractFloat}(x::AbstractArray{T}) = softmax!(x, x)
+softmax{T<:Real}(x::AbstractArray{T}) = softmax!(Array{Float64}(size(x)), x)
+
 function sort_by_argmax!{T<:Real}(X::Matrix2d{T})
-  n_row=size(X,1)
-  n_col = size(X,2)
-  ind_max=zeros(Int64, n_row)
-  @simd for a in 1:n_row
-      @inbounds ind_max[a] = indmax(view(X,a,1:n_col))
-  end
-  X_tmp = similar(X)
-  count = 1
-  for j in 1:maximum(ind_max)
-    for i in 1:n_row
-      if ind_max[i] == j
-        for k in 1:n_col
-          X_tmp[count,k] = X[i,k]
-        end
-        count += 1
-      end
-    end
-  end
-  # This way of assignment is important in arrays, el by el
-  X[:]=X_tmp[:]
-  X
+	n_row=size(X,1)
+	n_col = size(X,2)
+	ind_max=zeros(Int64, n_row)
+	@simd for a in 1:n_row
+    @inbounds ind_max[a] = indmax(view(X,a,1:n_col))
+	end
+	X_tmp = similar(X)
+	count = 1
+	for j in 1:maximum(ind_max)
+  	for i in 1:n_row
+    	if ind_max[i] == j
+      	for k in 1:n_col
+        	X_tmp[count,k] = X[i,k]
+      	end
+      	count += 1
+    	end
+  	end
+	end
+	# This way of assignment is important in arrays, el by el
+	X[:]=X_tmp[:]
+	X
 end
 
 ##Need to do a lot with the validation , mb sampling and so on, and the functions below depend on these.

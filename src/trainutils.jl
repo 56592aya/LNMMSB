@@ -115,14 +115,14 @@ function elogpnetwork(model::LNMMSB, mb::MiniBatch)
 		# a = link.src;b=link.dst;
 		ϕout=mbl.ϕout;ϕin=mbl.ϕin;
 		for k in 1:model.K
-			s+=(ϕout[k]*ϕin[k]*(digamma(model.b0[k])- digamma(model.b1[k]+model.b0[k])-log1p(-1.0+EPSILON)))#+log1p(-1.0+EPSILON))#as is constant for numerical stability for now
+			s+=(ϕout[k]*ϕin[k]*(digamma(model.b0[k])- digamma(model.b1[k]+model.b0[k])-log(EPSILON))+log(EPSILON))#as is constant for numerical stability for now
 		end
 	end
 	for mbn in mb.mbnonlinks
 		# a = nonlink.src;b=nonlink.dst;
 		ϕout=mbn.ϕout;ϕin=mbn.ϕin;
 		for k in 1:model.K
-			s+=(ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log1p(-EPSILON)))#+log1p(-EPSILON))#as is constant for numerical stability for now
+			s+=(ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log(1.0-EPSILON))+log(1.0-EPSILON))#as is constant for numerical stability for now
 		end
 	end
 	s
@@ -133,7 +133,7 @@ function elogpnetwork1(model::LNMMSB, mb::MiniBatch)
 		# a = link.src;b=link.dst;
 		ϕout=mbl.ϕout;ϕin=mbl.ϕin;
 		for k in 1:model.K
-			s+=(ϕout[k]*ϕin[k]*(digamma(model.b0[k])- digamma(model.b1[k]+model.b0[k])-log1p(-1.0+EPSILON)))#+log1p(-1.0+EPSILON))#as is constant for numerical stability for now
+			s+=(ϕout[k]*ϕin[k]*(digamma(model.b0[k])- digamma(model.b1[k]+model.b0[k])-log(EPSILON))+log(EPSILON))#as is constant for numerical stability for now
 		end
 	end
 	s
@@ -144,7 +144,7 @@ function elogpnetwork0(model::LNMMSB, mb::MiniBatch)
 		# a = nonlink.src;b=nonlink.dst;
 		ϕout=mbn.ϕout;ϕin=mbn.ϕin;
 		for k in 1:model.K
-			s+=(ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log1p(-EPSILON)))#+log1p(-EPSILON))#as is constant for numerical stability for now
+			s+=(ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log(1.0-EPSILON))+log(1.0-EPSILON))#as is constant for numerical stability for now
 		end
 	end
 	s
@@ -194,7 +194,7 @@ function elogqzl(model::LNMMSB)
 	s = zero(Float64)
 	for mbl in mb.mblinks
 		for k in 1:model.K
-			s+=(mbl.ϕout[k]*log(mbl.ϕout[k])+mbl.ϕin[k]*log(mbl.ϕin[k]))
+			s+=((mbl.ϕout[k]*log(mbl.ϕout[k]))+(mbl.ϕin[k]*log(mbl.ϕin[k])))
 		end
 	end
 	s
@@ -204,7 +204,7 @@ function elogqznl(model::LNMMSB)
 	s = zero(Float64)
 	for mbn in mb.mbnonlinks
 		for k in 1:model.K
-			s+=(mbn.ϕout[k]*log(mbn.ϕout[k])+mbn.ϕin[k]*log(mbn.ϕin[k]))
+			s+=((mbn.ϕout[k]*log(mbn.ϕout[k]))+(mbn.ϕin[k]*log(mbn.ϕin[k])))
 		end
 	end
 	s
@@ -227,20 +227,28 @@ end
 function updatem!(model::LNMMSB, mb::MiniBatch)
 	model.m_old = deepcopy(model.m)
 	# model.m= inv(model.M)*(model.M0*model.m0+model.l*model.L*(model.N/model.mbsize)*sum(model.μ_var[a,:] for a in collect(mb.mballnodes)))
-	model.m=inv(model.M0+model.N*model.l*model.L)*(model.M0*model.m0+model.l*model.L*(model.N/model.mbsize)*sum(model.μ_var[a,:] for a in collect(mb.mballnodes)))
+	s = zeros(Float64, model.K)
+	for a in collect(mb.mballnodes)
+		s+=model.μ_var[a,:]
+	end
+	model.m=inv(model.M0+((model.N*model.l).*model.L))*(model.M0*model.m0+((convert(Float64,model.N)/convert(Float64,model.mbsize))*model.l).*model.L*s)
 end
 #updatem!(model, mb)
 function updatel!(model::LNMMSB)
 	##should be set in advance, not needed in the loop
-	model.l = model.l0+model.N
+	model.l = model.l0+convert(Float64,model.N)
 end
 #updatel!(model,mb)
 function updateL!(model::LNMMSB, mb::MiniBatch)
 	x=model.μ_var[collect(mb.mballnodes),:]'.-model.m
-	s1= x*x'
-	s2 = diagm(sum(1.0./model.Λ_var[a,:] for a in collect(mb.mballnodes)))
+	s1 = zeros(Float64, (model.K,model.K))
+	s2 = zeros(Float64, (model.K,model.K))
+	for a in collect(mb.mballnodes)
+		s1 += (model.μ_var[a,:] - model.m)*(model.μ_var[a,:] - model.m)'
+		s2 += diagm(1.0./model.Λ_var[a,:])
+	end
 	model.L_old = deepcopy(model.L)
-	model.L = inv(inv(model.L0) + model.N*inv(model.M) + (model.N/model.mbsize)*(s1+s2))
+	model.L = inv(inv(model.L0) + convert(Float64,model.N)*inv(model.M) + (convert(Float64,model.N)/convert(Float64,model.mbsize)).*(s1+s2))
 end
 #updateL!(model, mb)
 function updateb0!(model::LNMMSB, mb::MiniBatch)
@@ -252,7 +260,7 @@ function updateb0!(model::LNMMSB, mb::MiniBatch)
 	end
 	model.b0_old = deepcopy(model.b0)
 	train_links_num=nnz(model.network)-length(model.ho_linkdict)
-	model.b0[:] = (train_links_num)/length(mb.mblinks)*(model.ϕlinoutsum[:]).+model.η0;
+	model.b0[:] = ((convert(Float64,train_links_num)/convert(Float64,length(mb.mblinks))).*model.ϕlinoutsum[:]).+model.η0;
 end
 #updateb0!(model, mb)
 function updateb1!(model::LNMMSB, mb::MiniBatch)
@@ -264,7 +272,7 @@ function updateb1!(model::LNMMSB, mb::MiniBatch)
 	end
 	model.b1_old = deepcopy(model.b1)
 	train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyaddict) -length(mb.mblinks)
-	model.b1[:] = (train_nlinks_num*1.0/length(mb.mbnonlinks))*(model.ϕnlinoutsum[:]).+model.η1
+	model.b1[:] = (convert(Float64,train_nlinks_num)/convert(Float64,length(mb.mbnonlinks)))*model.ϕnlinoutsum[:].+model.η1
 end
 #updateb1!(model, mb)
 
@@ -273,54 +281,126 @@ end
 ## hence we may only need to keep average for init of the thetas
 #MB Dependent
 ##need switching rounds between out and in
+function update_phil_send!(l::Link, model::LNMMSB, mb::MiniBatch,early::Bool, Elog_beta::Matrix2d{Float64})
+	temp_send = zeros(Float64, model.K)
+    s_send = zero(eltype(EPSILON))
+
+    dependence_dom = 4.0 ## to be used for the early iterations
+    for k in 1:model.K
+        @inbounds begin
+          dependence_dom = early ? 4.0 : (Elog_beta[k,1]-log(EPSILON))
+          temp_send[k] = l.ϕin[k]*(dependence_dom) + model.μ_var[l.src,k]*l.ϕout[k]
+          s_send = k > 1 ? logsumexp(s_send,temp_send[k]) : temp_send[k]
+        end
+    end
+    ## Normalize
+    for k in 1:model.K
+      @inbounds l.ϕout[k] = exp(temp_send[k] - s_send)
+    end
+end
+function update_phil_recv!(l::Link, model::LNMMSB, mb::MiniBatch,early::Bool, Elog_beta::Matrix2d{Float64})
+	temp_recv = zeros(Float64, model.K)
+	s_recv = zero(eltype(EPSILON))
+
+	dependence_dom = 4.0 ## to be used for the early iterations
+	for k in 1:model.K
+		@inbounds begin
+		  dependence_dom = early ? 4.0 : (Elog_beta[k,1]-log(EPSILON))
+		  temp_recv[k] = l.ϕout[k]*(dependence_dom) + model.μ_var[l.dst,k]*l.ϕin[k]
+		  s_recv = k > 1 ? logsumexp(s_recv,temp_recv[k]) : temp_recv[k]
+		end
+	end
+	## Normalize
+	for k in 1:model.K
+	  @inbounds l.ϕin[k] = exp(temp_recv[k] - s_recv)
+	end
+end
+function update_phinl_send!(nl::NonLink, model::LNMMSB, mb::MiniBatch,early::Bool, Elog_beta::Matrix2d{Float64}, dep2::Float64)
+	temp_nsend = zeros(Float64, model.K)
+	s_nsend = zero(eltype(EPSILON))
+	S = typeof(s_nsend)
+	first = nl.src
+	second = nl.dst
+	## dep2 is fed to the function which is like dependence_dom for early iterations
+	for k in 1:model.K
+	   @inbounds begin
+		 dep = early ? log(dep2) : (Elog_beta[k,2]-log(1.0-EPSILON))
+		 temp_nsend[k] = nl.ϕin[k]*(dep) + model.μ_var[first,k]*nl.ϕout[k]
+		 s_nsend = k > 1 ? logsumexp(s_nsend,temp_nsend[k]) : temp_nsend[k]
+	   end
+	end
+	## Normalize
+	for k in 1:model.K
+	   @inbounds nl.ϕout[k] = exp(temp_nsend[k] - s_nsend)
+	end
+end
+function update_phinl_recv!(nl::NonLink, model::LNMMSB, mb::MiniBatch,early::Bool, Elog_beta::Matrix2d{Float64},dep2::Float64)
+	temp_nrecv = zeros(Float64, model.K)
+	s_nrecv = zero(eltype(EPSILON))
+	S = typeof(s_nrecv)
+	first = nl.src
+	second = nl.dst
+	## dep2 is fed to the function which is like dependence_dom for early iterations
+	for k in 1:model.K
+	   @inbounds begin
+		 dep = early ? log(dep2) : (Elog_beta[k,2]-log(1.0-EPSILON))
+		 temp_nrecv[k] = nl.ϕout[k]*(dep) + model.μ_var[second,k]*nl.ϕin[k]
+		 s_nrecv = k > 1 ? logsumexp(s_nrecv,temp_nrecv[k]) : temp_nrecv[k]
+	   end
+	end
+	## Normalize
+	for k in 1:model.K
+	   @inbounds nl.ϕin[k] = exp(temp_nrecv[k] - s_nrecv)
+	end
+end
 function updatephil!(model::LNMMSB,  mb::MiniBatch, early::Bool, switchrounds::Bool)
 	for l in mb.mblinks
 		if switchrounds
 			#send
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
+				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log(EPSILON))
 				l.ϕout[k]=(model.μ_var[l.src,k] + l.ϕin[k]*depdom)
 			end
-			l.ϕout[:]=expnormalize(l.ϕout)
+			l.ϕout[:]=softmax!(l.ϕout[:])
 			#recv
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
+				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log(EPSILON))
 				l.ϕin[k]=(model.μ_var[l.dst,k] + l.ϕout[k]*depdom)
 			end
-			l.ϕin[:]=expnormalize(l.ϕin)
+			l.ϕin[:]=softmax!(l.ϕin[:])
 			#send
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
+				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log(EPSILON))
 				l.ϕout[k]=(model.μ_var[l.src,k] + l.ϕin[k]*depdom)
 			end
-			l.ϕout[:]=expnormalize(l.ϕout)
+			l.ϕout[:]=softmax!(l.ϕout[:])
 
 		else
 			#recv
 
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
+				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log(EPSILON))
 				l.ϕin[k]=(model.μ_var[l.dst,k] + l.ϕout[k]*depdom)
 			end
-			l.ϕin[:]=expnormalize(l.ϕin)
+			l.ϕin[:]=softmax!(l.ϕin[:])
 			#send
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
+				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log(EPSILON))
 				l.ϕout[k]=(model.μ_var[l.src,k] + l.ϕin[k]*depdom)
 			end
-			l.ϕout[:]=expnormalize(l.ϕout)
+			l.ϕout[:]=softmax!(l.ϕout[:])
 			#recv
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log1p(-1.0+EPSILON))
+				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log(EPSILON))
 				l.ϕin[k]=(model.μ_var[l.dst,k] + l.ϕout[k]*depdom)
 			end
-			l.ϕin[:]=expnormalize(l.ϕin)
+			l.ϕin[:]=softmax!(l.ϕin[:])
 		end
 	end
 	model.ϕloutsum=zeros(Float64,(model.N,model.K))
@@ -341,46 +421,46 @@ function updatephinl!(model::LNMMSB, mb::MiniBatch,early::Bool, dep2::Float64,sw
 			#send
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-	          	depdom = early ? log(dep2) : digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log1p(-EPSILON)
+	          	depdom = early ? log(dep2) : (digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log(1.0-EPSILON))
 				nl.ϕout[k]=(model.μ_var[nl.src,k] + nl.ϕin[k]*depdom)
 			end
-			nl.ϕout[:]=expnormalize(nl.ϕout)
+			nl.ϕout[:]=softmax!(nl.ϕout[:])
 			#recv
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early ? log(dep2) : digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log1p(-EPSILON)
+				depdom = early ? log(dep2) : (digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log(1.0-EPSILON))
 				nl.ϕin[k]=(model.μ_var[nl.dst,k] + nl.ϕout[k]*depdom)
 			end
-			nl.ϕin[:]=expnormalize(nl.ϕin)
+			nl.ϕin[:]=softmax!(nl.ϕin[:])
 			#send
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-	          	depdom = early ? log(dep2) : digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log1p(-EPSILON)
+	          	depdom = early ? log(dep2) : (digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log(1.0-EPSILON))
 				nl.ϕout[k]=(model.μ_var[nl.src,k] + nl.ϕin[k]*depdom)
 			end
-			nl.ϕout[:]=expnormalize(nl.ϕout)
+			nl.ϕout[:]=softmax!(nl.ϕout[:])
 		else
 			#recv
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early ? log(dep2) : digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log1p(-EPSILON)
+				depdom = early ? log(dep2) : (digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log(1.0-EPSILON))
 				nl.ϕin[k]=(model.μ_var[nl.dst,k] + nl.ϕout[k]*depdom)
 			end
-			nl.ϕin[:]=expnormalize(nl.ϕin)
+			nl.ϕin[:]=softmax!(nl.ϕin[:])
 			#send
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-	          	depdom = early ? log(dep2) : digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log1p(-EPSILON)
+	          	depdom = early ? log(dep2) : (digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log(1.0-EPSILON))
 				nl.ϕout[k]=(model.μ_var[nl.src,k] + nl.ϕin[k]*depdom)
 			end
-			nl.ϕout[:]=expnormalize(nl.ϕout)
+			nl.ϕout[:]=softmax!(nl.ϕout[:])
 			#recv
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early ? log(dep2) : digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log1p(-EPSILON)
+				depdom = early ? log(dep2) : (digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log(1.0-EPSILON))
 				nl.ϕin[k]=(model.μ_var[nl.dst,k] + nl.ϕout[k]*depdom)
 			end
-			nl.ϕin[:]=expnormalize(nl.ϕin)
+			nl.ϕin[:]=softmax!(nl.ϕin[:])
 		end
 	end
 	model.ϕnloutsum=zeros(Float64,(model.N,model.K))
@@ -395,7 +475,7 @@ end
 
 function mu_grad(model::LNMMSB, mb::MiniBatch, a::Int64)
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	sfx_vec = [softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:],k) for k in 1:model.K]
+	sfx_vec = softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:])
 	s = -model.l*model.L*(model.μ_var[a,:] - model.m) +
 	model.ϕloutsum[a] + model.ϕnloutsum[a]+model.ϕlinsum[a] + model.ϕnlinsum[a]-
 	sumb*sfx_vec
@@ -404,7 +484,7 @@ function mu_grad(model::LNMMSB, mb::MiniBatch, a::Int64)
 end
 function mu_hess(model::LNMMSB, mb::MiniBatch, a::Int64)
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	sfx_vec = [softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:],k) for k in 1:model.K]
+	sfx_vec = softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:])
 	s = -model.l*model.L - 	sumb*(diagm(sfx_vec)-sfx_vec*sfx_vec')
 
 	return s
@@ -427,7 +507,7 @@ end
 
 function Lambdainv_grad(model::LNMMSB, mb::MiniBatch, a::Int64)
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	sfx_vec = [softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:],k) for k in 1:model.K]
+	sfx_vec = softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:])
 	##check the diagm if this is correct
 	s = -.5*model.l*model.L + .5*diagm(model.Λ_var[a,:])-.5*sumb*diagm(sfx_vec)
 
@@ -436,7 +516,7 @@ end
 ##still needs some fixing
 function Lambdainv_hess(model::LNMMSB, mb::MiniBatch, a::Int64)#####CHECK
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	sfx_vec = [softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:],k) for k in 1:model.K]
+	sfx_vec = softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:])
 	s =  -.5*diagm(model.Λ_var[a,:].*model.Λ_var[a,:])-.25*sumb*(diagm(sfx_vec)-sfx_vec*sfx_vec')
 	return s
 
@@ -466,9 +546,10 @@ function estimate_βs(model::LNMMSB, mb::MiniBatch)
 end
 
 function estimate_θs(model::LNMMSB, mb::MiniBatch)
-	for a in 1:collect(mb.mballnodes)
-		model.est_θ[a,:] = expnormalize(model.μ_var[a,:])
+	for a in collect(mb.mballnodes)
+		model.est_θ[a,:]=softmax!(model.μ_var[a,:])
 	end
+	model.est_θ
 end
 
 function estimate_μs(model::LNMMSB, mb::MiniBatch)
