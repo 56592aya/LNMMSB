@@ -718,7 +718,7 @@ Finally, we have the following:
  &  & +\sum_{a}\sum_{b\notin sink(a)}\Big(\sum_{k}\phi_{a\rightarrow b,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)\\
  &  & +\sum_{a}\sum_{b\in source(a)}\Big(\sum_{k}\phi_{b\leftarrow a,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)\\
  &  & +\sum_{a}\sum_{b\notin source(a)}\Big(\sum_{k}\phi_{b\leftarrow a,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)\\
- &  & +\sum_{k}ln\,\Gamma(\eta_{0}+\eta_{1})-\sum_{k}ln\,\Gamma(\eta_{0})-\sum_{k}ln\,\Gamma(\eta_{1})+\sum_{k}(\eta_{0}-1)\Psi(b_{k0})-\sum_{k}(\eta_{0}+\eta_{1}-2)\Psi(b_{k0}+b_{k1})\\
+ &  & +\sum_{k}ln\,\Gamma(\eta_{0}+\eta_{1})-\sum_{k}ln\,\Gamma(\eta_{0})-\sum_{k}ln\,\Gamma(\eta_{1})+\sum_{k}(\eta_{0}-1)\Psi(b_{k0})+\sum_{k}(\eta_{1}-1)\Psi(b_{k1})-\sum_{k}(\eta_{0}+\eta_{1}-2)\Psi(b_{k0}+b_{k1})\\
  &  & +\sum_{a}\sum_{b\in sink(a)}\sum_{k}\Big(\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}(\Psi(b_{k0})-\Psi(b_{k0}+b_{k1})-ln\,\epsilon)+ln\,\epsilon\Big)\\
  &  & +\sum_{a}\sum_{b\notin sink(a)}\sum_{k}\Big(\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}(\Psi(b_{k1})-\Psi(b_{k0}+b_{k1})-ln\,(1-\epsilon))+ln\,(1-\epsilon)\Big)\\
  &  & +\tfrac{1}{2}\Big(Kln\,2\pi+K-ln\,|M|\Big)\\

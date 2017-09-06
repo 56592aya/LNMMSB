@@ -20,19 +20,4 @@ include("trainutils.jl")
 # train = deepcopy(train_zeroer)
 # train_sampling!(train, model)
 # train_samplingall!(train, model)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 end

@@ -75,12 +75,30 @@ mutable struct Training
 end
 
 Network{T<:Integer}(nrows::T) = SparseMatrixCSC{T,T}(nrows, nrows, ones(T, nrows+1), Vector{T}(0), Vector{T}(0))
-Base.digamma{T<:Number,R<:Integer}(x::T, dim::R) = @fastmath @inbounds return sum(digamma(x+.5*(1-i)) for i in 1:dim)
 
-Base.Math.lgamma{T<:Number,R<:Integer}(x::T, dim::R)=.25*(dim*dim-1)*pi+sum(lgamma(x+.5*(1-i)) for i in 1:dim)
+# Base.digamma{T<:Number,R<:Integer}(x::T, dim::R) = @fastmath @inbounds return sum(digamma(x+.5*(1-i)) for i in 1:dim)
+# Base.Math.lgamma{T<:Number,R<:Integer}(x::T, dim::R)=.25*(dim*dim-1)*log(pi)+sum(lgamma(x+.5*(1-i)) for i in 1:dim)
+
+function digamma(x::Float64)
+	p=zero(Float64)
+  x=x+6.0
+  p=1.0/(x*x)
+  p=(((0.004166666666667*p-0.003968253986254)*p+0.008333333333333)*p-0.083333333333333)*p
+  p=p+log(x)-0.5/x-1.0/(x-1.0)-1.0/(x-2.0)-1.0/(x-3.0)-1.0/(x-4.0)-1.0/(x-5.0)-1.0/(x-6.0)
+  p
+end
 
 
+function lgamma(x::Float64)
+	z=1.0/(x*x)
+ 	x=x+6.0
+  z=(((-0.000595238095238*z+0.000793650793651)*z-0.002777777777778)*z+0.083333333333333)/x
+  z=(x-0.5)*log(x)-x+0.918938533204673+z-log(x-1.0)-log(x-2.0)-log(x-3.0)-log(x-4.0)-log(x-5.0)-log(x-6.0)
+  z
+end
 
+digamma{T<:Number,R<:Integer}(x::T, dim::R) = @fastmath @inbounds return sum(digamma(x+.5*(1-i)) for i in 1:dim)
+lgamma{T<:Number,R<:Integer}(x::T, dim::R)=.25*(dim*dim-1)*log(pi)+sum(lgamma(x+.5*(1-i)) for i in 1:dim)
 
 
 function logsumexp{T<:Real}(x::AbstractArray{T})
@@ -173,4 +191,4 @@ end
 
 
 
-println();
+print();

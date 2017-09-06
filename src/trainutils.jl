@@ -1,7 +1,7 @@
-using SpecialFunctions
+# using SpecialFunctions
+
 
 #negative cross entropies
-# ELOGS NEED SERIOUS REVISIONS
 function elogpmu(model::LNMMSB)
 	-.5*(
 	model.K*log(2.0*pi)-
@@ -10,12 +10,12 @@ function elogpmu(model::LNMMSB)
 	trace(model.M0*inv(model.M))
 	)
 end
+
 # elogpmu(model)
 #
 function elogpLambda(model::LNMMSB)
 	+.5*(
-	-model.K*(model.K+1)*log(2.0)-
-	.5*model.K*(model.K-1)*log(pi)+
+	-model.K*(model.K+1)*log(2.0)+
 	(model.l0-model.K-1)*digamma(.5*model.l,model.K)-
 	2.0*lgamma(.5*model.l0,model.K)-
 	model.l*trace(inv(model.L0)*model.L)-
@@ -32,8 +32,8 @@ function elogptheta(model::LNMMSB, mb::MiniBatch)
 		s +=
 		(
 		model.K*log(2.0*pi)-
-		model.K*log(2.0) -
 		digamma(.5*model.l, model.K)-
+		model.K*log(2.0) -
 		logdet(model.L)+
 		model.l*trace(model.L*((model.μ_var[a,:]-model.m)*(model.μ_var[a,:]-model.m)'+inv(model.M)+diagm(1.0./model.Λ_var[a,:])
 		)
@@ -51,7 +51,7 @@ function elogpzlout(model::LNMMSB, mb::MiniBatch)
 		for k in 1:model.K
 			s1+=mbl.ϕout[k]*model.μ_var[mbl.src,k]
 		end
-		s2+= logsumexp(model.μ_var[mbl.src,:].+.5./model.Λ_var[mbl.src,:])
+		s2+= logsumexp(model.μ_var[mbl.src,:]+.5./model.Λ_var[mbl.src,:])
 	end
 	s1-s2
 end
@@ -63,7 +63,7 @@ function elogpzlin(model::LNMMSB, mb::MiniBatch)
 		for k in 1:model.K
 			s1+=mbl.ϕin[k]*model.μ_var[mbl.dst,k]
 		end
-		s2+= logsumexp(model.μ_var[mbl.dst,:].+.5./model.Λ_var[mbl.dst,:])
+		s2+= logsumexp(model.μ_var[mbl.dst,:]+.5./model.Λ_var[mbl.dst,:])
 	end
 	s1-s2
 end
@@ -75,7 +75,7 @@ function elogpznlout(model::LNMMSB, mb::MiniBatch)
 		for k in 1:model.K
 			s1+=mbn.ϕout[k]*model.μ_var[mbn.src,k]
 		end
-		s2+= logsumexp(model.μ_var[mbn.src,:].+.5./model.Λ_var[mbn.src,:])
+		s2+= logsumexp(model.μ_var[mbn.src,:]+.5./model.Λ_var[mbn.src,:])
 	end
 	s1-s2
 end
@@ -87,7 +87,7 @@ function elogpznlin(model::LNMMSB, mb::MiniBatch)
 		for k in 1:model.K
 			s1+=mbn.ϕin[k]*model.μ_var[mbn.dst,k]
 		end
-		s2+= logsumexp(model.μ_var[mbn.dst,:].+.5./model.Λ_var[mbn.dst,:])
+		s2+= logsumexp(model.μ_var[mbn.dst,:]+.5./model.Λ_var[mbn.dst,:])
 	end
 	s1-s2
 end
@@ -99,9 +99,9 @@ function elogpbeta(model::LNMMSB)
 		lgamma(model.η0+model.η1)-
 		lgamma(model.η0)-
 		lgamma(model.η1)+
-		(model.η0-1)*digamma(model.b0[k])+
-		(model.η1-1)*digamma(model.b1[k]) -
-		(model.η0+model.η1-2)*digamma(model.b0[k]+model.b1[k])
+		(model.η0-1.0)*digamma(model.b0[k])+
+		(model.η1-1.0)*digamma(model.b1[k]) -
+		(model.η0+model.η1-2.0)*digamma(model.b0[k]+model.b1[k])
 		)
 	end
 	s
@@ -109,23 +109,29 @@ end
 # elogpbeta(model)
 ##check the effect of epsilon on the size of the change, so that in computations maybe we can skip it.
 function elogpnetwork(model::LNMMSB, mb::MiniBatch)
+	s1 = zero(Float64)
 	s = zero(Float64)
 	for mbl in mb.mblinks
 
 		# a = link.src;b=link.dst;
 		ϕout=mbl.ϕout;ϕin=mbl.ϕin;
 		for k in 1:model.K
+			s1+=(ϕout[k]*ϕin[k]*(digamma(model.b0[k])- digamma(model.b1[k]+model.b0[k])-log(EPSILON))+log(EPSILON))#as is constant for
 			s+=(ϕout[k]*ϕin[k]*(digamma(model.b0[k])- digamma(model.b1[k]+model.b0[k])-log(EPSILON))+log(EPSILON))#as is constant for numerical stability for now
 		end
 	end
+	s2 = zero(Float64)
 	for mbn in mb.mbnonlinks
 		# a = nonlink.src;b=nonlink.dst;
 		ϕout=mbn.ϕout;ϕin=mbn.ϕin;
 		for k in 1:model.K
+			s2+=(ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log(1.0-EPSILON))+log(1.0-EPSILON))#as is
 			s+=(ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log(1.0-EPSILON))+log(1.0-EPSILON))#as is constant for numerical stability for now
 		end
 	end
 	s
+	s1+s2
+	s1+s2 == s
 end
 function elogpnetwork1(model::LNMMSB, mb::MiniBatch)
 	s = zero(Float64)
@@ -221,17 +227,16 @@ end
 function updateM!(model::LNMMSB,mb::MiniBatch)
 	##Only to make it MB dependent
 	model.M_old = deepcopy(model.M)
-	model.M = model.l.*model.N.*model.L + model.M0
+	model.M = (model.l*model.N).*model.L+model.M0
 end
 #updateM!(model,mb)
 function updatem!(model::LNMMSB, mb::MiniBatch)
-	model.m_old = deepcopy(model.m)
-	# model.m= inv(model.M)*(model.M0*model.m0+model.l*model.L*(model.N/model.mbsize)*sum(model.μ_var[a,:] for a in collect(mb.mballnodes)))
 	s = zeros(Float64, model.K)
 	for a in collect(mb.mballnodes)
 		s+=model.μ_var[a,:]
 	end
-	model.m=inv(model.M0+((model.N*model.l).*model.L))*(model.M0*model.m0+((convert(Float64,model.N)/convert(Float64,model.mbsize))*model.l).*model.L*s)
+	model.m_old = deepcopy(model.m)
+	model.m=inv((model.l*model.N).*model.L+model.M0)*(model.M0*model.m0+((convert(Float64,model.N)/convert(Float64,model.mbsize))*model.l).*model.L*s)
 end
 #updatem!(model, mb)
 function updatel!(model::LNMMSB)
@@ -240,15 +245,14 @@ function updatel!(model::LNMMSB)
 end
 #updatel!(model,mb)
 function updateL!(model::LNMMSB, mb::MiniBatch)
-	x=model.μ_var[collect(mb.mballnodes),:]'.-model.m
-	s1 = zeros(Float64, (model.K,model.K))
-	s2 = zeros(Float64, (model.K,model.K))
+	s = zero(Float64)
 	for a in collect(mb.mballnodes)
-		s1 += (model.μ_var[a,:] - model.m)*(model.μ_var[a,:] - model.m)'
-		s2 += diagm(1.0./model.Λ_var[a,:])
+		s +=(model.μ_var[a,:]-model.m)*(model.μ_var[a,:]-model.m)'+inv(model.M)+diagm(1.0./model.Λ_var[a,:])
 	end
+	s=(convert(Float64,model.N)/convert(Float64,model.mbsize)).*s
+	s+=inv(model.L0)
 	model.L_old = deepcopy(model.L)
-	model.L = inv(inv(model.L0) + convert(Float64,model.N)*inv(model.M) + (convert(Float64,model.N)/convert(Float64,model.mbsize)).*(s1+s2))
+	model.L = inv(s)
 end
 #updateL!(model, mb)
 function updateb0!(model::LNMMSB, mb::MiniBatch)
@@ -281,78 +285,78 @@ end
 ## hence we may only need to keep average for init of the thetas
 #MB Dependent
 ##need switching rounds between out and in
-function update_phil_send!(l::Link, model::LNMMSB, mb::MiniBatch,early::Bool, Elog_beta::Matrix2d{Float64})
-	temp_send = zeros(Float64, model.K)
-    s_send = zero(eltype(EPSILON))
-
-    dependence_dom = 4.0 ## to be used for the early iterations
-    for k in 1:model.K
-        @inbounds begin
-          dependence_dom = early ? 4.0 : (Elog_beta[k,1]-log(EPSILON))
-          temp_send[k] = l.ϕin[k]*(dependence_dom) + model.μ_var[l.src,k]*l.ϕout[k]
-          s_send = k > 1 ? logsumexp(s_send,temp_send[k]) : temp_send[k]
-        end
-    end
-    ## Normalize
-    for k in 1:model.K
-      @inbounds l.ϕout[k] = exp(temp_send[k] - s_send)
-    end
-end
-function update_phil_recv!(l::Link, model::LNMMSB, mb::MiniBatch,early::Bool, Elog_beta::Matrix2d{Float64})
-	temp_recv = zeros(Float64, model.K)
-	s_recv = zero(eltype(EPSILON))
-
-	dependence_dom = 4.0 ## to be used for the early iterations
-	for k in 1:model.K
-		@inbounds begin
-		  dependence_dom = early ? 4.0 : (Elog_beta[k,1]-log(EPSILON))
-		  temp_recv[k] = l.ϕout[k]*(dependence_dom) + model.μ_var[l.dst,k]*l.ϕin[k]
-		  s_recv = k > 1 ? logsumexp(s_recv,temp_recv[k]) : temp_recv[k]
-		end
-	end
-	## Normalize
-	for k in 1:model.K
-	  @inbounds l.ϕin[k] = exp(temp_recv[k] - s_recv)
-	end
-end
-function update_phinl_send!(nl::NonLink, model::LNMMSB, mb::MiniBatch,early::Bool, Elog_beta::Matrix2d{Float64}, dep2::Float64)
-	temp_nsend = zeros(Float64, model.K)
-	s_nsend = zero(eltype(EPSILON))
-	S = typeof(s_nsend)
-	first = nl.src
-	second = nl.dst
-	## dep2 is fed to the function which is like dependence_dom for early iterations
-	for k in 1:model.K
-	   @inbounds begin
-		 dep = early ? log(dep2) : (Elog_beta[k,2]-log(1.0-EPSILON))
-		 temp_nsend[k] = nl.ϕin[k]*(dep) + model.μ_var[first,k]*nl.ϕout[k]
-		 s_nsend = k > 1 ? logsumexp(s_nsend,temp_nsend[k]) : temp_nsend[k]
-	   end
-	end
-	## Normalize
-	for k in 1:model.K
-	   @inbounds nl.ϕout[k] = exp(temp_nsend[k] - s_nsend)
-	end
-end
-function update_phinl_recv!(nl::NonLink, model::LNMMSB, mb::MiniBatch,early::Bool, Elog_beta::Matrix2d{Float64},dep2::Float64)
-	temp_nrecv = zeros(Float64, model.K)
-	s_nrecv = zero(eltype(EPSILON))
-	S = typeof(s_nrecv)
-	first = nl.src
-	second = nl.dst
-	## dep2 is fed to the function which is like dependence_dom for early iterations
-	for k in 1:model.K
-	   @inbounds begin
-		 dep = early ? log(dep2) : (Elog_beta[k,2]-log(1.0-EPSILON))
-		 temp_nrecv[k] = nl.ϕout[k]*(dep) + model.μ_var[second,k]*nl.ϕin[k]
-		 s_nrecv = k > 1 ? logsumexp(s_nrecv,temp_nrecv[k]) : temp_nrecv[k]
-	   end
-	end
-	## Normalize
-	for k in 1:model.K
-	   @inbounds nl.ϕin[k] = exp(temp_nrecv[k] - s_nrecv)
-	end
-end
+# function update_phil_send!(l::Link, model::LNMMSB, mb::MiniBatch,early::Bool, Elog_beta::Matrix2d{Float64})
+# 	temp_send = zeros(Float64, model.K)
+#     s_send = zero(eltype(EPSILON))
+#
+#     dependence_dom = 4.0 ## to be used for the early iterations
+#     for k in 1:model.K
+#         @inbounds begin
+#           dependence_dom = early ? 4.0 : (Elog_beta[k,1]-log(EPSILON))
+#           temp_send[k] = l.ϕin[k]*(dependence_dom) + model.μ_var[l.src,k]*l.ϕout[k]
+#           s_send = k > 1 ? logsumexp(s_send,temp_send[k]) : temp_send[k]
+#         end
+#     end
+#     ## Normalize
+#     for k in 1:model.K
+#       @inbounds l.ϕout[k] = exp(temp_send[k] - s_send)
+#     end
+# end
+# function update_phil_recv!(l::Link, model::LNMMSB, mb::MiniBatch,early::Bool, Elog_beta::Matrix2d{Float64})
+# 	temp_recv = zeros(Float64, model.K)
+# 	s_recv = zero(eltype(EPSILON))
+#
+# 	dependence_dom = 4.0 ## to be used for the early iterations
+# 	for k in 1:model.K
+# 		@inbounds begin
+# 		  dependence_dom = early ? 4.0 : (Elog_beta[k,1]-log(EPSILON))
+# 		  temp_recv[k] = l.ϕout[k]*(dependence_dom) + model.μ_var[l.dst,k]*l.ϕin[k]
+# 		  s_recv = k > 1 ? logsumexp(s_recv,temp_recv[k]) : temp_recv[k]
+# 		end
+# 	end
+# 	## Normalize
+# 	for k in 1:model.K
+# 	  @inbounds l.ϕin[k] = exp(temp_recv[k] - s_recv)
+# 	end
+# end
+# function update_phinl_send!(nl::NonLink, model::LNMMSB, mb::MiniBatch,early::Bool, Elog_beta::Matrix2d{Float64}, dep2::Float64)
+# 	temp_nsend = zeros(Float64, model.K)
+# 	s_nsend = zero(eltype(EPSILON))
+# 	S = typeof(s_nsend)
+# 	first = nl.src
+# 	second = nl.dst
+# 	## dep2 is fed to the function which is like dependence_dom for early iterations
+# 	for k in 1:model.K
+# 	   @inbounds begin
+# 		 dep = early ? log(dep2) : (Elog_beta[k,2]-log(1.0-EPSILON))
+# 		 temp_nsend[k] = nl.ϕin[k]*(dep) + model.μ_var[first,k]*nl.ϕout[k]
+# 		 s_nsend = k > 1 ? logsumexp(s_nsend,temp_nsend[k]) : temp_nsend[k]
+# 	   end
+# 	end
+# 	## Normalize
+# 	for k in 1:model.K
+# 	   @inbounds nl.ϕout[k] = exp(temp_nsend[k] - s_nsend)
+# 	end
+# end
+# function update_phinl_recv!(nl::NonLink, model::LNMMSB, mb::MiniBatch,early::Bool, Elog_beta::Matrix2d{Float64},dep2::Float64)
+# 	temp_nrecv = zeros(Float64, model.K)
+# 	s_nrecv = zero(eltype(EPSILON))
+# 	S = typeof(s_nrecv)
+# 	first = nl.src
+# 	second = nl.dst
+# 	## dep2 is fed to the function which is like dependence_dom for early iterations
+# 	for k in 1:model.K
+# 	   @inbounds begin
+# 		 dep = early ? log(dep2) : (Elog_beta[k,2]-log(1.0-EPSILON))
+# 		 temp_nrecv[k] = nl.ϕout[k]*(dep) + model.μ_var[second,k]*nl.ϕin[k]
+# 		 s_nrecv = k > 1 ? logsumexp(s_nrecv,temp_nrecv[k]) : temp_nrecv[k]
+# 	   end
+# 	end
+# 	## Normalize
+# 	for k in 1:model.K
+# 	   @inbounds nl.ϕin[k] = exp(temp_nrecv[k] - s_nrecv)
+# 	end
+# end
 function updatephil!(model::LNMMSB,  mb::MiniBatch, early::Bool, switchrounds::Bool)
 	for l in mb.mblinks
 		if switchrounds
@@ -559,3 +563,38 @@ end
 function estimate_Λs(model::LNMMSB, mb::MiniBatch)
 end
 print();
+
+
+
+
+# srand(1234)
+# ϕout = rand(10000,4)
+# ϕin = rand(10000,4)
+# for a in 1:10000
+# 	ϕout[a,:] = softmax(ϕout[a,:])
+# 	ϕin[a,:] = softmax(ϕin[a,:])
+# end
+#
+# b0 = rand(4)*1000.0
+# b1 = rand(4)*1000.0
+#
+# EPSILON=1e-5
+#
+# s1 = zero(Float64)
+# s = zero(Float64)
+# for a in 1:10000
+# 	for k in 1:4
+# 		s1+=(ϕout[k]*ϕin[k]*(digamma(b0[k])- digamma(b1[k]+b0[k])-log(EPSILON))+log(EPSILON))#as is constant for
+# 		s+=(ϕout[k]*ϕin[k]*(digamma(b0[k])- digamma(b1[k]+b0[k])-log(EPSILON))+log(EPSILON))#as is constant for numerical stability for now
+# 	end
+# end
+# s2 = zero(Float64)
+# for a in 1:10000
+# 	for k in 1:4
+# 		s2+=(ϕout[k]*ϕin[k]*(digamma(b1[k])-digamma(b1[k]+b0[k])-log(1.0-EPSILON))+log(1.0-EPSILON))#as is
+# 		s+=(ϕout[k]*ϕin[k]*(digamma(b1[k])-digamma(b1[k]+b0[k])-log(1.0-EPSILON))+log(1.0-EPSILON))#as is constant for numerical stability for now
+# 	end
+# end
+# s
+# s1+s2
+# s1+s2 == s

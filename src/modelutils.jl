@@ -149,7 +149,7 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB)
 		end
 		mbcount +=1
 	end
-	model.mbids = collect(mb.mballnodes)[:]
+	model.mbids[:] = collect(mb.mballnodes)[:]
 end
 
 #better to call this all the time

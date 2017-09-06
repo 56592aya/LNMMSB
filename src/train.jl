@@ -12,13 +12,12 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	##############################
 	preparedata(model)
 	iter=200
-	mu_curr=ones(model.N)
-	Lambda_curr=ones(model.N)
-	lr_mu = zeros(Float64, model.N)
-	lr_Lambda = zeros(Float64, model.N)
+	# mu_curr=ones(model.N)
+	# Lambda_curr=ones(model.N)
+	# lr_mu = zeros(Float64, model.N)
+	# lr_Lambda = zeros(Float64, model.N)
 	early=true
 	switchrounds=true
-	#let's say for now:
 	elboevery=10
 	model.elborecord = Vector{Float64}()
 	model.elbo = 0.0
@@ -33,15 +32,12 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 	model.Λ_var = .1*ones(Float64, (model.N, model.K))
 	true_mu = readdlm("data/true_mu.txt")
 	model.m = zeros(Float64,model.K)#deepcopy(reshape(true_mu,model.K))
-	# model.M = (10.0).*eye(Float64,K)
 	model.M = (0.1).*eye(Float64,K)##to move around more
 	model.l = model.K+2
 	true_Lambda = readdlm("data/true_Lambda.txt")
 	Lambda = deepcopy(true_Lambda)
 	model.L=0.1.*(Lambda)./model.l
-	model.L=.5.*(model.L+model.L')
-	# Elog_beta = zeros(Float64, (model.K,2))
-	# model.b0 = model.b1 = 5.0*ones(Float64, model.K)
+	# model.L=.5.*(model.L+model.L')
 	isfullsample=false
 	if model.mbsize == model.N
 		isfullsample = true
@@ -72,22 +68,13 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		# lr_L = 1.0/((1.0+Float64(i))^.9)
 		# lr_b = 1.0/((1.0+Float64(i))^.5)
 
-		#initialize Elog_beta
-		# for k in 1:model.K
-        # 	Elog_beta[k,1] = digamma(model.b0[k]) - digamma(model.b0[k]+model.b1[k])
-        # 	Elog_beta[k,2] = digamma(model.b1[k]) - digamma(model.b0[k]+model.b1[k])
-    	# end
+
 		ExpectedAllSeen=(model.N/model.mbsize)*1.5#round(Int64,nv(network)*sum([1.0/i for i in 1:nv(network)]))
 		early = false
     	# if i == round(Int64,ExpectedAllSeen)+1
         # 	early = false
     	# end
-		# model.b0_old = deepcopy(model.b0)
-		# model.b1_old = deepcopy(model.b1)
-		#
-		# # ELBO_pre=elogpzlout(model,mb)+elogpzlin(model,mb)+elogpznlout(model,mb)+elogpznlin(model,mb)+
-		# # elogpbeta(model)+elogpnetwork(model,mb)-
-		# # (elogqbeta(model)+elogqzl(model)+elogqznl(model))
+
 
 		updatephil!(model, mb,early, switchrounds)
 		train_links_num=nnz(model.network)-length(model.ho_linkdict)
@@ -103,34 +90,24 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		updateb1!(model,mb)
 		model.b1 = model.b1_old.*(1.0-lr_b).+lr_b.*((rate1.*model.b1))
 		#####
-		# ELBO_post=elogpzlout(model,mb)+elogpzlin(model,mb)+elogpznlout(model,mb)+elogpznlin(model,mb)+
-		# elogpbeta(model)+elogpnetwork(model,mb)-(elogqbeta(model)+elogqzl(model)+elogqznl(model))
-		# if (ELBO_post<ELBO_pre)
-		# 	println(ELBO_pre)
-		# 	println(ELBO_post)
-		# 	println("have decrease in ELBO in updateb and updatephi")
-		# 	# if (ELBO_pre-ELBO_post) > 1e-6 && i > 1
-		# 	# 	break
-		# 	# end
-		# end
 
+		ELBO_pre = elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model))
+		updateL!(model, mb)
+		model.L
+		model.L = model.L_old.*(1.0-lr_L)+lr_L*model.L
+		# model.L=.5.*(model.L+model.L')
+		ELBO_post = elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model))
 
-		ELBO_pre=  elogpmu(model) + elogptheta(model,mb) - (elogqmu(model))
-		updateM!(model, mb)
-		model.M = model.M_old.*(1.0-lr_M)+lr_M.*model.M
-		model.M = .5.*(model.M+model.M')
-		ELBO_post=  elogpmu(model) + elogptheta(model,mb) - (elogqmu(model))
 		if (ELBO_post<ELBO_pre)
-			println("have decrease in ELBO in updateM")
+			println("have decrease in ELBO in updateL")
 			println(ELBO_pre)
 			println(ELBO_post)
 			if (ELBO_pre-ELBO_post) > 1e-6
 				break
 			end
-
 		end
-
 		#
+
 		ELBO_pre = elogpmu(model) + elogptheta(model,mb)
 		updatem!(model, mb)
 		model.m = model.m_old.*(1.0-lr_m)+lr_m.*model.m
@@ -143,20 +120,21 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 				break
 			end
 		end
-		ELBO_pre = elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model))
-		updateL!(model, mb)
-		model.L = model.L_old.*(1.0-lr_L)+lr_L*model.L
-		model.L=.5.*(model.L+model.L')
-		ELBO_post = elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model))
-
+		ELBO_pre=  elogpmu(model) + elogptheta(model,mb) - (elogqmu(model))
+		updateM!(model, mb)
+		model.M = model.M_old.*(1.0-lr_M)+lr_M.*model.M
+		# model.M = .5.*(model.M+model.M')
+		ELBO_post=  elogpmu(model) + elogptheta(model,mb) - (elogqmu(model))
 		if (ELBO_post<ELBO_pre)
-			println("have decrease in ELBO in updateL")
+			println("have decrease in ELBO in updateM")
 			println(ELBO_pre)
 			println(ELBO_post)
 			if (ELBO_pre-ELBO_post) > 1e-6
 				break
 			end
 		end
+
+
 
 
 		print(i);print(": ")
@@ -177,10 +155,12 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		end
 		switchrounds = !switchrounds
 	end
-	Plots.plot(1:length(model.elborecord),model.elborecord)
+	Plots.plot(2:length(model.elborecord),model.elborecord[2:end])
 
 end
 
-
-
+# Base.Math.lgamma(model.b0[1])
+# lgamma(model.b0[1])
+# Base.digamma(model.b0[1])
+# digamma(model.b0[1])
 # isposdef(.5.*(model.L+model.L'))
