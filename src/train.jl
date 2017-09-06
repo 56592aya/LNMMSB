@@ -91,45 +91,45 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		model.b1 = model.b1_old.*(1.0-lr_b).+lr_b.*((rate1.*model.b1))
 		#####
 
-		ELBO_pre = elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model))
+		ELBO_pre = (elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model)))
 		updateL!(model, mb)
-		model.L
 		model.L = model.L_old.*(1.0-lr_L)+lr_L*model.L
 		# model.L=.5.*(model.L+model.L')
-		ELBO_post = elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model))
+		ELBO_post = (elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model)))
 
 		if (ELBO_post<ELBO_pre)
 			println("have decrease in ELBO in updateL")
 			println(ELBO_pre)
 			println(ELBO_post)
-			if (ELBO_pre-ELBO_post) > 1e-6
+			if (ELBO_pre-ELBO_post) > 1e-2
 				break
 			end
 		end
 		#
 
-		ELBO_pre = elogpmu(model) + elogptheta(model,mb)
+		ELBO_pre = (elogpmu(model) + elogptheta(model,mb))
 		updatem!(model, mb)
 		model.m = model.m_old.*(1.0-lr_m)+lr_m.*model.m
-		ELBO_post = elogpmu(model) + elogptheta(model,mb)
+		ELBO_post = (elogpmu(model) + elogptheta(model,mb))
 		if (ELBO_post<ELBO_pre)
 			println("have decrease in ELBO in updatem")
 			println(ELBO_pre)
 			println(ELBO_post)
-			if (ELBO_pre-ELBO_post) > 1e-6
+			if (ELBO_pre-ELBO_post) > 1e-2
 				break
 			end
+
 		end
-		ELBO_pre=  elogpmu(model) + elogptheta(model,mb) - (elogqmu(model))
+		ELBO_pre=  (elogpmu(model) + elogptheta(model,mb) - (elogqmu(model)))
 		updateM!(model, mb)
 		model.M = model.M_old.*(1.0-lr_M)+lr_M.*model.M
 		# model.M = .5.*(model.M+model.M')
-		ELBO_post=  elogpmu(model) + elogptheta(model,mb) - (elogqmu(model))
+		ELBO_post=  (elogpmu(model) + elogptheta(model,mb) - (elogqmu(model)))
 		if (ELBO_post<ELBO_pre)
 			println("have decrease in ELBO in updateM")
 			println(ELBO_pre)
 			println(ELBO_post)
-			if (ELBO_pre-ELBO_post) > 1e-6
+			if (ELBO_pre-ELBO_post) > 1e-2
 				break
 			end
 		end

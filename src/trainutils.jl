@@ -129,9 +129,9 @@ function elogpnetwork(model::LNMMSB, mb::MiniBatch)
 			s+=(ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log(1.0-EPSILON))+log(1.0-EPSILON))#as is constant for numerical stability for now
 		end
 	end
-	s
+	# s
 	s1+s2
-	s1+s2 == s
+	# s1+s2 == s
 end
 function elogpnetwork1(model::LNMMSB, mb::MiniBatch)
 	s = zero(Float64)
@@ -564,37 +564,21 @@ function estimate_Λs(model::LNMMSB, mb::MiniBatch)
 end
 print();
 
-
-
-
-# srand(1234)
-# ϕout = rand(10000,4)
-# ϕin = rand(10000,4)
-# for a in 1:10000
-# 	ϕout[a,:] = softmax(ϕout[a,:])
-# 	ϕin[a,:] = softmax(ϕin[a,:])
-# end
-#
-# b0 = rand(4)*1000.0
-# b1 = rand(4)*1000.0
-#
-# EPSILON=1e-5
-#
 # s1 = zero(Float64)
 # s = zero(Float64)
 # for a in 1:10000
-# 	for k in 1:4
-# 		s1+=(ϕout[k]*ϕin[k]*(digamma(b0[k])- digamma(b1[k]+b0[k])-log(EPSILON))+log(EPSILON))#as is constant for
-# 		s+=(ϕout[k]*ϕin[k]*(digamma(b0[k])- digamma(b1[k]+b0[k])-log(EPSILON))+log(EPSILON))#as is constant for numerical stability for now
-# 	end
+#     for k in 1:4
+#         temp=log(1e-5)
+#         s1+=temp
+#         s +=temp
+#     end
 # end
 # s2 = zero(Float64)
 # for a in 1:10000
-# 	for k in 1:4
-# 		s2+=(ϕout[k]*ϕin[k]*(digamma(b1[k])-digamma(b1[k]+b0[k])-log(1.0-EPSILON))+log(1.0-EPSILON))#as is
-# 		s+=(ϕout[k]*ϕin[k]*(digamma(b1[k])-digamma(b1[k]+b0[k])-log(1.0-EPSILON))+log(1.0-EPSILON))#as is constant for numerical stability for now
-# 	end
+#     for k in 1:4
+#         temp = log(1e-5)
+#         s2+=temp
+#         s+=temp
+#     end
 # end
-# s
-# s1+s2
-# s1+s2 == s
+# round(s,4) == round(s1+s2,4)
