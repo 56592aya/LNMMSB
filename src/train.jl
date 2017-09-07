@@ -1,5 +1,5 @@
 ##initialization for the check is very important, havent yet figured it out.
-function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=1000, ntol::Float64=1.0/(model.K^2), viter::Int64=10, vtol::Float64=1.0/(model.K^2), elboevery::Int64=10, mb::MiniBatch,lr::Float64)
+# function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=1000, ntol::Float64=1.0/(model.K^2), viter::Int64=10, vtol::Float64=1.0/(model.K^2), elboevery::Int64=10, mb::MiniBatch,lr::Float64)
 	####TESTING ELBO INCREASE:#########
 	###################################
 	# if isfile("data/messages.txt")
@@ -95,22 +95,10 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 				break
 			end
 		end
+
+		# train_links_num=nnz(model.network)-length(model.ho_linkdict)
 		train_links_num=nnz(model.network)-length(model.ho_linkdict)
 		train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyaddict) -length(mb.mblinks)
-		rate0=(convert(Float64,train_links_num)/convert(Float64,length(mb.mblinks)))
-		ELBO_pre=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
-		updateb0!(model, mb)
-		model.b0 = (1.0-lr_b).*model.b0_old + lr_b.*((rate0.*model.b0))
-		ELBO_post=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
-		if (ELBO_post<ELBO_pre)
-			println("have decrease in ELBO in updateb0")
-			println(ELBO_pre)
-			println(ELBO_post)
-			if !isapprox(ELBO_pre,ELBO_post) && i >1
-				break
-			end
-		end
-		# train_links_num=nnz(model.network)-length(model.ho_linkdict)
 		dep2 = .1*(train_links_num)/(train_links_num+train_nlinks_num)
 		ELBO_pre= elogpznlout(model,mb)+elogpznlin(model,mb)+elogpnetwork0(model, mb)-elogqznl(model, mb)
 		updatephinl!(model, mb,early, dep2,switchrounds)
@@ -124,22 +112,56 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 			end
 		end
 
+
+		# ELBO_pre=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
+		# elbopre1=ELBO_pre
+		# updateb0!(model, mb)
+		# model.b0 = (1.0-lr_b).*model.b0_old + lr_b.*((model.b0))
+		# ELBO_post=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
+		# if (ELBO_post<ELBO_pre)
+		# 	println("have decrease in ELBO in updateb0")
+		# 	println(ELBO_pre)
+		# 	println(ELBO_post)
+		# 	if !isapprox(ELBO_pre,ELBO_post) && i >1
+		# 		break
+		# 	end
+		# end
 		# train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyaddict) -length(mb.mblinks)
 		rate1=(convert(Float64,train_nlinks_num)/convert(Float64,length(mb.mbnonlinks)))
+		rate0=(convert(Float64,train_links_num)/convert(Float64,length(mb.mblinks)))
 		ELBO_pre=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
+		ELBO_pre0=-elogqbeta(model)+elogpbeta(model)+elogpnetwork(model,mb)
+		ELBO_pre1=elogpbeta(model)
+		ELBO_pre2=elogpnetwork(model,mb)
+		ELBO_pre3=-elogqbeta(model)
+		updateb0!(model, mb)
+		model.b0 = (1.0-lr_b).*model.b0_old + lr_b.*((model.b0))
 		updateb1!(model,mb)
-		model.b1 = (1.0-lr_b).*model.b1_old+lr_b.*((rate1.*model.b1))
+		model.b1 = (1.0-lr_b).*model.b1_old+lr_b.*((model.b1))
 		ELBO_post=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
+		ELBO_post0=-elogqbeta(model)+elogpbeta(model)+elogpnetwork(model,mb)
+		ELBO_post1=elogpbeta(model)
+		ELBO_post2=elogpnetwork(model,mb)
+		ELBO_post3=-elogqbeta(model)
+		dif=(ELBO_post1-ELBO_pre1)+(ELBO_post2-ELBO_pre2)+(ELBO_post3-ELBO_pre3)
 		if (ELBO_post<ELBO_pre)
-			println("have decrease in ELBO in updateb1")
+			println("have decrease in ELBO in updateb")
 			println(ELBO_pre)
 			println(ELBO_post)
-			if !isapprox(ELBO_pre,ELBO_post) && i > 1
+			# println(ELBO_pre0)
+			# println(ELBO_post0)
+			# println(ELBO_pre1)
+			# println(ELBO_post1)
+			# println(ELBO_pre2)
+			# println(ELBO_post2)
+			# println(ELBO_pre3)
+			# println(ELBO_post3)
+			println(dif)
+			if !isapprox(ELBO_pre,ELBO_post)
 				break
 			end
 		end
 		#####
-
 		ELBO_pre = (elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model)))
 		updateL!(model, mb)
 		model.L = model.L_old.*(1.0-lr_L)+lr_L*model.L
@@ -204,9 +226,9 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		end
 		switchrounds = !switchrounds
 	end
-	Plots.plot(2:length(model.elborecord),model.elborecord[2:end])
-
-end
+# 	Plots.plot(2:length(model.elborecord),model.elborecord[2:end])
+#
+# end
 
 # Base.Math.lgamma(model.b0[1])
 # lgamma(model.b0[1])

@@ -96,11 +96,11 @@ function elogpbeta(model::LNMMSB)
 	s = zero(Float64)
 	for k in 1:model.K
 		s+=(
-		lgamma(model.η0)+
-		lgamma(model.η1)-
-		lgamma(model.η0+model.η1) -
-		(model.η0-1.0)*digamma(model.b0[k]) -
-		(model.η1-1.0)*digamma(model.b1[k]) +
+		-lgamma(model.η0)-
+		lgamma(model.η1)+
+		lgamma(model.η0+model.η1) +
+		(model.η0-1.0)*digamma(model.b0[k]) +
+		(model.η1-1.0)*digamma(model.b1[k]) -
 		(model.η0+model.η1-2.0)*digamma(model.b0[k]+model.b1[k])
 		)
 	end
