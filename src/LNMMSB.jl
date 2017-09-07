@@ -88,11 +88,11 @@ mutable struct LNMMSB <: AbstractMMSB
   # ϕbar          =(1.0/K).*ones(Float64, (N,K)) ## to be used for other rounds as init
   # ζ             =ones(Float64, N) #one additional variational param
   # ζ_old         = deepcopy(ζ)
-  η0            =9.0 #one the beta param
-  η1            =1.0 #one the beta param
-  b0            =9.0.*ones(Float64, K) #one the beta variational param
+  η0            =9.1 #one the beta param
+  η1            =1.1 #one the beta param
+  b0            =9.1.*ones(Float64, K) #one the beta variational param
   b0_old        = deepcopy(b0)
-  b1            =ones(Float64, K) #one the beta variational param
+  b1            =1.1.*ones(Float64, K) #one the beta variational param
   b1_old        = deepcopy(b1)
   mbsize        =N #number of nodes in the minibatch
   mbids         =zeros(Int64,mbsize) # to be extended

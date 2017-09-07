@@ -52,11 +52,20 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 			#for full sample only once
 			mb=deepcopy(mb_zeroer)
 			mbsampling!(mb,model, isfullsample)
+			# for l in mb.mblinks
+			# 	l.ϕin[:] = (1.0/model.K)*ones(Float64, model.K)
+			# 	l.ϕout[:] = (1.0/model.K)*ones(Float64, model.K)
+			# end
+			# for nl in mb.mbnonlinks
+			# 	nl.ϕin[:] = (1.0/model.K)*ones(Float64, model.K)
+			# 	nl.ϕout[:] = (1.0/model.K)*ones(Float64, model.K)
+			# end
+			# model.b0 = 5.0*ones(Float64, model.K)
+			# model.b1 = 5.0*ones(Float64, model.K)
 		elseif !isfullsample
 			mb=deepcopy(mb_zeroer)
 			mbsampling!(mb,model, isfullsample)
 		end
-
 		#Learning rates
 
 		lr_M = 1.0
@@ -91,7 +100,7 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		rate0=(convert(Float64,train_links_num)/convert(Float64,length(mb.mblinks)))
 		ELBO_pre=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
 		updateb0!(model, mb)
-		model.b0 = model.b0_old.*(1.0-lr_b).+lr_b.*((rate0.*model.b0))
+		model.b0 = (1.0-lr_b).*model.b0_old + lr_b.*((rate0.*model.b0))
 		ELBO_post=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
 		if (ELBO_post<ELBO_pre)
 			println("have decrease in ELBO in updateb0")
@@ -119,7 +128,7 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 		rate1=(convert(Float64,train_nlinks_num)/convert(Float64,length(mb.mbnonlinks)))
 		ELBO_pre=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
 		updateb1!(model,mb)
-		model.b1 = model.b1_old.*(1.0-lr_b).+lr_b.*((rate1.*model.b1))
+		model.b1 = (1.0-lr_b).*model.b1_old+lr_b.*((rate1.*model.b1))
 		ELBO_post=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
 		if (ELBO_post<ELBO_pre)
 			println("have decrease in ELBO in updateb1")

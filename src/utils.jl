@@ -100,7 +100,10 @@ end
 digamma{T<:Number,R<:Integer}(x::T, dim::R) = @fastmath @inbounds return sum(digamma(x+.5*(1-i)) for i in 1:dim)
 lgamma{T<:Number,R<:Integer}(x::T, dim::R)=.25*(dim*dim-1)*log(pi)+sum(lgamma(x+.5*(1-i)) for i in 1:dim)
 
-
+function logsumexp{T<:Real}(x::T, y::T)                       #dispatch #1
+    x == y && abs(x) == Inf && return x
+    x > y ? x + log1p(exp(y - x)) : y + log1p(exp(x - y))
+end
 function logsumexp{T<:Real}(x::AbstractArray{T})
     S = typeof(exp(zero(T)))    # because of 0.4.0
     isempty(x) && return -S(Inf)

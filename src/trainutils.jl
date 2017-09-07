@@ -260,27 +260,31 @@ function updateL!(model::LNMMSB, mb::MiniBatch)
 end
 #updateL!(model, mb)
 function updateb0!(model::LNMMSB, mb::MiniBatch)
-	for k in 1:model.K
-		model.ϕlinoutsum[k] = zero(Float64)
-		for mbl in mb.mblinks
-			model.ϕlinoutsum[k]+=mbl.ϕout[k]*mbl.ϕin[k]
-		end
-	end
 	model.b0_old = deepcopy(model.b0)
 	train_links_num=nnz(model.network)-length(model.ho_linkdict)
-	model.b0[:] = ((convert(Float64,train_links_num)/convert(Float64,length(mb.mblinks))).*model.ϕlinoutsum[:]).+model.η0;
+	if isequal(model.ϕlinoutsum[:], zeros(Float64, model.K))
+		model.ϕlinoutsum = zeros(Float64, model.K)
+		for k in 1:model.K
+			for mbl in mb.mblinks
+				model.ϕlinoutsum[k]+=mbl.ϕout[k]*mbl.ϕin[k]
+			end
+		end
+	end
+	model.b0[:] = model.η0.+((convert(Float64,train_links_num)/convert(Float64,length(mb.mblinks))).*model.ϕlinoutsum[:])
 end
 #updateb0!(model, mb)
 function updateb1!(model::LNMMSB, mb::MiniBatch)
-	for k in 1:model.K
-		model.ϕnlinoutsum[k] = zero(Float64)
-		for mbn in mb.mbnonlinks
-			model.ϕnlinoutsum[k]+=mbn.ϕout[k]*mbn.ϕin[k]
-		end
-	end
 	model.b1_old = deepcopy(model.b1)
 	train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyaddict) -length(mb.mblinks)
-	model.b1[:] = (convert(Float64,train_nlinks_num)/convert(Float64,length(mb.mbnonlinks)))*model.ϕnlinoutsum[:].+model.η1
+	if isequal(model.ϕnlinoutsum[:], zeros(Float64, model.K))
+		model.ϕnlinoutsum = zeros(Float64, model.K)
+		for k in 1:model.K
+			for mbn in mb.mbnonlinks
+				model.ϕnlinoutsum[k]+=mbn.ϕout[k]*mbn.ϕin[k]
+			end
+		end
+	end
+	model.b1[:] = model.η1.+((convert(Float64,train_nlinks_num)/convert(Float64,length(mb.mbnonlinks)))*model.ϕnlinoutsum[:])
 end
 #updateb1!(model, mb)
 
@@ -363,60 +367,96 @@ end
 # end
 function updatephil!(model::LNMMSB,  mb::MiniBatch, early::Bool, switchrounds::Bool)
 	for l in mb.mblinks
+		temp_send = zeros(Float64, model.K)
+		s_send = zero(eltype(EPSILON))
+		temp_recv = zeros(Float64, model.K)
+		s_recv = zero(eltype(EPSILON))
 		if switchrounds
 			#send
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log(EPSILON))
-				l.ϕout[k]=(model.μ_var[l.src,k] + l.ϕin[k]*depdom)
+				depdom = early?4.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log(EPSILON))
+				temp_send[k] = (model.μ_var[l.src,k] + l.ϕin[k]*depdom)
+				s_send = k > 1 ? logsumexp(s_send,temp_send[k]) : temp_send[k]
+				# l.ϕout[k]=(model.μ_var[l.src,k] + l.ϕin[k]*depdom)
 			end
-			l.ϕout[:]=softmax!(l.ϕout[:])
+			# l.ϕout[:]=softmax!(l.ϕout[:])
+			for k in 1:model.K
+      			@inbounds l.ϕout[k] = exp(temp_send[k] - s_send)
+    		end
 			#recv
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log(EPSILON))
-				l.ϕin[k]=(model.μ_var[l.dst,k] + l.ϕout[k]*depdom)
+				depdom = early?4.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log(EPSILON))
+				temp_recv[k] =(model.μ_var[l.dst,k] + l.ϕout[k]*depdom)
+				s_recv = k > 1 ? logsumexp(s_recv,temp_recv[k]) : temp_recv[k]
+				# l.ϕin[k]=(model.μ_var[l.dst,k] + l.ϕout[k]*depdom)
 			end
-			l.ϕin[:]=softmax!(l.ϕin[:])
+			for k in 1:model.K
+      			@inbounds l.ϕin[k] = exp(temp_recv[k] - s_recv)
+    		end
+			# l.ϕin[:]=softmax!(l.ϕin[:])
 			#send
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log(EPSILON))
-				l.ϕout[k]=(model.μ_var[l.src,k] + l.ϕin[k]*depdom)
+				depdom = early?4.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log(EPSILON))
+				temp_send[k] = (model.μ_var[l.src,k] + l.ϕin[k]*depdom)
+				s_send = k > 1 ? logsumexp(s_send,temp_send[k]) : temp_send[k]
+				# l.ϕout[k]=(model.μ_var[l.src,k] + l.ϕin[k]*depdom)
 			end
-			l.ϕout[:]=softmax!(l.ϕout[:])
-
+			for k in 1:model.K
+      			@inbounds l.ϕout[k] = exp(temp_send[k] - s_send)
+    		end
+			# l.ϕout[:]=softmax!(l.ϕout[:])
 		else
 			#recv
-
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log(EPSILON))
-				l.ϕin[k]=(model.μ_var[l.dst,k] + l.ϕout[k]*depdom)
+				depdom = early?4.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log(EPSILON))
+				temp_recv[k] =(model.μ_var[l.dst,k] + l.ϕout[k]*depdom)
+				s_recv = k > 1 ? logsumexp(s_recv,temp_recv[k]) : temp_recv[k]
+				# l.ϕin[k]=(model.μ_var[l.dst,k] + l.ϕout[k]*depdom)
 			end
-			l.ϕin[:]=softmax!(l.ϕin[:])
+			for k in 1:model.K
+      			@inbounds l.ϕin[k] = exp(temp_recv[k] - s_recv)
+    		end
+			# l.ϕin[:]=softmax!(l.ϕin[:])
 			#send
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log(EPSILON))
-				l.ϕout[k]=(model.μ_var[l.src,k] + l.ϕin[k]*depdom)
+				depdom = early?4.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log(EPSILON))
+				temp_send[k] = (model.μ_var[l.src,k] + l.ϕin[k]*depdom)
+				s_send = k > 1 ? logsumexp(s_send,temp_send[k]) : temp_send[k]
+				# l.ϕout[k]=(model.μ_var[l.src,k] + l.ϕin[k]*depdom)
 			end
-			l.ϕout[:]=softmax!(l.ϕout[:])
+			for k in 1:model.K
+      			@inbounds l.ϕout[k] = exp(temp_send[k] - s_send)
+    		end
+			# l.ϕout[:]=softmax!(l.ϕout[:])
 			#recv
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
-				depdom = early?3.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log(EPSILON))
-				l.ϕin[k]=(model.μ_var[l.dst,k] + l.ϕout[k]*depdom)
+				depdom = early?4.0:(digamma(model.b0[k])-digamma(model.b0[k]+model.b1[k])-log(EPSILON))
+				temp_recv[k] =(model.μ_var[l.dst,k] + l.ϕout[k]*depdom)
+				s_recv = k > 1 ? logsumexp(s_recv,temp_recv[k]) : temp_recv[k]
+				# l.ϕin[k]=(model.μ_var[l.dst,k] + l.ϕout[k]*depdom)
 			end
-			l.ϕin[:]=softmax!(l.ϕin[:])
+			for k in 1:model.K
+				@inbounds l.ϕin[k] = exp(temp_recv[k] - s_recv)
+			end
+			# l.ϕin[:]=softmax!(l.ϕin[:])
 		end
 	end
 	model.ϕloutsum=zeros(Float64,(model.N,model.K))
 	model.ϕlinsum=zeros(Float64,(model.N,model.K))
-	for l in mb.mblinks
-		for k in 1:model.K
+	model.ϕlinoutsum = zeros(Float64, model.K)
+	for k in 1:model.K
+		for l in mb.mblinks
+			# l.ϕout[k] = l.ϕout[k] < 1e-10?1e-10:l.ϕout[k]
+			# l.ϕin[k] = l.ϕin[k] < 1e-10 ?1e-10:l.ϕin[k]
 			model.ϕloutsum[l.src,k]+=l.ϕout[k]
 			model.ϕlinsum[l.dst,k]+=l.ϕin[k]
+			model.ϕlinoutsum[k]+= l.ϕin[k]*l.ϕout[k]
 		end
 	end
 end
@@ -425,58 +465,96 @@ end
 ##need switching rounds between out and in
 function updatephinl!(model::LNMMSB, mb::MiniBatch,early::Bool, dep2::Float64,switchrounds::Bool)
 	for nl in mb.mbnonlinks
+		temp_send = zeros(Float64, model.K)
+		s_send = zero(eltype(EPSILON))
+		temp_recv = zeros(Float64, model.K)
+		s_recv = zero(eltype(EPSILON))
 		if switchrounds
 			#send
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
 	          	depdom = early ? log(dep2) : (digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log(1.0-EPSILON))
-				nl.ϕout[k]=(model.μ_var[nl.src,k] + nl.ϕin[k]*depdom)
+				# nl.ϕout[k]=(model.μ_var[nl.src,k] + nl.ϕin[k]*depdom)
+				temp_send[k] = (model.μ_var[nl.src,k] + nl.ϕin[k]*depdom)
+				s_send = k > 1 ? logsumexp(s_send,temp_send[k]) : temp_send[k]
 			end
-			nl.ϕout[:]=softmax!(nl.ϕout[:])
+			for k in 1:model.K
+				@inbounds nl.ϕout[k] = exp(temp_send[k] - s_send)
+			end
+			# nl.ϕout[:]=softmax!(nl.ϕout[:])
 			#recv
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
 				depdom = early ? log(dep2) : (digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log(1.0-EPSILON))
-				nl.ϕin[k]=(model.μ_var[nl.dst,k] + nl.ϕout[k]*depdom)
+				# nl.ϕin[k]=(model.μ_var[nl.dst,k] + nl.ϕout[k]*depdom)
+				temp_recv[k] =(model.μ_var[nl.dst,k] + nl.ϕout[k]*depdom)
+				s_recv = k > 1 ? logsumexp(s_recv,temp_recv[k]) : temp_recv[k]
+
 			end
-			nl.ϕin[:]=softmax!(nl.ϕin[:])
+			for k in 1:model.K
+				@inbounds nl.ϕin[k] = exp(temp_recv[k] - s_recv)
+			end
+			# nl.ϕin[:]=softmax!(nl.ϕin[:])
 			#send
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
 	          	depdom = early ? log(dep2) : (digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log(1.0-EPSILON))
-				nl.ϕout[k]=(model.μ_var[nl.src,k] + nl.ϕin[k]*depdom)
+				temp_send[k] = (model.μ_var[nl.src,k] + nl.ϕin[k]*depdom)
+				s_send = k > 1 ? logsumexp(s_send,temp_send[k]) : temp_send[k]
+				# nl.ϕout[k]=(model.μ_var[nl.src,k] + nl.ϕin[k]*depdom)
 			end
-			nl.ϕout[:]=softmax!(nl.ϕout[:])
+			for k in 1:model.K
+				@inbounds nl.ϕout[k] = exp(temp_send[k] - s_send)
+			end
+			# nl.ϕout[:]=softmax!(nl.ϕout[:])
 		else
 			#recv
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
 				depdom = early ? log(dep2) : (digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log(1.0-EPSILON))
-				nl.ϕin[k]=(model.μ_var[nl.dst,k] + nl.ϕout[k]*depdom)
+				temp_recv[k] =(model.μ_var[nl.dst,k] + nl.ϕout[k]*depdom)
+				s_recv = k > 1 ? logsumexp(s_recv,temp_recv[k]) : temp_recv[k]
+				# nl.ϕin[k]=(model.μ_var[nl.dst,k] + nl.ϕout[k]*depdom)
 			end
-			nl.ϕin[:]=softmax!(nl.ϕin[:])
+			for k in 1:model.K
+				@inbounds nl.ϕin[k] = exp(temp_recv[k] - s_recv)
+			end
+			# nl.ϕin[:]=softmax!(nl.ϕin[:])
 			#send
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
 	          	depdom = early ? log(dep2) : (digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log(1.0-EPSILON))
-				nl.ϕout[k]=(model.μ_var[nl.src,k] + nl.ϕin[k]*depdom)
+				temp_send[k] = (model.μ_var[nl.src,k] + nl.ϕin[k]*depdom)
+				s_send = k > 1 ? logsumexp(s_send,temp_send[k]) : temp_send[k]
+				# nl.ϕout[k]=(model.μ_var[nl.src,k] + nl.ϕin[k]*depdom)
 			end
-			nl.ϕout[:]=softmax!(nl.ϕout[:])
+			for k in 1:model.K
+				@inbounds nl.ϕout[k] = exp(temp_send[k] - s_send)
+			end
+			# nl.ϕout[:]=softmax!(nl.ϕout[:])
 			#recv
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
 				depdom = early ? log(dep2) : (digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log(1.0-EPSILON))
-				nl.ϕin[k]=(model.μ_var[nl.dst,k] + nl.ϕout[k]*depdom)
+				temp_recv[k] =(model.μ_var[nl.dst,k] + nl.ϕout[k]*depdom)
+				s_recv = k > 1 ? logsumexp(s_recv,temp_recv[k]) : temp_recv[k]
+				# nl.ϕin[k]=(model.μ_var[nl.dst,k] + nl.ϕout[k]*depdom)
 			end
-			nl.ϕin[:]=softmax!(nl.ϕin[:])
+			for k in 1:model.K
+				@inbounds nl.ϕin[k] = exp(temp_recv[k] - s_recv)
+			end
+			# nl.ϕin[:]=softmax!(nl.ϕin[:])
 		end
 	end
 	model.ϕnloutsum=zeros(Float64,(model.N,model.K))
 	model.ϕnlinsum=zeros(Float64,(model.N,model.K))
-	for nl in mb.mbnonlinks
-		for k in 1:model.K
+	model.ϕnlinoutsum = zeros(Float64, model.K)
+	for k in 1:model.K
+		for nl in mb.mbnonlinks
+
 			model.ϕnloutsum[nl.src,k]+=nl.ϕout[k]
 			model.ϕnlinsum[nl.dst,k]+=nl.ϕin[k]
+			model.ϕnlinoutsum[k]+= nl.ϕin[k]*nl.ϕout[k]
 		end
 	end
 end
