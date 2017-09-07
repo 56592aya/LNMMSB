@@ -96,11 +96,11 @@ function elogpbeta(model::LNMMSB)
 	s = zero(Float64)
 	for k in 1:model.K
 		s+=(
-		lgamma(model.η0+model.η1)-
-		lgamma(model.η0)-
-		lgamma(model.η1)+
-		(model.η0-1.0)*digamma(model.b0[k])+
-		(model.η1-1.0)*digamma(model.b1[k]) -
+		lgamma(model.η0)+
+		lgamma(model.η1)-
+		lgamma(model.η0+model.η1) -
+		(model.η0-1.0)*digamma(model.b0[k]) -
+		(model.η1-1.0)*digamma(model.b1[k]) +
 		(model.η0+model.η1-2.0)*digamma(model.b0[k]+model.b1[k])
 		)
 	end
@@ -110,14 +110,14 @@ end
 ##check the effect of epsilon on the size of the change, so that in computations maybe we can skip it.
 function elogpnetwork(model::LNMMSB, mb::MiniBatch)
 	s1 = zero(Float64)
-	s = zero(Float64)
+	# s = zero(Float64)
 	for mbl in mb.mblinks
 
 		# a = link.src;b=link.dst;
 		ϕout=mbl.ϕout;ϕin=mbl.ϕin;
 		for k in 1:model.K
 			s1+=(ϕout[k]*ϕin[k]*(digamma(model.b0[k])- digamma(model.b1[k]+model.b0[k])-log(EPSILON))+log(EPSILON))#as is constant for
-			s+=(ϕout[k]*ϕin[k]*(digamma(model.b0[k])- digamma(model.b1[k]+model.b0[k])-log(EPSILON))+log(EPSILON))#as is constant for numerical stability for now
+			# s+=(ϕout[k]*ϕin[k]*(digamma(model.b0[k])- digamma(model.b1[k]+model.b0[k])-log(EPSILON))+log(EPSILON))#as is constant for numerical stability for now
 		end
 	end
 	s2 = zero(Float64)
@@ -126,7 +126,7 @@ function elogpnetwork(model::LNMMSB, mb::MiniBatch)
 		ϕout=mbn.ϕout;ϕin=mbn.ϕin;
 		for k in 1:model.K
 			s2+=(ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log(1.0-EPSILON))+log(1.0-EPSILON))#as is
-			s+=(ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log(1.0-EPSILON))+log(1.0-EPSILON))#as is constant for numerical stability for now
+			# s+=(ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log(1.0-EPSILON))+log(1.0-EPSILON))#as is constant for numerical stability for now
 		end
 	end
 	# s
@@ -134,26 +134,30 @@ function elogpnetwork(model::LNMMSB, mb::MiniBatch)
 	# s1+s2 == s
 end
 function elogpnetwork1(model::LNMMSB, mb::MiniBatch)
-	s = zero(Float64)
+	s1 = zero(Float64)
+	# s = zero(Float64)
 	for mbl in mb.mblinks
+
 		# a = link.src;b=link.dst;
 		ϕout=mbl.ϕout;ϕin=mbl.ϕin;
 		for k in 1:model.K
-			s+=(ϕout[k]*ϕin[k]*(digamma(model.b0[k])- digamma(model.b1[k]+model.b0[k])-log(EPSILON))+log(EPSILON))#as is constant for numerical stability for now
+			s1+=(ϕout[k]*ϕin[k]*(digamma(model.b0[k])- digamma(model.b1[k]+model.b0[k])-log(EPSILON))+log(EPSILON))#as is constant for
+			# s+=(ϕout[k]*ϕin[k]*(digamma(model.b0[k])- digamma(model.b1[k]+model.b0[k])-log(EPSILON))+log(EPSILON))#as is constant for numerical stability for now
 		end
 	end
-	s
+	s1
 end
 function elogpnetwork0(model::LNMMSB, mb::MiniBatch)
-	s = zero(Float64)
+	s2 = zero(Float64)
 	for mbn in mb.mbnonlinks
 		# a = nonlink.src;b=nonlink.dst;
 		ϕout=mbn.ϕout;ϕin=mbn.ϕin;
 		for k in 1:model.K
-			s+=(ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log(1.0-EPSILON))+log(1.0-EPSILON))#as is constant for numerical stability for now
+			s2+=(ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log(1.0-EPSILON))+log(1.0-EPSILON))#as is
+			# s+=(ϕout[k]*ϕin[k]*(digamma(model.b1[k])-digamma(model.b1[k]+model.b0[k])-log(1.0-EPSILON))+log(1.0-EPSILON))#as is constant for numerical stability for now
 		end
 	end
-	s
+	s2
 end
 #
 ####The negative entropies
@@ -184,19 +188,19 @@ function elogqbeta(model::LNMMSB)
 	s = zero(Float64)
 
 	for k in 1:model.K
-		s+=(
+		s-=(
 		lgamma(model.b0[k])+
 		lgamma(model.b1[k])-
 		lgamma(model.b0[k]+model.b1[k]) -
-		(model.b0[k]-1)*digamma(model.b0[k]) -
-		(model.b1[k]-1)*digamma(model.b1[k]) +
-		(model.b0[k]+model.b1[k]-2)*digamma(model.b0[k]+model.b1[k])
+		(model.b0[k]-1.0)*digamma(model.b0[k]) -
+		(model.b1[k]-1.0)*digamma(model.b1[k]) +
+		(model.b0[k]+model.b1[k]-2.0)*digamma(model.b0[k]+model.b1[k])
 		)
 	end
-	-s
+	s
 end
 # elogqbeta(model)
-function elogqzl(model::LNMMSB)
+function elogqzl(model::LNMMSB, mb::MiniBatch)
 	s = zero(Float64)
 	for mbl in mb.mblinks
 		for k in 1:model.K
@@ -206,7 +210,7 @@ function elogqzl(model::LNMMSB)
 	s
 end
 # elogqzl(model)
-function elogqznl(model::LNMMSB)
+function elogqznl(model::LNMMSB,mb::MiniBatch)
 	s = zero(Float64)
 	for mbn in mb.mbnonlinks
 		for k in 1:model.K
@@ -219,7 +223,7 @@ end
 function computeelbo!(model::LNMMSB, mb::MiniBatch)
 	model.elbo=elogpmu(model)+elogpLambda(model)+elogptheta(model,mb)+elogpzlout(model,mb)+elogpzlin(model,mb)+
 	elogpznlout(model,mb)+elogpznlin(model,mb)+elogpbeta(model)+elogpnetwork(model,mb)-
-	(elogqmu(model)+elogqLambda(model)+elogqtheta(model)+elogqbeta(model)+elogqzl(model)+elogqznl(model))
+	(elogqmu(model)+elogqLambda(model)+elogqtheta(model)+elogqbeta(model)+elogqzl(model, mb)+elogqznl(model,mb))
 	return model.elbo
 end
 # computeelbo!(model, mb)
@@ -581,4 +585,4 @@ print();
 #         s+=temp
 #     end
 # end
-# round(s,4) == round(s1+s2,4)
+# isapprox(s,s1+s2)

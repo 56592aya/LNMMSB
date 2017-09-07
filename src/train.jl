@@ -75,20 +75,60 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
         # 	early = false
     	# end
 
-
+		ELBO_pre= elogpzlout(model,mb)+elogpzlin(model,mb)+elogpnetwork1(model, mb)-elogqzl(model,mb)
 		updatephil!(model, mb,early, switchrounds)
+		ELBO_post=elogpzlout(model,mb)+elogpzlin(model,mb)+elogpnetwork1(model, mb)-elogqzl(model,mb)
+		if (ELBO_post<ELBO_pre)
+			println("have decrease in ELBO in updatephilink")
+			println(ELBO_pre)
+			println(ELBO_post)
+			if !isapprox(ELBO_pre,ELBO_post)
+				break
+			end
+		end
 		train_links_num=nnz(model.network)-length(model.ho_linkdict)
 		train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyaddict) -length(mb.mblinks)
-		dep2 = .1*(train_links_num)/(train_links_num+train_nlinks_num)
-		updatephinl!(model, mb,early, dep2,switchrounds)
-		train_links_num=nnz(model.network)-length(model.ho_linkdict)
 		rate0=(convert(Float64,train_links_num)/convert(Float64,length(mb.mblinks)))
+		ELBO_pre=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
 		updateb0!(model, mb)
 		model.b0 = model.b0_old.*(1.0-lr_b).+lr_b.*((rate0.*model.b0))
-		train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyaddict) -length(mb.mblinks)
+		ELBO_post=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
+		if (ELBO_post<ELBO_pre)
+			println("have decrease in ELBO in updateb0")
+			println(ELBO_pre)
+			println(ELBO_post)
+			if !isapprox(ELBO_pre,ELBO_post) && i >1
+				break
+			end
+		end
+		# train_links_num=nnz(model.network)-length(model.ho_linkdict)
+		dep2 = .1*(train_links_num)/(train_links_num+train_nlinks_num)
+		ELBO_pre= elogpznlout(model,mb)+elogpznlin(model,mb)+elogpnetwork0(model, mb)-elogqznl(model, mb)
+		updatephinl!(model, mb,early, dep2,switchrounds)
+		ELBO_post= elogpznlout(model,mb)+elogpznlin(model,mb)+elogpnetwork0(model, mb)-elogqznl(model, mb)
+		if (ELBO_post<ELBO_pre)
+			println("have decrease in ELBO in updatephinonlink")
+			println(ELBO_pre)
+			println(ELBO_post)
+			if !isapprox(ELBO_pre,ELBO_post)
+				break
+			end
+		end
+
+		# train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyaddict) -length(mb.mblinks)
 		rate1=(convert(Float64,train_nlinks_num)/convert(Float64,length(mb.mbnonlinks)))
+		ELBO_pre=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
 		updateb1!(model,mb)
 		model.b1 = model.b1_old.*(1.0-lr_b).+lr_b.*((rate1.*model.b1))
+		ELBO_post=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
+		if (ELBO_post<ELBO_pre)
+			println("have decrease in ELBO in updateb1")
+			println(ELBO_pre)
+			println(ELBO_post)
+			if !isapprox(ELBO_pre,ELBO_post) && i > 1
+				break
+			end
+		end
 		#####
 
 		ELBO_pre = (elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model)))
@@ -101,7 +141,7 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 			println("have decrease in ELBO in updateL")
 			println(ELBO_pre)
 			println(ELBO_post)
-			if (ELBO_pre-ELBO_post) > 1e-2
+			if !isapprox(ELBO_pre,ELBO_post)
 				break
 			end
 		end
@@ -115,7 +155,7 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 			println("have decrease in ELBO in updatem")
 			println(ELBO_pre)
 			println(ELBO_post)
-			if (ELBO_pre-ELBO_post) > 1e-2
+			if !isapprox(ELBO_pre,ELBO_post)
 				break
 			end
 
@@ -129,7 +169,7 @@ function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=10
 			println("have decrease in ELBO in updateM")
 			println(ELBO_pre)
 			println(ELBO_post)
-			if (ELBO_pre-ELBO_post) > 1e-2
+			if !isapprox(ELBO_pre,ELBO_post)
 				break
 			end
 		end
