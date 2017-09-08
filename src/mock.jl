@@ -491,15 +491,8 @@ Plots.histogram(comm_sizes)
 
 
 
-
-ELBO_L = elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model))
-ELBO_m = elogpmu(model) + elogptheta(model,mb)
-ELBO_M =  elogpmu(model) + elogptheta(model,mb) - (elogqmu(model))
-ELBO_μa = elogptheta(model,mb)+elogpzlout(model,mb)+elogpzlin(model,mb)+elogpznlout(model,mb)+	elogpznlin(model,mb)
-ELBO_Λa = elogptheta(model,mb)+elogpzlout(model,mb)+elogpzlin(model,mb)+elogpznlout(model,mb)+	elogpznlin(model,mb)-(elogqtheta(model))
-ELBO_b0 =elogpbeta(model)+elogpnetwork(model,mb)-(elogqbeta(model))
-ELBO_b1 =elogpbeta(model)+elogpnetwork(model,mb)-(elogqbeta(model))
-ELBO_ϕlout =elogpzlout(model,mb)+elogpnetwork(model,mb)-(elogqzl(model))
-ELBO_ϕlin = elogpzlin(model,mb)+elogpnetwork(model,mb)-(elogqzl(model))
-ELBO_ϕnlout =elogpznlout(model,mb)+elogpnetwork(model,mb)-(elogqznl(model))
-ELBO_ϕnlin =elogpznlin(model,mb)+elogpnetwork(model,mb)-(elogqznl(model))
+vec = [.1, .2, .3, .4]
+f(vec) = 1.0./vec
+sfx(vec) = exp.(.5*vec)./sum(exp.(.5*vec))
+ForwardDiff.jacobian(f, vec)
+ForwardDiff.gradient(sfx, vec)
