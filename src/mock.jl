@@ -495,4 +495,4 @@ vec = [.1, .2, .3, .4]
 f(vec) = 1.0./vec
 sfx(vec) = exp.(.5*vec)./sum(exp.(.5*vec))
 ForwardDiff.jacobian(f, vec)
-ForwardDiff.gradient(sfx, vec)
+ForwardDiff.jacobian(sfx, vec)

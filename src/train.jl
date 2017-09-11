@@ -43,7 +43,9 @@
 		isfullsample = true
 	end
 	updatel!(model)
-
+	ntol=1.0/abs2(model.K)
+	niter=1000
+	lr_μ=ones(Float64, model.mbsize)
 
 	for i in 1:iter
 		#Minibatch sampling/new sample
@@ -72,6 +74,7 @@
 		lr_m = 1.0
 		lr_L = 1.0
 		lr_b = 1.0
+
 		# lr_M = 1.0/((1.0+Float64(i))^.5)
 		# lr_m = 1.0/((1.0+Float64(i))^.7)
 		# lr_L = 1.0/((1.0+Float64(i))^.9)
@@ -113,20 +116,31 @@
 		end
 
 
-		# ELBO_pre=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
-		# elbopre1=ELBO_pre
-		# updateb0!(model, mb)
-		# model.b0 = (1.0-lr_b).*model.b0_old + lr_b.*((model.b0))
-		# ELBO_post=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
-		# if (ELBO_post<ELBO_pre)
-		# 	println("have decrease in ELBO in updateb0")
-		# 	println(ELBO_pre)
-		# 	println(ELBO_post)
-		# 	if !isapprox(ELBO_pre,ELBO_post) && i >1
-		# 		break
-		# 	end
-		# end
-		# train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyaddict) -length(mb.mblinks)
+		ELBO_pre=  elogpzlout(model,mb)+elogpzlin(model,mb)+elogpznlout(model,mb)+elogpznlin(model,mb) + elogptheta(model,mb)-elogqtheta(model)
+		init_mu(model,communities)
+		model.Λ_var = .1*ones(Float64, (model.N, model.K))
+		for a in collect(mb.mballnodes)
+			# updatelzeta!(model, mb, a)
+			updatemua!(model, a, niter, ntol,mb)
+			updateLambdaa!(model, a, niter, ntol,mb)
+			# updatelzeta!(model, mb, a)
+			# model.μ_var[a,:] = model.μ_var_old[a,:].*(1.0.-lr_μ[a])+lr_μ[a].*model.μ_var[a,:]
+		end
+		# model.μ_var[1,:]
+		# model.Λ_var[1,:]
+
+		ELBO_post=  elogpzlout(model,mb)+elogpzlin(model,mb)+elogpznlout(model,mb)+elogpznlin(model,mb) + elogptheta(model,mb)-elogqtheta(model)
+		if (ELBO_post<ELBO_pre)
+			println("have decrease in ELBO in updatemuLam")
+			println(ELBO_pre)
+			println(ELBO_post)
+			if !isapprox(ELBO_pre,ELBO_post) && i > 1
+				break
+			end
+		end
+
+
+
 		rate1=(convert(Float64,train_nlinks_num)/convert(Float64,length(mb.mbnonlinks)))
 		rate0=(convert(Float64,train_links_num)/convert(Float64,length(mb.mblinks)))
 		ELBO_pre=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
@@ -208,6 +222,7 @@
 
 
 
+
 		print(i);print(": ")
 		println(model.b0./(model.b0.+model.b1))
 
@@ -229,9 +244,3 @@
 # 	Plots.plot(2:length(model.elborecord),model.elborecord[2:end])
 #
 # end
-
-# Base.Math.lgamma(model.b0[1])
-# lgamma(model.b0[1])
-# Base.digamma(model.b0[1])
-# digamma(model.b0[1])
-# isposdef(.5.*(model.L+model.L'))

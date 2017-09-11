@@ -179,6 +179,7 @@ end
 function elogqtheta(model::LNMMSB)
 	s = zero(Float64)
 	for a in collect(mb.mballnodes)
+		a=1
 		s += (model.K*log(2.0*pi)-logdet(diagm(model.Λ_var[a,:]))+model.K)
 	end
 	-.5*s
@@ -559,74 +560,64 @@ function updatephinl!(model::LNMMSB, mb::MiniBatch,early::Bool, dep2::Float64,sw
 	end
 end
 
-function mu_grad(model::LNMMSB, mb::MiniBatch, a::Int64)
-	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	sfx_vec = softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:])
-	s = -model.l*model.L*(model.μ_var[a,:] - model.m) +
-	model.ϕloutsum[a] + model.ϕnloutsum[a]+model.ϕlinsum[a] + model.ϕnlinsum[a]-
-	sumb*sfx_vec
-
-	return s
-end
-function mu_hess(model::LNMMSB, mb::MiniBatch, a::Int64)
-	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	sfx_vec = softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:])
-	s = -model.l*model.L - 	sumb*(diagm(sfx_vec)-sfx_vec*sfx_vec')
-
-	return s
-
-end
 #Newton
 function updatemua!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
 
+	model.μ_var_old[a,:]=deepcopy(model.μ_var[a,:])
+	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
 	for i in 1:niter
-		μ_grad=mu_grad(model, mb, a)
-		μ_invH=inv(mu_hess(model, mb, a))
-		model.μ_var[a,:] -= μ_invH * μ_grad
-		if norm(μ_grad) < ntol || i == niter
+
+		sfx=softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:])
+		mu_grad = model.l*model.L*(model.m - model.μ_var[a,:]) +
+		 (model.ϕloutsum[a]+model.ϕlinsum[a]+model.ϕnloutsum[a]+model.ϕnlinsum[a])-
+		sumb*sfx
+		#(exp.(model.μ_var[a,:]+.5./model.Λ_var[a,:]) - model.lzeta[a])
+		muInvHess = -inv(model.l.*eye(Float64, model.K)+sumb.*inv(model.L)*(diagm(sfx)-sfx*sfx'))*inv(model.L)
+
+		model.μ_var[a,:] -= muInvHess*mu_grad
+		if norm(mu_grad) < ntol
 			break
 		end
 	end
-	model.μ_var_old[a,:] = deepcopy(model.μ_var[a,:]);
 	print();
 end
-
-function Lambdainv_grad(model::LNMMSB, mb::MiniBatch, a::Int64)
-	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	sfx_vec = softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:])
-	##check the diagm if this is correct
-	s = -.5*model.l*model.L + .5*diagm(model.Λ_var[a,:])-.5*sumb*diagm(sfx_vec)
-
-	return s
-end
-##still needs some fixing
-function Lambdainv_hess(model::LNMMSB, mb::MiniBatch, a::Int64)#####CHECK
-	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	sfx_vec = softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:])
-	s =  -.5*diagm(model.Λ_var[a,:].*model.Λ_var[a,:])-.25*sumb*(diagm(sfx_vec)-sfx_vec*sfx_vec')
-	return s
-
-end
-print("");
 #Newton
 ###Needs fixings
 function updateLambdaa!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
-	temp = deepcopy(inv(diagm(model.Λ_var[a,:])))
+
+	model.Λ_var_old[a,:]=deepcopy(model.Λ_var[a,:])
+
+	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
 	for i in 1:niter
-		Λinv_grad=Lambdainv_grad(model, mb, a)
-		Λinv_invH=inv(Lambdainv_hess(model, mb, a))
-		temp -= Λinv_invH * Λinv_grad
-		model.Λ_var[a,:] = diag(inv(temp))
-		norm(Λinv_grad)
-		if norm(Λinv_grad) < ntol || i == niter
-			model.Λ_var[a,:] = diag(inv(temp))
+		rho = 1.0
+		sfx=softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:])
+		LamInv_grad = .5*model.l*diag(model.L)+.5*model.Λ_var[a,:]-.5*sumb*sfx
+		LamInvInvHess = -inv(.5*diagm(model.Λ_var[a,:].*model.Λ_var[a,:])+.25*(diagm(sfx)-sfx*sfx'))
+
+		p = LamInvInvHess*LamInv_grad
+		while minimum(model.Λ_var[a,:] - rho * p) <= 0
+			rho *= 0.5
+		end
+		model.Λ_var[a,:] -=rho*p
+		if norm(LamInv_grad) < ntol
 			break
 		end
 	end
-	model.Λ_var_old[a,:] = deepcopy(model.Λ_var[[a,:]]);
 	print();
 end
 
+function mcsampler(model,mean, diagprec, num)
+	num=100
+	mean=[2.0,1.0,3.0,1.0]
+	diagprec=[2.0,.3,4.0, 1.5]
+	vec = zeros(Float64, (num, model.K))
+	for i in 1:num
+		e = rand(MvNormal(eye(Float64, model.K)),1)
+		vec[i,:] = mean+(1.0./diagprec).*(e)
+	end
+	return vec
+
+end
 function estimate_βs(model::LNMMSB, mb::MiniBatch)
 	model.est_β=model.b0./(model.b0.+model.b1)
 end
@@ -644,23 +635,5 @@ end
 
 function estimate_Λs(model::LNMMSB, mb::MiniBatch)
 end
-print();
 
-# s1 = zero(Float64)
-# s = zero(Float64)
-# for a in 1:10000
-#     for k in 1:4
-#         temp=log(1e-5)
-#         s1+=temp
-#         s +=temp
-#     end
-# end
-# s2 = zero(Float64)
-# for a in 1:10000
-#     for k in 1:4
-#         temp = log(1e-5)
-#         s2+=temp
-#         s+=temp
-#     end
-# end
-# isapprox(s,s1+s2)
+print("");

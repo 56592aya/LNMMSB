@@ -55,6 +55,7 @@ mutable struct LNMMSB <: AbstractMMSB
     est_β        ::Vector{Float64}
     est_μ        ::Vector{Float64}
     est_Λ        ::Matrix2d{Float64}
+		lzeta        ::Vector{Float64}
 
 
  function LNMMSB(network::Network{Int64}, K::Int64)
@@ -115,8 +116,9 @@ mutable struct LNMMSB <: AbstractMMSB
   est_β         = zeros(Float64,K)
   est_μ         = zeros(Float64,K)
   est_Λ         = zeros(Float64,(K,K))
+	lzeta         = [logsumexp(μ_var[a,:]+.5./Λ_var[a,:]) for a in 1:N]
   model = new(K, N, elbo, oldelbo, μ, μ_var,μ_var_old, m0, m,m_old, M0, M,M_old, Λ, Λ_var,Λ_var_old, l0, L0, l,
-   L,L_old, ϕlinoutsum, ϕnlinoutsum, η0, η1, b0,b0_old, b1,b1_old, network, mbsize, mbids,nho,  ho_dyaddict,ho_linkdict,    ho_nlinkdict,train_out,train_in,train_sinks,train_sources,ϕloutsum,  ϕnloutsum,  ϕlinsum,  ϕnlinsum,elborecord,est_θ, est_β, est_μ, est_Λ)
+   L,L_old, ϕlinoutsum, ϕnlinoutsum, η0, η1, b0,b0_old, b1,b1_old, network, mbsize, mbids,nho,  ho_dyaddict,ho_linkdict,    ho_nlinkdict,train_out,train_in,train_sinks,train_sources,ϕloutsum,  ϕnloutsum,  ϕlinsum,  ϕnlinsum,elborecord,est_θ, est_β, est_μ, est_Λ,lzeta)
   return model
  end
 end

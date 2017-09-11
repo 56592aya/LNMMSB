@@ -1,4 +1,4 @@
-module main
+# module main
 include("AbstractTuple.jl")
 include("AbstractDyad.jl")
 include("AbstractMMSB.jl")
@@ -20,4 +20,4 @@ include("trainutils.jl")
 # train = deepcopy(train_zeroer)
 # train_sampling!(train, model)
 # train_samplingall!(train, model)
-end
+# end
