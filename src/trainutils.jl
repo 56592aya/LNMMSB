@@ -179,8 +179,10 @@ end
 function elogqtheta(model::LNMMSB)
 	s = zero(Float64)
 	for a in collect(mb.mballnodes)
-		a=1
+		# a=1
+		# diagm(model.Λ_var[a,:])
 		s += (model.K*log(2.0*pi)-logdet(diagm(model.Λ_var[a,:]))+model.K)
+		# det(diagm(model.Λ_var[a,:]))
 	end
 	-.5*s
 end
@@ -289,83 +291,6 @@ function updateb1!(model::LNMMSB, mb::MiniBatch)
 end
 #updateb1!(model, mb)
 
-##The following need update but need to think how it affects the actual phis? after an iteration
-## But also local and used among first updates, so to be used by other updates with the same minibatch
-## hence we may only need to keep average for init of the thetas
-#MB Dependent
-##need switching rounds between out and in
-# function update_phil_send!(l::Link, model::LNMMSB, mb::MiniBatch,early::Bool, Elog_beta::Matrix2d{Float64})
-# 	temp_send = zeros(Float64, model.K)
-#     s_send = zero(eltype(EPSILON))
-#
-#     dependence_dom = 4.0 ## to be used for the early iterations
-#     for k in 1:model.K
-#         @inbounds begin
-#           dependence_dom = early ? 4.0 : (Elog_beta[k,1]-log(EPSILON))
-#           temp_send[k] = l.ϕin[k]*(dependence_dom) + model.μ_var[l.src,k]*l.ϕout[k]
-#           s_send = k > 1 ? logsumexp(s_send,temp_send[k]) : temp_send[k]
-#         end
-#     end
-#     ## Normalize
-#     for k in 1:model.K
-#       @inbounds l.ϕout[k] = exp(temp_send[k] - s_send)
-#     end
-# end
-# function update_phil_recv!(l::Link, model::LNMMSB, mb::MiniBatch,early::Bool, Elog_beta::Matrix2d{Float64})
-# 	temp_recv = zeros(Float64, model.K)
-# 	s_recv = zero(eltype(EPSILON))
-#
-# 	dependence_dom = 4.0 ## to be used for the early iterations
-# 	for k in 1:model.K
-# 		@inbounds begin
-# 		  dependence_dom = early ? 4.0 : (Elog_beta[k,1]-log(EPSILON))
-# 		  temp_recv[k] = l.ϕout[k]*(dependence_dom) + model.μ_var[l.dst,k]*l.ϕin[k]
-# 		  s_recv = k > 1 ? logsumexp(s_recv,temp_recv[k]) : temp_recv[k]
-# 		end
-# 	end
-# 	## Normalize
-# 	for k in 1:model.K
-# 	  @inbounds l.ϕin[k] = exp(temp_recv[k] - s_recv)
-# 	end
-# end
-# function update_phinl_send!(nl::NonLink, model::LNMMSB, mb::MiniBatch,early::Bool, Elog_beta::Matrix2d{Float64}, dep2::Float64)
-# 	temp_nsend = zeros(Float64, model.K)
-# 	s_nsend = zero(eltype(EPSILON))
-# 	S = typeof(s_nsend)
-# 	first = nl.src
-# 	second = nl.dst
-# 	## dep2 is fed to the function which is like dependence_dom for early iterations
-# 	for k in 1:model.K
-# 	   @inbounds begin
-# 		 dep = early ? log(dep2) : (Elog_beta[k,2]-log(1.0-EPSILON))
-# 		 temp_nsend[k] = nl.ϕin[k]*(dep) + model.μ_var[first,k]*nl.ϕout[k]
-# 		 s_nsend = k > 1 ? logsumexp(s_nsend,temp_nsend[k]) : temp_nsend[k]
-# 	   end
-# 	end
-# 	## Normalize
-# 	for k in 1:model.K
-# 	   @inbounds nl.ϕout[k] = exp(temp_nsend[k] - s_nsend)
-# 	end
-# end
-# function update_phinl_recv!(nl::NonLink, model::LNMMSB, mb::MiniBatch,early::Bool, Elog_beta::Matrix2d{Float64},dep2::Float64)
-# 	temp_nrecv = zeros(Float64, model.K)
-# 	s_nrecv = zero(eltype(EPSILON))
-# 	S = typeof(s_nrecv)
-# 	first = nl.src
-# 	second = nl.dst
-# 	## dep2 is fed to the function which is like dependence_dom for early iterations
-# 	for k in 1:model.K
-# 	   @inbounds begin
-# 		 dep = early ? log(dep2) : (Elog_beta[k,2]-log(1.0-EPSILON))
-# 		 temp_nrecv[k] = nl.ϕout[k]*(dep) + model.μ_var[second,k]*nl.ϕin[k]
-# 		 s_nrecv = k > 1 ? logsumexp(s_nrecv,temp_nrecv[k]) : temp_nrecv[k]
-# 	   end
-# 	end
-# 	## Normalize
-# 	for k in 1:model.K
-# 	   @inbounds nl.ϕin[k] = exp(temp_nrecv[k] - s_nrecv)
-# 	end
-# end
 function updatephil!(model::LNMMSB,  mb::MiniBatch, early::Bool, switchrounds::Bool)
 	for l in mb.mblinks
 		temp_send = zeros(Float64, model.K)
@@ -509,7 +434,7 @@ function updatephinl!(model::LNMMSB, mb::MiniBatch,early::Bool, dep2::Float64,sw
 			end
 			# nl.ϕout[:]=softmax!(nl.ϕout[:])
 		else
-			#recv
+			#recvcomputeelbo
 			for k in 1:model.K
 				#not using extreme epsilon and instead a fixed amount
 				depdom = early ? log(dep2) : (digamma(model.b1[k])-digamma(model.b0[k]+model.b1[k])-log(1.0-EPSILON))
@@ -580,7 +505,7 @@ function updatemua!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::Min
 		sumb.*(sfx)
 		mu_hess = -model.l.*model.L - sumb.*(diagm(sfx) - sfx*sfx')
 		μ_var -=rho.*(inv(mu_hess)*mu_grad)
-		i % 100 == 0 && println("niter ",string(i),", a ", string(a),", rho ", rho, ", norm ", norm(mu_grad))
+		i % 100 == 0 && println("niter ",string(i),", a ", string(a),", rho ", rho, ", norm_mu ", norm(mu_grad))
 		# println(μ_var)
 		# println(norm(mu_grad))
 		if norm(mu_grad) < ntol || isnan(norm(mu_grad))
@@ -598,23 +523,29 @@ end
 function updateLambdaa!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
 
 	model.Λ_var_old[a,:]=deepcopy(model.Λ_var[a,:])
-
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
+	Λ_var = model.Λ_var[a,:]
+	inv_temp = 1.0./Λ_var
 	for i in 1:niter
-		rho = 1.0
-		sfx=softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:])
-		LamInv_grad = .5*model.l*diag(model.L)+.5*model.Λ_var[a,:]-.5*sumb*sfx
-		LamInvInvHess = -inv(.5*diagm(model.Λ_var[a,:].*model.Λ_var[a,:])+.25*(diagm(sfx)-sfx*sfx'))
+		rho=1.0
+		# rho=1.0/((1.0+Float64(i))^.9)
+		sfx=softmax(model.μ_var[a,:]+.5./Λ_var)
+		Lam_grad=-.5*model.l.*diag(model.L)+.5.*Λ_var- .5.*sfx
+		# ForwardDiff.hessian(g, Λ_var)
+		Lam_hess=-.5*diagm(Λ_var.*Λ_var)-.25.*(diagm(sfx)-sfx*sfx')
 
-		p = LamInvInvHess*LamInv_grad
-		while minimum(model.Λ_var[a,:] - rho * p) <= 0
+		p =inv(Lam_hess)*Lam_grad
+		while minimum((1.0./Λ_var) - rho * p) <= 0
 			rho *= 0.5
 		end
-		model.Λ_var[a,:] -=rho*p
-		if norm(LamInv_grad) < ntol
+		inv_temp -= rho * p
+		i % 100 == 0 && println("niter ",string(i),", a ", string(a),", rho ", rho, ", norm_Lam ", norm(Lam_grad))
+
+		if norm(Lam_grad) < ntol || isnan(norm(Lam_grad))
 			break
 		end
 	end
+	model.Λ_var[a,:]=1.0./inv_temp
 	print();
 end
 

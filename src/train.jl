@@ -122,6 +122,7 @@
 		for a in collect(mb.mballnodes)
 			# updatelzeta!(model, mb, a)
 			updatemua!(model, a, niter, ntol,mb)
+			updateLambdaa!(model, a, niter, ntol,mb)
 			# model.μ_var[a,:] = model.μ_var_old[a,:].*(1.0.-lr_μ[a])+lr_μ[a].*model.μ_var[a,:]
 		end
 		# model.μ_var[1,:]
@@ -220,6 +221,6 @@
 		end
 		switchrounds = !switchrounds
 	end
-# 	Plots.plot(2:length(model.elborecord),model.elborecord[2:end])
+	# Plots.plot(2:length(model.elborecord),model.elborecord[2:end])
 #
 # end
