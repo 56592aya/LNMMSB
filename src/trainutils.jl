@@ -1,4 +1,6 @@
 # using SpecialFunctions
+
+using GradDescent
 using ForwardDiff
 
 #negative cross entropies
@@ -179,13 +181,11 @@ end
 function elogqtheta(model::LNMMSB)
 	s = zero(Float64)
 	for a in collect(mb.mballnodes)
-		# a=1
-		# diagm(model.Λ_var[a,:])
 		s += (model.K*log(2.0*pi)-logdet(diagm(model.Λ_var[a,:]))+model.K)
-		# det(diagm(model.Λ_var[a,:]))
 	end
 	-.5*s
 end
+
 # elogqtheta(model)
 function elogqbeta(model::LNMMSB)
 	s = zero(Float64)
@@ -546,6 +546,51 @@ function updateLambdaa!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb:
 		end
 	end
 	model.Λ_var[a,:]=1.0./inv_temp
+	print();
+end
+#Adagrad
+function updatemua2!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
+
+	model.μ_var_old[a,:]=deepcopy(model.μ_var[a,:])
+	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
+	μ_var = model.μ_var[a,:]
+	# rho=1.0
+	sfx(μ_var)=softmax(μ_var + .5./model.Λ_var[a,:])
+	f(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
+	(model.ϕloutsum[a,:]'+model.ϕlinsum[a,:]'+model.ϕnloutsum[a,:]'+model.ϕnlinsum[a,:]')*μ_var-
+	sumb*(log(ones(model.K)'*exp.(μ_var+.5./model.Λ_var[a,:])))
+	df(μ_var) = -model.l.*model.L*(μ_var-model.m) +
+	(model.ϕloutsum[a,:]+model.ϕlinsum[a,:]+model.ϕnloutsum[a,:]+model.ϕnlinsum[a,:])-
+	sumb.*sfx(μ_var)
+
+	opt = Adagrad()
+	for i in 1:niter
+		g = df(μ_var)
+		δ = update(opt,g)
+		μ_var-=δ
+	end
+	model.μ_var[a,:]=μ_var
+	print();
+end
+#Newton
+###Needs fixings
+function updateLambdaa2!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
+
+	model.Λ_var_old[a,:]=deepcopy(model.Λ_var[a,:])
+	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
+
+	Λ_ivar = 1.0./model.Λ_var[a,:]
+	sfx(Λ_ivar)=softmax(model.μ_var[a,:]+.5.*Λ_ivar)
+
+	f(Λ_ivar) =-.5*model.l*(diag(model.L)'*Λ_ivar)+.5*sum(log.(Λ_ivar))-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*Λ_ivar)))
+	df(Λ_var)=-.5*model.l.*diag(model.L) + .5./Λ_ivar - .5*sumb.*sfx(Λ_ivar)
+	opt = Adagrad()
+	for i in 1:niter
+		g = df(Λ_ivar)
+		δ = update(opt,g)
+		Λ_ivar-=δ
+	end
+	model.Λ_var[a,:]=1.0./Λ_ivar
 	print();
 end
 
