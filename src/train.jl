@@ -43,7 +43,7 @@
 		isfullsample = true
 	end
 	updatel!(model)
-	ntol=1.0/abs2(model.K)
+	ntol=0.05
 	niter=1000
 	lr_μ=ones(Float64, model.mbsize)
 
@@ -87,137 +87,116 @@
         # 	early = false
     	# end
 
-		ELBO_pre= elogpzlout(model,mb)+elogpzlin(model,mb)+elogpnetwork1(model, mb)-elogqzl(model,mb)
+		# ELBO_pre= elogpzlout(model,mb)+elogpzlin(model,mb)+elogpnetwork1(model, mb)-elogqzl(model,mb)
 		updatephil!(model, mb,early, switchrounds)
-		ELBO_post=elogpzlout(model,mb)+elogpzlin(model,mb)+elogpnetwork1(model, mb)-elogqzl(model,mb)
-		if (ELBO_post<ELBO_pre)
-			println("have decrease in ELBO in updatephilink")
-			println(ELBO_pre)
-			println(ELBO_post)
-			if !isapprox(ELBO_pre,ELBO_post)
-				break
-			end
-		end
+		# ELBO_post=elogpzlout(model,mb)+elogpzlin(model,mb)+elogpnetwork1(model, mb)-elogqzl(model,mb)
+		# if (ELBO_post<ELBO_pre)
+		# 	println("have decrease in ELBO in updatephilink")
+		# 	println(ELBO_pre)
+		# 	println(ELBO_post)
+		# 	if !isapprox(ELBO_pre,ELBO_post)
+		# 		break
+		# 	end
+		# end
 
 		# train_links_num=nnz(model.network)-length(model.ho_linkdict)
 		train_links_num=nnz(model.network)-length(model.ho_linkdict)
 		train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyaddict) -length(mb.mblinks)
 		dep2 = .1*(train_links_num)/(train_links_num+train_nlinks_num)
-		ELBO_pre= elogpznlout(model,mb)+elogpznlin(model,mb)+elogpnetwork0(model, mb)-elogqznl(model, mb)
+		# ELBO_pre= elogpznlout(model,mb)+elogpznlin(model,mb)+elogpnetwork0(model, mb)-elogqznl(model, mb)
 		updatephinl!(model, mb,early, dep2,switchrounds)
-		ELBO_post= elogpznlout(model,mb)+elogpznlin(model,mb)+elogpnetwork0(model, mb)-elogqznl(model, mb)
-		if (ELBO_post<ELBO_pre)
-			println("have decrease in ELBO in updatephinonlink")
-			println(ELBO_pre)
-			println(ELBO_post)
-			if !isapprox(ELBO_pre,ELBO_post)
-				break
-			end
-		end
+		# ELBO_post= elogpznlout(model,mb)+elogpznlin(model,mb)+elogpnetwork0(model, mb)-elogqznl(model, mb)
+		# if (ELBO_post<ELBO_pre)
+		# 	println("have decrease in ELBO in updatephinonlink")
+		# 	println(ELBO_pre)
+		# 	println(ELBO_post)
+		# 	if !isapprox(ELBO_pre,ELBO_post)
+		# 		break
+		# 	end
+		# end
 
 
-		ELBO_pre=  elogpzlout(model,mb)+elogpzlin(model,mb)+elogpznlout(model,mb)+elogpznlin(model,mb) + elogptheta(model,mb)-elogqtheta(model)
-		init_mu(model,communities)
-		model.Λ_var = .1*ones(Float64, (model.N, model.K))
+		# init_mu(model,communities)
+		# ELBO_pre=  elogpzlout(model,mb)+elogpzlin(model,mb)+elogpznlout(model,mb)+elogpznlin(model,mb) + elogptheta(model,mb)#-elogqtheta(model)
+		# model.Λ_var = .1*ones(Float64, (model.N, model.K))
 		for a in collect(mb.mballnodes)
 			# updatelzeta!(model, mb, a)
 			updatemua!(model, a, niter, ntol,mb)
-			updateLambdaa!(model, a, niter, ntol,mb)
-			# updatelzeta!(model, mb, a)
 			# model.μ_var[a,:] = model.μ_var_old[a,:].*(1.0.-lr_μ[a])+lr_μ[a].*model.μ_var[a,:]
 		end
 		# model.μ_var[1,:]
-		# model.Λ_var[1,:]
-
-		ELBO_post=  elogpzlout(model,mb)+elogpzlin(model,mb)+elogpznlout(model,mb)+elogpznlin(model,mb) + elogptheta(model,mb)-elogqtheta(model)
-		if (ELBO_post<ELBO_pre)
-			println("have decrease in ELBO in updatemuLam")
-			println(ELBO_pre)
-			println(ELBO_post)
-			if !isapprox(ELBO_pre,ELBO_post) && i > 1
-				break
-			end
-		end
+		# ELBO_post=  elogpzlout(model,mb)+elogpzlin(model,mb)+elogpznlout(model,mb)+elogpznlin(model,mb) + elogptheta(model,mb)#-elogqtheta(model)
+		# if (ELBO_post<ELBO_pre)
+		# 	println("have decrease in ELBO in updatemuLam")
+		# 	println(ELBO_pre)
+		# 	println(ELBO_post)
+		# 	if !isapprox(ELBO_pre,ELBO_post) && i > 10
+		# 		break
+		# 	end
+		# end
 
 
 
 		rate1=(convert(Float64,train_nlinks_num)/convert(Float64,length(mb.mbnonlinks)))
 		rate0=(convert(Float64,train_links_num)/convert(Float64,length(mb.mblinks)))
-		ELBO_pre=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
-		ELBO_pre0=-elogqbeta(model)+elogpbeta(model)+elogpnetwork(model,mb)
-		ELBO_pre1=elogpbeta(model)
-		ELBO_pre2=elogpnetwork(model,mb)
-		ELBO_pre3=-elogqbeta(model)
+		# ELBO_pre=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
+
 		updateb0!(model, mb)
 		model.b0 = (1.0-lr_b).*model.b0_old + lr_b.*((model.b0))
 		updateb1!(model,mb)
 		model.b1 = (1.0-lr_b).*model.b1_old+lr_b.*((model.b1))
-		ELBO_post=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
-		ELBO_post0=-elogqbeta(model)+elogpbeta(model)+elogpnetwork(model,mb)
-		ELBO_post1=elogpbeta(model)
-		ELBO_post2=elogpnetwork(model,mb)
-		ELBO_post3=-elogqbeta(model)
-		dif=(ELBO_post1-ELBO_pre1)+(ELBO_post2-ELBO_pre2)+(ELBO_post3-ELBO_pre3)
-		if (ELBO_post<ELBO_pre)
-			println("have decrease in ELBO in updateb")
-			println(ELBO_pre)
-			println(ELBO_post)
-			# println(ELBO_pre0)
-			# println(ELBO_post0)
-			# println(ELBO_pre1)
-			# println(ELBO_post1)
-			# println(ELBO_pre2)
-			# println(ELBO_post2)
-			# println(ELBO_pre3)
-			# println(ELBO_post3)
-			println(dif)
-			if !isapprox(ELBO_pre,ELBO_post)
-				break
-			end
-		end
+
+		# if (ELBO_post<ELBO_pre)
+		# 	println("have decrease in ELBO in updateb")
+		# 	println(ELBO_pre)
+		# 	println(ELBO_post)
+		# 	if !isapprox(ELBO_pre,ELBO_post)
+		# 		break
+		# 	end
+		# end
 		#####
-		ELBO_pre = (elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model)))
+		# ELBO_pre = (elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model)))
 		updateL!(model, mb)
 		model.L = model.L_old.*(1.0-lr_L)+lr_L*model.L
 		# model.L=.5.*(model.L+model.L')
-		ELBO_post = (elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model)))
+		# ELBO_post = (elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model)))
 
-		if (ELBO_post<ELBO_pre)
-			println("have decrease in ELBO in updateL")
-			println(ELBO_pre)
-			println(ELBO_post)
-			if !isapprox(ELBO_pre,ELBO_post)
-				break
-			end
-		end
+		# if (ELBO_post<ELBO_pre)
+		# 	println("have decrease in ELBO in updateL")
+		# 	println(ELBO_pre)
+		# 	println(ELBO_post)
+		# 	if !isapprox(ELBO_pre,ELBO_post)
+		# 		break
+		# 	end
+		# end
 		#
 
-		ELBO_pre = (elogpmu(model) + elogptheta(model,mb))
+		# ELBO_pre = (elogpmu(model) + elogptheta(model,mb))
 		updatem!(model, mb)
 		model.m = model.m_old.*(1.0-lr_m)+lr_m.*model.m
-		ELBO_post = (elogpmu(model) + elogptheta(model,mb))
-		if (ELBO_post<ELBO_pre)
-			println("have decrease in ELBO in updatem")
-			println(ELBO_pre)
-			println(ELBO_post)
-			if !isapprox(ELBO_pre,ELBO_post)
-				break
-			end
-
-		end
-		ELBO_pre=  (elogpmu(model) + elogptheta(model,mb) - (elogqmu(model)))
+		# ELBO_post = (elogpmu(model) + elogptheta(model,mb))
+		# if (ELBO_post<ELBO_pre)
+		# 	println("have decrease in ELBO in updatem")
+		# 	println(ELBO_pre)
+		# 	println(ELBO_post)
+		# 	if !isapprox(ELBO_pre,ELBO_post)
+		# 		break
+		# 	end
+		#
+		# end
+		# ELBO_pre=  (elogpmu(model) + elogptheta(model,mb) - (elogqmu(model)))
 		updateM!(model, mb)
 		model.M = model.M_old.*(1.0-lr_M)+lr_M.*model.M
 		# model.M = .5.*(model.M+model.M')
-		ELBO_post=  (elogpmu(model) + elogptheta(model,mb) - (elogqmu(model)))
-		if (ELBO_post<ELBO_pre)
-			println("have decrease in ELBO in updateM")
-			println(ELBO_pre)
-			println(ELBO_post)
-			if !isapprox(ELBO_pre,ELBO_post)
-				break
-			end
-		end
+		# ELBO_post=  (elogpmu(model) + elogptheta(model,mb) - (elogqmu(model)))
+		# if (ELBO_post<ELBO_pre)
+		# 	println("have decrease in ELBO in updateM")
+		# 	println(ELBO_pre)
+		# 	println(ELBO_post)
+		# 	if !isapprox(ELBO_pre,ELBO_post)
+		# 		break
+		# 	end
+		# end
 
 
 

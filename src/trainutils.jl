@@ -1,5 +1,5 @@
 # using SpecialFunctions
-
+using ForwardDiff
 
 #negative cross entropies
 function elogpmu(model::LNMMSB)
@@ -562,23 +562,35 @@ end
 
 #Newton
 function updatemua!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
-
 	model.μ_var_old[a,:]=deepcopy(model.μ_var[a,:])
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
+	μ_var = model.μ_var[a,:]
+	rho=1.0
 	for i in 1:niter
+		# f(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
+		# (model.ϕloutsum[a,:]'+model.ϕlinsum[a,:]'+model.ϕnloutsum[a,:]'+model.ϕnlinsum[a,:]')*μ_var-
+		# sumb*(log(ones(model.K)'*exp.(μ_var+.5./model.Λ_var[a,:])))
+		rho=1.0/((1.0+Float64(i))^.9)
 
-		sfx=softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:])
-		mu_grad = model.l*model.L*(model.m - model.μ_var[a,:]) +
-		 (model.ϕloutsum[a]+model.ϕlinsum[a]+model.ϕnloutsum[a]+model.ϕnlinsum[a])-
-		sumb*sfx
-		#(exp.(model.μ_var[a,:]+.5./model.Λ_var[a,:]) - model.lzeta[a])
-		muInvHess = -inv(model.l.*eye(Float64, model.K)+sumb.*inv(model.L)*(diagm(sfx)-sfx*sfx'))*inv(model.L)
-
-		model.μ_var[a,:] -= muInvHess*mu_grad
-		if norm(mu_grad) < ntol
+		# S = f(μ_var)
+		# sfx=softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:])
+		sfx=softmax(μ_var + .5./model.Λ_var[a,:])
+		mu_grad = -model.l.*model.L*(μ_var-model.m) +
+		(model.ϕloutsum[a,:]+model.ϕlinsum[a,:]+model.ϕnloutsum[a,:]+model.ϕnlinsum[a,:])-
+		sumb.*(sfx)
+		mu_hess = -model.l.*model.L - sumb.*(diagm(sfx) - sfx*sfx')
+		μ_var -=rho.*(inv(mu_hess)*mu_grad)
+		i % 100 == 0 && println("niter ",string(i),", a ", string(a),", rho ", rho, ", norm ", norm(mu_grad))
+		# println(μ_var)
+		# println(norm(mu_grad))
+		if norm(mu_grad) < ntol || isnan(norm(mu_grad))
+			# println(norm(mu_grad))
+			# println(norm(ntol))
+			# println(i)
 			break
 		end
 	end
+	model.μ_var[a,:]=μ_var
 	print();
 end
 #Newton
