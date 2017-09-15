@@ -223,6 +223,6 @@
 		end
 		switchrounds = !switchrounds
 	end
-	# Plots.plot(2:length(model.elborecord),model.elborecord[2:end])
+	Plots.plot(2:length(model.elborecord),model.elborecord[2:end])
 #
 # end

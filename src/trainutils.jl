@@ -585,10 +585,15 @@ function updateLambdaa2!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb
 	f(Λ_ivar) =-.5*model.l*(diag(model.L)'*Λ_ivar)+.5*sum(log.(Λ_ivar))-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*Λ_ivar)))
 	df(Λ_var)=-.5*model.l.*diag(model.L) + .5./Λ_ivar - .5*sumb.*sfx(Λ_ivar)
 	opt = Adagrad()
+	rho=1.0
 	for i in 1:niter
+
 		g = df(Λ_ivar)
 		δ = update(opt,g)
-		Λ_ivar-=δ
+		if minimum(Λ_ivar - δ) <=0
+			rho*=.5
+		end
+		Λ_ivar-=rho.*δ ##should this be plus or minues
 	end
 	model.Λ_var[a,:]=1.0./Λ_ivar
 	print();
