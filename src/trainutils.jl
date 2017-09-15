@@ -556,16 +556,16 @@ function updatemua2!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::Mi
 	μ_var = model.μ_var[a,:]
 	# rho=1.0
 	sfx(μ_var)=softmax(μ_var + .5./model.Λ_var[a,:])
-	f(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
+	func(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
 	(model.ϕloutsum[a,:]'+model.ϕlinsum[a,:]'+model.ϕnloutsum[a,:]'+model.ϕnlinsum[a,:]')*μ_var-
 	sumb*(log(ones(model.K)'*exp.(μ_var+.5./model.Λ_var[a,:])))
-	df(μ_var) = -model.l.*model.L*(μ_var-model.m) +
+	dfunc(μ_var) = -model.l.*model.L*(μ_var-model.m) +
 	(model.ϕloutsum[a,:]+model.ϕlinsum[a,:]+model.ϕnloutsum[a,:]+model.ϕnlinsum[a,:])-
 	sumb.*sfx(μ_var)
 
 	opt = Adagrad()
 	for i in 1:niter
-		g = df(μ_var)
+		g = dfunc(μ_var)
 		δ = update(opt,g)
 		μ_var-=δ
 	end
@@ -581,16 +581,14 @@ function updateLambdaa2!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb
 
 	Λ_ivar = 1.0./model.Λ_var[a,:]
 	sfx(Λ_ivar)=softmax(model.μ_var[a,:]+.5.*Λ_ivar)
-
-	f(Λ_ivar) =-.5*model.l*(diag(model.L)'*Λ_ivar)+.5*sum(log.(Λ_ivar))-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*Λ_ivar)))
-	df(Λ_var)=-.5*model.l.*diag(model.L) + .5./Λ_ivar - .5*sumb.*sfx(Λ_ivar)
+	func(Λ_ivar) =-.5*model.l*(diag(model.L)'*Λ_ivar)+.5*sum(log.(Λ_ivar))-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*Λ_ivar)))
+	dfunc(Λ_var)=-.5*model.l.*diag(model.L) + .5./Λ_ivar - .5*sumb.*sfx(Λ_ivar)
 	opt = Adagrad()
-	rho=1.0
 	for i in 1:niter
-
-		g = df(Λ_ivar)
+		rho=1.0
+		g = dfunc(Λ_ivar)
 		δ = update(opt,g)
-		if minimum(Λ_ivar - δ) <=0
+		while minimum(Λ_ivar - rho.*δ) <= 0.0
 			rho*=.5
 		end
 		Λ_ivar-=rho.*δ ##should this be plus or minues
