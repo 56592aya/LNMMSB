@@ -587,11 +587,19 @@ function updateLambdaa2!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb
 	for i in 1:niter
 		rho=1.0
 		g = dfunc(Λ_ivar)
+
 		δ = update(opt,g)
-		while minimum(Λ_ivar - rho.*δ) <= 0.0
-			rho*=.5
+		# while minimum(Λ_ivar - rho.*δ) <= 0.0
+		# 	rho*=.5
+		# end
+
+		# Λ_ivar-=rho.*δ ##should this be plus or minues
+		## or while !isposdef(diagm(Λ_ivar))
+		while !isposdef(diagm(Λ_ivar - δ))
+			δ = update(opt,g)
 		end
-		Λ_ivar-=rho.*δ ##should this be plus or minues
+		Λ_ivar -=δ
+
 	end
 	model.Λ_var[a,:]=1.0./Λ_ivar
 	print();

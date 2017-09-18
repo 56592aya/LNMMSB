@@ -11,7 +11,7 @@
 	##############################
 	##############################
 	preparedata(model)
-	iter=200
+	iter=50
 	# mu_curr=ones(model.N)
 	# Lambda_curr=ones(model.N)
 	# lr_mu = zeros(Float64, model.N)
@@ -29,7 +29,7 @@
 	# for i in 1:model.N
 	# 	model.μ_var[i,:] = (model.μ_var[i,:])
 	# end
-	model.Λ_var = .1*ones(Float64, (model.N, model.K))
+	model.Λ_var = .2*ones(Float64, (model.N, model.K))
 	true_mu = readdlm("data/true_mu.txt")
 	model.m = zeros(Float64,model.K)#deepcopy(reshape(true_mu,model.K))
 	model.M = (0.1).*eye(Float64,K)##to move around more
@@ -219,6 +219,7 @@
 			#  	break;
 			# end
 			model.oldelbo=deepcopy(model.elbo)
+			println(model.elbo)
 			push!(model.elborecord, model.elbo)
 		end
 		switchrounds = !switchrounds
