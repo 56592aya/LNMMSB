@@ -18,7 +18,7 @@
 	# lr_Lambda = zeros(Float64, model.N)
 	early=true
 	switchrounds=true
-	elboevery=10
+	elboevery=5
 	model.elborecord = Vector{Float64}()
 	model.elbo = 0.0
   	model.oldelbo= -Inf
@@ -121,10 +121,10 @@
 		# model.Λ_var = .1*ones(Float64, (model.N, model.K))
 		for a in collect(mb.mballnodes)
 			# updatelzeta!(model, mb, a)
-			# updatemua!(model, a, niter, ntol,mb)
-			# updateLambdaa!(model, a, niter, ntol,mb)
-			updatemua2!(model, a, niter, ntol,mb)
-			updateLambdaa2!(model, a, niter, ntol,mb)
+			updatemua!(model, a, niter, ntol,mb)
+			updateLambdaa!(model, a, niter, ntol,mb)
+			# updatemua2!(model, a, niter, ntol,mb)
+			# updateLambdaa2!(model, a, niter, ntol,mb)
 			# model.μ_var[a,:] = model.μ_var_old[a,:].*(1.0.-lr_μ[a])+lr_μ[a].*model.μ_var[a,:]
 		end
 		# model.μ_var[1,:]

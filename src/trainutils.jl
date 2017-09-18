@@ -491,11 +491,12 @@ function updatemua!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::Min
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
 	μ_var = model.μ_var[a,:]
 	rho=1.0
-	for i in 1:niter
-		# f(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
-		# (model.ϕloutsum[a,:]'+model.ϕlinsum[a,:]'+model.ϕnloutsum[a,:]'+model.ϕnlinsum[a,:]')*μ_var-
-		# sumb*(log(ones(model.K)'*exp.(μ_var+.5./model.Λ_var[a,:])))
-		rho=1.0/((1.0+Float64(i))^.9)
+	for i in 1:10
+		f(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
+		(model.ϕloutsum[a,:]'+model.ϕlinsum[a,:]'+model.ϕnloutsum[a,:]'+model.ϕnlinsum[a,:]')*μ_var-
+		sumb*(log(ones(model.K)'*exp.(μ_var+.5./model.Λ_var[a,:])))
+		before =f(μ_var)
+		rho=1.0
 
 		# S = f(μ_var)
 		# sfx=softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:])
@@ -504,8 +505,15 @@ function updatemua!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::Min
 		(model.ϕloutsum[a,:]+model.ϕlinsum[a,:]+model.ϕnloutsum[a,:]+model.ϕnlinsum[a,:])-
 		sumb.*(sfx)
 		mu_hess = -model.l.*model.L - sumb.*(diagm(sfx) - sfx*sfx')
-		μ_var -=rho.*(inv(mu_hess)*mu_grad)
-		i % 100 == 0 && println("niter ",string(i),", a ", string(a),", rho ", rho, ", norm_mu ", norm(mu_grad))
+		temp = μ_var -rho.*(inv(mu_hess)*mu_grad)
+		after = f(temp)
+		while after < before
+			rho *= .5
+			temp = μ_var -rho.*(inv(mu_hess)*mu_grad)
+			after = f(temp)
+		end
+		μ_var =temp
+		# i % 100 == 0 && println("niter ",string(i),", a ", string(a),", rho ", rho, ", norm_mu ", norm(mu_grad))
 		# println(μ_var)
 		# println(norm(mu_grad))
 		if norm(mu_grad) < ntol || isnan(norm(mu_grad))
@@ -526,7 +534,7 @@ function updateLambdaa!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb:
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
 	Λ_var = model.Λ_var[a,:]
 	inv_temp = 1.0./Λ_var
-	for i in 1:niter
+	for i in 1:10
 		rho=1.0
 		# rho=1.0/((1.0+Float64(i))^.9)
 		sfx=softmax(model.μ_var[a,:]+.5./Λ_var)
@@ -535,11 +543,11 @@ function updateLambdaa!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb:
 		Lam_hess=-.5*diagm(Λ_var.*Λ_var)-.25.*(diagm(sfx)-sfx*sfx')
 
 		p =inv(Lam_hess)*Lam_grad
-		while minimum((1.0./Λ_var) - rho * p) <= 0
+		while minimum((1.0./Λ_var) - rho * p) <= 0.00000001
 			rho *= 0.5
 		end
 		inv_temp -= rho * p
-		i % 100 == 0 && println("niter ",string(i),", a ", string(a),", rho ", rho, ", norm_Lam ", norm(Lam_grad))
+		# i % 100 == 0 && println("niter ",string(i),", a ", string(a),", rho ", rho, ", norm_Lam ", norm(Lam_grad))
 
 		if norm(Lam_grad) < ntol || isnan(norm(Lam_grad))
 			break
@@ -556,16 +564,16 @@ function updatemua2!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::Mi
 	μ_var = model.μ_var[a,:]
 	# rho=1.0
 	sfx(μ_var)=softmax(μ_var + .5./model.Λ_var[a,:])
-	func(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
-	(model.ϕloutsum[a,:]'+model.ϕlinsum[a,:]'+model.ϕnloutsum[a,:]'+model.ϕnlinsum[a,:]')*μ_var-
-	sumb*(log(ones(model.K)'*exp.(μ_var+.5./model.Λ_var[a,:])))
+	# func(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
+	# (model.ϕloutsum[a,:]'+model.ϕlinsum[a,:]'+model.ϕnloutsum[a,:]'+model.ϕnlinsum[a,:]')*μ_var-
+	# sumb*(log(ones(model.K)'*exp.(μ_var+.5./model.Λ_var[a,:])))
 	dfunc(μ_var) = -model.l.*model.L*(μ_var-model.m) +
 	(model.ϕloutsum[a,:]+model.ϕlinsum[a,:]+model.ϕnloutsum[a,:]+model.ϕnlinsum[a,:])-
 	sumb.*sfx(μ_var)
 
 	opt = Adagrad()
 	for i in 1:niter
-		g = dfunc(μ_var)
+		g = -dfunc(μ_var)
 		δ = update(opt,g)
 		μ_var-=δ
 	end
@@ -580,15 +588,15 @@ function updateLambdaa2!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb
 
 	Λ_ivar = 1.0./model.Λ_var[a,:]
 	sfx(Λ_ivar)=softmax(model.μ_var[a,:]+.5.*Λ_ivar)
-	func(Λ_ivar) =-.5*model.l*(diag(model.L)'*Λ_ivar)+.5*sum(log.(Λ_ivar))-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*Λ_ivar)))
+	# func(Λ_ivar) =-.5*model.l*(diag(model.L)'*Λ_ivar)+.5*sum(log.(Λ_ivar))-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*Λ_ivar)))
 	dfunc(Λ_var)=-.5*model.l.*diag(model.L) + .5./Λ_ivar - .5*sumb.*sfx(Λ_ivar)
 	opt = Adagrad()
 	for i in 1:niter
 		rho=1.0
-		g = dfunc(Λ_ivar)
+		g = -dfunc(Λ_ivar)
 
 		δ = update(opt,g)
-		while minimum(Λ_ivar - rho.*δ) <= 0.0
+		while minimum(Λ_ivar - rho.*δ) <= 0.00000001
 			rho*=.5
 		end
 
