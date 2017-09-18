@@ -575,7 +575,6 @@ end
 #Newton
 ###Needs fixings
 function updateLambdaa2!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
-
 	model.Λ_var_old[a,:]=deepcopy(model.Λ_var[a,:])
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
 
@@ -589,16 +588,16 @@ function updateLambdaa2!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb
 		g = dfunc(Λ_ivar)
 
 		δ = update(opt,g)
-		# while minimum(Λ_ivar - rho.*δ) <= 0.0
-		# 	rho*=.5
-		# end
-
-		# Λ_ivar-=rho.*δ ##should this be plus or minues
-		## or while !isposdef(diagm(Λ_ivar))
-		while !isposdef(diagm(Λ_ivar - δ))
-			δ = update(opt,g)
+		while minimum(Λ_ivar - rho.*δ) <= 0.0
+			rho*=.5
 		end
-		Λ_ivar -=δ
+
+		Λ_ivar-=rho.*δ ##should this be plus or minues
+		## or while !isposdef(diagm(Λ_ivar)), but takes too long or gets stuck
+		# while minimum(Λ_ivar - δ) <= 0.0
+		# 	δ = update(opt,g)
+		# end
+		# Λ_ivar -=δ
 
 	end
 	model.Λ_var[a,:]=1.0./Λ_ivar
