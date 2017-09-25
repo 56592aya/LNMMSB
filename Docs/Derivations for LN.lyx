@@ -1203,11 +1203,11 @@ similarly assuming that
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\mathcal{L}_{\Lambda_{a}^{-1}} & = & -\tfrac{\ell}{2}tr\,(L\Lambda_{a}^{-1})+\tfrac{1}{2}ln\,|\Lambda_{a}^{-1}|-\sum_{b}log\,\Big(\boldsymbol{1}^{T}\underbar{f}(\mu_{a},\Lambda_{a})\Big)\\
+\mathcal{L}_{\Lambda_{a}^{-1}} & = & -\tfrac{\ell}{2}diag\,(L)'\Lambda_{a}^{-1}+\tfrac{1}{2}ln\,|diagm(\Lambda_{a}^{-1})|-\sum_{b}log\,\Big(\boldsymbol{1}^{T}\underbar{f}(\mu_{a},\Lambda_{a})\Big)\\
  & =\\
-\nabla_{\Lambda_{a}^{-1}}\mathcal{L}_{\Lambda_{a}^{-1}}=G_{\Lambda_{a}^{-1}} & = & \boxed{-\tfrac{\ell}{2}diag(L)+\tfrac{1}{2}(\Lambda_{a})-\tfrac{1}{2}\sum_{b}(\underbar{sfx}(a))}\#\#CHECK\\
+\nabla_{\Lambda_{a}^{-1}}\mathcal{L}_{\Lambda_{a}^{-1}}=G_{\Lambda_{a}^{-1}} & = & \boxed{-\tfrac{\ell}{2}diag(L)+\tfrac{1}{2}(\Lambda_{a})-\tfrac{1}{2}\sum_{b}(\underbar{sfx}(a))}\\
  &  & \boxed{}\\
-\nabla_{\Lambda_{a}^{-1}}^{2}\mathcal{L}_{\Lambda_{a}^{-1}}=H_{\Lambda_{a}^{-1}} & \propto & \boxed{-\tfrac{1}{2}diagm(\Lambda_{a}\odot\Lambda_{a})-\tfrac{1}{4}\sum_{b}\Big(diagm(\underbar{sfx}_{a})-\underbar{sfx}_{a}\underbar{sfx}_{a}^{T}\Big)\#\#\#CHECK}
+\nabla_{\Lambda_{a}^{-1}}^{2}\mathcal{L}_{\Lambda_{a}^{-1}}=H_{\Lambda_{a}^{-1}} & \propto & \boxed{-\tfrac{1}{2}diagm(\Lambda_{a}\odot\Lambda_{a})-\tfrac{1}{4}\sum_{b}\Big(diagm(\underbar{sfx}_{a})-\underbar{sfx}_{a}\underbar{sfx}_{a}^{T}\Big)}
 \end{align*}
 
 \end_inset

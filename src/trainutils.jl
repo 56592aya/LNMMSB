@@ -572,7 +572,7 @@ function updatemua2!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::Mi
 	sumb.*sfx(μ_var)
 
 	opt = Adagrad()
-	for i in 1:niter
+	for i in 1:10
 		g = -dfunc(μ_var)
 		δ = update(opt,g)
 		μ_var-=δ
@@ -585,22 +585,41 @@ end
 function updateLambdaa2!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
 	model.Λ_var_old[a,:]=deepcopy(model.Λ_var[a,:])
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-
 	Λ_ivar = 1.0./model.Λ_var[a,:]
-	sfx(Λ_ivar)=softmax(model.μ_var[a,:]+.5.*Λ_ivar)
-	# func(Λ_ivar) =-.5*model.l*(diag(model.L)'*Λ_ivar)+.5*sum(log.(Λ_ivar))-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*Λ_ivar)))
-	dfunc(Λ_var)=-.5*model.l.*diag(model.L) + .5./Λ_ivar - .5*sumb.*sfx(Λ_ivar)
+
+	ltemp = try
+		[log(Λ_ivar[k]) for k in 1:model.K]
+	catch y
+		if isa(y, DomainError)
+			println("a=",a)
+			throw(y)
+		end
+	end
+	sfx(ltemp)=softmax(model.μ_var[a,:]+.5.*exp.(ltemp))
+	func(ltemp) =-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*exp.(ltemp))))
+
+	dfunc(ltemp) = try
+		-.5*model.l.*diag(model.L) + .5./ltemp - .5*sumb.*sfx(ltemp)
+	catch y
+		if isa(y, DomainError)
+			println("a=",a)
+			throw(y)
+		end
+	end
+
 	opt = Adagrad()
-	for i in 1:niter
-		rho=1.0
-		g = -dfunc(Λ_ivar)
+	for i in 1:10
+		# rho=1.0
+		# g = -dfunc(ltemp)
+		g = -ForwardDiff.gradient(func, ltemp)
 
 		δ = update(opt,g)
-		while minimum(Λ_ivar - rho.*δ) <= 0.00000001
-			rho*=.5
-		end
+		# while minimum(Λ_ivar - rho.*δ) <= 0.00000001
+		# 	rho*=.5
+		# end
 
-		Λ_ivar-=rho.*δ ##should this be plus or minues
+		# Λ_ivar-=rho.*δ ##should this be plus or minues
+		ltemp-=δ ##should this be plus or minues
 		## or while !isposdef(diagm(Λ_ivar)), but takes too long or gets stuck
 		# while minimum(Λ_ivar - δ) <= 0.0
 		# 	δ = update(opt,g)
@@ -608,7 +627,7 @@ function updateLambdaa2!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb
 		# Λ_ivar -=δ
 
 	end
-	model.Λ_var[a,:]=1.0./Λ_ivar
+	model.Λ_var[a,:]=1.0./exp.(ltemp)
 	print();
 end
 
