@@ -11,7 +11,7 @@
 	##############################
 	##############################
 	preparedata(model)
-	iter=200
+	iter=1000
 	# mu_curr=ones(model.N)
 	# Lambda_curr=ones(model.N)
 	# lr_mu = zeros(Float64, model.N)

@@ -564,18 +564,29 @@ function updatemua2!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::Mi
 	μ_var = model.μ_var[a,:]
 	# rho=1.0
 	sfx(μ_var)=softmax(μ_var + .5./model.Λ_var[a,:])
-	# func(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
-	# (model.ϕloutsum[a,:]'+model.ϕlinsum[a,:]'+model.ϕnloutsum[a,:]'+model.ϕnlinsum[a,:]')*μ_var-
-	# sumb*(log(ones(model.K)'*exp.(μ_var+.5./model.Λ_var[a,:])))
+	func(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
+	(model.ϕloutsum[a,:]'+model.ϕlinsum[a,:]'+model.ϕnloutsum[a,:]'+model.ϕnlinsum[a,:]')*μ_var-
+	sumb*(log(ones(model.K)'*exp.(μ_var+.5./model.Λ_var[a,:])))
 	dfunc(μ_var) = -model.l.*model.L*(μ_var-model.m) +
 	(model.ϕloutsum[a,:]+model.ϕlinsum[a,:]+model.ϕnloutsum[a,:]+model.ϕnlinsum[a,:])-
 	sumb.*sfx(μ_var)
 
 	opt = Adagrad()
-	for i in 1:10
-		g = -dfunc(μ_var)
-		δ = update(opt,g)
-		μ_var-=δ
+	oldval = func(μ_var)
+	g = -dfunc(μ_var)
+	δ = update(opt,g)
+	μ_var-=δ
+	newval = func(μ_var)
+	while oldval > newval
+		if isapprox(newval, oldval)
+			break;
+		else
+			g = -dfunc(μ_var)
+			δ = update(opt,g)
+			μ_var-=δ
+			oldval=newval
+			newval = func(μ_var)
+		end
 	end
 	model.μ_var[a,:]=μ_var
 	print();
@@ -608,25 +619,29 @@ function updateLambdaa2!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb
 	end
 
 	opt = Adagrad()
-	for i in 1:10
-		# rho=1.0
-		# g = -dfunc(ltemp)
-		g = -ForwardDiff.gradient(func, ltemp)
-
-		δ = update(opt,g)
-		# while minimum(Λ_ivar - rho.*δ) <= 0.00000001
-		# 	rho*=.5
-		# end
-
-		# Λ_ivar-=rho.*δ ##should this be plus or minues
-		ltemp-=δ ##should this be plus or minues
-		## or while !isposdef(diagm(Λ_ivar)), but takes too long or gets stuck
-		# while minimum(Λ_ivar - δ) <= 0.0
-		# 	δ = update(opt,g)
-		# end
-		# Λ_ivar -=δ
-
+	oldval = func(ltemp)
+	g = -ForwardDiff.gradient(func, ltemp)
+	δ = update(opt,g)
+	ltemp-=δ
+	newval=func(ltemp)
+	while oldval > newval
+		if isapprox(newval, oldval)
+			break;
+		else
+			g = -ForwardDiff.gradient(func, ltemp)
+			δ = update(opt,g)
+			ltemp-=δ
+			oldval = newval
+			newval = func(ltemp)
+		end
 	end
+
+	# for i in 1:10
+	# 	g = -ForwardDiff.gradient(func, ltemp)
+	#
+	# 	δ = update(opt,g)
+	# 	ltemp-=δ ##should this be plus or minues
+	# end
 	model.Λ_var[a,:]=1.0./exp.(ltemp)
 	print();
 end
