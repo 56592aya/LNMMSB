@@ -21,5 +21,3 @@ include("trainutils.jl")
 # train_sampling!(train, model)
 # train_samplingall!(train, model)
 # end
-
-Plots.heatmap(estimate_θs(model, mb), yflip=true)

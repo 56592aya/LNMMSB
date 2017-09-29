@@ -646,6 +646,53 @@ function updateLambdaa2!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb
 	print();
 end
 
+function updatesimulμΛ!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
+	model.μ_var_old[a,:]=deepcopy(model.μ_var[a,:])
+	model.Λ_var_old[a,:]=deepcopy(model.Λ_var[a,:])
+	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
+	μ_var = model.μ_var[a,:]
+	Λ_ivar = 1.0./model.Λ_var[a,:]
+	ltemp = [log(Λ_ivar[k]) for k in 1:model.K]
+	sfx(μ_var)=softmax(μ_var + .5.*exp.(ltemp))
+	dfunc(μ_var) = -model.l.*model.L*(μ_var-model.m) +
+	(model.ϕloutsum[a,:]+model.ϕlinsum[a,:]+model.ϕnloutsum[a,:]+model.ϕnlinsum[a,:])-
+	sumb.*sfx(μ_var)
+
+	func(μ_var,ltemp) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
+	(model.ϕloutsum[a,:]'+model.ϕlinsum[a,:]'+model.ϕnloutsum[a,:]'+model.ϕnlinsum[a,:]')*μ_var-
+	sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp
+	func1(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
+	(model.ϕloutsum[a,:]'+model.ϕlinsum[a,:]'+model.ϕnloutsum[a,:]'+model.ϕnlinsum[a,:]')*μ_var-
+	sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))
+	func2(ltemp) =-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*exp.(ltemp))))
+	opt1 = Adagrad()
+	opt2 = Adagrad()
+	oldval = func(μ_var, ltemp)
+	g1 = -dfunc(μ_var)
+	δ1 = update(opt1,g1)
+	g2 = -ForwardDiff.gradient(func2, ltemp)
+	δ2 = update(opt2,g2)
+	μ_var-=δ1
+	ltemp-=δ2
+	newval = func(μ_var, ltemp)
+	while oldval > newval
+		if isapprox(newval, oldval)
+			break;
+		else
+			g1 = -dfunc(μ_var)
+			δ1 = update(opt1,g1)
+			g2 = -ForwardDiff.gradient(func2, ltemp)
+			δ2 = update(opt2,g2)
+			oldval=newval
+			newval = func(μ_var,ltemp)
+		end
+	end
+	model.μ_var[a,:]=μ_var
+	model.Λ_var[a,:]=1.0./exp.(ltemp)
+	print();
+	#######
+end
+
 function mcsampler(model,mean, diagprec, num)
 	num=100
 	mean=[2.0,1.0,3.0,1.0]

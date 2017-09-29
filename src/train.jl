@@ -29,14 +29,14 @@
 	# for i in 1:model.N
 	# 	model.μ_var[i,:] = (model.μ_var[i,:])
 	# end
-	model.Λ_var = .2*ones(Float64, (model.N, model.K))
+	model.Λ_var = .01*ones(Float64, (model.N, model.K))
 	true_mu = readdlm("data/true_mu.txt")
 	model.m = zeros(Float64,model.K)#deepcopy(reshape(true_mu,model.K))
-	model.M = (0.1).*eye(Float64,K)##to move around more
+	model.M = (1.0).*eye(Float64,K)##to move around more
 	model.l = model.K+2
 	true_Lambda = readdlm("data/true_Lambda.txt")
 	Lambda = deepcopy(true_Lambda)
-	model.L=0.1.*(Lambda)./model.l
+	model.L=1.0.*(Lambda)./model.l
 	# model.L=.5.*(model.L+model.L')
 	isfullsample=false
 	if model.mbsize == model.N
@@ -123,8 +123,10 @@
 			# updatelzeta!(model, mb, a)
 			# updatemua!(model, a, niter, ntol,mb)
 			# updateLambdaa!(model, a, niter, ntol,mb)
-			updatemua2!(model, a, niter, ntol,mb)
-			updateLambdaa2!(model, a, niter, ntol,mb)
+			# updatemua2!(model, a, niter, ntol,mb)
+			# updateLambdaa2!(model, a, niter, ntol,mb)
+
+			updatesimulμΛ!(model, a, niter, ntol,mb)
 			# model.μ_var[a,:] = model.μ_var_old[a,:].*(1.0.-lr_μ[a])+lr_μ[a].*model.μ_var[a,:]
 		end
 		# model.μ_var[1,:]
@@ -224,6 +226,16 @@
 		end
 		switchrounds = !switchrounds
 	end
-	Plots.plot(2:length(model.elborecord),model.elborecord[2:end])
+	p1=Plots.plot(2:length(model.elborecord),model.elborecord[2:end])
+	p2=Plots.heatmap(estimate_θs(model, mb), yflip=true)
+	plot(p1,p2, layout=(2,1))
+	for (i,v) in enumerate(model.elborecord)
+		if i < length(model.elborecord)
+			if model.elborecord[i+1] < model.elborecord[i]
+				println("decrease")
+			end
+		end
+	end
+
 #
 # end
