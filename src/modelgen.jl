@@ -38,16 +38,18 @@ function gennetwork(N::Int64, K::Int64)
   z_in=zeros(Float64, (N,N,K))
   z_out = zeros(Float64,(N,N,K))
 
+  for a in 1:N
+    θ[a,:]=softmax!(θ[a,:])
+  end
+
+  sort_by_argmax!(θ)
   if isfile("data/true_thetas.txt")
+    rm("data/true_thetas.txt")
+    writedlm("data/true_thetas.txt",θ)
   else
     writedlm("data/true_thetas.txt",θ)
   end
 
-  for a in 1:N
-	θ[a,:]=softmax!(θ[a,:])
-  end
-
-  sort_by_argmax!(θ)
   for a in 1:N
     for b in 1:N
       if a!= b

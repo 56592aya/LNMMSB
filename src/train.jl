@@ -235,8 +235,18 @@
 		end
 		switchrounds = !switchrounds
 	end
+	x = estimate_θs(model, mb)
+	sort_by_argmax!(x)
+	x=x[:,[1,2,3,4,5,6,10,11]]
 	p1=Plots.plot(2:length(model.elborecord),model.elborecord[2:end])
-	p2=Plots.heatmap(estimate_θs(model, mb), yflip=true)
+	p2=Plots.heatmap(x, yflip=true)
+	y = (readdlm("data/true_thetas.txt"))
+	# for a in 1:model.N
+	#    y[a,:]=softmax!(y[a,:])
+ #  	end
+	# sort_by_argmax!(y)
+	p3=Plots.heatmap(y, yflip=true)
+
 	for (i,v) in enumerate(model.elborecord)
 		if i < length(model.elborecord)
 			if model.elborecord[i+1] < model.elborecord[i]
@@ -244,7 +254,10 @@
 			end
 		end
 	end
-	plot(p1,p2, layout=(2,1))
+
+	computeNMI(x,y,communities)
+
+	plot(p1,p2,p3, layout=(3,1))
 
 #
 # end

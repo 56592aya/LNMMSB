@@ -723,4 +723,45 @@ end
 function estimate_Λs(model::LNMMSB, mb::MiniBatch)
 end
 
+##How to determine belonging to a community based on the membership vector???
+function computeNMI(x::Matrix{Float64}, y::Matrix{Float64}, communities::Dict{Int64, Vector{Int64}})
+	open("./file2", "w") do f
+	  for k in 1:size(x,2)
+	    for i in 1:size(x,1)
+	      if x[i,k] > .4#3.0/size(x,2)
+	        write(f, "$i ")
+	      end
+	    end
+	    write(f, "\n")
+	  end
+	end
+	open("./file1", "w") do f
+	  for k in 1:size(y,2)
+	    for i in 1:size(y,1)
+	      if y[i,k] > .4#3.0/size(y,2)
+	        write(f, "$i ")
+	      end
+	    end
+	    write(f, "\n")
+	  end
+	end
+
+	open("./file3", "w") do f
+	  for k in 1:length(communities)
+	  	if length(communities[k]) <= 10
+			continue;
+		end
+	    for e in communities[k]
+        	write(f, "$e ")
+	    end
+	    write(f, "\n")
+	  end
+	end
+	println("NMI of estimated vs truth")
+	run(`src/cpp/NMI/onmi file2 file1`)
+	println("NMI of estimated vs init")
+	run(`src/cpp/NMI/onmi file2 file3`)
+	println("NMI of truth vs init")
+	run(`src/cpp/NMI/onmi file1 file3`)
+end
 print("");
