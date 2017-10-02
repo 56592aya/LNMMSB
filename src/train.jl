@@ -207,11 +207,11 @@
 
 
 
-		print(i);print(": ")
-		println(model.b0./(model.b0.+model.b1))
 
 		checkelbo = (i % elboevery == 0)
 		if checkelbo || i == 1
+			print(i);print(": ")
+			println(model.b0./(model.b0.+model.b1))
 			computeelbo!(model, mb)
 			# print(i);print("-ElBO:");println(model.elbo)
 			# print("elbo improvement:");
@@ -228,7 +228,6 @@
 	end
 	p1=Plots.plot(2:length(model.elborecord),model.elborecord[2:end])
 	p2=Plots.heatmap(estimate_θs(model, mb), yflip=true)
-	plot(p1,p2, layout=(2,1))
 	for (i,v) in enumerate(model.elborecord)
 		if i < length(model.elborecord)
 			if model.elborecord[i+1] < model.elborecord[i]
@@ -236,6 +235,7 @@
 			end
 		end
 	end
+	plot(p1,p2, layout=(2,1))
 
 #
 # end
