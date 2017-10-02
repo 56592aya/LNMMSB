@@ -342,4 +342,40 @@ function preparedata(model::LNMMSB)
 	train_degree!(model)
 	train_ss!(model)
 end
+##Better set model.K either true K or number of communities length(communities)
+function init_mu(model::LNMMSB, communities::Dict{Int64, Vector{Int64}}, onlyK::Int64)
+  Belong = Dict{Int64, Vector{Int64}}()
+  model.μ_var = 1e-10*ones(Float64, (N, onlyK))
+  for i in 1:N
+    if !haskey(Belong, i)
+      Belong[i] = get(Belong, i, Int64[])
+    end
+    for k in 1:length(communities)
+      if i in communities[k]
+        push!(Belong[i],k)
+      end
+    end
+    if length(Belong[i]) == 0
+      push!(Belong[i], sample(1:length(communities)))
+      model.μ_var[i,Belong[i]] = .9
+    elseif length(Belong[i]) == 1
+      model.μ_var[i,Belong[i]] = .9
+    else
+      val = .9/length(Belong[i])
+      for z in Belong[i]
+        model.μ_var[i,z] = val
+      end
+    end
+    s = zero(Float64)
+    for k in 1:length(communities)
+      s+= model.μ_var[i,k]
+    end
+    for k in 1:length(communities)
+      model.μ_var[i,k] = model.μ_var[i,k]/s
+    end
+  end
+  for i in 1:N
+    model.μ_var[i,:] = log.(model.μ_var[i,:])
+  end
+end
 print();

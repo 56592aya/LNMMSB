@@ -17,15 +17,16 @@ Base.zero(::Type{KeyVal}) = KeyVal(0,0.0)
 #using DGP
 
 topK = 5
-_α = 1.0/model.N
-mu = [KeyVal(0,0.0) for i=1:model.N, j=1:topK]
-munext = [Dict{Int64, Int64}() for i in 1:model.N]
-maxmu = zeros(Int64,model.N)
+N=size(network,1)
+_α = 1.0/N
+mu = [KeyVal(0,0.0) for i=1:N, j=1:topK]
+munext = [Dict{Int64, Int64}() for i in 1:N]
+maxmu = zeros(Int64,N)
 communities = Dict{Int64, Vector{Int64}}()
 ulinks = Vector{Pair{Int64, Int64}}()
 #undirected
-x,y,z=findnz(model.network)
-for row in 1:nnz(model.network)
+x,y,z=findnz(network)
+for row in 1:nnz(network)
     push!(ulinks,x[row]=>y[row])
 end
 
@@ -50,12 +51,12 @@ function sort_by_values(v::Vector{KeyVal})
 end
 ##INIT_mu
 function init_mu(mu, maxmu)
-  for i in 1:model.N
+  for i in 1:N
       mu[i,1].first=i
       mu[i,1].second = 1.0 + rand()
       maxmu[i] = i
       for j in 2:topK
-        mu[i,j].first = (i+j-1)%model.N
+        mu[i,j].first = (i+j-1)%N
         mu[i,j].second = rand()
       end
   end
@@ -149,7 +150,7 @@ end
 ###BatchInfer
 init_mu(mu, maxmu)
 function batch_infer()
-  for iter in 1:ceil(Int64, log10(model.N))
+  for iter in 1:ceil(Int64, log10(N))
     for link in ulinks
       p = link.first;q = link.second;
       pmap = munext[p]
@@ -165,7 +166,7 @@ function batch_infer()
     end
     #set_gamma(gamma, gammanext, maxgamma)
     ###SETGAMMA begin
-    for i in 1:model.N
+    for i in 1:N
       m = munext[i]
       sz = 0
       if length(m) != 0
@@ -184,7 +185,7 @@ function batch_infer()
         while c <= topK #assign random communities to rest
           k=0
           @do begin
-             k = sample(1:model.N)
+             k = sample(1:N)
           end :while (k in keys(m))
           v[c].first = k
           v[c].second = _α
@@ -202,7 +203,7 @@ function batch_infer()
     end
     ###SETGAMMA END
   end
-  theta_est = estimate_thetas(mu,model.N,topK)
+  theta_est = estimate_thetas(mu,N,topK)
   return log_groups(communities, theta_est)
 end
 ##############
@@ -211,41 +212,7 @@ end
 communities = batch_infer()
 
 ###############
-function init_mu(model::LNMMSB, communities::Dict{Int64, Vector{Int64}})
-  Belong = Dict{Int64, Vector{Int64}}()
-  model.μ_var = 1e-10*ones(Float64, (model.N, model.K))
-  for i in 1:model.N
-    if !haskey(Belong, i)
-      Belong[i] = get(Belong, i, Int64[])
-    end
-    for k in 1:length(communities)
-      if i in communities[k]
-        push!(Belong[i],k)
-      end
-    end
-    if length(Belong[i]) == 0
-      push!(Belong[i], sample(1:length(communities)))
-      model.μ_var[i,Belong[i]] = .9
-    elseif length(Belong[i]) == 1
-      model.μ_var[i,Belong[i]] = .9
-    else
-      val = .9/length(Belong[i])
-      for z in Belong[i]
-        model.μ_var[i,z] = val
-      end
-    end
-    s = zero(Float64)
-    for k in 1:length(communities)
-      s+= model.μ_var[i,k]
-    end
-    for k in 1:length(communities)
-      model.μ_var[i,k] = model.μ_var[i,k]/s
-    end
-  end
-  for i in 1:model.N
-    model.μ_var[i,:] = log.(model.μ_var[i,:])
-  end
-end
+
 print();
 ####
 ####

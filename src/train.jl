@@ -23,7 +23,7 @@
 	model.elbo = 0.0
   	model.oldelbo= -Inf
 
-	init_mu(model,communities)##from Gopalan
+	init_mu(model,communities,onlyK)##from Gopalan
 	# true_θ=readdlm("data/true_thetas.txt")
 	# model.μ_var=deepcopy(true_θ);
 	# for i in 1:model.N
@@ -32,11 +32,20 @@
 	model.Λ_var = .01*ones(Float64, (model.N, model.K))
 	true_mu = readdlm("data/true_mu.txt")
 	model.m = zeros(Float64,model.K)#deepcopy(reshape(true_mu,model.K))
-	model.M = (1.0).*eye(Float64,K)##to move around more
+	model.M = (1.0).*eye(Float64,model.K)##to move around more
 	model.l = model.K+2
-	true_Lambda = readdlm("data/true_Lambda.txt")
-	Lambda = deepcopy(true_Lambda)
-	model.L=1.0.*(Lambda)./model.l
+	if length(communities) == inputtomodelgen[2]
+		true_Lambda = readdlm("data/true_Lambda.txt")
+		Lambda = deepcopy(true_Lambda)
+		model.L=1.0.*(Lambda)./model.l
+	else
+		Ltemp = zeros(Float64, model.K, model.K)
+	  	for i in 1:model.N
+	    	Ltemp .+= rand(Wishart(model.K,0.001*diagm(ones(Float64, model.K))))
+	  	end
+  		Ltemp ./= model.N
+		model.L=1.0.*(Ltemp)./model.l
+	end
 	# model.L=.5.*(model.L+model.L')
 	isfullsample=false
 	if model.mbsize == model.N
