@@ -672,9 +672,10 @@ function updatesimulμΛ!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,m
 	δ1 = update(opt1,g1)
 	g2 = -ForwardDiff.gradient(func2, ltemp)
 	δ2 = update(opt2,g2)
+	newval = func(μ_var-δ1, ltemp-δ2)
 	μ_var-=δ1
 	ltemp-=δ2
-	newval = func(μ_var, ltemp)
+	##Have to have this newval and oldval outside to not take the first step
 	while oldval > newval
 		if isapprox(newval, oldval)
 			break;
@@ -683,6 +684,8 @@ function updatesimulμΛ!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,m
 			δ1 = update(opt1,g1)
 			g2 = -ForwardDiff.gradient(func2, ltemp)
 			δ2 = update(opt2,g2)
+			μ_var-=δ1
+			ltemp-=δ2
 			oldval=newval
 			newval = func(μ_var,ltemp)
 		end

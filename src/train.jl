@@ -11,7 +11,7 @@
 	##############################
 	##############################
 	preparedata(model)
-	iter=1000
+	iter=2500
 	# mu_curr=ones(model.N)
 	# Lambda_curr=ones(model.N)
 	# lr_mu = zeros(Float64, model.N)
@@ -235,6 +235,8 @@
 		end
 		switchrounds = !switchrounds
 	end
+
+
 	x = estimate_θs(model, mb)
 	sort_by_argmax!(x)
 	table=[sortperm(x[i,:]) for i in 1:model.N]
@@ -255,14 +257,18 @@
 	p2=Plots.heatmap(x, yflip=true)
 	y = (readdlm("data/true_thetas.txt"))
 	p3=Plots.heatmap(y, yflip=true)
-
+	decrease=0
 	for (i,v) in enumerate(model.elborecord)
 		if i < length(model.elborecord)
 			if model.elborecord[i+1] < model.elborecord[i]
-				println("decrease")
+				##Decrease can happen
+				if !isapprox(model.elborecord[i+1], model.elborecord[i])
+					decrease+=1
+				end
 			end
 		end
 	end
+	println(decrease)
 
 	computeNMI(x,y,communities)
 

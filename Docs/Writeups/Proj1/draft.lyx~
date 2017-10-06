@@ -1,0 +1,1590 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing double
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1.2cm
+\topmargin 1.5cm
+\rightmargin 1.2cm
+\bottommargin 1.2cm
+\headheight 1.2cm
+\headsep 1.2cm
+\footskip 1.2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+Project1- Modeling network formation via correlated community structure
+ 
+\end_layout
+
+\begin_layout Section*
+Abstract
+\end_layout
+
+\begin_layout Standard
+It is widely known that individuals in a network form declustered communities,
+ where each individual can belong to several groups.
+ Although another important aspect of these separate/shared communities
+ should be encoded via their correlation, as some may induce friendships
+ while others inhibit such connections.
+ In this paper we account for such co-occurrence via introducing correlations
+ among the community memberships of individuals via logistic normal prior.
+ We argue that accounting for such correlations both complies with the assortati
+ve mixing theory and performs better compared to the widely known mixed-membersh
+ip stochastic block model
+\begin_inset CommandInset citation
+LatexCommand cite
+key "airoldi2008mixed"
+
+\end_inset
+
+.
+ We furthermore use stochastic variational methods to offer both fast and
+ efficient inference.
+\end_layout
+
+\begin_layout Section*
+Motivation
+\end_layout
+
+\begin_layout Standard
+Ample amount of research has recognized a prevalent feature that networks
+ exert meaningful smaller groups
+\begin_inset CommandInset citation
+LatexCommand cite
+key "girvan2002community,fortunato2010community,newman2006modularity"
+
+\end_inset
+
+.
+ These groups namely communities/clusters share the property that within
+ group connections among the vertices of the graph are denser compared to
+ the between group connections.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bickel2009nonparametric,newman2006modularity"
+
+\end_inset
+
+.
+ Traditionally the problem of clustering networks included partitioning
+ graphs into separate groups
+\begin_inset CommandInset citation
+LatexCommand cite
+key "newman2004detecting,snijders1997estimation"
+
+\end_inset
+
+, whereas more recent works represent the embodiment of more natural processes
+ such as shared community memberships
+\begin_inset CommandInset citation
+LatexCommand cite
+key "yang2012community,xie2013overlapping,lancichinetti2009detecting,airoldi2008mixed"
+
+\end_inset
+
+.Although caution must be taken regarding how one defines communities as
+ the concept could vary drammatically depending the context given.
+ A common phenomenon observed in many social networks including multilevel
+ relationships signifies shared community membershis, hence in this paper
+ we define communities as groups of individuals yielding a better understanding
+ of the network connections, where individual vertices can belong to multiple
+ clusters.
+ Many different methods regarding community detection have been developed
+ among which address the problem in terms of algorithmic
+\begin_inset CommandInset citation
+LatexCommand cite
+key "newman2004fast,palla2005uncovering"
+
+\end_inset
+
+ or model-based(probabilistic) approach
+\begin_inset CommandInset citation
+LatexCommand cite
+key "airoldi2008mixed,handcock2007model,hoff2002latent"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+We employ a model-based approach that allows us to define the network structure
+ according to a set of hypotheses in line with the context under study and
+ the theory underlying the social formation of friendships.
+ We follow the argument of assortative mixing and homophily
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mcpherson2001birds,newman2002assortative,newman2003mixing"
+
+\end_inset
+
+ suggesting individuals in a social network tend to communicate with rather
+ similar people.
+ This phenomenon leads to patterns of structure in networks where we observe
+ denser groups of alike individuals that have fewer connections to the rest
+ of the network.
+ Affinity of individuals and how to measure the likeness among them is condition
+al on both context and the availability of information on the individual
+ level.Aral et al(2009) employ 20 individual and network characteristics
+ as a proxy for similarity between friends where the degree of closeness
+ is measured by cosine distance.
+ Using a dynamic matched sample estimation, they found further evidence
+ that mobile application behavior could be partly be explained by homoophily
+ rather than mere social influence
+\begin_inset CommandInset citation
+LatexCommand cite
+key "aral2009distinguishing"
+
+\end_inset
+
+.
+ Another stream of studies defines individual characteristics as latent
+ strcutres that need to be estimated from the network data, where potentially
+ infinite dimensional individual characteristics are mapped to a lower dimension
+al Euclidean space, and the similarity is measured by the distance individual
+ locations in this low dimensional space.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hoff2002latent,braun2011scalable,ansari2011modeling"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Another important type of detectable communities can arise not from the
+ densely connected groups but rather dense patterns of connections.Yang et
+ al (2014) argues that patterns of connections may also be an indicator
+ of different communities when observing denser intra-cluster compared to
+ inter-cluster connections.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "yang2014detecting"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+More recent works on detection of communities tend to account for overlapping
+ strcutres that allow individual to belong to several communities
+\begin_inset CommandInset citation
+LatexCommand cite
+key "airoldi2008mixed,gopalan2013efficient,yang2012community"
+
+\end_inset
+
+.Yang et al (2012) propose affiliation graph model that allows for detection
+ of dense overlaps in the community network
+\begin_inset CommandInset citation
+LatexCommand cite
+key "yang2012community"
+
+\end_inset
+
+.
+ Airoldi et al (2008) suggest a mixed-membership-stochastic-blockmodel(MMSB)
+ that allows individuals to belong to multiple groups by trying to estimate
+ community membership strength
+\begin_inset CommandInset citation
+LatexCommand cite
+key "airoldi2008mixed"
+
+\end_inset
+
+.
+ We adopt the model of MMSB
+\begin_inset CommandInset citation
+LatexCommand cite
+key "airoldi2008mixed,gopalan2013efficient"
+
+\end_inset
+
+ and extend it to allow for more flexible specification and scalable inference.
+\end_layout
+
+\begin_layout Standard
+Many studies have emerged in the field of marketing and management that
+ pinpoint the importance of communities underlying social networks in better
+ understanding consumer-firm or consumer-consumer relatioships.Ansari et
+ al (2011) model a multiplex network of professionals to simultaneously
+ study the impact of the organizational interventions on the nature of the
+ connections
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ansari2011modeling"
+
+\end_inset
+
+.
+ Ma et al (2014) use communities to account for homophily when studying
+ the social influence of decision purchases and timing of individuals in
+ a mobile network 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ma2014latent"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "biblio"
+options "plain"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\start_of_appendix
+\noindent
+
+\end_layout
+
+\begin_layout Part*
+\noindent
+Appendix
+\end_layout
+
+\begin_layout Section
+\noindent
+Negative cross entropies
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Two Normals
+\end_layout
+
+\begin_layout Standard
+\noindent
+Note:All the normals are parametrized using the precision matrix.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $q\sim\mathcal{N}(x|m,L)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $p\sim\mathcal{N}(x|\mu,\Lambda)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\\
+\int q(x)ln\,p(x)dx & = & \int\mathcal{N}(x|m,L)\times\\
+ &  & \Bigg(-\tfrac{K}{2}ln\,2\pi+\tfrac{1}{2}ln\,|\Lambda|-\\
+ &  & \tfrac{1}{2}\Big(Tr\,\Lambda\{(x-\mu)(x-\mu)^{T}\}\Big)\Bigg)dx\\
+ & = & -\tfrac{K}{2}ln\,2\pi+\tfrac{1}{2}ln\,|\Lambda|+\\
+ &  & \int\mathcal{N}(x|m,L)\Bigg(-\tfrac{1}{2}\Big(Tr\,\Lambda\{(x-\mu)(x-\mu)^{T}\}\Big)\Bigg)dx-\\
+ & = & \tfrac{K}{2}ln\,2\pi+\tfrac{1}{2}ln\,|\Lambda|+\\
+ &  & \int\mathcal{N}(x|m,L)\Bigg(-\tfrac{1}{2}\Big(Tr\Lambda\{xx^{T}+\mu\mu^{T}-x\mu^{T}-\mu x^{T}\}\Big)\Bigg)dx
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+We should note that 
+\begin_inset Formula $\mathbb{E}_{q}\Big[xx^{T}\Big]=Cov_{q}+\mathbb{E}_{q}\Big[x\Big]\mathbb{E}_{q}\Big[x\Big]^{T}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\mathbb{E}_{q}\Big[x\Big]=m$
+\end_inset
+
+ and 
+\begin_inset Formula $Cov_{q}=L^{-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\int\mathcal{N}(x|m,L)\Bigg(-\tfrac{1}{2}\Big(Tr\,\Big[\Lambda\{xx^{T}+\mu\mu^{T}-x\mu^{T}-\mu x^{T}\}\Big]\Big)\Bigg)dx=\\
+-\tfrac{1}{2}Tr\,\Big[(\Lambda L^{-1}+\Lambda mm^{T})+\Lambda(mm^{T}-\mu m^{T}-m\mu^{T})\Big]\\
+=-\tfrac{1}{2}\Big(Tr\,\Big[\Lambda L^{-1}\Big]+(m-\mu)^{T}\Lambda(m-\mu)\Big)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Hence we have:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\boxed{{\mathbb{E}_{q}[ln\,p(x)]=-\tfrac{K}{2}ln\,2\pi+\tfrac{1}{2}ln\,|\Lambda|-\tfrac{1}{2}\Big(Tr\,\Big[\Lambda L^{-1}\Big]+(m-\mu)^{T}\Lambda(m-\mu)\Big)}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Two Wisharts
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\Lambda\sim q\sim\mathcal{W}(v,W)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\Lambda\sim p\sim\mathcal{W}(n,S)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\int q(\Lambda)ln\,p(\Lambda)d\Lambda & = & \mathbb{E}_{q}[ln\,p(\Lambda)]\\
+ & = & \mathbb{E}_{q}\Bigg[ln\,\frac{|\Lambda|^{\tfrac{n-K-1}{2}}exp(-\tfrac{1}{2}Tr\,(S^{-1}\Lambda)}{2^{\tfrac{nK}{2}}|S|^{n/2}\Gamma_{p}(\tfrac{n}{2})}\Bigg]\\
+ & = & \mathbb{E}_{q}\Bigg[-\tfrac{nk}{2}ln\,2-\tfrac{n}{2}ln\,|S|-ln\,\Gamma_{K}(\tfrac{n}{2})\\
+ &  & +\tfrac{n-K-1}{2}ln\,|\Lambda|-\tfrac{1}{2}Tr\,(S^{-1}\Lambda)\Bigg]\\
+ & = & -\tfrac{nk}{2}ln\,2-\tfrac{n}{2}ln\,|S|-ln\,\Gamma_{K}(\tfrac{n}{2})\\
+ &  & +\tfrac{n-K-1}{2}\Big(\psi_{K}(\tfrac{v}{2})+Kln\,2+ln\,|W|\Big)-\tfrac{v}{2}Tr\,(S^{-1}W)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Note that:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\mathbb{E}_{q}[\Lambda]=vW$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\mathbb{E}_{q}[ln\,|\Lambda|]=\psi_{K}(\tfrac{v}{2})+Kln\,2+ln\,|W|$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\psi_{K}(\tfrac{v}{2})=\sum_{i:1}^{K}\psi(\tfrac{v-i+1}{2})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $ln\,\Gamma_{K}(\tfrac{n}{2})=\tfrac{K(K-1)}{4}ln\,\pi+\sum_{i:1}^{K}ln\,\Gamma(\tfrac{n-i+1}{2})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathbb{E}_{q}[ln\,p(\Lambda)] & = & -\tfrac{K(K+1)}{2}ln\,2+\tfrac{n-K-1}{2}\psi_{K}(\tfrac{v}{2})-ln\,\Gamma_{K}(\tfrac{n}{2})\\
+ &  & -\tfrac{v}{2}Tr\,(S^{-1}W)+\tfrac{n-K-1}{2}ln\,|W|-\tfrac{n}{2}ln\,|S|
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+so we have:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\boxed{\mathbb{E}_{q}[ln\,p(\Lambda)]=-\tfrac{K(K+1)}{2}ln\,2+\tfrac{n-K-1}{2}\psi_{K}(\tfrac{v}{2})-ln\,\Gamma_{K}(\tfrac{n}{2})-\tfrac{v}{2}Tr\,(S^{-1}W)+\tfrac{n-K-1}{2}ln\,|W|-\tfrac{n}{2}ln\,|S|}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+or 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\boxed{\mathbb{E}_{q}[ln\,p(\Lambda)]=-\tfrac{K(K+1)}{2}ln\,2+\tfrac{n-K-1}{2}\psi_{K}(\tfrac{v}{2})-ln\,\Gamma_{K}(\tfrac{n}{2})-\tfrac{v}{2}Tr\,(S^{-1}W)-\tfrac{K+1}{2}ln\,|W|+\tfrac{n}{2}ln\,|S^{-1}W|}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Two Betas
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\beta\sim q\sim Beta(b)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\beta\sim p\sim Beta(\eta)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathbb{E}_{q}[ln\,p(\beta)] & = & \mathbb{E}_{q}\Big[ln\,\Gamma(\eta_{0}+\eta_{1})-ln\,\Gamma(\eta_{0})-ln\,\Gamma(\eta_{1})+(\eta_{0}-1)ln\,\beta+(\eta_{1}-1)ln\,(1-\beta)\Big]\\
+ & = & ln\,\Gamma(\eta_{0}+\eta_{1})-ln\,\Gamma(\eta_{0})-ln\,\Gamma(\eta_{1})+(\eta_{0}-1)\big(\psi(b_{0})-\psi(b_{0}+b_{1})\big)+\\
+ &  & (\eta_{1}-1)\big(\psi(b_{1})-\psi(b_{0}+b_{1})\big)\\
+ & = & ln\,\Gamma(\eta_{0}+\eta_{1})-ln\,\Gamma(\eta_{0})-ln\,\Gamma(\eta_{1})+(\eta_{0}-1)\psi(b_{0})+\\
+ &  & (\eta_{1}-1)\psi(b_{1})-(\eta_{0}+\eta_{1}-2)\psi(b_{0}+b_{1})
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Note that 
+\begin_inset Formula $\mathbb{E}_{q}[ln\,\beta]=\psi(b_{0})-\psi(b_{0}+b_{1})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+so :
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\boxed{\mathbb{E}_{q}[ln\,p(\beta)]=ln\,\Gamma(\eta_{0}+\eta_{1})-ln\,\Gamma(\eta_{0})-ln\,\Gamma(\eta_{1})+(\eta_{0}-1)\psi(b_{0})+(\eta_{1}-1)\psi(b_{1})-(\eta_{0}+\eta_{1}-2)\psi(b_{0}+b_{1})}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+\noindent
+Entropies
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Normal
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $q(x)\sim\mathcal{N}(m,M)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\boxed{H[q]=\tfrac{K}{2}ln\,(2\pi)+\tfrac{K}{2}-\tfrac{1}{2}ln\,|M|}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Wishart
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\Lambda\sim q\sim\mathcal{W}(v,W)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+H[q] & = & -\tfrac{v-K-1}{2}\mathbb{E}_{q}ln|\Lambda|-(-\tfrac{1}{2}\mathbb{E}_{q}Tr\,(W^{-1}\Lambda))+\tfrac{v}{2}ln\,|W|+\tfrac{vK}{2}ln\,2+ln\,\Gamma_{K}(\tfrac{v}{2})\\
+ & = & -\tfrac{v-K-1}{2}(\psi_{K}(\tfrac{v}{2})+\tfrac{Kv}{2}+Kln\,2+ln\,|W|)+\tfrac{v}{2}ln\,|W|+\tfrac{vK}{2}ln\,2+ln\,\Gamma_{K}(\tfrac{v}{2})\\
+ & = & \tfrac{K(K+1)}{2}ln\,2+\tfrac{K+1}{2}ln\,|W|-\tfrac{v-K-1}{2}\psi_{p}(\tfrac{v}{2})+ln\,\Gamma_{K}(\tfrac{v}{2})+\tfrac{Kv}{2}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+so 
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\boxed{H[q]=\tfrac{K(K+1)}{2}ln\,2+\tfrac{K+1}{2}ln\,|W|-\tfrac{v-K-1}{2}\psi_{K}(\tfrac{v}{2})+ln\,\Gamma_{K}(\tfrac{v}{2})+\tfrac{Kv}{2}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Beta
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\beta\sim q\sim Beta(b)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+H[q] & = & ln\,\Gamma(b_{0})+ln\,\Gamma(b_{1})-ln\,\Gamma(b_{0}+b_{1})-(b_{0}-1)\mathbb{E}_{q}[ln\,\beta]-(b_{1}-1)\mathbb{E}_{q}[ln\,(1-\beta)]\\
+ & = & ln\,\Gamma(b_{0})+ln\,\Gamma(b_{1})-ln\,\Gamma(b_{0}+b_{1})-(b_{0}-1)\psi(b_{0})-(b_{1}-1)\psi(b_{1})+(b_{0}+b_{1}-2)\psi(b_{0}+b_{1})
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+So,
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\boxed{H[q]=ln\,\Gamma(b_{0})+ln\,\Gamma(b_{1})-ln\,\Gamma(b_{0}+b_{1})-(b_{0}-1)\psi(b_{0})-(b_{1}-1)\psi(b_{1})+(b_{0}+b_{1}-2)\psi(b_{0}+b_{1})}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Multinomial(,1) or Categorical
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $z\sim q\sim Cat(\phi)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+H[q] & = & -\sum_{k}\mathbb{E}_{q}[z_{k}]ln\,\phi_{k}\\
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+so,
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\boxed{H[q]=-\sum_{k}\phi_{k}ln\,\phi_{k}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+\noindent
+Variational ELBO
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\mathcal{L}=\mathbb{E}_{q}\Big[ln\,p(joint)\Big]+H_{q}[params]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+ln\,p(joint) & = & ln\,p(\mu|m_{0},M_{0})+ln\,p(\Lambda|\ell_{0},L_{0})+\sum_{a}ln\,p(\theta_{a}|\mu,\Lambda)+\sum_{a}\sum_{b}ln\,p(z_{a\rightarrow b}|\theta_{a})\\
+ &  & +\sum_{a}\sum_{b}ln\,p(z_{a\leftarrow b}|\theta_{b})+\sum_{k}ln\,p(\beta_{kk}|\eta)+\sum_{a}\sum_{b}ln\,p(y_{ab}|z_{a\rightarrow b},z_{a\leftarrow b},\beta)\\
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+H_{q}[params] & = & H_{q}[\mu]+H_{q}[\Lambda]+H_{q}[\theta]+H_{q}[\beta]+H_{q}[z_{\rightarrow}]+H_{q}[z_{\leftarrow}]\\
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Furthermore,
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathbb{E}_{q}\Big[ln\,p(joint)\Big] & =\mathbb{E}_{q}[ & ln\,p(\mu|m_{0},M_{0})]+\mathbb{E}_{q}[ln\,p(\Lambda|\ell_{0},L_{0})]+\sum_{a}\mathbb{E}_{q}[ln\,p(\theta_{a}|\mu,\Lambda)]+\\
+ &  & \sum_{a}\sum_{b}\mathbb{E}_{q}[ln\,p(z_{a\rightarrow b}|\theta_{a})]+\sum_{a}\sum_{b}\mathbb{E}_{q}[ln\,p(z_{a\leftarrow b}|\theta_{b})]+\\
+ &  & \sum_{k}\mathbb{E}_{q}[ln\,p(\beta_{kk}|\eta)]+\sum_{a}\sum_{b}\mathbb{E}_{q}[ln\,p(y_{ab}|z_{a\rightarrow b},z_{a\leftarrow b},\beta)]
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+We parametrize the variational distribution as follows:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\mu & \sim & q(\mu|m,M)\sim\mathcal{N}(\mu|m,M)\\
+\Lambda & \sim & q(\Lambda|\ell,L)\sim\mathcal{W}(\Lambda|\ell,L)\\
+\theta_{a} & \sim & q(\theta_{a}|\mu_{a},\Lambda_{a})\sim\mathcal{N}(\theta_{a}|\mu_{a},\Lambda_{a})\\
+\beta_{kk} & \sim & q(\beta_{kk}|b_{k})\sim\mathcal{B}(b_{k0},b_{k1})\\
+z_{a\rightarrow b} & \sim & q(z_{a\rightarrow b}|\phi_{a\rightarrow b})\sim Cat(z_{a\rightarrow b}|\phi_{a\rightarrow b})\\
+z_{a\leftarrow b} & \sim & q(z_{a\leftarrow b}|\phi_{a\leftarrow b})\sim Cat(z_{a\leftarrow b}|\phi_{a\leftarrow b})
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Using the results from above regarding the negative cross entropies:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathbb{E}_{q}\Big[ln\,p(joint)\Big] & = & -\tfrac{K}{2}ln\,2\pi+\tfrac{1}{2}ln\,|M_{0}|-\tfrac{1}{2}\Big(Tr\,M_{0}\Big[M^{-1}+(m-m_{0})(m-m_{0})^{T}\Big]\Big)\\
+ &  & -\tfrac{K(K+1)}{2}ln\,2+\tfrac{\ell_{0}-K-1}{2}\psi_{K}(\tfrac{\ell}{2})-ln\,\Gamma_{K}(\tfrac{\ell_{0}}{2})-\tfrac{\ell}{2}Tr\,(L_{0}^{-1}L)-\tfrac{K+1}{2}ln\,|L|\\
+ &  & +\tfrac{\ell_{0}}{2}ln\,|L_{0}^{-1}L|-\sum_{a}\tfrac{K}{2}ln\,2\pi+\tfrac{1}{2}\sum_{a}\psi_{K}(\tfrac{\ell}{2})+\tfrac{1}{2}\sum_{a}Kln\,2+\tfrac{1}{2}\sum_{a}ln\,|L|\\
+ &  & -\tfrac{\ell}{2}\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}\Big)\\
+ &  & +\sum_{a}\sum_{b}\sum_{k}\phi_{a\rightarrow b,k}\mu_{a,k}-\sum_{a}\sum_{b}\mathbb{E}_{q}[ln\,(\sum_{l}exp(\theta_{a,l}))]\\
+ &  & +\sum_{a}\sum_{b}\sum_{k}\phi_{a\leftarrow b,k}\mu_{b,k}-\sum_{a}\sum_{b}\mathbb{E}_{q}[ln\,(\sum_{l}exp(\theta_{b,l}))]\\
+ &  & +\sum_{k}ln\,\Gamma(\eta_{0}+\eta_{1})-\sum_{k}ln\,\Gamma(\eta_{0})-\sum_{k}ln\,\Gamma(\eta_{1})+\sum_{k}(\eta_{0}-1)\psi(b_{k0})\\
+ &  & +\sum_{k}(\eta_{1}-1)\psi(b_{k1})-\sum_{k}(\eta_{0}+\eta_{1}-2)\psi(b_{k0}+b_{k1})\\
+ &  & +\sum_{a,b\in link}\sum_{k}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)+ln\,\epsilon\\
+ &  & +\sum_{a,b\notin link}\sum_{k}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)+ln\,(1-\epsilon)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\mathbb{E}_{q}[\Lambda]=\ell L$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\mathbb{E}_{q}[ln\,|\Lambda|]=\psi_{K}(\tfrac{\ell}{2})+Kln\,2+ln\,|L|$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+-\sum_{a}\tfrac{K}{2}ln\,2\pi+\sum_{a}\tfrac{1}{2}\mathbb{E}_{q}\Big\{ ln\,|\Lambda|\Big\}\\
+-\sum_{a}\tfrac{1}{2}\Big(Tr\,\Big[\mathbb{E}_{q}\Big\{\Lambda\Big\}\Lambda_{a}^{-1}\Big]+\mathbb{E}_{q}\Big\{(\mu_{a}-\mu)^{T}\Lambda(\mu_{a}-\mu)\Big\}\Big)=\\
+-\sum_{a}\tfrac{K}{2}ln\,2\pi+\sum_{a}\psi_{K}(\tfrac{\ell}{2})+\sum_{a}Kln\,2+\sum_{a}ln\,|L|\\
+-\tfrac{\ell}{2}\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)\Big)\Big\}\Big)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\series bold
+\begin_inset Formula $ $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+For the expression 
+\begin_inset Formula $\mathbb{E}_{q}[ln\,(\sum_{l}exp(\theta_{a,l}))]$
+\end_inset
+
+, we use the Jensen's inequality to acquire:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathbb{E}_{q}[ln\,(\sum_{l}exp(\theta_{a,l}))] & \leq & ln\,(\sum_{l}\mathbb{E}_{q}[exp(\theta_{a,l})])\\
+ & = & ln\,(\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}diag(\Lambda_{a}^{-1})_{ll}))
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+We can introduce another bound that introduces a new variational parameter
+ per individual:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{align*}
+\mathbb{E}_{q}[ln\,(\sum_{l}exp(\theta_{a,l}))] & \leq\zeta_{a}^{-1}\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}diag(\Lambda_{a}^{-1})_{ll})+ln\,\zeta_{a}-1\\
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Moreover, using the entropies from above:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+H_{q}[params] & = & \tfrac{K}{2}ln\,(2\pi)+\tfrac{K}{2}-\tfrac{1}{2}ln\,|M|\\
+ &  & +\tfrac{K(K+1)}{2}ln\,2+\tfrac{K+1}{2}ln\,|L|-\tfrac{\ell-K-1}{2}\psi_{K}(\tfrac{\ell}{2})+ln\,\Gamma_{K}(\tfrac{\ell}{2})+\tfrac{K\ell}{2}\\
+ &  & +\sum_{a}\tfrac{K}{2}ln\,(2\pi)+\sum_{a}\tfrac{K}{2}-\sum_{a}\tfrac{1}{2}ln\,|\Lambda_{a}|\\
+ &  & +\sum_{k}ln\,\Gamma(b_{k0})+\sum_{k}ln\,\Gamma(b_{k1})-\sum_{k}ln\,\Gamma(b_{k0}+b_{k1})-\sum_{k}(b_{k0}-1)\psi(b_{k0})\\
+ &  & -\sum_{k}(b_{k1}-1)\psi(b_{k1})+\sum_{k}(b_{k0}+b_{k1}-2)\psi(b_{k0}+b_{k1})\\
+ &  & -\sum_{a}\sum_{b}\sum_{k}\phi_{a\rightarrow b,k}ln\,\phi_{a\rightarrow b,k}\\
+ &  & -\sum_{a}\sum_{b}\sum_{k}\phi_{a\leftarrow b,k}ln\,\phi_{a\leftarrow b,k}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Note that here I assume the following for the hyperparameters:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{align*}
+m_{0} & =\boldsymbol{0}\\
+M_{0} & =10\times\boldsymbol{I}\\
+\ell_{0} & =K+2\\
+L_{0} & =\dfrac{.1}{\ell_{0}}\boldsymbol{I}\\
+\eta_{0} & >1=9\\
+\eta_{1} & =1
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Note that here I assume the following for the variational parameters:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{align*}
+m & =\boldsymbol{0}\\
+M & =10\times\boldsymbol{I}\\
+\ell & =K+2\\
+L & =\dfrac{.1}{\ell_{0}}\boldsymbol{I}\\
+b_{0} & >1=9\\
+b_{1} & =1
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Finally, we have the following:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L} & = & -\tfrac{1}{2}\Bigg(Kln\,2\pi-ln\,|M_{0}|+tr\,M_{0}(m-m_{0})(m-m_{0})^{T}+tr\,M_{0}M^{-1}\Bigg)\\
+ &  & +\tfrac{1}{2}\Bigg(-K(K+1)ln\,2+(\ell_{0}-K-1)\sum_{i}\Psi(\tfrac{\ell-i+1}{2})-\tfrac{K(K-1)}{2}ln\,\pi-2\sum_{i}ln\,\Gamma(\tfrac{\ell_{0}-i+1}{2})\\
+ &  & -\ell tr\,(L_{0}^{-1}L)-(K+1)ln\,|L|+\ell_{0}ln\,|L_{0}^{-1}L|\Bigg)\\
+ &  & -\tfrac{1}{2}\sum_{a}\Bigg(Kln\,2\pi-\sum_{i}\Psi(\tfrac{\ell-i+1}{2})-Kln\,2-ln\,|L|+\\
+ &  & \ell tr\,\Big\{ L\big[(\mu_{a}-m)(\mu_{a}-m)^{T}+M^{-1}+\Lambda_{a}^{-1}\big]\Big\}\Bigg)\\
+ &  & +\sum_{a}\sum_{b\in sink(a)}\Big(\sum_{k}\phi_{a\rightarrow b,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)\\
+ &  & +\sum_{a}\sum_{b\notin sink(a)}\Big(\sum_{k}\phi_{a\rightarrow b,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)\\
+ &  & +\sum_{a}\sum_{b\in source(a)}\Big(\sum_{k}\phi_{b\leftarrow a,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)\\
+ &  & +\sum_{a}\sum_{b\notin source(a)}\Big(\sum_{k}\phi_{b\leftarrow a,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)\\
+ &  & +\sum_{k}ln\,\Gamma(\eta_{0}+\eta_{1})-\sum_{k}ln\,\Gamma(\eta_{0})-\sum_{k}ln\,\Gamma(\eta_{1})+\sum_{k}(\eta_{0}-1)\Psi(b_{k0})+\sum_{k}(\eta_{1}-1)\Psi(b_{k1})\\
+ &  & -\sum_{k}(\eta_{0}+\eta_{1}-2)\Psi(b_{k0}+b_{k1})\\
+ &  & +\sum_{a}\sum_{b\in sink(a)}\sum_{k}\Big(\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}(\Psi(b_{k0})-\Psi(b_{k0}+b_{k1})-ln\,\epsilon)+ln\,\epsilon\Big)\\
+ &  & +\sum_{a}\sum_{b\notin sink(a)}\sum_{k}\Big(\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}(\Psi(b_{k1})-\Psi(b_{k0}+b_{k1})-ln\,(1-\epsilon))+ln\,(1-\epsilon)\Big)\\
+ &  & +\tfrac{1}{2}\Big(Kln\,2\pi+K-ln\,|M|\Big)\\
+ &  & +\tfrac{1}{2}\Big((K+1)ln\,|L|+K(K+1)ln\,2+\ell K+\tfrac{1}{2}K(K-1)ln\,\pi\\
+ &  & +2\sum_{i}ln\,\Gamma(\tfrac{\ell-i+1}{2})-(\ell-K-1)\sum_{i}\Psi(\tfrac{\ell-i+1}{2})\Big)\\
+ &  & +\tfrac{1}{2}\sum_{a}\Big(Kln\,2\pi-ln\,|\Lambda_{a}|+K\Big)\\
+ &  & +\sum_{k}\Big(ln\,\Gamma(b_{k0})+ln\,\Gamma(b_{k1})-ln\,\Gamma(b_{k0}+b_{k1})-(b_{k0}-1)\Psi(b_{k0})-\\
+ &  & (b_{k1}-1)\Psi(b_{k1})+(b_{k0}+b_{k1}-2)\Psi(b_{k0}+b_{k1})\Big)\\
+ &  & -\sum_{a}\sum_{b\in sink(a)}\sum_{k}\Big(\phi_{a\rightarrow b,k}ln\,\phi_{a\rightarrow b,k}\Big)\\
+ &  & -\sum_{a}\sum_{b\notin sink(a)}\sum_{k}\Big(\phi_{a\rightarrow b,k}ln\,\phi_{a\rightarrow b,k}\Big)\\
+ &  & -\sum_{a}\sum_{b\in sink(a)}\sum_{k}\Big(\phi_{a\leftarrow b,k}ln\,\phi_{a\leftarrow b,k}\Big)\\
+ &  & -\sum_{a}\sum_{b\notin sink(a)}\sum_{k}\Big(\phi_{a\leftarrow b,k}ln\,\phi_{a\leftarrow b,k}\Big)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+\noindent
+ELBO Gradients
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Gradient with respect to 
+\begin_inset Formula $m$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{m} & = & -\tfrac{1}{2}\Big(Tr\,M_{0}(m-m_{0})(m-m_{0}){}^{T}\Big]\Big)\\
+ &  & -\tfrac{\ell}{2}\Big(Tr\,L\Big(\sum_{a}(\mu_{a}-m)(\mu_{a}-m)^{T}\Big)\Big)\\
+ & \propto & Tr\,M_{0}(m-m_{0})(m-m_{0}){}^{T}\\
+ &  & +\ell\Big(Tr\,L\big(\sum_{a}mm^{T}+\mu_{a}\mu_{a}^{T}-m\mu_{a}^{T}-\mu_{a}m^{T}\big)\Big)\\
+ & =\\
+ & \Longrightarrow\\
+\nabla_{m}\mathcal{L}_{m} & \propto & 2M_{0}(m-m_{0})-2\ell L\sum_{a}(\mu_{a}-m)=0\\
+ & \Longrightarrow\\
+ &  & \boxed{m=(M_{0}+N\ell L)^{-1}(M_{0}m_{0}+\ell L\sum_{a}\mu_{a})}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+In minibatch node sampling this would be
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{align*}
+\boxed{m=M^{-1}(M_{0}m_{0}+\ell L\dfrac{N}{\#mbnodes}\sum_{a\in mbnodes}\mu_{a})}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Gradient with respect to 
+\begin_inset Formula $M$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{M} & = & -\tfrac{1}{2}\Big(Tr\,M_{0}M^{-1}\Big)\\
+ &  & -\tfrac{\ell}{2}Tr\,NLM^{-1}\\
+ &  & -\tfrac{1}{2}ln\,|M|\\
+ & \propto & Tr\,M_{0}M^{-1}+\ell Tr\,NLM^{-1}+ln\,|M|\\
+ & \Longrightarrow\\
+\nabla_{M^{-1}}\mathcal{L}_{M} & = & 0\\
+\\
+ & = & -M_{0}-N\ell L+M=0\\
+ &  & \boxed{M=M_{0}+N\ell L}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Gradient with respect to 
+\begin_inset Formula $L$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{L} & = & -\tfrac{\ell}{2}Tr\,(L_{0}^{-1}L)-\tfrac{K+1}{2}ln\,|L|+\tfrac{\ell_{0}}{2}ln\,|L_{0}^{-1}L|\\
+ &  & +\tfrac{1}{2}\sum_{a}ln\,|L|-\tfrac{\ell}{2}\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(\mu_{a}-m)(\mu_{a}-m)^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}\Big)\\
+ &  & +\tfrac{K+1}{2}ln\,|L|\\
+ & \propto & -\ell Tr\,(L_{0}^{-1}L)\bcancel{-(K+1)ln\,|L}|+\ell_{0}ln\,|L_{0}^{-1}L|\\
+ &  & +\sum_{a}ln\,|L|-\ell\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(\mu_{a}-m)(\mu_{a}-m)^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}\Big)\\
+ &  & +\bcancel{(K+1)ln\,|L|}\\
+ & \Longrightarrow\\
+\nabla_{L}\mathcal{L}_{L} & = & -\ell L_{0}^{-1}+\tfrac{1}{2}(\ell_{0}+N)L^{-1}-\ell\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(\mu_{a}-m)(\mu_{a}-m)^{T}\big)+\sum_{a}M^{-1}\Big)^{T}=0\\
+ &  & \ell(L_{0}^{-1}+\sum_{a}\Lambda_{a}^{-1}+\sum_{a}(\mu_{a}-m)(\mu_{a}-m)^{T}+NM^{-1})=(N+\ell_{0})L^{-1}\\
+ & \Longrightarrow & \boxed{L=\dfrac{(N+\ell_{0})}{\ell}\Bigg((L_{0}^{-1}+\sum_{a}\big(\Lambda_{a}^{-1}+(\mu_{a}-m)(\mu_{a}-m)^{T}\big)+\sum_{a}M^{-1})\Bigg)^{-1}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+optimizing simultaeneously with 
+\begin_inset Formula $\ell$
+\end_inset
+
+ in the minibatch setting:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{align*}
+\boxed{L=\Bigg((L_{0}^{-1}+\dfrac{N}{\#mbnodes}\big\{\sum_{a}\Lambda_{a}^{-1}+\sum_{a}(\mu_{a}-m)(\mu_{a}-m)^{T}\big\}+NM^{-1})\Bigg)^{-1}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Gradient with respect to 
+\begin_inset Formula $\ell$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{\ell} & = & revise\\
+\\
+\\
+ & \propto\\
+\\
+\\
+ & \Longrightarrow\\
+\\
+ & \propto\\
+\\
+ & \Longrightarrow\\
+\nabla_{\ell}\mathcal{L}_{\ell} & =\\
+\\
+\\
+ & \Longrightarrow\\
+ & hence,\\
+ & \Longrightarrow\\
+ &  & \boxed{\ell=\ell_{0}+N}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Gradient with respect to 
+\begin_inset Formula $b_{k}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{b_{k}} & = & revise\\
+\\
+\\
+\\
+\\
+ &  & \text{simultaenously optimizing \ensuremath{b_{k0}}},\mbox{\ensuremath{b_{k1}}}\\
+ & \Longrightarrow & \text{Similar to our previous results}\\
+\nabla_{b_{k0}}\mathcal{L}_{b_{k}} & = & 0\\
+ & \Longrightarrow & \boxed{b_{k0}=\eta_{0}+\dfrac{\#trainlinks}{\#mblinks}\sum_{a,b\in mblinks}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}}\\
+\nabla_{b_{k1}}\mathcal{L}_{b_{k}} & = & 0\\
+ &  & \boxed{b_{k1}=\eta_{1}+\dfrac{\#trainnonlinks}{\#mbnonlinks}\sum_{a,b\notin mblinks}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Gradient with respect to 
+\begin_inset Formula $\phi_{a\rightarrow b,k}$
+\end_inset
+
+ for links
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{\phi_{a\rightarrow b,k}} & = & \phi_{a\rightarrow b,k}\mu_{a,k}\\
+ &  & +\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)\\
+ &  & -\phi_{a\rightarrow b,k}ln\,\phi_{a\rightarrow b,k}\\
+ & = & \phi_{a\rightarrow b,k}\Big(\mu_{a,k}+\phi_{a\leftarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)-ln\,\phi_{a\rightarrow b,k}\Big)\\
+\nabla_{\phi_{a\rightarrow b,k}}\mathcal{L}_{\phi_{a\rightarrow b,k}} & = & \mu_{a,k}+\phi_{a\leftarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)-ln\,\phi_{a\rightarrow b,k}=0\\
+ &  & \boxed{\phi_{a\rightarrow b,k}\propto exp\Bigg\{\mu_{a,k}+\phi_{a\leftarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)\Bigg\}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Gradient with respect to 
+\begin_inset Formula $\phi_{a\leftarrow b,k}$
+\end_inset
+
+ for links
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{\phi_{a\leftarrow b,k}} & = & \phi_{a\leftarrow b,k}\mu_{b,k}\\
+ &  & +\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)\\
+ &  & -\phi_{a\leftarrow b,k}ln\,\phi_{a\leftarrow b,k}\\
+ & = & \phi_{a\leftarrow b,k}\Big(\mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)-ln\,\phi_{a\leftarrow b,k}\Big)\\
+\nabla_{\phi_{a\leftarrow b,k}}\mathcal{L}_{\phi_{a\leftarrow b,k}} & = & \mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)-ln\,\phi_{a\leftarrow b,k}=0\\
+ &  & \boxed{\phi_{a\leftarrow b,k}\propto exp\Bigg\{\mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)\Bigg\}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Gradient with respect to 
+\begin_inset Formula $\phi_{a\rightarrow b,k}$
+\end_inset
+
+ for nonlinks
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{\phi_{a\rightarrow b,k}} & = & \phi_{a\rightarrow b,k}\mu_{a,k}\\
+ &  & +\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)\\
+ &  & -\phi_{a\rightarrow b,k}ln\,\phi_{a\rightarrow b,k}\\
+ & = & \phi_{a\rightarrow b,k}\Big(\mu_{a,k}+\phi_{a\leftarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)-ln\,\phi_{a\rightarrow b,k}\Big)\\
+\nabla_{\phi_{a\rightarrow b,k}}\mathcal{L}_{\phi_{a\rightarrow b,k}} & = & \mu_{a,k}+\phi_{a\leftarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)-ln\,\phi_{a\rightarrow b,k}=0\\
+ &  & \boxed{\phi_{a\rightarrow b,k}\propto exp\Bigg\{\mu_{a,k}+\phi_{a\leftarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)\Bigg\}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Gradient with respect to 
+\begin_inset Formula $\phi_{a\leftarrow b,k}$
+\end_inset
+
+ for nonlinks
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{\phi_{a\leftarrow b,k}} & = & \phi_{a\leftarrow b,k}\mu_{b,k}\\
+ &  & +\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)\\
+ &  & -\phi_{a\leftarrow b,k}ln\,\phi_{a\leftarrow b,k}\\
+ & = & \phi_{a\leftarrow b,k}\Big(\mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)-ln\,\phi_{a\leftarrow b,k}\Big)\\
+\nabla_{\phi_{a\leftarrow b,k}}\mathcal{L}_{\phi_{a\leftarrow b,k}} & = & \mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)-ln\,\phi_{a\leftarrow b,k}=0\\
+ &  & \boxed{\phi_{a\leftarrow b,k}\propto exp\Bigg\{\mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)\Bigg\}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Gradient with respect to 
+\begin_inset Formula $\mu_{a}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\mu_{a}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Lambda_{a}$
+\end_inset
+
+ are two of the scarier ones.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{\mu_{a}} & = & -\tfrac{\ell}{2}\big[(\mu_{a}-m)^{T}L(\mu_{a}-m)\big]+\\
+ &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b}^{T}\mu_{a}+\\
+ &  & \sum_{b\notin sink(a)}\phi_{a\rightarrow b}^{T}\mu_{a}+\\
+ &  & \sum_{b\in source(a)}\phi_{b\leftarrow a}^{T}\mu_{a}+\\
+ &  & \sum_{b\notin source(a)}\phi_{b\leftarrow a}^{T}\mu_{a}-\\
+ &  & \sum_{b}log\,\Big(\boldsymbol{1}^{T}\underbar{f}(\mu_{a},\Lambda_{a})\Big)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+where 
+\begin_inset Formula $\underbar{f}(\mu_{a},\Lambda_{a})=\left(\begin{array}{c}
+exp(\mu_{a,1}+\tfrac{1}{2}\Lambda_{a,1}^{-1})\\
+\vdots\\
+exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})\\
+\vdots\\
+exp(\mu_{a,K}+\tfrac{1}{2}\Lambda_{a,K}^{-1})
+\end{array}\right)$
+\end_inset
+
+, and we may for convenience interchangably use 
+\begin_inset Formula $\underbar{f}_{a}$
+\end_inset
+
+ to refer to 
+\begin_inset Formula $\underbar{f}(\mu_{a},\Lambda_{a}):$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Hence the geradient is 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{align*}
+\nabla_{\mu_{a}}\mathcal{L}_{\mu_{a}} & = & -\ell L(\mu_{a}-m)+\\
+ &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b}+\sum_{b\notin sink(a)}\phi_{a\rightarrow b}+\\
+ &  & \sum_{b\in source(a)}\phi_{b\leftarrow a}+\sum_{b\notin source(a)}\phi_{b\leftarrow a}-\\
+ &  & \sum_{b}\dfrac{\partial\underbar{f}(\mu_{a},\Lambda_{a})}{\partial\mu_{a}}(\boldsymbol{1})\\
+ & = & -\ell L(\mu_{a}-m)+\\
+ &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b}+\sum_{b\notin sink(a)}\phi_{a\rightarrow b}+\\
+ &  & \sum_{b\in source(a)}\phi_{b\leftarrow a}+\sum_{b\notin source(a)}\phi_{b\leftarrow a}-\\
+ &  & \sum_{b}\dfrac{\boldsymbol{J}_{\underbar{f}}\times\boldsymbol{1}}{\boldsymbol{1}^{T}\underbar{f}(\mu_{a},\Lambda_{a})}\\
+ & = & -\ell L(\mu_{a}-m)+\\
+ &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b}+\sum_{b\notin sink(a)}\phi_{a\rightarrow b}+\\
+ &  & \sum_{b\in source(a)}\phi_{b\leftarrow a}+\sum_{b\notin source(a)}\phi_{b\leftarrow a}-\\
+ &  & \sum_{b}\dfrac{\left(\begin{array}{ccccc}
+\dfrac{\partial\underbar{f}_{a1}}{\partial\mu_{a1}} & \ldots & \dfrac{\partial\underbar{f}_{a1}}{\partial\mu_{ak}} & \ldots & \dfrac{\partial\underbar{f}_{a1}}{\partial\mu_{aK}}\\
+\vdots & \ddots &  &  & \vdots\\
+\dfrac{\partial\underbar{f}_{ak}}{\partial\mu_{a1}} & \ldots & \dfrac{\partial\underbar{f}_{ak}}{\partial\mu_{ak}} & \ldots & \dfrac{\partial\underbar{f}_{ak}}{\partial\mu_{aK}}\\
+\vdots &  &  & \ddots & \vdots\\
+\dfrac{\partial\underbar{f}_{aK}}{\partial\mu_{a1}} &  & \ldots &  & \dfrac{\partial\underbar{f}_{aK}}{\partial\mu_{aK}}
+\end{array}\right)}{\boldsymbol{1}^{T}\underbar{f}(\mu_{a},\Lambda_{a})}\\
+ & = & -\ell L(\mu_{a}-m)+\\
+ &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b}+\sum_{b\notin sink(a)}\phi_{a\rightarrow b}+\\
+ &  & \sum_{b\in source(a)}\phi_{b\leftarrow a}+\sum_{b\notin source(a)}\phi_{b\leftarrow a}-\\
+ &  & \sum_{b}\underbar{sfx}(a)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+where 
+\begin_inset Formula $\underbar{sfx}(a)=\left(\begin{array}{c}
+\dfrac{exp(\mu_{a,1}+\tfrac{1}{2}\:\Lambda_{a,1}^{-1})}{\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\:\Lambda_{a,l}^{-1})}\\
+\vdots\\
+\dfrac{exp(\mu_{a,k}+\tfrac{1}{2}\:\Lambda_{a,k}^{-1})}{\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\:\Lambda_{a,l}^{-1})}\\
+\vdots\\
+\dfrac{exp(\mu_{a,1}+\tfrac{1}{2}\:\Lambda_{a,1}^{-1})}{\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\:\Lambda_{a,l}^{-1})}
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+so all in all the gradient is :
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\nabla_{\mu_{a}}\mathcal{L}_{\mu_{a}}=$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boxed{-\ell L(\mu_{a}-m)+\sum_{b\in sink(a)}\phi_{a\rightarrow b}+\sum_{b\notin sink(a)}\phi_{a\rightarrow b}+\sum_{b\in source(a)}\phi_{b\leftarrow a}+\sum_{b\notin source(a)}\phi_{b\leftarrow a}-\sum_{b}\underbar{sfx}(a)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Similarly the Hessian will be as follows:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{align*}
+\nabla_{\mu_{a}}^{2}\mathcal{L}_{\mu_{a}} & = & -\ell L-\\
+ &  & \sum_{b}\dfrac{\partial\underbar{sfx}(a)}{\partial\mu_{a}^{T}}\\
+ & = & \ell L-\\
+ &  & \sum_{b}\boldsymbol{J}_{\underbar{sfx}(a)}\\
+ & = & -\ell L-\\
+ &  & \sum_{b}\left(\begin{array}{ccccc}
+\dfrac{\partial\underbar{sfx}_{a1}}{\partial\mu_{a1}} & \ldots & \dfrac{\partial\underbar{sfx}_{a1}}{\partial\mu_{ak}} & \ldots & \dfrac{\partial\underbar{sfx}_{a1}}{\partial\mu_{aK}}\\
+\vdots & \ddots &  &  & \vdots\\
+\dfrac{\partial\underbar{sfx}_{ak}}{\partial\mu_{a1}} & \ldots & \dfrac{\partial\underbar{sfx}_{ak}}{\partial\mu_{ak}} & \ldots & \dfrac{\partial\underbar{sfx}_{ak}}{\partial\mu_{aK}}\\
+\vdots &  &  & \ddots & \vdots\\
+\dfrac{\partial s\underbar{fx}_{aK}}{\partial\mu_{a1}} &  & \ldots &  & \dfrac{\partial\underbar{sfx}_{aK}}{\partial\mu_{aK}}
+\end{array}\right)\\
+ & = & -\ell L-\\
+ &  & \sum_{b}\left(\begin{array}{ccccc}
+\underbar{sfx}_{a1}-\underbar{sfx}_{a1}^{2} & \ldots & -\underbar{sfx}_{a1}\underbar{sfx}_{ak} & \ldots & \underbar{-sfx}_{a1}\underbar{sfx}_{aK}\\
+\vdots & \ddots &  &  & \vdots\\
+\underbar{-sfx}_{a1}\underbar{sfx}_{ak} & \ldots & \underbar{sfx}_{ak}-\underbar{sfx}_{ak}^{2} & \ldots & \underbar{-sfx}_{ak}\underbar{sfx}_{ak}\\
+\vdots &  &  & \ddots & \vdots\\
+-\underbar{sfx}_{a1}\underbar{sfx}_{aK} &  & \ldots &  & \underbar{-sfx}_{aK}-\underbar{sfx}_{aK}^{2}
+\end{array}\right)\\
+ & = & \boxed{-\ell L-\sum_{b}\Big(diagm(\underbar{sfx}_{a})-\underbar{sfx}_{a}\underbar{sfx}_{a}^{T}\Big)}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+The newton step would look like:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\mu_{a,k}=\mu_{a,k}-H_{\mu_{a,k}}^{-1}G_{\mu_{a,k}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Gradient with respect to 
+\begin_inset Formula $\Lambda_{a}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+similarly assuming that 
+\begin_inset Formula $\Lambda_{a}$
+\end_inset
+
+ is a diagonal matrix(or a column vector).
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{align*}
+\mathcal{L}_{\Lambda_{a}^{-1}} & = & -\tfrac{\ell}{2}diag\,(L)'\Lambda_{a}^{-1}+\tfrac{1}{2}ln\,|diagm(\Lambda_{a}^{-1})|-\sum_{b}log\,\Big(\boldsymbol{1}^{T}\underbar{f}(\mu_{a},\Lambda_{a})\Big)\\
+ & =\\
+\nabla_{\Lambda_{a}^{-1}}\mathcal{L}_{\Lambda_{a}^{-1}}=G_{\Lambda_{a}^{-1}} & = & \boxed{-\tfrac{\ell}{2}diag(L)+\tfrac{1}{2}(\Lambda_{a})-\tfrac{1}{2}\sum_{b}(\underbar{sfx}(a))}\\
+ &  & \boxed{}\\
+\nabla_{\Lambda_{a}^{-1}}^{2}\mathcal{L}_{\Lambda_{a}^{-1}}=H_{\Lambda_{a}^{-1}} & \propto & \boxed{-\tfrac{1}{2}diagm(\Lambda_{a}\odot\Lambda_{a})-\tfrac{1}{4}\sum_{b}\Big(diagm(\underbar{sfx}_{a})-\underbar{sfx}_{a}\underbar{sfx}_{a}^{T}\Big)}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+The newton step would look like:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\Lambda_{a}^{-1}=\Lambda_{a}^{-1}-H_{\Lambda_{a}^{-1}}^{-1}G_{\Lambda_{a}^{-1}}$
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
