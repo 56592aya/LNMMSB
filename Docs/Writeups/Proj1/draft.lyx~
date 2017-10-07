@@ -300,6 +300,650 @@ key "ma2014latent"
 \end_layout
 
 \begin_layout Standard
+Many social and relational data structures arise from the directed connections
+ between the nodes, where the directed edge implies a connection from one
+ node to the other.
+ Examples of this behavior could be observed in networks such as twitter
+ followership
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cataldi2010emerging,kwak2010twitter"
+
+\end_inset
+
+, coauthorship and citation networks
+\begin_inset CommandInset citation
+LatexCommand cite
+key "liu2005co,kempe2003maximizing"
+
+\end_inset
+
+, and many more
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hummon1989connectivity"
+
+\end_inset
+
+.Although many treatments of network connections assume undirectedness
+\begin_inset CommandInset citation
+LatexCommand cite
+key "braun2011scalable,gopalan2013efficient,palla2005uncovering"
+
+\end_inset
+
+, we argue that a lot of important features underlying the edges could be
+ misjudged and lost.In many networks, direction can be interpreted as the
+ main denominator of followership, where the same cannot be reciprocated.
+ Additional when behavioral data is added, time and direction cannot be
+ separated from the network.
+ Hence we allow for directed edges that can further signal more information
+ about the clustering of the network.
+\end_layout
+
+\begin_layout Standard
+Implications of finding overlapping communities for network research can
+ be manifold.
+ To gain better understanding of diffusion of ideas(),products
+\begin_inset CommandInset citation
+LatexCommand cite
+key "van2007new,aral2012identifying"
+
+\end_inset
+
+,medical innovation
+\begin_inset CommandInset citation
+LatexCommand cite
+key "van2001medical,coleman1966medical"
+
+\end_inset
+
+, one has to be able to distinguish difference sources of contagion.
+ Behaviors and decisions made by many individuals in observed networks tend
+ to assimilate both in node space and in time
+\begin_inset CommandInset citation
+LatexCommand cite
+key "aral2009distinguishing"
+
+\end_inset
+
+.
+ However disentagling the underlying reasons can become infeasible due to
+ endogenous network formation portrayed by latent homophily
+\begin_inset CommandInset citation
+LatexCommand cite
+key "shalizi2011homophily"
+
+\end_inset
+
+.
+ Conveniently addressing latent homophily and using a proxy estimation could
+ improve the estimation of influence versus homophily
+\begin_inset CommandInset citation
+LatexCommand cite
+key "shalizi2011homophily,shalizi2016controlling,davin2015essays"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+On the other hand many evidence from real world show signs of evolution
+ of networks in time
+\begin_inset CommandInset citation
+LatexCommand cite
+key "brueckner2007workings,jackson2002evolution,snijders2007modeling"
+
+\end_inset
+
+.
+ This means that at certain times in the network some ties are formed and
+ some are severed.
+ Brot et al(2016) argue that this happens when observing bursts in connection
+ that underlies the change in homophily
+\begin_inset CommandInset citation
+LatexCommand cite
+key "brot2016evolution"
+
+\end_inset
+
+.
+ Hence trying to explain these rather stochastic changes requires a better
+ understanding of homophily and formation of networks.
+ Additionally it is not clear to what extent commonly known measures such
+ as degree centrality, betweenness, prestige, etc are able to discover influenti
+als, which can depend on how one defines the communities at hand
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jackson2010social"
+
+\end_inset
+
+.
+ Chen et al (2017) suggest that incorporating connection specific characteristic
+s in a multigraph network can yield much improved prediction of diffusion
+ when the seeding strategies are adjusted accordingly rather than expliting
+ traditional centrality measures
+\begin_inset CommandInset citation
+LatexCommand cite
+key "chen2017uncovering"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In this paper we propose a model based approach to detect overlapping community
+ as an extended version of Mixed-Membership-Stochastic-Blockmodel(MMSB)
+\begin_inset CommandInset citation
+LatexCommand cite
+key "airoldi2008mixed,gopalan2013efficient"
+
+\end_inset
+
+, that allows for both scalable and efficient inference and more flexible
+ community definitions.
+ Mixed membership models provide tools to define a mixture over each grouped
+ data
+\begin_inset CommandInset citation
+LatexCommand cite
+key "erosheva2004mixed"
+
+\end_inset
+
+; a problem that mixture models tend to avoid by clusteirng data into separable
+ groups that are conditionally independent of each other given their cluster
+ assignment
+\begin_inset CommandInset citation
+LatexCommand cite
+key "holland1983stochastic"
+
+\end_inset
+
+.
+ First introduced in the context of topic discovery in text corpora, Blei
+ et al (2003) defined distributions over the vocabulary, where underlying
+ patterns define the topics, and each document is a distribution over these
+ topics
+\begin_inset CommandInset citation
+LatexCommand cite
+key "blei2003latent"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+MMSB first proposed by Airoldi et al (2008)
+\begin_inset CommandInset citation
+LatexCommand cite
+key "airoldi2008mixed"
+
+\end_inset
+
+, defines a generative setting for the formation of the links in a network.
+ This model has been applied frequently to finding overlapping communities
+ in social networks
+\begin_inset CommandInset citation
+LatexCommand cite
+key "airoldi2008mixed,cho2016latent"
+
+\end_inset
+
+, protein-interaction networks
+\begin_inset CommandInset citation
+LatexCommand cite
+key "airoldi2008mixed,gopalan2013efficient"
+
+\end_inset
+
+,citation networks
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cho2016latent"
+
+\end_inset
+
+, etc.
+ The generative framework assumes that each individual in the network has
+ different degrees of belonging to a set of 
+\begin_inset Formula $K$
+\end_inset
+
+ prespecified potentially overlapping communities.
+ Among each directed pair of nodes(a potential link consisting of a sender
+ and a reciever), sender 
+\begin_inset Formula $s$
+\end_inset
+
+ activates one of its potential roles according to its membership strengths
+ in different communities when communicating with receiver 
+\begin_inset Formula $r$
+\end_inset
+
+.
+ Likewise The receiver 
+\begin_inset Formula $r$
+\end_inset
+
+ activates one of its roles according to its membership strengths in different
+ communities when contacted by the sender 
+\begin_inset Formula $s$
+\end_inset
+
+.
+ This means that each individual can belong to several communities or take
+ up different roles depending on whom they are contacting or being contacted
+ by.
+ According to the pair-based community announcements, a links is formed
+ depending on the strength of the connection between those clusters.
+ The data generating process is as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Itemize
+\begin_inset Formula $\forall a\in\mathcal{N}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+draw a 
+\begin_inset Formula $K$
+\end_inset
+
+-dimensional mixed membership vector,
+\begin_inset Formula $\boldsymbol{\theta}_{a}\sim Dirichlet(\boldsymbol{\alpha})$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $\forall(a,b)\in\mathcal{E}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+draw one-hot membership indicator vector for 
+\begin_inset Formula $a$
+\end_inset
+
+ when contacting 
+\begin_inset Formula $b$
+\end_inset
+
+, 
+\begin_inset Formula $\boldsymbol{z}_{a\rightarrow b}\sim Categorical(\boldsymbol{\theta}_{a})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+draw one-hot membership indicator vector for 
+\begin_inset Formula $b$
+\end_inset
+
+ when contacted by 
+\begin_inset Formula $a$
+\end_inset
+
+, 
+\begin_inset Formula $\boldsymbol{z}_{a\leftarrow b}\sim Categorical(\boldsymbol{\theta}_{b})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+sample a link between 
+\begin_inset Formula $a\rightarrow b$
+\end_inset
+
+ with probability 
+\begin_inset Formula $\boldsymbol{z}_{a\rightarrow b}\boldsymbol{B}\boldsymbol{z}_{a\leftarrow b}$
+\end_inset
+
+, 
+\begin_inset Formula $Y(a,b)\sim Bernoulli($
+\end_inset
+
+
+\begin_inset Formula $\boldsymbol{z}_{a\rightarrow b}\boldsymbol{B}\boldsymbol{z}_{a\leftarrow b}$
+\end_inset
+
+)
+\end_layout
+
+\end_deeper
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+MMSB 
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:MMSB-data-generating"
+
+\end_inset
+
+data generating process
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the algorithm above the bold 
+\begin_inset Formula $\boldsymbol{\theta}_{a}$
+\end_inset
+
+ represents a 
+\begin_inset Formula $K$
+\end_inset
+
+-dimensional simplical vector of membership strength of node 
+\begin_inset Formula $a$
+\end_inset
+
+ from a Dirichlet distribution, where 
+\begin_inset Formula $a$
+\end_inset
+
+ is a member of the vertex set 
+\begin_inset Formula $\mathcal{N}$
+\end_inset
+
+.
+ For each directed pair 
+\begin_inset Formula $(a,b)$
+\end_inset
+
+ that belong to the edge set 
+\begin_inset Formula $\mathcal{E}$
+\end_inset
+
+, we acquire the indicator vector 
+\begin_inset Formula $\boldsymbol{z},$
+\end_inset
+
+for each contact point from a categorical distribution that is parametrized
+ by their membership strengths.
+ Finally a diagonal Block(compatibility) matrix 
+\begin_inset Formula $\boldsymbol{B}$
+\end_inset
+
+ determines the strength of inter-community connections based on what role
+ is activated for each node.
+ More generally in a repeated setting where links could frequent, we can
+ replace the categorical distributions with the multinomial, and the block
+ matrix 
+\begin_inset Formula $\boldsymbol{B}$
+\end_inset
+
+ could entail any asymmetric and nondiagonal elemets.
+ Due to assortativity of many real world networks we assume here that 
+\begin_inset Formula $\boldsymbol{B}$
+\end_inset
+
+ is diagonal.
+ Several methods have been applied to estimate the model parameters, which
+ among them variational inference
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jordan1999introduction,airoldi2008mixed,gopalan2013efficient"
+
+\end_inset
+
+ and MCMC
+\begin_inset CommandInset citation
+LatexCommand cite
+key "chang2011lda,li2016scalable"
+
+\end_inset
+
+ are prevalent.
+ Later in this section we discuss Variational methods as are the approach
+ we take for our inference engine.
+ Both variational methods and MCMC for this specific model have excelled
+ to scale to very large networks through introducing stochastic minibatch
+ sampling
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hoffman2013stochastic,gopalan2013efficient,li2016scalable"
+
+\end_inset
+
+.Although widely applied all these models face some practical and technical
+ limitations, that we aim to resolve only some of them in this paper.
+\end_layout
+
+\begin_layout Standard
+Upon detecting communities as explained by the data generating process explained
+ in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:MMSB-data-generating"
+
+\end_inset
+
+, individuals who belong to one community and not to a very similar one
+ fail to connect to corresponding individuals.
+ This may happen if some sort of hierarchy or nested structure exists in
+ the nature of these communities that represent roughly their preferences,tastes
+, roles, groups, etc.
+ Although throuh variational inference this model exhibits conjugacy and
+ simplifies the estimation, a more natural way would be to allow for correlated
+ mixed memberships by introducing a Logistic-Normal prior instead of Dirichlet.
+ This enables us to account for the connections among individuals that share
+ rather similar interests or connections among communities that tend to
+ interact more often compared to the specification in MMSB.
+ In the context of mixed membership models , Lafferty and Blei (2006) introduced
+ correlated topic models(CTM), that captures the correlation between topic
+ proportions realized in a text corpora by introducing a Logistic-Normal
+ prior.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lafferty2006correlated"
+
+\end_inset
+
+.
+ Additionally in the case of our proposed MMSB variant, this would provide
+ an advantage when moving from static networks to dynamic setting, where
+ the LN distributed parameters can change according to a simple autoregressive
+ rule, that was not possible under the assumption of Dirichlet distribution
+\begin_inset CommandInset citation
+LatexCommand cite
+key "blei2006dynamic,ho2011evolving,fu2009dynamic,xing2010state"
+
+\end_inset
+
+.
+ Our proposed model is closely related to the LNMMSB in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "xing2010state"
+
+\end_inset
+
+, however we take a hierarchical bayesian perspective that allows for fully
+ Bayesian variational inference, and is as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Itemize
+\begin_inset Formula $\forall a\in\mathcal{N}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+draw the mean of the logit mixed membership vector through 
+\begin_inset Formula $\boldsymbol{\mu}\sim\mathcal{N}ormal(\boldsymbol{\mu}_{0},\boldsymbol{\Lambda}_{0})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+draw a 
+\begin_inset Formula $K$
+\end_inset
+
+-dimensional vector,
+\begin_inset Formula $\boldsymbol{\theta}_{a}^{*}\sim\mathcal{N}ormal(\boldsymbol{\mu},\boldsymbol{\Lambda})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+construct the simplical mixed membership via logistic transformation , 
+\begin_inset Formula $\boldsymbol{\theta}_{a,k}=\frac{exp(\boldsymbol{\theta}_{a,k}^{*})}{\sum_{l}exp(\boldsymbol{\theta}_{a,l}^{*})}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $\forall(a,b)\in\mathcal{E}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+draw one-hot membership indicator vector for 
+\begin_inset Formula $a$
+\end_inset
+
+ when contacting 
+\begin_inset Formula $b$
+\end_inset
+
+, 
+\begin_inset Formula $\boldsymbol{z}_{a\rightarrow b}\sim Categorical(\boldsymbol{\theta}_{a})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+draw one-hot membership indicator vector for 
+\begin_inset Formula $b$
+\end_inset
+
+ when contacted by 
+\begin_inset Formula $a$
+\end_inset
+
+, 
+\begin_inset Formula $\boldsymbol{z}_{a\leftarrow b}\sim Categorical(\boldsymbol{\theta}_{b})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+sample a link between 
+\begin_inset Formula $a\rightarrow b$
+\end_inset
+
+ with probability 
+\begin_inset Formula $\boldsymbol{z}_{a\rightarrow b}\boldsymbol{B}\boldsymbol{z}_{a\leftarrow b}$
+\end_inset
+
+, 
+\begin_inset Formula $Y(a,b)\sim Bernoulli($
+\end_inset
+
+
+\begin_inset Formula $\boldsymbol{z}_{a\rightarrow b}\boldsymbol{B}\boldsymbol{z}_{a\leftarrow b}$
+\end_inset
+
+)
+\end_layout
+
+\end_deeper
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Hierarchical-Logistic-Normal-MMS"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+VI,collGibbs
+\end_layout
+
+\begin_layout Standard
+More recently, but still limitations
+\end_layout
+
+\begin_layout Standard
+Several practical limitations arise with this model.
+\end_layout
+
+\begin_layout Standard
+Categorical/vs multinomial
+\end_layout
+
+\begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
 bibfiles "biblio"
@@ -598,7 +1242,12 @@ so :
 
 \begin_layout Standard
 \noindent
-\begin_inset Formula $\boxed{\mathbb{E}_{q}[ln\,p(\beta)]=ln\,\Gamma(\eta_{0}+\eta_{1})-ln\,\Gamma(\eta_{0})-ln\,\Gamma(\eta_{1})+(\eta_{0}-1)\psi(b_{0})+(\eta_{1}-1)\psi(b_{1})-(\eta_{0}+\eta_{1}-2)\psi(b_{0}+b_{1})}$
+\begin_inset Formula 
+\begin{align*}
+\mathbb{E}_{q}[ln\,p(\beta)] & =ln\,\Gamma(\eta_{0}+\eta_{1})-ln\,\Gamma(\eta_{0})-ln\,\Gamma(\eta_{1})+(\eta_{0}-1)\psi(b_{0})+\\
+ & (\eta_{1}-1)\psi(b_{1})-(\eta_{0}+\eta_{1}-2)\psi(b_{0}+b_{1})\\
+\end{align*}
+
 \end_inset
 
 
@@ -1483,6 +2132,7 @@ so all in all the gradient is :
 \end_layout
 
 \begin_layout Standard
+\noindent
 \begin_inset Formula $\boxed{-\ell L(\mu_{a}-m)+\sum_{b\in sink(a)}\phi_{a\rightarrow b}+\sum_{b\notin sink(a)}\phi_{a\rightarrow b}+\sum_{b\in source(a)}\phi_{b\leftarrow a}+\sum_{b\notin source(a)}\phi_{b\leftarrow a}-\sum_{b}\underbar{sfx}(a)}$
 \end_inset
 
