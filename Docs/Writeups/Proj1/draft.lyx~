@@ -78,39 +78,238 @@
 
 \begin_body
 
-\begin_layout Standard
-Project1- Modeling network formation via correlated community structure
- 
-\end_layout
-
 \begin_layout Section*
-Abstract
+Rough Chapter 1 and 2
+\end_layout
+
+\begin_layout Part*
+Introduction
 \end_layout
 
 \begin_layout Standard
-It is widely known that individuals in a network form declustered communities,
- where each individual can belong to several groups.
- Although another important aspect of these separate/shared communities
- should be encoded via their correlation, as some may induce friendships
- while others inhibit such connections.
- In this paper we account for such co-occurrence via introducing correlations
- among the community memberships of individuals via logistic normal prior.
- We argue that accounting for such correlations both complies with the assortati
-ve mixing theory and performs better compared to the widely known mixed-membersh
-ip stochastic block model
+Extensive studies of social contagion in marketing, have dealt with the
+ partial role of structure in studying influence or disentangling causality
+ from homophily
 \begin_inset CommandInset citation
 LatexCommand cite
-key "airoldi2008mixed"
+key "aral2009distinguishing,aral2012identifying,goldenberg2009role,van2001medical"
 
 \end_inset
 
 .
- We furthermore use stochastic variational methods to offer both fast and
- efficient inference.
+ However sociometric data could prove to be useful.
+ Goldenberg et al (2009), show that actors with higher degree centrality(hubs)
+ can speed up contagion or lead to higher volume diffusion depending on
+ being innovative or follower
+\begin_inset CommandInset citation
+LatexCommand cite
+key "goldenberg2009role"
+
+\end_inset
+
+.
+ Goel and Goldstein(2014) have shown that regardless of the causal nature
+ of influence and possible selection biases in clustering of behaviors,
+ social data can prove to be beneficial and complementary to behavioral
+ data in terms of predicting the future actions
+\begin_inset CommandInset citation
+LatexCommand cite
+key "goel2013predicting"
+
+\end_inset
+
+.
+ Hence a good knowledge on the mechanics of structure formation in social
+ networks could be vital in further analyzing the behavioral data.
+ However many of these studies only account for network level characteristics
+ of individuals, such as degree centrality,betweenness, prestige, clustering
+ coefficient, etc
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hinz2011seeding"
+
+\end_inset
+
+.
+ Although these measures are still valuable in predicting and studying the
+ diffusion, and are more important than self-reported measures of opinion
+ leadership
+\begin_inset CommandInset citation
+LatexCommand cite
+key "iyengar2011opinion"
+
+\end_inset
+
+, in this paper we argue that sub-network level measures can provide further
+ insights into recognizing more fine-grained centrality measures, and into
+ recognizing topic related brokerage roles.
+ Moreover, marketers are always interested in finding influential people
+ in a network to be able to target them and segment them properly
+\begin_inset CommandInset citation
+LatexCommand cite
+key "aral2012identifying,iyengar2011opinion,trusov2010determining,stephen2010deriving,van2001medical,van2007new,katona2011network"
+
+\end_inset
+
+; In addition to what previous literature has mostly involved with in recognizin
+g the role of connectors, we believe the role of possible other individuals
+ such as mavens and salesmen have been less attended in the context of social
+ data
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gladwell2000tipping"
+
+\end_inset
+
+.
+ Yet not all centrality measures on the network level correspond to similar
+ notions and could provide even opposite results
+\begin_inset CommandInset citation
+LatexCommand cite
+key "stephen2010deriving,trusov2010determining"
+
+\end_inset
+
+.
+ Hence delving into more robust constructs at the community level might
+ be a worthwhile investigation into the potential roles of specific individuals
+ that otherwise would have not been identified.
+ Detecting these sub-network properties can facilitate understanding the
+ likelihood of information exchange and the attention given to information
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zubcsek2014information"
+
+\end_inset
+
+.
+ Several studies have emerged in the field of marketing and management that
+ pinpoint the importance of communities underlying social networks in better
+ understanding consumer-firm or consumer-consumer relationships.
+ Ansari et al (2011) model a multiplex network of professionals to simultaneousl
+y study the impact of the organizational interventions on the nature of
+ the connections
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ansari2011modeling"
+
+\end_inset
+
+.
+ Ma et al (2014) use communities to account for homophily when studying
+ the social influence of decision purchases and timing of individuals in
+ a mobile network 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ma2014latent"
+
+\end_inset
+
+.
+ 
 \end_layout
 
-\begin_layout Section*
-Motivation
+\begin_layout Standard
+Many real-life social and other types of networks of individuals, however,
+ are more accurately described by multiple interconnected networks instead
+ of one 
+\shape italic
+homogeneous
+\shape default
+ network.
+ While theoretically we still expect much predictive ability from the network
+ measures studied till now
+\begin_inset CommandInset citation
+LatexCommand cite
+key "goel2013predicting"
+
+\end_inset
+
+, empirically this impact will be blurred because the network is in fact
+ a mixture of multiple networks, leaving the empirical assessment of network
+ measures a shaky foundation.
+ Identifying these constructs could still be valuable even in the absence
+ of behavioral data.
+ For example accounting for shared communities in a directed networks, can
+ signal information about the identification and potential power of information
+ brokers sitting at the edge of the groups
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gopalan2012scalable,nepusz2008fuzzy"
+
+\end_inset
+
+.
+ For those individuals belonging to several communities, it is important
+ to account for the size of their incoming connections given their outgoing
+ links.
+ This can shed light on their potential brokerage power on specific topic
+ communities??.
+\end_layout
+
+\begin_layout Standard
+Another missing piece in many network studies in the field of marketing
+ is that most measures are only evaluated in small scale networks.
+ A related stream of diffusion research, studies the contagion phenomenon
+ in new prescription drugs among a network of physicians
+\begin_inset CommandInset citation
+LatexCommand cite
+key "iyengar2011opinion,van2007new,van2001medical"
+
+\end_inset
+
+.
+ Other examples, and larger networks, Aral, ...????.Some skip latent homophily,
+ Aral, Snijders, resolve with experiment Aral, ...
+ why it is important(Shalizi).Among studies that incorporate large scale
+ networks are (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "braun2011scalable"
+
+\end_inset
+
+,?) .Braun and Bonfrer (2011) use a latent space approach to map individual
+ latent traits to a Euclidean space.
+ In latent space modeling, individual characteristics are represented as
+ hidden structures that need to be estimated from the network data, where
+ potentially infinite dimensional individual characteristics are mapped
+ to a lower dimensional Euclidean space; and the similarity is measured
+ by the distance between individual locations in this low dimensional space
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hoff2002latent,braun2011scalable,ansari2011modeling"
+
+\end_inset
+
+.
+ Braun and Bonfrer (2011) argue that latent space approach could provide
+ very different insights compared to geodesic distances,especially when
+ evaluating the reach.
+ More individuals could potentially and better semantically be reached through
+ a small radius around a focal node in a low dimensional space rather than
+ accommodating first and second degree connections of that focal node that
+ may end up to be irrelevant.This again suggests how strategies can lead
+ to different results when social data are applied differently through community
+ detection and geodesic reach
+\begin_inset CommandInset citation
+LatexCommand cite
+key "braun2011scalable"
+
+\end_inset
+
+.
+ While latent (Euclidean) space models
+\begin_inset CommandInset citation
+LatexCommand cite
+key "braun2011scalable,ansari2011modeling,handcock2007model,hoff2002latent"
+
+\end_inset
+
+ account for additional structure in the network formation process, they
+ do not provide access to network measures for various sub-networks as they
+ do not leave much for interpretation when representing the network in a
+ Euclidean space.
 \end_layout
 
 \begin_layout Standard
@@ -149,10 +348,10 @@ key "yang2012community,xie2013overlapping,lancichinetti2009detecting,airoldi2008
 
 \end_inset
 
-.Although caution must be taken regarding how one defines communities as
- the concept could vary drammatically depending the context given.
+.Although caution must be taken regarding how one defines communities, as
+ the concept could vary dramatically depending on the given context.
  A common phenomenon observed in many social networks including multilevel
- relationships signifies shared community membershis, hence in this paper
+ relationships signifies shared community memberships, hence in this paper
  we define communities as groups of individuals yielding a better understanding
  of the network connections, where individual vertices can belong to multiple
  clusters.
@@ -160,11 +359,11 @@ key "yang2012community,xie2013overlapping,lancichinetti2009detecting,airoldi2008
  among which address the problem in terms of algorithmic
 \begin_inset CommandInset citation
 LatexCommand cite
-key "newman2004fast,palla2005uncovering"
+key "newman2004fast,palla2005uncovering,zubcsek2014information"
 
 \end_inset
 
- or model-based(probabilistic) approach
+ or model-based(probabilistic) approaches
 \begin_inset CommandInset citation
 LatexCommand cite
 key "airoldi2008mixed,handcock2007model,hoff2002latent"
@@ -176,9 +375,168 @@ key "airoldi2008mixed,handcock2007model,hoff2002latent"
 \end_layout
 
 \begin_layout Standard
-We employ a model-based approach that allows us to define the network structure
- according to a set of hypotheses in line with the context under study and
- the theory underlying the social formation of friendships.
+Implications of finding overlapping communities for network research can
+ be manifold.
+ To gain better understanding of diffusion of ideas(),products
+\begin_inset CommandInset citation
+LatexCommand cite
+key "van2007new,aral2012identifying"
+
+\end_inset
+
+,medical innovation
+\begin_inset CommandInset citation
+LatexCommand cite
+key "van2001medical,coleman1966medical"
+
+\end_inset
+
+, one has to be able to acknowledge different sources of contagion.
+ Behaviors and decisions made by many individuals in observed networks tend
+ to assimilate both in node space and in time
+\begin_inset CommandInset citation
+LatexCommand cite
+key "aral2009distinguishing"
+
+\end_inset
+
+.
+ However disentangling the underlying reasons can become infeasible due
+ to endogenous network formation portrayed by latent homophily
+\begin_inset CommandInset citation
+LatexCommand cite
+key "shalizi2011homophily"
+
+\end_inset
+
+.
+ Conveniently addressing latent homophily and using a proxy estimation could
+ improve the estimation of influence versus homophily
+\begin_inset CommandInset citation
+LatexCommand cite
+key "shalizi2011homophily,shalizi2016controlling,davin2015essays"
+
+\end_inset
+
+.
+ We attend to this problem furthermore in chapter 3 and chapter 4.
+\end_layout
+
+\begin_layout Standard
+On the other hand many evidence from real world networks show signs of evolution
+ of networks in time
+\begin_inset CommandInset citation
+LatexCommand cite
+key "brueckner2007workings,jackson2002evolution,snijders2007modeling"
+
+\end_inset
+
+.
+ This means that at certain times in the network some ties are formed and
+ some are severed.
+ Brot et al(2016) argue that this happens when observing bursts in connection
+ that underlies the change in homophily
+\begin_inset CommandInset citation
+LatexCommand cite
+key "brot2016evolution"
+
+\end_inset
+
+.
+ Hence trying to explain these rather stochastic changes requires a better
+ understanding of homophily and formation of networks.
+ It is not clear to what extent, commonly known measures such as degree
+ centrality, betweenness, prestige, etc are able to discover influentials,
+ a concept that can depend on how one defines the communities at hand
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jackson2010social"
+
+\end_inset
+
+.
+ Chen et al (2017) suggest that incorporating connection specific characteristic
+s in a multi-graph network can yield much improved prediction of diffusion
+ when the seeding strategies are adjusted accordingly rather than exploiting
+ traditional centrality measures
+\begin_inset CommandInset citation
+LatexCommand cite
+key "chen2017uncovering"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Another important type of detectable communities can arise not from the
+ densely connected groups but rather dense patterns of connections.Yang et
+ al (2014) argues that patterns of connections may also be an indicator
+ of different communities when observing denser intra-cluster compared to
+ inter-cluster connections
+\begin_inset CommandInset citation
+LatexCommand cite
+key "yang2014detecting"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+When dealing with large scale data, a lot of scholars pay little to no attention
+ to the directedness of connections in social networks under study.
+ Many social and relational data structures arise from the directed connections
+ between the nodes, where the directed edge implies a connection from one
+ node to the other that is not necessarily reciprocated.
+ Examples of this behavior could be observed in networks such as twitter
+ followership
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cataldi2010emerging,kwak2010twitter"
+
+\end_inset
+
+, co-authorship and citation networks
+\begin_inset CommandInset citation
+LatexCommand cite
+key "liu2005co,kempe2003maximizing"
+
+\end_inset
+
+, and many more
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hummon1989connectivity"
+
+\end_inset
+
+.Although many treatments of network connections assume undirectedness
+\begin_inset CommandInset citation
+LatexCommand cite
+key "braun2011scalable,gopalan2013efficient,palla2005uncovering"
+
+\end_inset
+
+, we argue that a lot of important features underlying the edges could be
+ misjudged, lost, or lead to biased estimates.Direction can be interpreted
+ as the main denominator of followership, where the same cannot be reciprocated.
+ Additionally, when behavioral data is added, time and direction cannot
+ be separated from the network.
+ In other words contacting an individual via a mobile app, emailing colleagues
+ in an organizational setting, liking a post of brand page or a friend's
+ comments, following a celebrity or a friend in a microblog, cannot be easily
+ treated as a mutual relationships;But time and the nature of communication
+ dictates a specific orientation of a link from one person to another.
+ Hence we allow for directed edges that can further signal more information
+ about the clustering of the network.
+\end_layout
+
+\begin_layout Standard
+In chapter 2, we employ a model-based approach that allows us to define
+ the network structure according to a set of hypotheses in line with the
+ context under study and the theory underlying the social formation of friendshi
+ps.
  We follow the argument of assortative mixing and homophily
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -193,11 +551,12 @@ key "mcpherson2001birds,newman2002assortative,newman2003mixing"
  of the network.
  Affinity of individuals and how to measure the likeness among them is condition
 al on both context and the availability of information on the individual
- level.Aral et al(2009) employ 20 individual and network characteristics
- as a proxy for similarity between friends where the degree of closeness
- is measured by cosine distance.
+ level.
+ Aral et al(2009) employ 20 individual and network characteristics as a
+ proxy for similarity between friends where the degree of closeness is measured
+ by cosine distance.
  Using a dynamic matched sample estimation, they found further evidence
- that mobile application behavior could be partly be explained by homoophily
+ that mobile application behavior could be partly be explained by homophily
  rather than mere social influence
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -206,38 +565,8 @@ key "aral2009distinguishing"
 \end_inset
 
 .
- Another stream of studies defines individual characteristics as latent
- strcutres that need to be estimated from the network data, where potentially
- infinite dimensional individual characteristics are mapped to a lower dimension
-al Euclidean space, and the similarity is measured by the distance individual
- locations in this low dimensional space.
-\begin_inset CommandInset citation
-LatexCommand cite
-key "hoff2002latent,braun2011scalable,ansari2011modeling"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-Another important type of detectable communities can arise not from the
- densely connected groups but rather dense patterns of connections.Yang et
- al (2014) argues that patterns of connections may also be an indicator
- of different communities when observing denser intra-cluster compared to
- inter-cluster connections.
-\begin_inset CommandInset citation
-LatexCommand cite
-key "yang2014detecting"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-More recent works on detection of communities tend to account for overlapping
- strcutres that allow individual to belong to several communities
+ More recent works on detection of communities tend to account for overlapping
+ structures that allow individual to belong to several communities
 \begin_inset CommandInset citation
 LatexCommand cite
 key "airoldi2008mixed,gopalan2013efficient,yang2012community"
@@ -274,114 +603,34 @@ key "airoldi2008mixed,gopalan2013efficient"
 \end_layout
 
 \begin_layout Standard
-Many studies have emerged in the field of marketing and management that
- pinpoint the importance of communities underlying social networks in better
- understanding consumer-firm or consumer-consumer relatioships.Ansari et
- al (2011) model a multiplex network of professionals to simultaneously
- study the impact of the organizational interventions on the nature of the
- connections
+similar ideas to mixed membership models in marketing(soft clustering):
 \begin_inset CommandInset citation
 LatexCommand cite
-key "ansari2011modeling"
+key "varki2000modeling,varki2004augmented"
 
 \end_inset
 
-.
- Ma et al (2014) use communities to account for homophily when studying
- the social influence of decision purchases and timing of individuals in
- a mobile network 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "ma2014latent"
 
-\end_inset
-
-.
 \end_layout
 
 \begin_layout Standard
-Many social and relational data structures arise from the directed connections
- between the nodes, where the directed edge implies a connection from one
- node to the other.
- Examples of this behavior could be observed in networks such as twitter
- followership
+mixed membership in marketing:
 \begin_inset CommandInset citation
 LatexCommand cite
-key "cataldi2010emerging,kwak2010twitter"
+key "jacobs2016model"
 
 \end_inset
 
-, coauthorship and citation networks
-\begin_inset CommandInset citation
-LatexCommand cite
-key "liu2005co,kempe2003maximizing"
 
-\end_inset
-
-, and many more
-\begin_inset CommandInset citation
-LatexCommand cite
-key "hummon1989connectivity"
-
-\end_inset
-
-.Although many treatments of network connections assume undirectedness
-\begin_inset CommandInset citation
-LatexCommand cite
-key "braun2011scalable,gopalan2013efficient,palla2005uncovering"
-
-\end_inset
-
-, we argue that a lot of important features underlying the edges could be
- misjudged and lost.In many networks, direction can be interpreted as the
- main denominator of followership, where the same cannot be reciprocated.
- Additional when behavioral data is added, time and direction cannot be
- separated from the network.
- Hence we allow for directed edges that can further signal more information
- about the clustering of the network.
 \end_layout
 
 \begin_layout Standard
-Implications of finding overlapping communities for network research can
- be manifold.
- To gain better understanding of diffusion of ideas(),products
+Estimating MMSB , or in fact any model that estimates the latent factors
+ that drive link formation, also helps in solving the identification problem
+ of disentangling influence from homophily as suggested by 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "van2007new,aral2012identifying"
-
-\end_inset
-
-,medical innovation
-\begin_inset CommandInset citation
-LatexCommand cite
-key "van2001medical,coleman1966medical"
-
-\end_inset
-
-, one has to be able to distinguish difference sources of contagion.
- Behaviors and decisions made by many individuals in observed networks tend
- to assimilate both in node space and in time
-\begin_inset CommandInset citation
-LatexCommand cite
-key "aral2009distinguishing"
-
-\end_inset
-
-.
- However disentagling the underlying reasons can become infeasible due to
- endogenous network formation portrayed by latent homophily
-\begin_inset CommandInset citation
-LatexCommand cite
-key "shalizi2011homophily"
-
-\end_inset
-
-.
- Conveniently addressing latent homophily and using a proxy estimation could
- improve the estimation of influence versus homophily
-\begin_inset CommandInset citation
-LatexCommand cite
-key "shalizi2011homophily,shalizi2016controlling,davin2015essays"
+key "shalizi2011homophily,shalizi2016controlling"
 
 \end_inset
 
@@ -390,54 +639,589 @@ key "shalizi2011homophily,shalizi2016controlling,davin2015essays"
 \end_layout
 
 \begin_layout Standard
-On the other hand many evidence from real world show signs of evolution
- of networks in time
+In chapter 2 we propose a model of network formation that incorporates the
+ notion of overlapping communities.
+ It is widely known that individuals in a network form declustered communities,
+ where each individual can belong to several groups.
+ Although another important aspect of these separate/shared communities
+ should be encoded via their correlation, as some may induce friendships
+ while others inhibit such connections.
+ In this paper we account for such co-occurrence via introducing correlations
+ among the community memberships of individuals via logistic normal prior
+ on membership strengths.
+ We argue that accounting for such correlations both complies with the assortati
+ve mixing theory and performs better compared to the conventional mixed-membersh
+ip stochastic block model
 \begin_inset CommandInset citation
 LatexCommand cite
-key "brueckner2007workings,jackson2002evolution,snijders2007modeling"
+key "airoldi2008mixed"
 
 \end_inset
 
 .
- This means that at certain times in the network some ties are formed and
- some are severed.
- Brot et al(2016) argue that this happens when observing bursts in connection
- that underlies the change in homophily
-\begin_inset CommandInset citation
-LatexCommand cite
-key "brot2016evolution"
-
-\end_inset
-
-.
- Hence trying to explain these rather stochastic changes requires a better
- understanding of homophily and formation of networks.
- Additionally it is not clear to what extent commonly known measures such
- as degree centrality, betweenness, prestige, etc are able to discover influenti
-als, which can depend on how one defines the communities at hand
-\begin_inset CommandInset citation
-LatexCommand cite
-key "jackson2010social"
-
-\end_inset
-
-.
- Chen et al (2017) suggest that incorporating connection specific characteristic
-s in a multigraph network can yield much improved prediction of diffusion
- when the seeding strategies are adjusted accordingly rather than expliting
- traditional centrality measures
-\begin_inset CommandInset citation
-LatexCommand cite
-key "chen2017uncovering"
-
-\end_inset
-
-.
+ We furthermore use stochastic variational methods to offer both fast and
+ efficient inference.
+ 
 \end_layout
 
 \begin_layout Standard
-In this paper we propose a model based approach to detect overlapping community
- as an extended version of Mixed-Membership-Stochastic-Blockmodel(MMSB)
+In Chapter 3 we intend to gain some insights about networked behavior via
+ community structure that we developed in chapter 2.
+ Observational data on social networks suggest that individuals make decisions
+ that cluster both in network circles and in time.
+ A major hurdle to identify the causal effect of individuals on each other
+ is imposed by the latent homophily, where similar people with analogous
+ preferences may be responsible for their homogeneous behavior.
+ We introduce a new approach in latent variable models for directed networks,
+ where individuals make decisions according to both their potentially overlappin
+g preferences for network formation and activities, where these preferences
+ are unobserved to the researcher.
+ In other words we jointly model both behavior and network formation by
+ first detecting overlapping communities and and using them as potential
+ latent source of forming behavioral response.
+ Controlling for this latent structure would allow us to disentangle the
+ effects of homophily and causal influence.
+\end_layout
+
+\begin_layout Standard
+Chapter 4 builds on the findings of chapter 2 and 3 and extends these models
+ to a dynamic setting of networks, where we aim for finding evidence of
+ contagion driven homophily.
+ Current studies regarding disentanglement of influence-driven and homophily
+ driven behavior assume that these two phenomena act separately on decision
+ making of individuals.
+ We argue that preferences of individuals mapped to a latent space can indeed
+ change according to their adoption behavior.
+ A dynamic networked data, enables us to monitor the preference changes
+ of individuals when they adopt or refuse to adopt a behavior from their
+ peers.
+ While Chapter 2 gives an insight on how to model both link formation and
+ decisions made by individuals, dynamic nature of contagion, requires us
+ to have a model that allows the latent structure to develop through time.
+ Still controlling for latent proxies we can monitor the bursts of link
+ formation and severance and find evidence that adopting similar behaviors
+ among individuals depending on the intensity of their relationship can
+ lead to either more or less homophilous bondings.
+\end_layout
+
+\begin_layout Standard
+Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:summary-of-chapters"
+
+\end_inset
+
+ provides a summary of chapters.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="left" valignment="top" width="4cm">
+<column alignment="left" valignment="top" width="4cm">
+<column alignment="left" valignment="top" width="4cm">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Chapter 2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Chapter 3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Chapter 4
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Topic
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+Modeling network formation via correlated community structure
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+ Insights from networked behavior via community structure
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+Contagion driven homophily in large dynamic networks
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Goal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+overlapping community detection and insights on position
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+Insights from community level attributes to behavior
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+Monitoring changes in homophilous structure as a function of behavior
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Model
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+Logistic Normal Mixed-Membership-Stochastic-Blockmodel
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+Joint LDA and LNMMSB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+dynamic Joint LDA and LNMMSB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Inference
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+Variational Inference
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+Stochastic Variational Inference
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+Stochastic Variational Inference
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+Stochastic Variational Inference
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Data
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+Synthetic small
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+Synthetic large
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+political blogs
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+bookmarking network
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+synthetic small
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+synthetic large
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+bookmarking network
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+synthetic small
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+synthetic large
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+bookmarking network
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Implications
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+scalable inference for large directed networks
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+accounting for potential correlation between community membership of individuals
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+Allowing for dynamic setup
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+defining community level measures of positioning
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+scalable inference for large networked behavior data
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+jointly modeling behavior and network 
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+importance of community level measures in detecting behavioral differences
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+dynamic evolution of social networks jointly modeled with behavioral data
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+evidence of behavior affecting network positions
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\emph on
+using community level measures to redefine opinion leadership
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+summary of chapters
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:summary-of-chapters"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part*
+\begin_inset Newpage pagebreak
+\end_inset
+
+Chapter 1
+\end_layout
+
+\begin_layout Standard
+It is widely known that individuals in a network form declustered communities,
+ where each individual can belong to several groups.
+ Although another important aspect of these separate/shared communities
+ should be encoded via their correlation, as some may induce friendships
+ while others inhibit such connections.
+ In this paper we account for such co-occurrence via introducing correlations
+ among the community memberships of individuals via logistic normal prior.
+ We argue that accounting for such correlations both complies with the assortati
+ve mixing theory and performs better compared to the widely known mixed-membersh
+ip stochastic block model
+\begin_inset CommandInset citation
+LatexCommand cite
+key "airoldi2008mixed"
+
+\end_inset
+
+.
+ We furthermore use stochastic variational methods to offer both fast and
+ efficient inference.
+\end_layout
+
+\begin_layout Section*
+Model
+\end_layout
+
+\begin_layout Standard
+In this paper we propose a model based approach to detect overlapping communitie
+s as an extended version of mixed-membership-stochastic-blockmodel(MMSB)
 \begin_inset CommandInset citation
 LatexCommand cite
 key "airoldi2008mixed,gopalan2013efficient"
@@ -454,7 +1238,7 @@ key "erosheva2004mixed"
 
 \end_inset
 
-; a problem that mixture models tend to avoid by clusteirng data into separable
+; a problem that mixture models tend to avoid by clustering data into separable
  groups that are conditionally independent of each other given their cluster
  assignment
 \begin_inset CommandInset citation
@@ -514,9 +1298,9 @@ key "cho2016latent"
 \begin_inset Formula $K$
 \end_inset
 
- prespecified potentially overlapping communities.
+ pre-specified potentially overlapping communities.
  Among each directed pair of nodes(a potential link consisting of a sender
- and a reciever), sender 
+ and a receiver), sender 
 \begin_inset Formula $s$
 \end_inset
 
@@ -546,7 +1330,7 @@ key "cho2016latent"
 
 \begin_layout Standard
 \begin_inset Float algorithm
-placement H
+placement h
 wide false
 sideways false
 status open
@@ -637,15 +1421,15 @@ sample a link between
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-MMSB 
-\begin_inset CommandInset label
-LatexCommand label
-name "alg:MMSB-data-generating"
+MMSB data generating process
+\end_layout
 
 \end_inset
 
-data generating process
-\end_layout
+
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:MMSB-data-generating"
 
 \end_inset
 
@@ -658,7 +1442,7 @@ data generating process
 \end_layout
 
 \begin_layout Standard
-In the algorithm above the bold 
+In the algorithm above the 
 \begin_inset Formula $\boldsymbol{\theta}_{a}$
 \end_inset
 
@@ -705,7 +1489,7 @@ for each contact point from a categorical distribution that is parametrized
 \begin_inset Formula $\boldsymbol{B}$
 \end_inset
 
- could entail any asymmetric and nondiagonal elemets.
+ could entail any asymmetric and non-diagonal elements.
  Due to assortativity of many real world networks we assume here that 
 \begin_inset Formula $\boldsymbol{B}$
 \end_inset
@@ -727,10 +1511,10 @@ key "chang2011lda,li2016scalable"
 \end_inset
 
  are prevalent.
- Later in this section we discuss Variational methods as are the approach
+ Later in this section we discuss Variational method as it is the approach
  we take for our inference engine.
  Both variational methods and MCMC for this specific model have excelled
- to scale to very large networks through introducing stochastic minibatch
+ to scale to very large networks through introducing stochastic mini-batch
  sampling
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -740,11 +1524,30 @@ key "hoffman2013stochastic,gopalan2013efficient,li2016scalable"
 
 .Although widely applied all these models face some practical and technical
  limitations, that we aim to resolve only some of them in this paper.
+ 
 \end_layout
 
 \begin_layout Standard
-Upon detecting communities as explained by the data generating process explained
- in 
+One of the main limitations in most scalable formulation of community detection
+ under the assumptions of MMSB is that links are treated as undirected edges.
+ We aim to recover communities by not disregarding the direction of the
+ links;Although this might come with a cost, in the sense that we incorporate
+ more information to process that makes the inference more computationally
+ expensive, but we guarantee a scalable and efficient algorithm through
+ unique mini-batch sampling within stochastic variational inference.
+\end_layout
+
+\begin_layout Standard
+More recently, but still limitations
+\end_layout
+
+\begin_layout Standard
+#VI,collapsed Gibbs
+\end_layout
+
+\begin_layout Standard
+Upon detecting communities as explained by the data generating process in
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "alg:MMSB-data-generating"
@@ -752,19 +1555,23 @@ reference "alg:MMSB-data-generating"
 \end_inset
 
 , individuals who belong to one community and not to a very similar one
- fail to connect to corresponding individuals.
+ fail to connect to corresponding individuals due to small chance of connections
+ between clusters.
+ Although this is one of the more prevalent features of many community structure
+s, it would be sensible if we allow for possibility of these connections.
  This may happen if some sort of hierarchy or nested structure exists in
  the nature of these communities that represent roughly their preferences,tastes
 , roles, groups, etc.
- Although throuh variational inference this model exhibits conjugacy and
- simplifies the estimation, a more natural way would be to allow for correlated
- mixed memberships by introducing a Logistic-Normal prior instead of Dirichlet.
+ Although through variational inference the simpler model exhibits conjugacy
+ and simplifies the estimation, a more natural way would be to allow for
+ correlated mixed memberships by introducing a Logistic-Normal prior instead
+ of Dirichlet for membership probabilities.
  This enables us to account for the connections among individuals that share
  rather similar interests or connections among communities that tend to
  interact more often compared to the specification in MMSB.
  In the context of mixed membership models , Lafferty and Blei (2006) introduced
  correlated topic models(CTM), that captures the correlation between topic
- proportions realized in a text corpora by introducing a Logistic-Normal
+ proportions realized in a text corpora by incorporating a Logistic-Normal(LN)
  prior.
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -773,10 +1580,10 @@ key "lafferty2006correlated"
 \end_inset
 
 .
- Additionally in the case of our proposed MMSB variant, this would provide
- an advantage when moving from static networks to dynamic setting, where
- the LN distributed parameters can change according to a simple autoregressive
- rule, that was not possible under the assumption of Dirichlet distribution
+ In the case of our proposed MMSB variant, this would provide an advantage
+ when moving from static to dynamic setting, where the LN-distributed parameters
+ can change according to a simple autoregressive rule, that was not possible
+ under the assumption of Dirichlet distribution
 \begin_inset CommandInset citation
 LatexCommand cite
 key "blei2006dynamic,ho2011evolving,fu2009dynamic,xing2010state"
@@ -791,17 +1598,44 @@ key "xing2010state"
 
 \end_inset
 
-, however we take a hierarchical bayesian perspective that allows for fully
- Bayesian variational inference, and is as follows:
+, however we take a hierarchical Bayesian perspective that allows for fully
+ Bayesian variational inference, alongside preserving the direction of the
+ links.
+ The model is as follows:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float algorithm
-placement H
+placement h
 wide false
 sideways false
 status open
 
+\begin_layout Itemize
+\begin_inset Formula $\forall k\in[1,..,K]$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+draw the diagonal elements of the block matrix 
+\series bold
+
+\begin_inset Formula $B$
+\end_inset
+
+
+\series default
+ via
+\begin_inset Formula $\beta_{k,k}\sim\mathcal{B}eta(\eta_{0},\eta_{1})$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 \begin_inset Formula $\forall a\in\mathcal{N}$
 \end_inset
@@ -813,6 +1647,14 @@ status open
 \begin_layout Itemize
 draw the mean of the logit mixed membership vector through 
 \begin_inset Formula $\boldsymbol{\mu}\sim\mathcal{N}ormal(\boldsymbol{\mu}_{0},\boldsymbol{\Lambda}_{0})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+draw the precision of the logit mixed membership vector through 
+\begin_inset Formula $\boldsymbol{\Lambda}\sim\mathcal{W}ishart(\boldsymbol{\ell}_{0},\boldsymbol{L}_{0})$
 \end_inset
 
 
@@ -904,9 +1746,1290 @@ sample a link between
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
+Hierarchical-Logistic-Normal-MMSB
+\end_layout
+
+\end_inset
+
+
 \begin_inset CommandInset label
 LatexCommand label
 name "alg:Hierarchical-Logistic-Normal-MMS"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Inference and Estimation
+\end_layout
+
+\begin_layout Standard
+In this section we introduce the variational inference method.
+ Other approaches fitting our Bayesian framework that could be used to handle
+ the intractable posteriors,include Monte Carlo method
+\begin_inset CommandInset citation
+LatexCommand cite
+key "neal1993probabilistic"
+
+\end_inset
+
+, and its variations including the Gibbs sampling, and Metropolis-Hastings.
+ Although these algorithms provide theoretical guarantees on convergence,
+ they may fail to converge in large parameter spaces as they need to process
+ the full sample, and hence more recent methods including collapsed Gibbs
+ sampler
+\begin_inset CommandInset citation
+LatexCommand cite
+key "liu1994collapsed"
+
+\end_inset
+
+, or Hamiltonian Monte Carlo
+\begin_inset CommandInset citation
+LatexCommand cite
+key "brooks2011handbook"
+
+\end_inset
+
+ were developed to address this issue.
+ For more examples of scalable Monte Carlo methods see
+\begin_inset CommandInset citation
+LatexCommand cite
+key "girolami2011riemann,patterson2013stochastic,welling2011bayesian"
+
+\end_inset
+
+, and for an example of the use of Stochastic Riemannian Langevin Dynamics
+ Monte Carlo applied to the problem of community detection see
+\begin_inset CommandInset citation
+LatexCommand cite
+key "li2016scalable"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Instead we use the variational inference, widely applied in the realm of
+ probabilistic inference and parameter learning, which transforms the problem
+ of inference to an optimization one, by trying to minimize the Kullback-Leibler
+ divergence between the true posterior distribution 
+\begin_inset Formula $p$
+\end_inset
+
+ and a simplified proposed variational distribution 
+\begin_inset Formula $q$
+\end_inset
+
+.
+ Hence instead of making exact inference through approximation, variational
+ inference tend to offer deterministic approximation to the the model posterior
+ distribution.
+ In its simplest case, the proposed model follows a mean field assumption,
+ where it tries to decouple parameters in a way that we can still have tractable
+ results, close enough to the true posterior.
+ In a fully Bayesian framework, where we set all the latent variable to
+ be 
+\begin_inset Formula $\boldsymbol{Z}$
+\end_inset
+
+ and all the observed variables to be 
+\begin_inset Formula $\boldsymbol{X}$
+\end_inset
+
+, we specify a joint probability model 
+\begin_inset Formula $P(\boldsymbol{X},\boldsymbol{Z})$
+\end_inset
+
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+We have dropped the model parameters 
+\begin_inset Formula $\theta$
+\end_inset
+
+, only to avoid cluttered notation.
+\end_layout
+
+\end_inset
+
+, and our goal is to find an approximation to the true posterior 
+\begin_inset Formula $P(\boldsymbol{Z}|\boldsymbol{X})$
+\end_inset
+
+ and also our model evidence 
+\begin_inset Formula $P(\boldsymbol{X}).$
+\end_inset
+
+The log likelihood of the model follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+P(\boldsymbol{X}) & =\int_{\boldsymbol{Z}}P(\boldsymbol{X},\boldsymbol{Z})d\boldsymbol{Z}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We further use the log transformation:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+ln\,P(\boldsymbol{X}) & =ln\,\int_{\boldsymbol{Z}}P(\boldsymbol{X},\boldsymbol{Z})d\boldsymbol{Z}\nonumber \\
+ & \overbrace{=}^{\times\frac{q(\boldsymbol{Z})}{q(\boldsymbol{Z})}}ln\,\int_{\boldsymbol{Z}}P(\boldsymbol{X},\boldsymbol{Z})\times\frac{q(\boldsymbol{Z})}{q(\boldsymbol{Z})}d\boldsymbol{Z}\nonumber \\
+ & =ln\,\mathbb{E}_{q}\Bigg[\frac{P(\boldsymbol{X},\boldsymbol{Z})}{q(\boldsymbol{Z})}\Bigg]\label{eq:logpx}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Since the logarithm is a concave function, Jensen equality could be applied
+ to get
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+ln\,P(\boldsymbol{X}) & =ln\,\mathbb{E}_{q}\Bigg[\frac{P(\boldsymbol{X},\boldsymbol{Z})}{q(\boldsymbol{Z})}\Bigg]\nonumber \\
+ & \geq\mathbb{E}_{q}\Big[ln\,P(\boldsymbol{X},\boldsymbol{Z})\Big]-\mathbb{E}_{q}\Big[ln\,q(\boldsymbol{Z})\Big]=\mathcal{L}(q)\label{eq:elbo}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:elbo"
+
+\end_inset
+
+ is known as the evidence lower bound(ELBO).
+ Note that we can write the equation 1
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:logpx"
+
+\end_inset
+
+ in the following format following the fact that 
+\begin_inset Formula $P(\boldsymbol{X},\boldsymbol{Z})=P(\boldsymbol{Z}|\boldsymbol{X})P(\boldsymbol{X})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+ln\,P(\boldsymbol{X}) & =ln\,\mathbb{E}_{q}\Bigg[\frac{P(\boldsymbol{X},\boldsymbol{Z})}{q(\boldsymbol{Z})}\Bigg]\nonumber \\
+ & =\mathbb{E}_{q}\Big[ln\,P(\boldsymbol{X},\boldsymbol{Z})\Big]-\mathbb{E}_{q}\Big[ln\,q(\boldsymbol{Z})\Big]+\mathbb{E}_{q}\Big[ln\,q(\boldsymbol{Z})\Big]-\mathbb{E}_{q}\Big[ln\,P(\boldsymbol{Z}|\boldsymbol{X})\Big]\label{eq:margdecom}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that 
+\begin_inset Formula $\mathbb{E}_{q}\Big[ln\,q(\boldsymbol{Z})\Big]-\mathbb{E}_{q}\Big[ln\,P(\boldsymbol{Z}|\boldsymbol{X})\Big]$
+\end_inset
+
+ in equation
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:margdecom"
+
+\end_inset
+
+ is equivalent to the Kullback-Leibler divergence of the proposed variational
+ distribution 
+\begin_inset Formula $q(\boldsymbol{Z})$
+\end_inset
+
+ and the true posterior 
+\begin_inset Formula $P(\boldsymbol{Z}|\boldsymbol{X})$
+\end_inset
+
+.
+ Hence we can rewrite the log marginal as the following:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+ln\,P(\boldsymbol{X}) & =\mathcal{L}(q)+KL\Big(q(\boldsymbol{Z})||P(\boldsymbol{Z}|\boldsymbol{X})\Big)\label{eq:margdecomshort}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To simplify the Kullback-Leibler divergence we can rewrite 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+KL\Big(q(\boldsymbol{Z})||P(\boldsymbol{Z}|\boldsymbol{X})\Big) & =-\Bigg(\mathbb{E}_{q}\Big[ln\,P(\boldsymbol{X},\boldsymbol{Z})\Big]-\mathbb{E}_{q}\Big[ln\,q(\boldsymbol{Z})\Big]\Bigg)+ln\,P(\boldsymbol{X})\nonumber \\
+ & =-\mathcal{L}(q)+ln\,P(\boldsymbol{X})\label{eq:kldecom}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+According to equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:kldecom"
+
+\end_inset
+
+, minimization the KL-divergence between the variational distribution and
+ the true posterior translates to maximization the ELBO as the marginal
+ distribution 
+\begin_inset Formula $P(\boldsymbol{X}),$
+\end_inset
+
+does not depend on the variational distribution 
+\begin_inset Formula $q$
+\end_inset
+
+.
+ We generally in practice tackle the simpler problem of maximizing the lower
+ bound instead of minimizing the KL divergence;however as can be seen in
+ equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:kldecom"
+
+\end_inset
+
+ this exactly corresponds to our goal of minimizing the distance between
+ the true intractable posterior and the simpler variational distribution
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+For other bounds see ?
+\end_layout
+
+\end_inset
+
+.
+ Hence the problem of finding the posterior has been reduced to one that
+ tightens the lower bound.
+ The closeness depends on our approximating distribution and how well it
+ can represent the true posterior and yet is tractable.
+ There is much discussion about the performance of the approximation through
+ variational inference and exact methods(?,?,?).
+ However in practice variational methods have shown to perform at least
+ as good as other methods, and yet they can easily be adjusted to scale
+ to very large datasets
+\begin_inset CommandInset citation
+LatexCommand cite
+key "salimans2015markov"
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "blei2017variational"
+
+\end_inset
+
+(??).
+\end_layout
+
+\begin_layout Standard
+On asymptotic properties of the variational inference???
+\end_layout
+
+\begin_layout Standard
+In the following section we derive the variational updates for our current
+ model of Logistic-Normal MMSB described above, and later we adjust the
+ algorithm to scale to larger data sets by using stochastic search.
+\end_layout
+
+\begin_layout Section*
+Variational Algorithm for Directed LNMMSB
+\end_layout
+
+\begin_layout Standard
+In this section we develop the variational algorithm for the case of directed
+ network Logistic-Normal MMSB.
+ For this we start by writing down the ELBO which entails the variational
+ expectation of the joint and approximating distributions.
+ The log joint distribution of data, latent variables and model parameters
+ as suggested by Algorithm
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Hierarchical-Logistic-Normal-MMS"
+
+\end_inset
+
+ follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+ln\,p(joint) & =ln\,p(\mu|m_{0},M_{0})+ln\,p(\Lambda|\ell_{0},L_{0})+\sum_{a}ln\,p(\theta_{a}|\mu,\Lambda)+\sum_{a}\sum_{b}ln\,p(z_{a\rightarrow b}|\theta_{a})\nonumber \\
+ & +\sum_{a}\sum_{b}ln\,p(z_{a\leftarrow b}|\theta_{b})+\sum_{k}ln\,p(\beta_{kk}|\eta_{0},\eta_{1})+\sum_{a}\sum_{b}ln\,p(y_{ab}|z_{a\rightarrow b},z_{a\leftarrow b},\beta)\label{eq:logjoint}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Furthermore we assume that our approximating distributions follows a mean
+ field assumption
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wainwright2008graphical,jordan1999introduction"
+
+\end_inset
+
+, where the probability distribution is factorized.
+ The variational parameters are distributed as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+\mu & \sim & q(\mu|m,M)\sim\mathcal{N}ormal(\mu|m,M)\nonumber \\
+\Lambda & \sim & q(\Lambda|\ell,L)\sim\mathcal{W}ishart(\Lambda|\ell,L)\nonumber \\
+\theta_{a} & \sim & q(\theta_{a}|\mu_{a},\Lambda_{a})\sim\mathcal{N}ormal(\theta_{a}|\mu_{a},\Lambda_{a})\nonumber \\
+\beta_{kk} & \sim & q(\beta_{kk}|b_{k})\sim\mathcal{B}eta(b_{k0},b_{k1})\nonumber \\
+z_{a\rightarrow b} & \sim & q(z_{a\rightarrow b}|\phi_{a\rightarrow b})\sim Categorical(z_{a\rightarrow b}|\phi_{a\rightarrow b})\nonumber \\
+z_{a\leftarrow b} & \sim & q(z_{a\leftarrow b}|\phi_{a\leftarrow b})\sim Categorical(z_{a\leftarrow b}|\phi_{a\leftarrow b})\label{eq:indivvardists}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Following shows the logarithmic transformation of the factorized variational
+ distribution:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+ln\,q(.) & =ln\,q(\mu|m,M)+ln\,q(\Lambda|\ell,L)+\sum_{a}ln\,q(\theta_{a}|\mu_{a},\Lambda_{a})+\sum_{a}\sum_{b}ln\,q(z_{a\rightarrow b}|\phi_{a\rightarrow b})\nonumber \\
+ & +\sum_{a}\sum_{b}ln\,q(z_{a\leftarrow b}|\phi_{a\leftarrow b})+\sum_{k}ln\,q(\beta_{kk}|b_{k0},b_{k1})\label{eq:logvardist}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Taking the variational expectation for the log joint probability distribution
+ of the model leads to the negative cross entropy for the corresponding
+ distribution and the variational expectation of the factorized distribution
+ leads to the corresponding negative entropies.
+ To see how cross entropies and entropies are derived refer to Appendix(?).
+ After taking the relevant expectation for each probability distribution
+ the ELBO becomes:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+\mathcal{L} & = & \mathbb{E}_{q}[ln\,p(\mu|m_{0},M_{0})]+\mathbb{E}_{q}[ln\,p(\Lambda|\ell_{0},L_{0})]+\sum_{a}\mathbb{E}_{q}[ln\,p(\theta_{a}|\mu,\Lambda)]+\nonumber \\
+ &  & \sum_{a}\sum_{b}\mathbb{E}_{q}[ln\,p(z_{a\rightarrow b}|\theta_{a})]+\sum_{a}\sum_{b}\mathbb{E}_{q}[ln\,p(z_{a\leftarrow b}|\theta_{b})]+\nonumber \\
+ &  & \sum_{k}\mathbb{E}_{q}[ln\,p(\beta_{kk}|\eta)]+\sum_{a}\sum_{b}\mathbb{E}_{q}[ln\,p(y_{ab}|z_{a\rightarrow b},z_{a\leftarrow b},\beta)]\nonumber \\
+ &  & +H_{q}[\mu]+H_{q}[\Lambda]+H_{q}[\theta]+H_{q}[\beta]+H_{q}[z_{\rightarrow}]+H_{q}[z_{\leftarrow}]\label{eq:fullelbo}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the extension of above full ELBO in Appendix(?), we differentiate between
+ the 
+\begin_inset Formula $\phi$
+\end_inset
+
+'s for links versus for non-links.
+ This can come handy when we use mini-batch sampling and extend the algorithm
+ to be stochastic.
+\end_layout
+
+\begin_layout Standard
+Explanation of the parameter names...
+\begin_inset Formula $N$
+\end_inset
+
+ corresponds to the number of nodes and 
+\begin_inset Formula $K$
+\end_inset
+
+ to the number of communities.
+\end_layout
+
+\begin_layout Standard
+Note that in line 2 of equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:fullelbo"
+
+\end_inset
+
+, we can use the Jensen equality to bound the expectation of log sum of
+ exponentials 
+\begin_inset Formula $\mathbb{E}_{q}\Bigg[ln\,\sum_{l}exp(\theta_{a,l})\Bigg]$
+\end_inset
+
+, since the concavity of the logarithm allows us to write 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\mathbb{E}_{q}\Bigg[ln\,\sum_{l}exp(\theta_{a,l})\Bigg] & \leq ln\,\Bigg(\sum_{l}\mathbb{E}_{q}\big[exp(\theta_{a,l})\big]\Bigg)\nonumber \\
+ & =ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\label{eq:secondjensen}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For further details about the variational expectation of this terms refer
+ to Appendix(??).This is one of the caveats of using the Logistic-Normal
+ prior instead of the Dirichlet distribution, introducing non-conjugacy
+ that hinders us from deriving fully closed-form solution for the variational
+ parameters involved.
+\end_layout
+
+\begin_layout Standard
+To derive each variational parameter, we maximize the ELBO with respect
+ to that parameter.
+ For the full derivation of each parameter refer to the Appendix(?).
+ Variational equations boil down to updates for global and local parameters.
+ Global variational parameters are model specific(
+\begin_inset Formula $m,M,\ell,L,b$
+\end_inset
+
+), whereas local parameters are individual and observation specific(
+\begin_inset Formula $\phi_{a\rightarrow b},\phi_{a\leftarrow b},\mu_{a},\Lambda_{a}$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Subsection*
+
+\series bold
+Global Parameters
+\end_layout
+
+\begin_layout Standard
+To derive the variational mean and precision of the mean membership strength
+ we optimize the ELBO with respect to 
+\begin_inset Formula $m$
+\end_inset
+
+ and 
+\begin_inset Formula $M$
+\end_inset
+
+ to get 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+m & =(M_{0}+N\ell L)^{-1}(M_{0}m_{0}+\ell L\sum_{a}\mu_{a})\nonumber \\
+M & =M_{0}+N\ell L\label{eq:m&M}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Additionally optimizing the degrees of freedom and scale matrix of the Wishart
+ distributed precision simultaneously, we have:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+L= & \Bigg((L_{0}^{-1}+\sum_{a}\Lambda_{a}^{-1}+\sum_{a}(\mu_{a}-m)(\mu_{a}-m)^{T}+NM^{-1})\Bigg)^{-1}\nonumber \\
+\ell= & \ell_{0}+N\label{eq:l&L}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Simultaneously optimizing the ELBO with respect to 
+\begin_inset Formula $b_{k0}$
+\end_inset
+
+ and 
+\begin_inset Formula $b_{k1}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+b_{k0} & =\eta_{0}+\sum_{a,b\in links}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\nonumber \\
+b_{k1} & =\eta_{1}+\sum_{a,b\notin links}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\label{eq:b0b1}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+
+\series bold
+Local Parameters
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\phi$
+\end_inset
+
+ parameters correspond to the membership strength in the variational specificati
+on, and as in the generative process within each community they have to
+ add to unity(i,e
+\begin_inset Formula $\sum_{l}\phi_{a\rightarrow b,l}$
+\end_inset
+
+).
+ We can only maximize the ELBO with respect to these parameters up to a
+ scale.
+ Hence after finding the non-normalized 
+\begin_inset Formula $\phi$
+\end_inset
+
+'s we make a normalizing transformation to make sure that they sum to one.
+\end_layout
+
+\begin_layout Standard
+For the link specific updates:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\phi_{a\rightarrow b,k} & \propto exp\Bigg\{\mu_{a,k}+\phi_{a\leftarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)\Bigg\}\label{eq:linksend}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\phi_{a\leftarrow b,k} & \propto exp\Bigg\{\mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)\Bigg\}\label{eq:linkrecv}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Similarly for the non-links:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\phi_{a\rightarrow b,k} & \propto exp\Bigg\{\mu_{a,k}+\phi_{a\leftarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)\Bigg\}\label{eq:nlinksend}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\phi_{a\leftarrow b,k} & \propto exp\Bigg\{\mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)\Bigg\}\label{eq:nlinkrecv}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There is no closed form solution for either 
+\begin_inset Formula $\mu_{a}$
+\end_inset
+
+ or 
+\begin_inset Formula $\Lambda_{a}$
+\end_inset
+
+ due to the choice of the non-conjugate prior.
+ Hence we derive the gradients of the ELBO with respect to both parameters
+ and use Adagrad
+\begin_inset CommandInset citation
+LatexCommand cite
+key "duchi2011adaptive"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula $\nabla_{\mu_{a}}\mathcal{L}_{\mu_{a}}=$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{align}
+-\ell L(\mu_{a}-m)+\sum_{b\in sink(a)}\phi_{a\rightarrow b}+\sum_{b\notin sink(a)}\phi_{a\rightarrow b}\nonumber \\
++\sum_{b\in source(a)}\phi_{b\leftarrow a}+\sum_{b\notin source(a)}\phi_{b\leftarrow a}-\sum_{b}\underbar{sfx}(a)\label{eq:mugrad}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\underbar{sfx}(a)$
+\end_inset
+
+ refers to a vector function of dimension 
+\begin_inset Formula $K$
+\end_inset
+
+, and each element represents the soft-max transformation of 
+\begin_inset Formula $(\mu_{a}+\tfrac{1}{2}\Lambda_{a}^{-1})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Instead of optimizing with respect to the precision we maximize the ELBO
+ with respect to the diagonal covariance as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\nabla_{\Lambda_{a}^{-1}}\mathcal{L}_{\Lambda_{a}^{-1}}=$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{align}
+-\tfrac{\ell}{2}diag(L)+\tfrac{1}{2}(\Lambda_{a})-\tfrac{1}{2}\sum_{b}(\underbar{sfx}(a))\label{eq:Lambdagrad}\\
+\nonumber 
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For further details on the gradients of the ELBO with respect to 
+\begin_inset Formula $\mu_{a}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Lambda_{a}$
+\end_inset
+
+ see Appendix(?).
+\end_layout
+
+\begin_layout Standard
+The variational procedure is summarized in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Variational-Algorithm"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Itemize
+Until ELBO improves
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Initialize the variational parameters
+\end_layout
+
+\begin_layout Itemize
+update local parameters
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\forall(a,b)\in\mathcal{E}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+update 
+\begin_inset Formula $\phi_{a\rightarrow b,k}$
+\end_inset
+
+ and 
+\begin_inset Formula $\phi_{a\leftarrow b,k}$
+\end_inset
+
+ according to 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:linksend"
+
+\end_inset
+
+,and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:linkrecv"
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $\forall(a,b)\notin\mathcal{E}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+update 
+\begin_inset Formula $\phi_{a\rightarrow b,k}$
+\end_inset
+
+ and 
+\begin_inset Formula $\phi_{a\leftarrow b,k}$
+\end_inset
+
+ according to 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:nlinksend"
+
+\end_inset
+
+,and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:nlinkrecv"
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $\forall a\in\mathcal{N}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+update 
+\begin_inset Formula $\mu_{a}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Lambda_{a}$
+\end_inset
+
+ using the gradients 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:mugrad"
+
+\end_inset
+
+, and
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Lambdagrad"
+
+\end_inset
+
+ via Adagrad
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+update global parameters
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+update the global parameters 
+\begin_inset Formula $m,M,\ell,L,b_{0},b_{1}$
+\end_inset
+
+ according to 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:m&M"
+
+\end_inset
+
+,
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:l&L"
+
+\end_inset
+
+,
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:b0b1"
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+end
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Variational Algorithm
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Variational-Algorithm"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Stochastic Variational Algorithm
+\end_layout
+
+\begin_layout Standard
+Variational inference offers a fast approximation of the posterior distribution
+ by optimizing the ELBO, however this might need the screening of the whole
+ individual(link) level observations both for updating the variational parameter
+s and also evaluating the ELBO.
+ A more recent method in variational inference offers a stochastic search
+ in the parameter space suggested by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hoffman2013stochastic"
+
+\end_inset
+
+.
+ Stochastic Variational Inference(SVI) instead of the full sample, samples
+ only a small mini-batch from the data and reweighs the parameter updates
+ according to a decay rate that satisfies the conditions of stochastic search
+ by Robbins and Monro
+\begin_inset CommandInset citation
+LatexCommand cite
+key "robbins1951stochastic"
+
+\end_inset
+
+.
+ According to SVI, our algorithm only needs to iterate between sub-sampling
+ the data to acquire a noisy gradient of the objective function and only
+ update according to the sub-sampled mini-batch.
+ Under the updating steps conditions the algorithm can provably converge
+ to the optimum
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hoffman2013stochastic"
+
+\end_inset
+
+.
+ For further examples of this approach in topic modeling refer to
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cho2016latent,gopalan2013efficient,hoffman2013stochastic"
+
+\end_inset
+
+.
+ Related to our work, Gopalan et al (2013) offers several sub-sampling schemes,
+ including the link-only sampling which provides both efficient and reasonably
+ appropriate simplification for undirected networks
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gopalan2013efficient"
+
+\end_inset
+
+.
+ However for the case of directed network the assumption of link-only sampling
+ although may offer more convenience, can be too simplistic and result in
+ biased estimates.
+ In the following section we introduce our sampling scheme.
+\end_layout
+
+\begin_layout Subsection*
+Mini-batch Sampling
+\end_layout
+
+\begin_layout Standard
+In our model, we sample our network using only nodes, and since large networks
+ exhibit a very sparse patterns of connections, each time we sample few
+ nodes with all their links and equal proportion(or a small multiple) of
+ their randomly selected non-links.
+ After rounds of iteration this assumption both takes into account the informati
+on of all links, and actual non-links.
+ Moreover the random selection of the non-links allows different non-links
+ to be visited.
+ We argue that averaging method of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gopalan2013efficient,li2016scalable"
+
+\end_inset
+
+ for the non-link 
+\begin_inset Formula $\phi$
+\end_inset
+
+'s can introduce biases regarding our estimates, as with directed networks,
+ the amount of information in the direction of links and non-links cannot
+ easily be ignored.
+ 
+\end_layout
+
+\begin_layout Standard
+For this purpose we use informative stratified random node sampling, where
+ we define two types of sets for each node:informative, and non-informative
+ sets.
+ Informative set consists of all the links that involve a specific node,
+ and non-links of that node that at most 
+\begin_inset Formula $h$
+\end_inset
+
+ hops away.Non-informative set on the other hand consists of 
+\begin_inset Formula $S$
+\end_inset
+
+ sets that that partitions the rest of the non-links that involve that node.
+ For the sake of mini-batch sampling, we first sample a node at random,
+ and with a high chance select the informative set of that node, and with
+ a very low probability we choose one of its 
+\begin_inset Formula $S$
+\end_inset
+
+ non-informative non-link sets.
+ Regarding each update we use this information to reweigh the computation
+ of each expectation in the updates.
+ For example to compute the variational expectation of the link probabilities,
+ we have to reweigh that with 
+\begin_inset Formula $p_{high}\times\frac{1}{2N}$
+\end_inset
+
+ if it comes from a link set or 
+\begin_inset Formula $(1-p_{high})\times\frac{1}{2NS}$
+\end_inset
+
+ if it comes from the non-link set.
+\end_layout
+
+\begin_layout Standard
+At each iteration we sample a small number of nodes at random, include all
+ their links and a equal number of randomly selected non-links of those
+ nodes, and accordingly we reweigh our previous parameter updates based
+ on the mini-batch sizes.
+\end_layout
+
+\begin_layout Section*
+Parameter Initialization
+\end_layout
+
+\begin_layout Section*
+Data
+\end_layout
+
+\begin_layout Standard
+We start our algorithm by using the variational inference on a small synthetic
+ network, and then we apply the stochastic version of the algorithm to this
+ data.
+ Due to the inability of traditional variational inference to comply with
+ large networks, we apply our stochastic variational inference to a very
+ large synthetic network.
+ To extend our findings in real network datasets, we use a relatively large
+ network of political blog citations, and a very large bookmarking blog.
+\end_layout
+
+\begin_layout Subsection*
+
+\series bold
+Training set and holdout set
+\end_layout
+
+\begin_layout Standard
+At each configuration of datasets, we divide our data to training and validation
+ sets, where in the training set, we employ the learning and see the performance
+ in the validation set, and also use the validation to learn the model parameter
+s.
+ Except in the traditional variational inference with the synthetic networks,
+ where we use normalized mutual information(NMI) to assess the performance
+ between our estimates and the ground truth values.
+ Our holdout set consists of 2.5% of links and the equal number of non-links,
+ and the rest would be considered our training data.
+\end_layout
+
+\begin_layout Subsection*
+Synthetic Data
+\end_layout
+
+\begin_layout Subsubsection*
+small network
+\end_layout
+
+\begin_layout Standard
+We construct a small synthetic network, consisting of 250 individuals in
+ 8 relatively dense communities portrayed in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:small-synthetic-network"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/arashyazdiha/Dropbox/Arash/EUR/Workspace/CLSM/Julia Implementation/ProjectLN/Docs/net250.png
+	scale 30
+	rotateOrigin center
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+small synthetic network visualization 
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:small-synthetic-network"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+large network
+\end_layout
+
+\begin_layout Subsection*
+Real World Data
+\end_layout
+
+\begin_layout Subsubsection*
+political blog citation
+\end_layout
+
+\begin_layout Subsubsection*
+bookmarking network
+\end_layout
+
+\begin_layout Section*
+Results
+\end_layout
+
+\begin_layout Subsection*
+synthetic
+\end_layout
+
+\begin_layout Subsubsection*
+Small network
+\end_layout
+
+\begin_layout Subsubsection*
+Performance Checking
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:ELBO-of-small"
+
+\end_inset
+
+ show the improvement of the evidence lower bound as we maximize it, which
+ translates to minimizing the KL-divergence of the two distribution.
+ As we can see the model stays steady and flat after 100 rounds of iterations,
+ which means that the engine has already converged.
+ In the case where we can evaluate the ELBO in a small network, checking
+ the behavior of the lower bound is the first step towards the performance
+ check of the model.
+ This might still be a steady state where convergence has arrived at a non-escap
+able settings in the parameter space.
+ The monotonic increase in the ELBO signifies the correct direction of the
+ steps taken in the inference.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/arashyazdiha/Dropbox/Arash/EUR/Workspace/CLSM/Julia Implementation/ProjectLN/Docs/ELBO0png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+ELBO of small synthetic network
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:ELBO-of-small"
 
 \end_inset
 
@@ -928,19 +3051,355 @@ name "alg:Hierarchical-Logistic-Normal-MMS"
 \end_layout
 
 \begin_layout Standard
-VI,collGibbs
+We estimate the membership probabilities using the variational distribution
+ and compare it with the ground truth values.
+ Although the initialization algorithm starts by detecting 11 communities,
+ we further investigate those clusters after estimation, which yields 3
+ empty clusters.
+ For better visual comparison, we excluded those empty communities and plotted
+ the membership probabilities of each individual in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:thetaestimates-from"
+
+\end_inset
+
+.
+ The plot visually provides a reasonable closeness of our estimates and
+ the ground truth for a small network.
+ However for further assessments we need to quantify this performance.
+ Next section introduces the Normalized Mutual Information, that is commonly
+ used in evaluating the performance of overlapping community detection algorithm
+s provided the ground truth.
 \end_layout
 
 \begin_layout Standard
-More recently, but still limitations
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+or 
+\begin_inset Graphics
+	filename /home/arashyazdiha/Dropbox/Arash/EUR/Workspace/CLSM/Julia Implementation/ProjectLN/Docs/thetaest0.png
+	scale 45
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $\theta$
+\end_inset
+
+ estimates from VI(top), and the true 
+\begin_inset Formula $\theta$
+\end_inset
+
+'s(bottom)
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:thetaestimates-from"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Normalized Mutual Information(NMI)
 \end_layout
 
 \begin_layout Standard
-Several practical limitations arise with this model.
+For the data with ground truth we can also use normalized mutual information(NMI
+).
+ NMI has been used vastly in assessing the performance of algorithms involving
+ overlapping clustering
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mcdaid2011normalized,lancichinetti2009detecting"
+
+\end_inset
+
+.The table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Normalized-Mutual-Information"
+
+\end_inset
+
+ shows the NMI values for different set of comparisons.
+ As we can see the in the last row, our estimated clusters shows prominent
+ improvement from the well initialized algorithm.
 \end_layout
 
 \begin_layout Standard
-Categorical/vs multinomial
+\begin_inset Float table
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+case
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+NMI
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\shape italic
+truth 
+\shape default
+vs.
+ 
+\shape italic
+initialized
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.438348
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+estimated vs.
+ 
+\shape italic
+initialized
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.361077
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+estimated vs.
+ 
+\shape italic
+truth
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.804357
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Normalized Mutual Information for small synthetic network
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Normalized-Mutual-Information"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Large network.
+\end_layout
+
+\begin_layout Subsubsection*
+Performance check
+\end_layout
+
+\begin_layout Standard
+Perplexity of a model 
+\begin_inset Formula $q$
+\end_inset
+
+, given a stochastic process 
+\begin_inset Formula $p$
+\end_inset
+
+ (here a joint generative model that can produce infinite streams of data)
+ is defined as: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $perplexity(p,q)\triangleq2^{H(p,q)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where the cross entropy 
+\begin_inset Formula 
+\begin{align*}
+H(p,q) & \triangleq lim_{N\rightarrow\infty}-\tfrac{1}{N}\sum_{y_{1:N}}p(y_{1:N})log\,q(y_{1:N})\\
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and perplexity the lower the better.
+ But we use the empirical distribution for p.
+ 
+\begin_inset Formula $p_{emp}(y_{1:N})=\delta_{y_{1:N}^{*}}(y_{1:N}),$
+\end_inset
+
+where 
+\begin_inset Formula $y^{*}$
+\end_inset
+
+ is a single long test sequence.
+ Then 
+\begin_inset Formula $H(p_{emp},q)=-\tfrac{1}{N}log\,q(y_{1:N}^{*})$
+\end_inset
+
+, so the perplexity becomes:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+perplexity(p_{emp},q) & = & q(y_{1:N}^{*})^{1/N}=^{N}\sqrt{\prod_{i=1}^{N}\dfrac{1}{q(y_{i}^{*}|y_{1:i-1}^{*})}}\\
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which is the geometric mean of the inverse of the predictive probability.
+\end_layout
+
+\begin_layout Standard
+We could also think of it as exponential of the negative average log likelihood
+ of the data.
+ average perplexity on a test set is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+perp_{avg}(Test|params) & = & exp\,\Bigg(-\dfrac{\sum_{(a,b)\in Test}log\,(\tfrac{1}{T})\sum_{t=1}^{T}p(y_{ab}|params)}{|Test|}\Bigg)\\
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can set for example a 1% of the links and the non-links as the test set.
+\end_layout
+
+\begin_layout Standard
+Real data
+\end_layout
+
+\begin_layout Standard
+political blog citation 
+\end_layout
+
+\begin_layout Standard
+bookmarkig network
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -955,12 +3414,14 @@ options "plain"
 \end_layout
 
 \begin_layout Standard
-\start_of_appendix
-\noindent
+\begin_inset Newpage pagebreak
+\end_inset
+
 
 \end_layout
 
 \begin_layout Part*
+\start_of_appendix
 \noindent
 Appendix
 \end_layout

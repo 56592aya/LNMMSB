@@ -86,6 +86,10 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB)
 	while mbcount < model.mbsize
 		lcount = 0
 		a = 1+floor(Int64,model.N*rand())
+		while a in mb.mballnodes
+			a = 1+floor(Int64,model.N*rand())
+		end
+
 		push!(mb.mballnodes, a)
 		Bsink=sinks(model.network, a, model.N)#length is fadj
 		Bsrc=sources(model.network, a, model.N)#length is badj

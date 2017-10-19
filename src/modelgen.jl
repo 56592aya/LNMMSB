@@ -3,7 +3,7 @@ using JLD:@save,@load
 using Plots
 using ArgParse
 srand(4321)
-K=inputtomodelgen[2]
+K=Int64(inputtomodelgen[2])
 m0            =zeros(Float64,K)
 M0            =10.0*eye(Float64,K) #ones M0 matrix
 l0            =(K+2.0)*1.0 #init the df l0

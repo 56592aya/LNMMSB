@@ -1,3 +1,5 @@
+using Plots
+using GraphPlot
 ##initialization for the check is very important, havent yet figured it out.
 # function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=1000, ntol::Float64=1.0/(model.K^2), viter::Int64=10, vtol::Float64=1.0/(model.K^2), elboevery::Int64=10, mb::MiniBatch,lr::Float64)
 	####TESTING ELBO INCREASE:#########
@@ -11,7 +13,7 @@
 	##############################
 	##############################
 	preparedata(model)
-	iter=2500
+	iter=1000
 	# mu_curr=ones(model.N)
 	# Lambda_curr=ones(model.N)
 	# lr_mu = zeros(Float64, model.N)
@@ -41,7 +43,7 @@
 	else
 		Ltemp = zeros(Float64, model.K, model.K)
 	  	for i in 1:model.N
-	    	Ltemp .+= rand(Wishart(model.K,0.001*diagm(ones(Float64, model.K))))
+	    	Ltemp .+= rand(Wishart(model.K+1,0.001*diagm(ones(Float64, model.K))))
 	  	end
   		Ltemp ./= model.N
 		model.L=1.0.*(Ltemp)./model.l
@@ -54,35 +56,35 @@
 	updatel!(model)
 	ntol=0.05
 	niter=1000
-	lr_μ=ones(Float64, model.mbsize)
+	# lr_M = 1.0
+	# lr_m = 1.0
+	# lr_L = 1.0
+	# lr_b = 1.0
+	# lr_μ=ones(Float64, model.N)
+	# lr_Λ=ones(Float64, model.N)
+	# count_μ = zeros(Int64, model.N)
+	# count_Λ = zeros(Int64, model.N)
 
 	for i in 1:iter
+
 		#Minibatch sampling/new sample
 		##the following deepcopy is very important
 		if isfullsample && i==1
 			#for full sample only once
 			mb=deepcopy(mb_zeroer)
 			mbsampling!(mb,model, isfullsample)
-			# for l in mb.mblinks
-			# 	l.ϕin[:] = (1.0/model.K)*ones(Float64, model.K)
-			# 	l.ϕout[:] = (1.0/model.K)*ones(Float64, model.K)
-			# end
-			# for nl in mb.mbnonlinks
-			# 	nl.ϕin[:] = (1.0/model.K)*ones(Float64, model.K)
-			# 	nl.ϕout[:] = (1.0/model.K)*ones(Float64, model.K)
-			# end
-			# model.b0 = 5.0*ones(Float64, model.K)
-			# model.b1 = 5.0*ones(Float64, model.K)
 		elseif !isfullsample
 			mb=deepcopy(mb_zeroer)
 			mbsampling!(mb,model, isfullsample)
 		end
 		#Learning rates
-
+		# mb.mballnodes
+		# model.mbids
 		lr_M = 1.0
 		lr_m = 1.0
 		lr_L = 1.0
 		lr_b = 1.0
+
 
 		# lr_M = 1.0/((1.0+Float64(i))^.5)
 		# lr_m = 1.0/((1.0+Float64(i))^.7)
@@ -96,142 +98,64 @@
         # 	early = false
     	# end
 
-		# ELBO_pre= elogpzlout(model,mb)+elogpzlin(model,mb)+elogpnetwork1(model, mb)-elogqzl(model,mb)
-		updatephil!(model, mb,early, switchrounds)
-		# ELBO_post=elogpzlout(model,mb)+elogpzlin(model,mb)+elogpnetwork1(model, mb)-elogqzl(model,mb)
-		# if (ELBO_post<ELBO_pre)
-		# 	println("have decrease in ELBO in updatephilink")
-		# 	println(ELBO_pre)
-		# 	println(ELBO_post)
-		# 	if !isapprox(ELBO_pre,ELBO_post)
-		# 		break
-		# 	end
-		# end
 
-		# train_links_num=nnz(model.network)-length(model.ho_linkdict)
+		updatephil!(model, mb,early, switchrounds)
+
+
+
 		train_links_num=nnz(model.network)-length(model.ho_linkdict)
 		train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyaddict) -length(mb.mblinks)
 		dep2 = .1*(train_links_num)/(train_links_num+train_nlinks_num)
-		# ELBO_pre= elogpznlout(model,mb)+elogpznlin(model,mb)+elogpnetwork0(model, mb)-elogqznl(model, mb)
+
 		updatephinl!(model, mb,early, dep2,switchrounds)
-		# ELBO_post= elogpznlout(model,mb)+elogpznlin(model,mb)+elogpnetwork0(model, mb)-elogqznl(model, mb)
-		# if (ELBO_post<ELBO_pre)
-		# 	println("have decrease in ELBO in updatephinonlink")
-		# 	println(ELBO_pre)
-		# 	println(ELBO_post)
-		# 	if !isapprox(ELBO_pre,ELBO_post)
-		# 		break
-		# 	end
-		# end
 
-
-		# init_mu(model,communities)
-		# ELBO_pre=  elogpzlout(model,mb)+elogpzlin(model,mb)+elogpznlout(model,mb)+elogpznlin(model,mb) + elogptheta(model,mb)#-elogqtheta(model)
-		# model.Λ_var = .1*ones(Float64, (model.N, model.K))
 		for a in collect(mb.mballnodes)
-			# updatelzeta!(model, mb, a)
-			# updatemua!(model, a, niter, ntol,mb)
-			# updateLambdaa!(model, a, niter, ntol,mb)
-			# updatemua2!(model, a, niter, ntol,mb)
-			# updateLambdaa2!(model, a, niter, ntol,mb)
 
+			# count_μ[a]+=1
+			# count_Λ[a]+=1
 			updatesimulμΛ!(model, a, niter, ntol,mb)
+			# lr_μ[a] = 1.0/((1.0+Float64(count_μ[a]))^.7)
+			# lr_Λ[a] = 1.0/((1.0+Float64(count_Λ[a]))^.5)
 			# model.μ_var[a,:] = model.μ_var_old[a,:].*(1.0.-lr_μ[a])+lr_μ[a].*model.μ_var[a,:]
+			# model.Λ_var[a,:] = model.Λ_var_old[a,:].*(1.0.-lr_Λ[a])+lr_Λ[a].*model.Λ_var[a,:]
 		end
-		# model.μ_var[1,:]
-		# ELBO_post=  elogpzlout(model,mb)+elogpzlin(model,mb)+elogpznlout(model,mb)+elogpznlin(model,mb) + elogptheta(model,mb)#-elogqtheta(model)
-		# if (ELBO_post<ELBO_pre)
-		# 	println("have decrease in ELBO in updatemuLam")
-		# 	println(ELBO_pre)
-		# 	println(ELBO_post)
-		# 	if !isapprox(ELBO_pre,ELBO_post) && i > 10
-		# 		break
-		# 	end
-		# end
 
 
 
-		rate1=(convert(Float64,train_nlinks_num)/convert(Float64,length(mb.mbnonlinks)))
-		rate0=(convert(Float64,train_links_num)/convert(Float64,length(mb.mblinks)))
-		# ELBO_pre=elogpbeta(model)+elogpnetwork(model,mb)-elogqbeta(model)
+		# rate1=(convert(Float64,train_nlinks_num)/convert(Float64,length(mb.mbnonlinks)))
+		# rate0=(convert(Float64,train_links_num)/convert(Float64,length(mb.mblinks)))
 
 		updateb0!(model, mb)
 		model.b0 = (1.0-lr_b).*model.b0_old + lr_b.*((model.b0))
 		updateb1!(model,mb)
 		model.b1 = (1.0-lr_b).*model.b1_old+lr_b.*((model.b1))
 
-		# if (ELBO_post<ELBO_pre)
-		# 	println("have decrease in ELBO in updateb")
-		# 	println(ELBO_pre)
-		# 	println(ELBO_post)
-		# 	if !isapprox(ELBO_pre,ELBO_post)
-		# 		break
-		# 	end
-		# end
-		#####
-		# ELBO_pre = (elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model)))
 		updateL!(model, mb)
 		model.L = model.L_old.*(1.0-lr_L)+lr_L*model.L
-		# model.L=.5.*(model.L+model.L')
-		# ELBO_post = (elogpLambda(model) + elogptheta(model,mb) - (elogqLambda(model)))
 
-		# if (ELBO_post<ELBO_pre)
-		# 	println("have decrease in ELBO in updateL")
-		# 	println(ELBO_pre)
-		# 	println(ELBO_post)
-		# 	if !isapprox(ELBO_pre,ELBO_post)
-		# 		break
-		# 	end
-		# end
-		#
-
-		# ELBO_pre = (elogpmu(model) + elogptheta(model,mb))
 		updatem!(model, mb)
 		model.m = model.m_old.*(1.0-lr_m)+lr_m.*model.m
-		# ELBO_post = (elogpmu(model) + elogptheta(model,mb))
-		# if (ELBO_post<ELBO_pre)
-		# 	println("have decrease in ELBO in updatem")
-		# 	println(ELBO_pre)
-		# 	println(ELBO_post)
-		# 	if !isapprox(ELBO_pre,ELBO_post)
-		# 		break
-		# 	end
-		#
-		# end
-		# ELBO_pre=  (elogpmu(model) + elogptheta(model,mb) - (elogqmu(model)))
+
 		updateM!(model, mb)
 		model.M = model.M_old.*(1.0-lr_M)+lr_M.*model.M
-		# model.M = .5.*(model.M+model.M')
-		# ELBO_post=  (elogpmu(model) + elogptheta(model,mb) - (elogqmu(model)))
-		# if (ELBO_post<ELBO_pre)
-		# 	println("have decrease in ELBO in updateM")
-		# 	println(ELBO_pre)
-		# 	println(ELBO_post)
-		# 	if !isapprox(ELBO_pre,ELBO_post)
-		# 		break
-		# 	end
-		# end
-
-
-
-
-
 
 		checkelbo = (i % elboevery == 0)
 		if checkelbo || i == 1
 			print(i);print(": ")
 			println(model.b0./(model.b0.+model.b1))
-			computeelbo!(model, mb)
+			if isfullsample
+				computeelbo!(model, mb)
+				increase=isinf(model.oldelbo)?65535.0:(model.elbo-model.oldelbo)/model.oldelbo;
+				model.oldelbo=deepcopy(model.elbo)
+				println(model.elbo)
+				push!(model.elborecord, model.elbo)
+			end
 			# print(i);print("-ElBO:");println(model.elbo)
 			# print("elbo improvement:");
-			increase=isinf(model.oldelbo)?65535.0:(model.elbo-model.oldelbo)/model.oldelbo;
 			# println(increase);
 			# if increase < 0 && i > 10
 			#  	break;
 			# end
-			model.oldelbo=deepcopy(model.elbo)
-			println(model.elbo)
-			push!(model.elborecord, model.elbo)
 		end
 		switchrounds = !switchrounds
 	end
@@ -272,7 +196,12 @@
 
 	computeNMI(x,y,communities)
 
-	plot(p1,p2,p3, layout=(3,1))
+	Plots.plot(p1,p2,p3, layout=(3,1))
+	# Plots.plot(p1)
+
+
+	# Plots.plot(p2,p3, layout=(2,1))
+	# Plots.savefig(p1, "thetaest0.png")
 
 
 #
