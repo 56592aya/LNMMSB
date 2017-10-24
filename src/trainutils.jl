@@ -731,7 +731,7 @@ function computeNMI(x::Matrix{Float64}, y::Matrix{Float64}, communities::Dict{In
 	open("./file2", "w") do f
 	  for k in 1:size(x,2)
 	    for i in 1:size(x,1)
-	      if x[i,k] > .4#3.0/size(x,2)
+	      if x[i,k] > .5 #3.0/size(x,2)
 	        write(f, "$i ")
 	      end
 	    end
@@ -741,7 +741,7 @@ function computeNMI(x::Matrix{Float64}, y::Matrix{Float64}, communities::Dict{In
 	open("./file1", "w") do f
 	  for k in 1:size(y,2)
 	    for i in 1:size(y,1)
-	      if y[i,k] > .4#3.0/size(y,2)
+	      if y[i,k] > .5 #3.0/size(y,2)
 	        write(f, "$i ")
 	      end
 	    end

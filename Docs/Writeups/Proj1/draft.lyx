@@ -5,6 +5,11 @@
 \save_transient_properties true
 \origin unavailable
 \textclass article
+\begin_preamble
+\usepackage{tkz-graph}  
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{fit}
+\end_preamble
 \use_default_options true
 \maintain_unincluded_children false
 \language english
@@ -43,7 +48,7 @@
 \use_package undertilde 1
 \cite_engine basic
 \cite_engine_type default
-\biblio_style plain
+\biblio_style 
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
@@ -82,8 +87,2040 @@
 Rough Chapter 1 and 2
 \end_layout
 
-\begin_layout Part*
+\begin_layout Part
 Introduction
+\end_layout
+
+\begin_layout Standard
+Observational social data exhibit many complexities and researchers tends
+ to exploit the underlying information on a much simpler and more intuitive
+ manner by detecting patterns that can explain what we actually observe.
+ The patterns are not directly observable, and hence, researchers use various
+ unsupervised methods to capture the simpler latent structure, implicit
+ in the data.
+ Availability of such patterns can encourage researchers to ask new questions,
+ or refine their common theories with finer grained explanations.
+ In this work we develop models that can find these patterns in social network
+ data, and use them to better understand behavior by refining some of the
+ well known problems, such as identifying influentials, contagion signals,
+ and various co-evolutions in large network data sets.
+ Moreover using Bayesian techniques in modeling and more recent statistical
+ inference methods, alongside with ubiquitous computational advantages,
+ we achieve scalability and efficiency without much sacrificing accuracy.
+ We take a model-based approach to formulate social structure and behavior
+ in networks by offering flexible assumption based on network theory and
+ scalability in inference.
+\end_layout
+
+\begin_layout Section
+Community Structure
+\end_layout
+
+\begin_layout Standard
+Ample amount of research has recognized a prevalent feature that networks
+ exert meaningful smaller groups
+\begin_inset CommandInset citation
+LatexCommand cite
+key "girvan2002community,fortunato2010community,newman2006modularity"
+
+\end_inset
+
+.
+ A common phenomenon observed in many social networks including multilevel
+ relationships signifies shared community memberships, hence we define communiti
+es as groups of individuals yielding a better understanding of the network
+ connections, where individual vertices can belong to multiple clusters.
+ Many different methods regarding community detection have been developed
+ among which address the problem in terms of algorithmic
+\begin_inset CommandInset citation
+LatexCommand cite
+key "newman2004fast,palla2005uncovering,zubcsek2014information"
+
+\end_inset
+
+ or model-based(probabilistic) approaches
+\begin_inset CommandInset citation
+LatexCommand cite
+key "airoldi2008mixed,handcock2007model,hoff2002latent"
+
+\end_inset
+
+.
+ Our model based approach can yield overlapping communities that provides
+ us with a tool to explain the real patterns of connections more accurately,
+ and enables us to assess the meaning of these communities, role of individuals
+ in each domain, and behavioral patterns.
+ To explain the usefulness of these tools, we use several simulated synthetic
+ and actual real world social networks, and elaborate further on how they
+ provide us both with better answers about existing problems, as well as
+ help us refine and ask better questions.
+ Community detection can be seen as a way of reducing the dimension of relationa
+l data.
+\end_layout
+
+\begin_layout Standard
+For proposing a model-based approach, we have to provide theoretical support
+ on how networks form.
+ The merits are that including our knowledge on structure of networks can
+ provide us with better tools to understand processes that can happen in
+ parallel at network level.
+ But even without these processes we may be able to learn more about individuals
+ and their impact on forming connections or facilitating message traverse
+ by evaluating their sub-network level characteristics such as bridgeness
+ or centrality.
+ Furthermore with availability of behavioral data, we can gain a better
+ meaning of the detected communities, and improve both our community detection
+ and prediction of signal penetration.
+\end_layout
+
+\begin_layout Section
+Outline
+\end_layout
+
+\begin_layout Standard
+To develop our general theory and to build a model of network structure,
+ we follow the argument of assortative mixing and homophily
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lazarsfeld1954friendship,mcpherson2001birds,newman2002assortative,newman2003mixing"
+
+\end_inset
+
+ suggesting individuals in a social network tend to communicate with rather
+ similar people.
+ This phenomenon leads to patterns of structure in networks where we observe
+ denser groups of alike individuals that have fewer connections to the rest
+ of the network.
+ Homophily does not inhibit individuals in a dense group to connect to nodes
+ in other clusters.
+ This is one of the main considerations that distinguishes more recent technique
+s in community detection from earlier clustering methods that assume blocks
+ of rather disconnected individuals.
+ Our research builds on mixed membership models that add another level of
+ hierarchy on top of mixture assignments to groups.
+\end_layout
+
+\begin_layout Standard
+In chapter 2 we propose our first model of network structure that incorporates
+ the notion of overlapping communities.
+ We extend previous models by allowing correlated communities, as some may
+ induce friendships while others inhibit such connections.
+ In this paper we account for such co-occurrence via introducing correlations
+ among the community memberships of individuals.
+ We depart from conventional mixed membership models by introducing these
+ correlations that can explain more about the natural observed networks.
+ We argue that accounting for such structure both complies with the assortative
+ mixing theory and performs better compared to the conventional mixed-membership
+ stochastic block model
+\begin_inset CommandInset citation
+LatexCommand cite
+key "airoldi2008mixed"
+
+\end_inset
+
+.
+ Moreover, we provide a more comprehensive expression of connections that
+ allow for directedness of edges and can well be applied for undirected
+ networks.
+ Scalability and efficiency of inferential techniques in such models that
+ introduce even more link-level and individual-level parameters is a common
+ concern that has been extensively treated in machine learning literature.
+ As adding direction and correlational structure among community memberships
+ introduce more parameters, we further develop the appropriate methodology
+ to make inference about our parameters in a fast and scalable manner without
+ sacrificing much of accuracy.
+ To test the success of our model, we use several synthetic and real world
+ observational social networks.
+ Our empirical study of large real world social network allows us to gain
+ further insights on the added values of detecting overlapping communities.
+ These insights inform us of detailed measures of importance at the community
+ level, rather than on the network level.
+ In this case, connectors may not be the most influential people, but connectors
+ in specific communities, or bridges between domains, can be better messengers
+ or targets for seeding through networks.
+ Such roles may appear as domain specific knowledge brokers, or sub-network
+ level connectors.
+ We use graphical models, specifically directed acyclic graphs(DAG) to visualize
+ the problems at hand following the notations from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "pearl2009causality,morgan2014counterfactuals"
+
+\end_inset
+
+.
+ DAGs provide tools both from graph theory and statistics to formulate generativ
+e models and further assess causal implication of the model.
+ The figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Graphical-representation1"
+
+\end_inset
+
+ presents our a priori knowledge of the network structure, where shaded
+ 
+\begin_inset Formula $y_{ij}$
+\end_inset
+
+ represents the observed connection between actor 
+\begin_inset Formula $i$
+\end_inset
+
+ and 
+\begin_inset Formula $j$
+\end_inset
+
+, and the unshaded 
+\begin_inset Formula $z_{i}$
+\end_inset
+
+, and 
+\begin_inset Formula $z_{j}$
+\end_inset
+
+ represent their unknown latent preferences for forming connections.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+usetikzlibrary{arrows}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tikzset{     
+\end_layout
+
+\begin_layout Plain Layout
+
+	vertex/.style={circle,draw,minimum size=1.5em},
+\end_layout
+
+\begin_layout Plain Layout
+
+    edge/.style={->,> = latex'} 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+% vertices 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, fill={rgb:black,1;white,2}] (y) at (6,0) {$y_{ij}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi) at (4,4) {$z_{i}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj) at (8,4) {$z_j$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [draw=red, fit= (zi) (zj),  inner sep=1.00cm, dashed, ultra thick, fill=red!
+10, fill opacity=0.2] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+%edges 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi) to [out=300,in=110] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj) to [out=240,in=70] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Graphical representation of network structure
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Graphical-representation1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Although, social data alone can provide many useful insights about positions
+ of individuals and potential sub-network communities, behavioral data can
+ prove beneficial in improving the community detection and add more meaning
+ to the context of different overlapping domains.
+ Bulk of research in assessing behavior in social network overlooks the
+ potential synergy of collective account of social and behavioral modeling.
+ In chapter 3 we intend to gain some insights about networked behavior and
+ community structure using the community detection method we developed in
+ chapter 2.
+ We introduce a new approach in latent variable models for directed networks,
+ where individuals make decisions according to both their preferences for
+ link formation and behavior, where these preferences are unobserved to
+ the researcher.
+ In other words we jointly model both behavior and links by assuming actions
+ and connections between individuals can come from a potentially shared
+ latent space.
+ Keeping in mind that behavioral responses and network structure may not
+ be completely separate, the results of this study can shed light on more
+ important problems in marketing, sociology,health economics, etc.
+ such as study of social influence and identifying opinion leaders.
+ Our approach combines two mixed membership models, with one developed in
+ chapter 2, to model both choices/actions of actors and links between individual
+s.
+ Again, inference is possible by exploiting an efficient and scalable inferentia
+l technique that we use in chapter 2.
+ As a result we can delve more into the implications of this approach and
+ its added value to the model of chapter 2 in improving the prediction of
+ of signal penetration and evaluating the enriched community level patterns
+ with more domain specific and rather counter-intuitive interpretation.
+ Our empirical investigation can prove that positioning of individuals regarding
+ their centrality or bridgeness, can act very differently depending on the
+ domain specific reach.
+ For example, one with high centrality at the network level, may appear
+ not to be an opinion leader in one domain and/or others.
+ This can have major significance for marketers, who are in charge of developing
+ strategies in designing WOM campaign, targeting influentials, or segmenting
+ consumers for better reach.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Graphical-representation-of2"
+
+\end_inset
+
+ visualizes the formation of both links and behavior in a DAG.
+ The network structure is shared with the model developed in chapter 2,
+ and 
+\begin_inset Formula $z_{1}$
+\end_inset
+
+and 
+\begin_inset Formula $z_{2}$
+\end_inset
+
+ represent the same 
+\begin_inset Formula $z$
+\end_inset
+
+ in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Graphical-representation1"
+
+\end_inset
+
+, but we differentiate between the part of the latent space that is responsible
+ for link structure and adoption behavior.
+ We further assume that there is a latent space purely responsible for adoption
+ behavior portrayed as 
+\begin_inset Formula $z_{3}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+usetikzlibrary{arrows}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tikzset{     
+\end_layout
+
+\begin_layout Plain Layout
+
+	vertex/.style={circle,draw,minimum size=1.5em},
+\end_layout
+
+\begin_layout Plain Layout
+
+    edge/.style={->,> = latex'} 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+% vertices 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (y) at (6,-2) {$y_{ij}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi1) at (4,4) {$z_{i1}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi2) at (2,4) {$z_{i2}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi3) at (0,4) {$z_{i3}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj1) at (8,4) {$z_{j1}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj2) at (10,4) {$z_{j2}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj3) at (12,4) {$z_{j3}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Ai) at (3,0) {$A_i$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Aj) at (9,0) {$A_j$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[draw=red, fit= (zi1) (zj1) (zi2) (zj2),  inner sep=.60cm, dashed, ultra
+ thick, fill=red!10, fill opacity=0.2] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[draw=blue, fit= (zi1) (zj1) (zi2) (zj2) (zi3) (zj3),  inner sep=1.20cm,
+ dashed, ultra thick, fill=blue!10, fill opacity=0.2] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (2.4,4.3) {Link Preferences};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (-.5,4.8) {Latent Space};
+\end_layout
+
+\begin_layout Plain Layout
+
+%edges 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi1) to [out=300,in=110] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj1) to [out=240,in=70] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi2) to [out=270,in=110] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj2) to [out=270,in=70] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi3) to [out=270,in=180] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj3) to [out=270,in=0] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Graphical representation of network structure and behavior
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Graphical-representation-of2"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Observational data on social networks suggest that individuals make decisions
+ that cluster both in network circles and in time
+\begin_inset CommandInset citation
+LatexCommand cite
+key "aral2009distinguishing"
+
+\end_inset
+
+.
+ A major hurdle to identify the causal effect of individuals on each other
+ is imposed by the latent homophily, where similar people with analogous
+ preferences may be responsible for their homogeneous behavior.
+ As can be seen in the graph in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Graphical-representation-of2"
+
+\end_inset
+
+, identifying influence from homophily may seem impossible non-parametrically,
+ as we cannot control for any of the unobserved traits.
+ Our approach tries to alleviate this problem by controlling for the communities
+ as a proper proxy for the endogenous process of forming connections
+\begin_inset CommandInset citation
+LatexCommand cite
+key "shalizi2011homophily"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+It is not clear to what extent, commonly known measures such as degree centralit
+y, betweenness, prestige, etc are able to discover influentials, a concept
+ that can depend on how one defines the communities at hand
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jackson2010social"
+
+\end_inset
+
+.
+ Chen et al (2017) suggest that incorporating connection specific characteristic
+s in a multi-graph network can yield much improved prediction of diffusion
+ when the seeding strategies are adjusted accordingly rather than exploiting
+ traditional centrality measures
+\begin_inset CommandInset citation
+LatexCommand cite
+key "chen2017uncovering"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+On the other hand many evidence from real world networks show signs of evolution
+ of networks in time
+\begin_inset CommandInset citation
+LatexCommand cite
+key "brueckner2007workings,jackson2002evolution,snijders2007modeling"
+
+\end_inset
+
+.
+ This means that at certain times in the network some ties are formed and
+ some are severed.
+ Brot et al(2016) argue that this happens when observing bursts in connection
+ that underlies the change in homophily
+\begin_inset CommandInset citation
+LatexCommand cite
+key "brot2016evolution"
+
+\end_inset
+
+.
+ Hence trying to explain these rather stochastic changes requires a better
+ understanding of homophily and formation of networks.
+\end_layout
+
+\begin_layout Standard
+Chapter 4 builds on the findings of chapter 2 and 3 and extends these models
+ to a dynamic setting of networks, where we aim for finding evidence of
+ contagion driven homophily.
+ Current studies regarding disentanglement of influence-driven and homophily
+ driven behavior assume that these two phenomena act separately on decision
+ making of individuals.
+ We argue that preferences of individuals mapped to a latent space can indeed
+ change according to their adoption behavior.
+ A dynamic networked data, enables us to monitor the preference changes
+ of individuals when they adopt or refuse to adopt a behavior from their
+ peers.
+ While Chapter 2 gives an insight on how to model both link formation and
+ decisions made by individuals, dynamic nature of contagion, requires us
+ to have a model that allows the latent structure to develop through time.
+ Still controlling for latent proxies we can monitor the bursts of link
+ formation and severance and find evidence that adopting similar behaviors
+ among individuals depending on the intensity of their relationship can
+ lead to either more or less homophilous bondings.
+ Figure
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Dynamic-representation-of"
+
+\end_inset
+
+ portrays the problem we are trying to tackle in chapter 4.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+usetikzlibrary{arrows}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tikzset{     
+\end_layout
+
+\begin_layout Plain Layout
+
+	vertex/.style={circle,draw,minimum size=1.5em},
+\end_layout
+
+\begin_layout Plain Layout
+
+    edge/.style={->,> = latex'} 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+% vertices 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (y) at (6,-2) {$y_{ijt}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi1) at (4,4) {$z_{i1t}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi2) at (2,4) {$z_{i2t}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi3) at (0,4) {$z_{i3t}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj1) at (8,4) {$z_{j1t}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj2) at (10,4) {$z_{j2t}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj3) at (12,4) {$z_{j3t}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Ai) at (3,0) {$A_{it}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Aj) at (9,0) {$A_{jt}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[draw=red, fit= (zi1) (zj1) (zi2) (zj2),  inner sep=.60cm, dashed, ultra
+ thick, fill=red!10, fill opacity=0.2] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[draw=blue, fit= (zi1) (zj1) (zi2) (zj2) (zi3) (zj3),  inner sep=1.20cm,
+ dashed, ultra thick, fill=blue!10, fill opacity=0.2] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (2.4,4.3) {Link Preferences};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (-.5,4.8) {Latent Space};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[draw=black, fit= (zi1) (zj1) (zi2) (zj2) (zi3) (zj3) (y) (Ai) (Aj),
+  inner sep=1.40cm, dashed, ultra thick, fill=black!10, fill opacity=0.2]
+ {};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (13,-3.5) {$t=1..T$};
+\end_layout
+
+\begin_layout Plain Layout
+
+%edges 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi1) to [out=300,in=110] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj1) to [out=240,in=70] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi2) to [out=270,in=110] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj2) to [out=270,in=70] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi3) to [out=270,in=180] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj3) to [out=270,in=0] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Dynamic representation of co-evolution
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Dynamic-representation-of"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:summary-of-chapters"
+
+\end_inset
+
+ provides a summary of chapters.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="left" valignment="top" width="4cm">
+<column alignment="left" valignment="top" width="4cm">
+<column alignment="left" valignment="top" width="4cm">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Chapter 2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Chapter 3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Chapter 4
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Topic
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+Modeling network structure via correlated community membership
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+ Insights from networked behavior via community structure
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+Contagion driven homophily in large dynamic networks
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Goal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size scriptsize
+overlapping community detection 
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+finding domain specific individual 
+\emph default
+experts 
+\emph on
+at community level based on positioning(brokerage role, community centrality)
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+exploring meaning of community detection on network data
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+exploiting behavioral data in better detecting communities 
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+assessing improved prediction of signal penetration rate
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+refining definitions of opinion leaders
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+Monitoring changes in homophilous structure as a function of behavior
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Model
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+Logistic Normal Mixed-Membership-Stochastic-Blockmodel
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+Joint LDA and LNMMSB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+dynamic Joint LDA and LNMMSB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Inference
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+Variational Inference
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+Stochastic Variational Inference
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+Stochastic Variational Inference
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+Stochastic Variational Inference
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Data
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+Synthetic small
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+Synthetic large
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+political blogs
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+bookmarking network
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+synthetic small
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+synthetic large
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+bookmarking network
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+synthetic small
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+synthetic large
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+bookmarking network
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Implications
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+scalable inference for large directed networks
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+accounting for potential correlation between community membership of individuals
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+domain specific influentials may not be influentials in other domains or
+ central in general
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+scalable inference for large networked behavior data
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+jointly modeling behavior and network structure
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+relevance of social data in predicting behavior
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+dynamic evolution of social networks jointly modeled with behavioral data
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+evidence of behavior affecting network positions
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+\emph on
+using community level measures to redefine opinion leadership
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+summary of chapters
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:summary-of-chapters"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part*
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Chapter 2
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{abstract}
+\end_layout
+
+\begin_layout Plain Layout
+
+It is widely known that individuals in a network form smaller communities,
+ where each individual can belong to several groups.These groups namely communiti
+es/clusters share the property that within group connections among the vertices
+ of the graph are denser compared to the between group connections.
+ Traditionally the problem of clustering networks included partitioning
+ graphs into separate groups, whereas more recent works represent the embodiment
+ of more natural processes such as shared community memberships.Although
+ caution must be taken regarding how one defines communities, as the concept
+ could vary dramatically depending on the given context.
+ Another important aspect of these separate/shared communities should be
+ encoded via their correlation, as some may induce friendships while others
+ inhibit such connections.
+ In this paper we account for such co-occurrence via introducing correlations
+ among the community memberships of individuals via logistic normal prior.
+ We argue that accounting for such correlations both complies with the assortati
+ve mixing theory and performs better compared to the widely known mixed-membersh
+ip stochastic block model.
+ We further investigate the ability of our model to detect overlapping communiti
+es in both synthetic and real world large scale networks, and use the results
+ to highlight the superiority of community level measures in comparison
+ to conventional network level centrality measures.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{abstract}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Many real-life social and other types of networks of individuals exhibit
+ smaller grouped structures
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bickel2009nonparametric,newman2006modularity"
+
+\end_inset
+
+.
+ Some of these smaller groups are portrayed as almost disconnected sub-networks
+\begin_inset CommandInset citation
+LatexCommand cite
+key "newman2004detecting,snijders1997estimation"
+
+\end_inset
+
+.
+ More recently these smaller patterns are more accurately described by multiple
+ interconnected networks instead of one 
+\shape italic
+homogeneous
+\shape default
+ network
+\begin_inset CommandInset citation
+LatexCommand cite
+key "yang2012community,xie2013overlapping,lancichinetti2009detecting,airoldi2008mixed"
+
+\end_inset
+
+.
+ While theoretically we still expect much predictive ability from the network
+ measures studied till now
+\begin_inset CommandInset citation
+LatexCommand cite
+key "goel2013predicting"
+
+\end_inset
+
+, empirically this impact will be blurred because the network is in fact
+ a mixture of multiple networks, leaving the empirical assessment of network
+ measures a shaky foundation.
+ Identifying these constructs could still be valuable even in the absence
+ of behavioral data.
+ For example accounting for shared communities in a directed networks, can
+ signal information about the identification and potential power of information
+ brokers sitting at the edge of the groups
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gopalan2012scalable,nepusz2008fuzzy"
+
+\end_inset
+
+.
+ For those individuals belonging to several communities, it is important
+ to account for the size of their incoming connections given their outgoing
+ links.
+ This can shed light on their potential brokerage power on specific topic
+ communities.
+\end_layout
+
+\begin_layout Standard
+Latent variable models have opened a new pathway in deriving intuition from
+ the underlying patterns in network structure.Braun and Bonfrer (2011) use
+ a latent space approach to map individual latent traits to a Euclidean
+ space.
+ In latent space modeling, individual characteristics are represented as
+ hidden structures that need to be estimated from the network data, where
+ potentially infinite dimensional individual characteristics are mapped
+ to a lower dimensional Euclidean space; and the similarity is measured
+ by the distance between individual locations in this low dimensional space
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hoff2002latent,braun2011scalable,ansari2011modeling"
+
+\end_inset
+
+.
+ Braun and Bonfrer (2011) argue that latent space approach could provide
+ very different insights compared to geodesic distances,especially when
+ evaluating the reach.
+ More individuals could potentially and better semantically be reached through
+ a small radius around a focal node in a low dimensional space rather than
+ accommodating first and second degree connections of that focal node that
+ may end up to be irrelevant.This again suggests how strategies can lead
+ to different results when social data are applied differently through community
+ detection and geodesic reach
+\begin_inset CommandInset citation
+LatexCommand cite
+key "braun2011scalable"
+
+\end_inset
+
+.
+ While latent (Euclidean) space models
+\begin_inset CommandInset citation
+LatexCommand cite
+key "braun2011scalable,ansari2011modeling,handcock2007model,hoff2002latent"
+
+\end_inset
+
+ account for additional structure in the network formation process, they
+ do not provide access to network measures for various sub-networks as they
+ do not leave much for interpretation when representing the network in a
+ Euclidean space.
+\end_layout
+
+\begin_layout Standard
+We employ a model-based approach that allows us to define the network structure
+ according to a set of hypotheses in line with the context under study and
+ the theory underlying the social formation of friendships.
+ We follow the argument of assortative mixing and homophily
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mcpherson2001birds,newman2002assortative,newman2003mixing"
+
+\end_inset
+
+ suggesting individuals in a social network tend to communicate with rather
+ similar people.
+ This phenomenon leads to patterns of structure in networks where we observe
+ denser groups of alike individuals that have fewer connections to the rest
+ of the network.
+ Affinity of individuals and how to measure the likeness among them is condition
+al on both context and the availability of information on the individual
+ level.
+ Aral et al(2009) employ 20 individual and network characteristics as a
+ proxy for similarity between friends where the degree of closeness is measured
+ by cosine distance.
+ Using a dynamic matched sample estimation, they found further evidence
+ that mobile application behavior could be partly be explained by homophily
+ rather than mere social influence
+\begin_inset CommandInset citation
+LatexCommand cite
+key "aral2009distinguishing"
+
+\end_inset
+
+.
+ More recent works on detection of communities tend to account for overlapping
+ structures that allow individual to belong to several communities
+\begin_inset CommandInset citation
+LatexCommand cite
+key "airoldi2008mixed,gopalan2013efficient,yang2012community"
+
+\end_inset
+
+.Yang et al (2012) propose affiliation graph model that allows for detection
+ of dense overlaps in the community network
+\begin_inset CommandInset citation
+LatexCommand cite
+key "yang2012community"
+
+\end_inset
+
+.
+ Airoldi et al (2008) suggest a mixed-membership-stochastic-blockmodel(MMSB)
+ that allows individuals to belong to multiple groups by trying to estimate
+ community membership strength
+\begin_inset CommandInset citation
+LatexCommand cite
+key "airoldi2008mixed"
+
+\end_inset
+
+.
+ We adopt the model of MMSB
+\begin_inset CommandInset citation
+LatexCommand cite
+key "airoldi2008mixed,gopalan2013efficient"
+
+\end_inset
+
+ and extend it to allow for more flexible specification and scalable inference.Fo
+r similar ideas of soft clustering and mixed membership in marketing refer
+ to 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "varki2000modeling,varki2004augmented,jacobs2016model"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Another important type of detectable communities can arise not from the
+ densely connected groups but rather dense patterns of connections.Yang et
+ al (2014) argues that patterns of connections may also be an indicator
+ of different communities when observing denser intra-cluster compared to
+ inter-cluster connections
+\begin_inset CommandInset citation
+LatexCommand cite
+key "yang2014detecting"
+
+\end_inset
+
+.
+ not very relevant.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A common missing piece in many network studies in the field of marketing
+ is that most measures are only evaluated in small scale networks or do
+ not offer scalable methods to tackle the problem at hand.
+ A related stream of diffusion research, studies the contagion phenomenon
+ in new prescription drugs among a network of physicians
+\begin_inset CommandInset citation
+LatexCommand cite
+key "iyengar2011opinion,van2007new,van2001medical"
+
+\end_inset
+
+.
+ Other examples, with larger networks include 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hinz2011seeding"
+
+\end_inset
+
+ that use a large network of mobile users, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "goldenberg2009role"
+
+\end_inset
+
+ with a Korean social network,
+\begin_inset CommandInset citation
+LatexCommand cite
+key "katona2011network"
+
+\end_inset
+
+ using a large European social network,
+\begin_inset CommandInset citation
+LatexCommand cite
+key "aral2009distinguishing"
+
+\end_inset
+
+ that use a large IM network,
+\begin_inset CommandInset citation
+LatexCommand cite
+key "trusov2010determining"
+
+\end_inset
+
+ that use both large simulation and field data.
+ ...????.
+ Although large networks have been in place but a lot of these face challenges
+ in estimation when it comes to making inference about latent traits or
+ individual-link level parameters.
+ We try to address this problem by using a stochastic variational inference
+ that does not sacrifice accuracy.Among studies that incorporate large scale
+ networks are (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "braun2011scalable"
+
+\end_inset
+
+,?) .
+\end_layout
+
+\begin_layout Standard
+When dealing with large scale data, little to no attention is given to the
+ directedness of connections in social networks under study.
+ Many social and relational data structures arise from the directed connections
+ between the nodes, where the directed edge implies a connection from one
+ node to the other that is not necessarily reciprocated.
+ Examples of this behavior could be observed in networks such as twitter
+ followership
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cataldi2010emerging,kwak2010twitter"
+
+\end_inset
+
+, co-authorship and citation networks
+\begin_inset CommandInset citation
+LatexCommand cite
+key "liu2005co,kempe2003maximizing"
+
+\end_inset
+
+, and many more
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hummon1989connectivity"
+
+\end_inset
+
+.Although many treatments of network connections assume undirectedness
+\begin_inset CommandInset citation
+LatexCommand citet
+key "braun2011scalable,gopalan2013efficient,palla2005uncovering"
+
+\end_inset
+
+, we argue that a lot of important features underlying the edges could be
+ misjudged, lost, or lead to biased estimates.
+ Direction can be interpreted as the main denominator of followership, where
+ the same cannot be reciprocated.
+ Additionally, when behavioral data is added, time and direction cannot
+ be separated from the network.
+ In other words contacting an individual via a mobile app, emailing colleagues
+ in an organizational setting, liking a post of brand page or a friend's
+ comments, following a celebrity or a friend in a microblog, cannot be easily
+ treated as a mutual relationships;But time and the nature of communication
+ dictates a specific orientation of a link from one person to another.
+ Hence we allow for directed edges that can further signal more information
+ about the clustering of the network.
+ 
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Also put marketing in here
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Implications of finding overlapping communities can be manifold.
+ To gain better understanding of diffusion of ideas(),products
+\begin_inset CommandInset citation
+LatexCommand cite
+key "van2007new,aral2012identifying"
+
+\end_inset
+
+,medical innovation
+\begin_inset CommandInset citation
+LatexCommand cite
+key "van2001medical,coleman1966medical"
+
+\end_inset
+
+, one has to be able to acknowledge different sources of contagion.
+ Behaviors and decisions made by many individuals in observed networks tend
+ to assimilate both in node space and in time
+\begin_inset CommandInset citation
+LatexCommand cite
+key "aral2009distinguishing"
+
+\end_inset
+
+.
+ However disentangling the underlying reasons can become infeasible due
+ to endogenous network formation portrayed by latent homophily
+\begin_inset CommandInset citation
+LatexCommand cite
+key "shalizi2011homophily"
+
+\end_inset
+
+.
+ Conveniently addressing latent homophily and using a proxy estimation could
+ improve the estimation of influence versus homophily
+\begin_inset CommandInset citation
+LatexCommand cite
+key "shalizi2011homophily,shalizi2016controlling,davin2015essays"
+
+\end_inset
+
+.
+ We attend to this problem furthermore in chapter 3 by jointly modeling
+ both network structure and behavior and in chapter 4 by adding dynamics.Estimati
+ng MMSB , or in fact any model that estimates the latent factors that drive
+ link formation, also helps in solving the identification problem of disentangli
+ng influence from homophily as suggested by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "shalizi2011homophily,shalizi2016controlling"
+
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -91,7 +2128,7 @@ Extensive studies of social contagion in marketing, have dealt with the
  partial role of structure in studying influence or disentangling causality
  from homophily
 \begin_inset CommandInset citation
-LatexCommand cite
+LatexCommand citep
 key "aral2009distinguishing,aral2012identifying,goldenberg2009role,van2001medical"
 
 \end_inset
@@ -210,973 +2247,16 @@ key "ma2014latent"
 \end_layout
 
 \begin_layout Standard
-Many real-life social and other types of networks of individuals, however,
- are more accurately described by multiple interconnected networks instead
- of one 
-\shape italic
-homogeneous
-\shape default
- network.
- While theoretically we still expect much predictive ability from the network
- measures studied till now
-\begin_inset CommandInset citation
-LatexCommand cite
-key "goel2013predicting"
-
-\end_inset
-
-, empirically this impact will be blurred because the network is in fact
- a mixture of multiple networks, leaving the empirical assessment of network
- measures a shaky foundation.
- Identifying these constructs could still be valuable even in the absence
- of behavioral data.
- For example accounting for shared communities in a directed networks, can
- signal information about the identification and potential power of information
- brokers sitting at the edge of the groups
-\begin_inset CommandInset citation
-LatexCommand cite
-key "gopalan2012scalable,nepusz2008fuzzy"
-
-\end_inset
-
-.
- For those individuals belonging to several communities, it is important
- to account for the size of their incoming connections given their outgoing
- links.
- This can shed light on their potential brokerage power on specific topic
- communities??.
-\end_layout
-
-\begin_layout Standard
-Another missing piece in many network studies in the field of marketing
- is that most measures are only evaluated in small scale networks.
- A related stream of diffusion research, studies the contagion phenomenon
- in new prescription drugs among a network of physicians
-\begin_inset CommandInset citation
-LatexCommand cite
-key "iyengar2011opinion,van2007new,van2001medical"
-
-\end_inset
-
-.
- Other examples, and larger networks, Aral, ...????.Some skip latent homophily,
- Aral, Snijders, resolve with experiment Aral, ...
- why it is important(Shalizi).Among studies that incorporate large scale
- networks are (
-\begin_inset CommandInset citation
-LatexCommand cite
-key "braun2011scalable"
-
-\end_inset
-
-,?) .Braun and Bonfrer (2011) use a latent space approach to map individual
- latent traits to a Euclidean space.
- In latent space modeling, individual characteristics are represented as
- hidden structures that need to be estimated from the network data, where
- potentially infinite dimensional individual characteristics are mapped
- to a lower dimensional Euclidean space; and the similarity is measured
- by the distance between individual locations in this low dimensional space
-\begin_inset CommandInset citation
-LatexCommand cite
-key "hoff2002latent,braun2011scalable,ansari2011modeling"
-
-\end_inset
-
-.
- Braun and Bonfrer (2011) argue that latent space approach could provide
- very different insights compared to geodesic distances,especially when
- evaluating the reach.
- More individuals could potentially and better semantically be reached through
- a small radius around a focal node in a low dimensional space rather than
- accommodating first and second degree connections of that focal node that
- may end up to be irrelevant.This again suggests how strategies can lead
- to different results when social data are applied differently through community
- detection and geodesic reach
-\begin_inset CommandInset citation
-LatexCommand cite
-key "braun2011scalable"
-
-\end_inset
-
-.
- While latent (Euclidean) space models
-\begin_inset CommandInset citation
-LatexCommand cite
-key "braun2011scalable,ansari2011modeling,handcock2007model,hoff2002latent"
-
-\end_inset
-
- account for additional structure in the network formation process, they
- do not provide access to network measures for various sub-networks as they
- do not leave much for interpretation when representing the network in a
- Euclidean space.
-\end_layout
-
-\begin_layout Standard
-Ample amount of research has recognized a prevalent feature that networks
- exert meaningful smaller groups
-\begin_inset CommandInset citation
-LatexCommand cite
-key "girvan2002community,fortunato2010community,newman2006modularity"
-
-\end_inset
-
-.
- These groups namely communities/clusters share the property that within
- group connections among the vertices of the graph are denser compared to
- the between group connections.
-\begin_inset CommandInset citation
-LatexCommand cite
-key "bickel2009nonparametric,newman2006modularity"
-
-\end_inset
-
-.
- Traditionally the problem of clustering networks included partitioning
- graphs into separate groups
-\begin_inset CommandInset citation
-LatexCommand cite
-key "newman2004detecting,snijders1997estimation"
-
-\end_inset
-
-, whereas more recent works represent the embodiment of more natural processes
- such as shared community memberships
-\begin_inset CommandInset citation
-LatexCommand cite
-key "yang2012community,xie2013overlapping,lancichinetti2009detecting,airoldi2008mixed"
-
-\end_inset
-
-.Although caution must be taken regarding how one defines communities, as
- the concept could vary dramatically depending on the given context.
- A common phenomenon observed in many social networks including multilevel
- relationships signifies shared community memberships, hence in this paper
- we define communities as groups of individuals yielding a better understanding
- of the network connections, where individual vertices can belong to multiple
- clusters.
- Many different methods regarding community detection have been developed
- among which address the problem in terms of algorithmic
-\begin_inset CommandInset citation
-LatexCommand cite
-key "newman2004fast,palla2005uncovering,zubcsek2014information"
-
-\end_inset
-
- or model-based(probabilistic) approaches
-\begin_inset CommandInset citation
-LatexCommand cite
-key "airoldi2008mixed,handcock2007model,hoff2002latent"
-
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Standard
-Implications of finding overlapping communities for network research can
- be manifold.
- To gain better understanding of diffusion of ideas(),products
-\begin_inset CommandInset citation
-LatexCommand cite
-key "van2007new,aral2012identifying"
-
-\end_inset
-
-,medical innovation
-\begin_inset CommandInset citation
-LatexCommand cite
-key "van2001medical,coleman1966medical"
-
-\end_inset
-
-, one has to be able to acknowledge different sources of contagion.
- Behaviors and decisions made by many individuals in observed networks tend
- to assimilate both in node space and in time
-\begin_inset CommandInset citation
-LatexCommand cite
-key "aral2009distinguishing"
-
-\end_inset
-
-.
- However disentangling the underlying reasons can become infeasible due
- to endogenous network formation portrayed by latent homophily
-\begin_inset CommandInset citation
-LatexCommand cite
-key "shalizi2011homophily"
-
-\end_inset
-
-.
- Conveniently addressing latent homophily and using a proxy estimation could
- improve the estimation of influence versus homophily
-\begin_inset CommandInset citation
-LatexCommand cite
-key "shalizi2011homophily,shalizi2016controlling,davin2015essays"
-
-\end_inset
-
-.
- We attend to this problem furthermore in chapter 3 and chapter 4.Maybe this
- paragraph should go before scalability.
-\end_layout
-
-\begin_layout Standard
-On the other hand many evidence from real world networks show signs of evolution
- of networks in time
-\begin_inset CommandInset citation
-LatexCommand cite
-key "brueckner2007workings,jackson2002evolution,snijders2007modeling"
-
-\end_inset
-
-.
- This means that at certain times in the network some ties are formed and
- some are severed.
- Brot et al(2016) argue that this happens when observing bursts in connection
- that underlies the change in homophily
-\begin_inset CommandInset citation
-LatexCommand cite
-key "brot2016evolution"
-
-\end_inset
-
-.
- Hence trying to explain these rather stochastic changes requires a better
- understanding of homophily and formation of networks.
- It is not clear to what extent, commonly known measures such as degree
- centrality, betweenness, prestige, etc are able to discover influentials,
- a concept that can depend on how one defines the communities at hand
-\begin_inset CommandInset citation
-LatexCommand cite
-key "jackson2010social"
-
-\end_inset
-
-.
- Chen et al (2017) suggest that incorporating connection specific characteristic
-s in a multi-graph network can yield much improved prediction of diffusion
- when the seeding strategies are adjusted accordingly rather than exploiting
- traditional centrality measures
-\begin_inset CommandInset citation
-LatexCommand cite
-key "chen2017uncovering"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-Another important type of detectable communities can arise not from the
- densely connected groups but rather dense patterns of connections.Yang et
- al (2014) argues that patterns of connections may also be an indicator
- of different communities when observing denser intra-cluster compared to
- inter-cluster connections
-\begin_inset CommandInset citation
-LatexCommand cite
-key "yang2014detecting"
-
-\end_inset
-
-.
- not very relevant.
-\end_layout
-
-\begin_layout Standard
-When dealing with large scale data, a lot of scholars pay little to no attention
- to the directedness of connections in social networks under study.
- Many social and relational data structures arise from the directed connections
- between the nodes, where the directed edge implies a connection from one
- node to the other that is not necessarily reciprocated.
- Examples of this behavior could be observed in networks such as twitter
- followership
-\begin_inset CommandInset citation
-LatexCommand cite
-key "cataldi2010emerging,kwak2010twitter"
-
-\end_inset
-
-, co-authorship and citation networks
-\begin_inset CommandInset citation
-LatexCommand cite
-key "liu2005co,kempe2003maximizing"
-
-\end_inset
-
-, and many more
-\begin_inset CommandInset citation
-LatexCommand cite
-key "hummon1989connectivity"
-
-\end_inset
-
-.Although many treatments of network connections assume undirectedness
-\begin_inset CommandInset citation
-LatexCommand cite
-key "braun2011scalable,gopalan2013efficient,palla2005uncovering"
-
-\end_inset
-
-, we argue that a lot of important features underlying the edges could be
- misjudged, lost, or lead to biased estimates.Direction can be interpreted
- as the main denominator of followership, where the same cannot be reciprocated.
- Additionally, when behavioral data is added, time and direction cannot
- be separated from the network.
- In other words contacting an individual via a mobile app, emailing colleagues
- in an organizational setting, liking a post of brand page or a friend's
- comments, following a celebrity or a friend in a microblog, cannot be easily
- treated as a mutual relationships;But time and the nature of communication
- dictates a specific orientation of a link from one person to another.
- Hence we allow for directed edges that can further signal more information
- about the clustering of the network.
- Also put marketing in here
-\end_layout
-
-\begin_layout Standard
-In chapter 2, we employ a model-based approach that allows us to define
- the network structure according to a set of hypotheses in line with the
- context under study and the theory underlying the social formation of friendshi
-ps.
- We follow the argument of assortative mixing and homophily
-\begin_inset CommandInset citation
-LatexCommand cite
-key "mcpherson2001birds,newman2002assortative,newman2003mixing"
-
-\end_inset
-
- suggesting individuals in a social network tend to communicate with rather
- similar people.
- This phenomenon leads to patterns of structure in networks where we observe
- denser groups of alike individuals that have fewer connections to the rest
- of the network.
- Affinity of individuals and how to measure the likeness among them is condition
-al on both context and the availability of information on the individual
- level.
- Aral et al(2009) employ 20 individual and network characteristics as a
- proxy for similarity between friends where the degree of closeness is measured
- by cosine distance.
- Using a dynamic matched sample estimation, they found further evidence
- that mobile application behavior could be partly be explained by homophily
- rather than mere social influence
-\begin_inset CommandInset citation
-LatexCommand cite
-key "aral2009distinguishing"
-
-\end_inset
-
-.
- More recent works on detection of communities tend to account for overlapping
- structures that allow individual to belong to several communities
-\begin_inset CommandInset citation
-LatexCommand cite
-key "airoldi2008mixed,gopalan2013efficient,yang2012community"
-
-\end_inset
-
-.Yang et al (2012) propose affiliation graph model that allows for detection
- of dense overlaps in the community network
-\begin_inset CommandInset citation
-LatexCommand cite
-key "yang2012community"
-
-\end_inset
-
-.
- Airoldi et al (2008) suggest a mixed-membership-stochastic-blockmodel(MMSB)
- that allows individuals to belong to multiple groups by trying to estimate
- community membership strength
-\begin_inset CommandInset citation
-LatexCommand cite
-key "airoldi2008mixed"
-
-\end_inset
-
-.
- We adopt the model of MMSB
-\begin_inset CommandInset citation
-LatexCommand cite
-key "airoldi2008mixed,gopalan2013efficient"
-
-\end_inset
-
- and extend it to allow for more flexible specification and scalable inference.
-\end_layout
-
-\begin_layout Standard
-similar ideas to mixed membership models in marketing(soft clustering):
-\begin_inset CommandInset citation
-LatexCommand cite
-key "varki2000modeling,varki2004augmented"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-mixed membership in marketing:
-\begin_inset CommandInset citation
-LatexCommand cite
-key "jacobs2016model"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Estimating MMSB , or in fact any model that estimates the latent factors
- that drive link formation, also helps in solving the identification problem
- of disentangling influence from homophily as suggested by 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "shalizi2011homophily,shalizi2016controlling"
-
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Standard
-In chapter 2 we propose a model of network formation that incorporates the
- notion of overlapping communities.
- It is widely known that individuals in a network form declustered communities,
- where each individual can belong to several groups.
- Although another important aspect of these separate/shared communities
- should be encoded via their correlation, as some may induce friendships
- while others inhibit such connections.
- In this paper we account for such co-occurrence via introducing correlations
- among the community memberships of individuals via logistic normal prior
- on membership strengths.
- We argue that accounting for such correlations both complies with the assortati
-ve mixing theory and performs better compared to the conventional mixed-membersh
-ip stochastic block model
-\begin_inset CommandInset citation
-LatexCommand cite
-key "airoldi2008mixed"
-
-\end_inset
-
-.
- We furthermore use stochastic variational methods to offer both fast and
- efficient inference.
- 
-\end_layout
-
-\begin_layout Standard
-In Chapter 3 we intend to gain some insights about networked behavior via
- community structure that we developed in chapter 2.
- Observational data on social networks suggest that individuals make decisions
- that cluster both in network circles and in time.
- A major hurdle to identify the causal effect of individuals on each other
- is imposed by the latent homophily, where similar people with analogous
- preferences may be responsible for their homogeneous behavior.
- We introduce a new approach in latent variable models for directed networks,
- where individuals make decisions according to both their potentially overlappin
-g preferences for network formation and activities, where these preferences
- are unobserved to the researcher.
- In other words we jointly model both behavior and network formation by
- first detecting overlapping communities and and using them as potential
- latent source of forming behavioral response.
- Controlling for this latent structure would allow us to disentangle the
- effects of homophily and causal influence.
-\end_layout
-
-\begin_layout Standard
-Chapter 4 builds on the findings of chapter 2 and 3 and extends these models
- to a dynamic setting of networks, where we aim for finding evidence of
- contagion driven homophily.
- Current studies regarding disentanglement of influence-driven and homophily
- driven behavior assume that these two phenomena act separately on decision
- making of individuals.
- We argue that preferences of individuals mapped to a latent space can indeed
- change according to their adoption behavior.
- A dynamic networked data, enables us to monitor the preference changes
- of individuals when they adopt or refuse to adopt a behavior from their
- peers.
- While Chapter 2 gives an insight on how to model both link formation and
- decisions made by individuals, dynamic nature of contagion, requires us
- to have a model that allows the latent structure to develop through time.
- Still controlling for latent proxies we can monitor the bursts of link
- formation and severance and find evidence that adopting similar behaviors
- among individuals depending on the intensity of their relationship can
- lead to either more or less homophilous bondings.
-\end_layout
-
-\begin_layout Standard
-Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:summary-of-chapters"
-
-\end_inset
-
- provides a summary of chapters.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float table
-placement H
-wide false
-sideways false
+\begin_inset Note Comment
 status open
 
 \begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="7" columns="4">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="left" valignment="top" width="4cm">
-<column alignment="left" valignment="top" width="4cm">
-<column alignment="left" valignment="top" width="4cm">
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Chapter 2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Chapter 3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Chapter 4
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Topic
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-Modeling network formation via correlated community structure
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
- Insights from networked behavior via community structure
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-Contagion driven homophily in large dynamic networks
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Goal
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-overlapping community detection and insights on position
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-Insights from community level attributes to behavior
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-Monitoring changes in homophilous structure as a function of behavior
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Model
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-Logistic Normal Mixed-Membership-Stochastic-Blockmodel
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-Joint LDA and LNMMSB
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-dynamic Joint LDA and LNMMSB
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Inference
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-Variational Inference
-\end_layout
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-Stochastic Variational Inference
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-Stochastic Variational Inference
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-Stochastic Variational Inference
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Data
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-Synthetic small
-\end_layout
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-Synthetic large
-\end_layout
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-political blogs
-\end_layout
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-bookmarking network
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-synthetic small
-\end_layout
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-synthetic large
-\end_layout
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-bookmarking network
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-synthetic small
-\end_layout
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-synthetic large
-\end_layout
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-bookmarking network
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Implications
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-scalable inference for large directed networks
-\end_layout
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-accounting for potential correlation between community membership of individuals
-\end_layout
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-Allowing for dynamic setup
-\end_layout
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-defining community level measures of positioning
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-scalable inference for large networked behavior data
-\end_layout
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-jointly modeling behavior and network 
-\end_layout
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-importance of community level measures in detecting behavioral differences
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-dynamic evolution of social networks jointly modeled with behavioral data
-\end_layout
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-evidence of behavior affecting network positions
-\end_layout
-
-\begin_layout Itemize
-
-\size footnotesize
-\emph on
-using community level measures to redefine opinion leadership
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-summary of chapters
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:summary-of-chapters"
-
-\end_inset
-
-
+Some skip latent homophily(first say the problem): Aral uses dynamic matched
+ sample estimation by matching individuals on their observed characteristics,
+ Snijders et al model co-evolution of network and control for selection
+ using observed factors.
+ , resolve with experiment Aral, ...
+ why it is important(Shalizi).
 \end_layout
 
 \end_inset
@@ -1184,41 +2264,7 @@ name "tab:summary-of-chapters"
 
 \end_layout
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Part*
-\begin_inset Newpage pagebreak
-\end_inset
-
-Chapter 1
-\end_layout
-
-\begin_layout Standard
-It is widely known that individuals in a network form declustered communities,
- where each individual can belong to several groups.
- Although another important aspect of these separate/shared communities
- should be encoded via their correlation, as some may induce friendships
- while others inhibit such connections.
- In this paper we account for such co-occurrence via introducing correlations
- among the community memberships of individuals via logistic normal prior.
- We argue that accounting for such correlations both complies with the assortati
-ve mixing theory and performs better compared to the widely known mixed-membersh
-ip stochastic block model
-\begin_inset CommandInset citation
-LatexCommand cite
-key "airoldi2008mixed"
-
-\end_inset
-
-.
- We furthermore use stochastic variational methods to offer both fast and
- efficient inference.
-\end_layout
-
-\begin_layout Section*
+\begin_layout Section
 Model
 \end_layout
 
@@ -1531,8 +2577,12 @@ key "hoffman2013stochastic,gopalan2013efficient,li2016scalable"
 \end_layout
 
 \begin_layout Standard
-One of the main limitations in most scalable formulation of community detection
- under the assumptions of MMSB is that links are treated as undirected edges.
+One of the main limitations in most 
+\shape italic
+scalable
+\shape default
+ formulation of community detection under the assumptions of MMSB is that
+ links are treated as undirected edges.
  We aim to recover communities by not disregarding the direction of the
  links;Although this might come with a cost, in the sense that we incorporate
  more information to process that makes the inference more computationally
@@ -1541,11 +2591,20 @@ One of the main limitations in most scalable formulation of community detection
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
 More recently, but still limitations
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 #VI,collapsed Gibbs
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1758,6 +2817,506 @@ Hierarchical-Logistic-Normal-MMSB
 \begin_inset CommandInset label
 LatexCommand label
 name "alg:Hierarchical-Logistic-Normal-MMS"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The data generating process for potential link formation between two individuals
+ 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+ in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Hierarchical-Logistic-Normal-MMS"
+
+\end_inset
+
+ is shown in DAG in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:DAG-structure-for"
+
+\end_inset
+
+.
+ In this figure filled dots indicate model hyper-parameters, and shaded
+ node 
+\begin_inset Formula $y_{ab}$
+\end_inset
+
+ represents observed connection between two nodes.
+ Directed arrows indicate the direction of the influence.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+usetikzlibrary{arrows}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tikzset{     
+\end_layout
+
+\begin_layout Plain Layout
+
+	vertex/.style={circle,draw,minimum size=1.5em},
+\end_layout
+
+\begin_layout Plain Layout
+
+    edge/.style={->,> = latex'} 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+% vertices 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (y) at (2,2) {$y_{ab}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (b) at (2,0) {$
+\backslash
+beta_{kk}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (eta) at (2,-2) {$
+\backslash
+eta$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (2,-3) {$
+\backslash
+eta$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zab) at (0,4) {$z_{ab}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zba) at (4,4) {$z_{ba}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (thetaa) at (0,6) {$
+\backslash
+theta^{*}_{a}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (thetab) at (4,6) {$
+\backslash
+theta^{*}_{b}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (mu) at (1,8) {$
+\backslash
+mu$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (Lambda) at (3,8) {$
+\backslash
+Lambda$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (mu0) at (-.5,10) {$
+\backslash
+mu_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (mu0.north) {$
+\backslash
+mu_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (Lambda0) at (1.5,10) {$
+\backslash
+Lambda_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (Lambda0.north) {$
+\backslash
+Lambda_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (l0) at (2.5,10) {$
+\backslash
+ell_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (l0.north) {$
+\backslash
+ell_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (L0) at (4.5,10) {$L_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (L0.north) {$L_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node[draw=red, fit= (zi1) (zj1) (zi2) (zj2),  inner sep=.60cm, dashed, ultra
+ thick, fill=red!10, fill %opacity=0.2] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node[draw=blue, fit= (zi1) (zj1) (zi2) (zj2) (zi3) (zj3),  inner sep=1.20cm,
+ dashed, ultra thick, fill=blue!%10, fill opacity=0.2] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node [yshift=3.0ex, black] at (2.4,4.3) {Link Preferences};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node [yshift=3.0ex, black] at (-.5,4.8) {Latent Space};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node[draw=black, fit= (zi1) (zj1) (zi2) (zj2) (zi3) (zj3) (y) (Ai) (Aj),
+  inner sep=1.40cm, dashed, ultra %thick, fill=black!10, fill opacity=0.2]
+ {};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node [yshift=3.0ex, black] at (13,-3.5) {$t=1..T$};
+\end_layout
+
+\begin_layout Plain Layout
+
+%edges 
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi1) to [out=300,in=110] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj1) to [out=240,in=70] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi2) to [out=270,in=110] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj2) to [out=270,in=70] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi3) to [out=270,in=180] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj3) to [out=270,in=0] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (eta) to  (b);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (b) to  (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zab) to  (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zba) to  (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (thetaa) to  (zab);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (thetab) to  (zba);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (mu) to  (thetaa);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (Lambda) to  (thetaa);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (mu) to  (thetab);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (Lambda) to  (thetab);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (mu0) to  (mu);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (Lambda0) to  (mu);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (l0) to  (Lambda);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (L0) to  (Lambda);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+DAG structure for algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Hierarchical-Logistic-Normal-MMS"
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:DAG-structure-for"
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -3464,7 +5023,6 @@ Note:All the normals are parametrized using the precision matrix.
 \noindent
 \begin_inset Formula 
 \begin{eqnarray*}
-\\
 \int q(x)ln\,p(x)dx & = & \int\mathcal{N}(x|m,L)\times\\
  &  & \Bigg(-\tfrac{K}{2}ln\,2\pi+\tfrac{1}{2}ln\,|\Lambda|-\\
  &  & \tfrac{1}{2}\Big(Tr\,\Lambda\{(x-\mu)(x-\mu)^{T}\}\Big)\Bigg)dx\\
@@ -3851,7 +5409,7 @@ Multinomial(,1) or Categorical
 \noindent
 \begin_inset Formula 
 \begin{eqnarray*}
-H[q] & = & -\sum_{k}\mathbb{E}_{q}[z_{k}]ln\,\phi_{k}\\
+H[q] & = & -\sum_{k}\mathbb{E}_{q}[z_{k}]ln\,\phi_{k}
 \end{eqnarray*}
 
 \end_inset
@@ -4083,7 +5641,7 @@ H_{q}[params] & = & \tfrac{K}{2}ln\,(2\pi)+\tfrac{K}{2}-\tfrac{1}{2}ln\,|M|\\
 
 \begin_layout Standard
 \noindent
-Note that here I assume the following for the hyperparameters:
+Note that here I assume the following for the hyper-parameters:
 \end_layout
 
 \begin_layout Standard
@@ -4276,11 +5834,11 @@ Gradient with respect to
 
 \begin_layout Standard
 \noindent
-optimizing simultaeneously with 
+optimizing simultaneously with 
 \begin_inset Formula $\ell$
 \end_inset
 
- in the minibatch setting:
+ in the mini-batch setting:
 \end_layout
 
 \begin_layout Standard
@@ -4309,19 +5867,9 @@ Gradient with respect to
 \begin_inset Formula 
 \begin{eqnarray*}
 \mathcal{L}_{\ell} & = & revise\\
-\\
-\\
  & \propto\\
-\\
-\\
- & \Longrightarrow\\
-\\
- & \propto\\
-\\
  & \Longrightarrow\\
 \nabla_{\ell}\mathcal{L}_{\ell} & =\\
-\\
-\\
  & \Longrightarrow\\
  & hence,\\
  & \Longrightarrow\\
@@ -4347,10 +5895,6 @@ Gradient with respect to
 \begin_inset Formula 
 \begin{eqnarray*}
 \mathcal{L}_{b_{k}} & = & revise\\
-\\
-\\
-\\
-\\
  &  & \text{simultaenously optimizing \ensuremath{b_{k0}}},\mbox{\ensuremath{b_{k1}}}\\
  & \Longrightarrow & \text{Similar to our previous results}\\
 \nabla_{b_{k0}}\mathcal{L}_{b_{k}} & = & 0\\
@@ -4422,7 +5966,7 @@ Gradient with respect to
 \begin_inset Formula $\phi_{a\rightarrow b,k}$
 \end_inset
 
- for nonlinks
+ for non-links
 \end_layout
 
 \begin_layout Standard
@@ -4448,7 +5992,7 @@ Gradient with respect to
 \begin_inset Formula $\phi_{a\leftarrow b,k}$
 \end_inset
 
- for nonlinks
+ for non-links
 \end_layout
 
 \begin_layout Standard
@@ -4518,7 +6062,7 @@ exp(\mu_{a,K}+\tfrac{1}{2}\Lambda_{a,K}^{-1})
 \end{array}\right)$
 \end_inset
 
-, and we may for convenience interchangably use 
+, and we may for convenience interchangeably use 
 \begin_inset Formula $\underbar{f}_{a}$
 \end_inset
 

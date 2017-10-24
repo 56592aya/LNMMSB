@@ -20,7 +20,7 @@ using GraphPlot
 	# lr_Lambda = zeros(Float64, model.N)
 	early=true
 	switchrounds=true
-	elboevery=5
+	elboevery=10
 	model.elborecord = Vector{Float64}()
 	model.elbo = 0.0
   	model.oldelbo= -Inf
@@ -56,14 +56,14 @@ using GraphPlot
 	updatel!(model)
 	ntol=0.05
 	niter=1000
-	# lr_M = 1.0
-	# lr_m = 1.0
-	# lr_L = 1.0
-	# lr_b = 1.0
-	# lr_μ=ones(Float64, model.N)
-	# lr_Λ=ones(Float64, model.N)
-	# count_μ = zeros(Int64, model.N)
-	# count_Λ = zeros(Int64, model.N)
+	lr_M = 1.0
+	lr_m = 1.0
+	lr_L = 1.0
+	lr_b = 1.0
+	lr_μ=ones(Float64, model.N)
+	lr_Λ=ones(Float64, model.N)
+	count_μ = zeros(Int64, model.N)
+	count_Λ = zeros(Int64, model.N)
 
 	for i in 1:iter
 
@@ -100,13 +100,9 @@ using GraphPlot
 
 
 		updatephil!(model, mb,early, switchrounds)
-
-
-
 		train_links_num=nnz(model.network)-length(model.ho_linkdict)
 		train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyaddict) -length(mb.mblinks)
 		dep2 = .1*(train_links_num)/(train_links_num+train_nlinks_num)
-
 		updatephinl!(model, mb,early, dep2,switchrounds)
 
 		for a in collect(mb.mballnodes)
