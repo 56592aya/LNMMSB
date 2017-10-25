@@ -95,7 +95,7 @@ mutable struct LNMMSB <: AbstractMMSB
   b0_old        = deepcopy(b0)
   b1            =η1*ones(Float64, K) #one the beta variational param
   b1_old        = deepcopy(b1)
-  mbsize        =N #number of nodes in the minibatch
+  mbsize        =20 #number of nodes in the minibatch
   mbids         =zeros(Int64,mbsize) # to be extended
   nho           =nnz(network)*0.025 #init nho
   ho_dyaddict   = Dict{Dyad,Bool}()
@@ -105,8 +105,8 @@ mutable struct LNMMSB <: AbstractMMSB
  	train_in      = zeros(Int64, N)
   train_sinks   = VectorList{Int64}(N)
  	train_sources = VectorList{Int64}(N)
-  train_sinks   = VectorList{Int64}(N)
- 	train_sources = VectorList{Int64}(N)
+  # train_nonsinks   = VectorList{Int64}(N)
+ # 	train_nonsources = VectorList{Int64}(N)
   ϕloutsum      = zeros(Float64, (N,K))
   ϕnloutsum     = zeros(Float64, (N,K))
   ϕlinsum       = zeros(Float64, (N,K))

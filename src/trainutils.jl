@@ -485,186 +485,39 @@ function updatephinl!(model::LNMMSB, mb::MiniBatch,early::Bool, dep2::Float64,sw
 	end
 end
 
-#Newton
-function updatemua!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
-	model.μ_var_old[a,:]=deepcopy(model.μ_var[a,:])
-	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	μ_var = model.μ_var[a,:]
-	rho=1.0
-	for i in 1:10
-		f(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
-		(model.ϕloutsum[a,:]'+model.ϕlinsum[a,:]'+model.ϕnloutsum[a,:]'+model.ϕnlinsum[a,:]')*μ_var-
-		sumb*(log(ones(model.K)'*exp.(μ_var+.5./model.Λ_var[a,:])))
-		before =f(μ_var)
-		rho=1.0
 
-		# S = f(μ_var)
-		# sfx=softmax(model.μ_var[a,:]+.5./model.Λ_var[a,:])
-		sfx=softmax(μ_var + .5./model.Λ_var[a,:])
-		mu_grad = -model.l.*model.L*(μ_var-model.m) +
-		(model.ϕloutsum[a,:]+model.ϕlinsum[a,:]+model.ϕnloutsum[a,:]+model.ϕnlinsum[a,:])-
-		sumb.*(sfx)
-		mu_hess = -model.l.*model.L - sumb.*(diagm(sfx) - sfx*sfx')
-		temp = μ_var -rho.*(inv(mu_hess)*mu_grad)
-		after = f(temp)
-		while after < before
-			rho *= .5
-			temp = μ_var -rho.*(inv(mu_hess)*mu_grad)
-			after = f(temp)
-		end
-		μ_var =temp
-		# i % 100 == 0 && println("niter ",string(i),", a ", string(a),", rho ", rho, ", norm_mu ", norm(mu_grad))
-		# println(μ_var)
-		# println(norm(mu_grad))
-		if norm(mu_grad) < ntol || isnan(norm(mu_grad))
-			# println(norm(mu_grad))
-			# println(norm(ntol))
-			# println(i)
-			break
-		end
-	end
-	model.μ_var[a,:]=μ_var
-	print();
-end
-#Newton
-###Needs fixings
-function updateLambdaa!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
-
-	model.Λ_var_old[a,:]=deepcopy(model.Λ_var[a,:])
-	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	Λ_var = model.Λ_var[a,:]
-	inv_temp = 1.0./Λ_var
-	for i in 1:10
-		rho=1.0
-		# rho=1.0/((1.0+Float64(i))^.9)
-		sfx=softmax(model.μ_var[a,:]+.5./Λ_var)
-		Lam_grad=-.5*model.l.*diag(model.L)+.5.*Λ_var- .5.*sfx
-		# ForwardDiff.hessian(g, Λ_var)
-		Lam_hess=-.5*diagm(Λ_var.*Λ_var)-.25.*(diagm(sfx)-sfx*sfx')
-
-		p =inv(Lam_hess)*Lam_grad
-		while minimum((1.0./Λ_var) - rho * p) <= 0.00000001
-			rho *= 0.5
-		end
-		inv_temp -= rho * p
-		# i % 100 == 0 && println("niter ",string(i),", a ", string(a),", rho ", rho, ", norm_Lam ", norm(Lam_grad))
-
-		if norm(Lam_grad) < ntol || isnan(norm(Lam_grad))
-			break
-		end
-	end
-	model.Λ_var[a,:]=1.0./inv_temp
-	print();
-end
-#Adagrad
-function updatemua2!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
-
-	model.μ_var_old[a,:]=deepcopy(model.μ_var[a,:])
-	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	μ_var = model.μ_var[a,:]
-	# rho=1.0
-	sfx(μ_var)=softmax(μ_var + .5./model.Λ_var[a,:])
-	func(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
-	(model.ϕloutsum[a,:]'+model.ϕlinsum[a,:]'+model.ϕnloutsum[a,:]'+model.ϕnlinsum[a,:]')*μ_var-
-	sumb*(log(ones(model.K)'*exp.(μ_var+.5./model.Λ_var[a,:])))
-	dfunc(μ_var) = -model.l.*model.L*(μ_var-model.m) +
-	(model.ϕloutsum[a,:]+model.ϕlinsum[a,:]+model.ϕnloutsum[a,:]+model.ϕnlinsum[a,:])-
-	sumb.*sfx(μ_var)
-
-	opt = Adagrad()
-	oldval = func(μ_var)
-	g = -dfunc(μ_var)
-	δ = update(opt,g)
-	μ_var-=δ
-	newval = func(μ_var)
-	while oldval > newval
-		if isapprox(newval, oldval)
-			break;
-		else
-			g = -dfunc(μ_var)
-			δ = update(opt,g)
-			μ_var-=δ
-			oldval=newval
-			newval = func(μ_var)
-		end
-	end
-	model.μ_var[a,:]=μ_var
-	print();
-end
-#Newton
-###Needs fixings
-function updateLambdaa2!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
-	model.Λ_var_old[a,:]=deepcopy(model.Λ_var[a,:])
-	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	Λ_ivar = 1.0./model.Λ_var[a,:]
-
-	ltemp = try
-		[log(Λ_ivar[k]) for k in 1:model.K]
-	catch y
-		if isa(y, DomainError)
-			println("a=",a)
-			throw(y)
-		end
-	end
-	sfx(ltemp)=softmax(model.μ_var[a,:]+.5.*exp.(ltemp))
-	func(ltemp) =-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*exp.(ltemp))))
-
-	dfunc(ltemp) = try
-		-.5*model.l.*diag(model.L) + .5./ltemp - .5*sumb.*sfx(ltemp)
-	catch y
-		if isa(y, DomainError)
-			println("a=",a)
-			throw(y)
-		end
-	end
-
-	opt = Adagrad()
-	oldval = func(ltemp)
-	g = -ForwardDiff.gradient(func, ltemp)
-	δ = update(opt,g)
-	ltemp-=δ
-	newval=func(ltemp)
-	while oldval > newval
-		if isapprox(newval, oldval)
-			break;
-		else
-			g = -ForwardDiff.gradient(func, ltemp)
-			δ = update(opt,g)
-			ltemp-=δ
-			oldval = newval
-			newval = func(ltemp)
-		end
-	end
-
-	# for i in 1:10
-	# 	g = -ForwardDiff.gradient(func, ltemp)
-	#
-	# 	δ = update(opt,g)
-	# 	ltemp-=δ ##should this be plus or minues
-	# end
-	model.Λ_var[a,:]=1.0./exp.(ltemp)
-	print();
-end
 
 function updatesimulμΛ!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
 	model.μ_var_old[a,:]=deepcopy(model.μ_var[a,:])
+
 	model.Λ_var_old[a,:]=deepcopy(model.Λ_var[a,:])
+
 	sumb = model.train_out[a]+model.train_in[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
+
 	μ_var = model.μ_var[a,:]
+
 	Λ_ivar = 1.0./model.Λ_var[a,:]
+
 	ltemp = [log(Λ_ivar[k]) for k in 1:model.K]
+
 	sfx(μ_var)=softmax(μ_var + .5.*exp.(ltemp))
+
 	dfunc(μ_var) = -model.l.*model.L*(μ_var-model.m) +
-	(model.ϕloutsum[a,:]+model.ϕlinsum[a,:]+model.ϕnloutsum[a,:]+model.ϕnlinsum[a,:])-
+	(model.ϕloutsum[a,:]+model.ϕlinsum[a,:]+(length(train.mbfnadj[a])/length(mb.mbfnadj[a]))*model.ϕnloutsum[a,:]+(length(train.mbbnadj[a])/length(mb.mbbnadj[a]))*model.ϕnlinsum[a,:])-
 	sumb.*sfx(μ_var)
 
+
+
 	func(μ_var,ltemp) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
-	(model.ϕloutsum[a,:]'+model.ϕlinsum[a,:]'+model.ϕnloutsum[a,:]'+model.ϕnlinsum[a,:]')*μ_var-
+	(model.ϕloutsum[a,:]'+model.ϕlinsum[a,:]'+(length(train.mbfnadj[a])/length(mb.mbfnadj[a]))*model.ϕnloutsum[a,:]'+(length(train.mbbnadj[a])/length(mb.mbbnadj[a]))*model.ϕnlinsum[a,:]')*μ_var-
 	sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp
+
 	func1(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
-	(model.ϕloutsum[a,:]'+model.ϕlinsum[a,:]'+model.ϕnloutsum[a,:]'+model.ϕnlinsum[a,:]')*μ_var-
+	(model.ϕloutsum[a,:]'+model.ϕlinsum[a,:]'+(length(train.mbfnadj[a])/length(mb.mbfnadj[a]))*model.ϕnloutsum[a,:]'+(length(train.mbbnadj[a])/length(mb.mbbnadj[a]))*model.ϕnlinsum[a,:]')*μ_var-
 	sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))
+
 	func2(ltemp) =-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*exp.(ltemp))))
+
 	opt1 = Adagrad()
 	opt2 = Adagrad()
 	oldval = func(μ_var, ltemp)
@@ -712,11 +565,23 @@ function estimate_βs(model::LNMMSB, mb::MiniBatch)
 	model.est_β=model.b0./(model.b0.+model.b1)
 end
 
+
 function estimate_θs(model::LNMMSB, mb::MiniBatch)
 	for a in collect(mb.mballnodes)
+		# model.est_θ[a,:]=exp(model.μ_var[a,:])./sum(exp(model.μ_var[a,:]))#
 		model.est_θ[a,:]=softmax!(model.μ_var[a,:])
 	end
-	model.est_θ
+	# model.μ_var[1,:]
+	# softmax!(model.μ_var[1,:])
+	# model.μ_var[1,:]
+	# model.est_θ[1,:]=softmax!(model.μ_var[1,:])
+	# model.μ_var
+	# model.est_θ
+	# softmax!()
+	# model.μ_var[1,:]
+	# exp(model.μ_var[1,1])/sum(exp(model.μ_var[1,:]))
+	# exp(model.μ_var[1,4])/sum(exp(model.μ_var[1,:]))
+	model.est_θ[collect(mb.mballnodes),:]
 end
 
 function estimate_μs(model::LNMMSB, mb::MiniBatch)

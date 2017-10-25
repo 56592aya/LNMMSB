@@ -795,7 +795,7 @@ reference "fig:Graphical-representation-of2"
 , identifying influence from homophily may seem impossible non-parametrically,
  as we cannot control for any of the unobserved traits.
  Our approach tries to alleviate this problem by controlling for the communities
- as a proper proxy for the 
+ as a proper proxy for the endogenous process of forming connections
 \begin_inset CommandInset citation
 LatexCommand cite
 key "shalizi2011homophily"
@@ -874,6 +874,14 @@ Chapter 4 builds on the findings of chapter 2 and 3 and extends these models
  formation and severance and find evidence that adopting similar behaviors
  among individuals depending on the intensity of their relationship can
  lead to either more or less homophilous bondings.
+ Figure
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Dynamic-representation-of"
+
+\end_inset
+
+ portrays the problem we are trying to tackle in chapter 4.
 \end_layout
 
 \begin_layout Standard
@@ -1132,6 +1140,13 @@ end{center}
 
 \begin_layout Plain Layout
 Dynamic representation of co-evolution
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Dynamic-representation-of"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1818,6 +1833,33 @@ key "braun2011scalable,ansari2011modeling,handcock2007model,hoff2002latent"
  do not provide access to network measures for various sub-networks as they
  do not leave much for interpretation when representing the network in a
  Euclidean space.
+\end_layout
+
+\begin_layout Standard
+###
+\end_layout
+
+\begin_layout Standard
+why model based:
+\end_layout
+
+\begin_layout Standard
+[w]In contrast to approaches that attempt to cluster a network given an
+ objective function, this class of methods is based on generative models,
+ which not only serve as a description of the large-scale structure of the
+ network, but also can be used to generalize the data and predict the occurrence
+ of missing or spurious links in the network
+\begin_inset CommandInset citation
+LatexCommand cite
+key "guimera2009missing,clauset2008hierarchical"
+
+\end_inset
+
+.[w]
+\end_layout
+
+\begin_layout Standard
+###
 \end_layout
 
 \begin_layout Standard

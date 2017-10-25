@@ -10,7 +10,6 @@ Network{T}    = SparseMatrixCSC{T,T}
 struct Dyad <: AbstractDyad
  src::Int64
  dst::Int64
- # isholdout::Bool
 end
 
 mutable struct Link <: AbstractDyad
@@ -18,16 +17,12 @@ mutable struct Link <: AbstractDyad
   dst::Int64
   ϕout::Vector{Float64}
   ϕin::Vector{Float64}
-  # function Link(src, dst) = new(src, dst, ϕout,ϕin)
-  # isholdout::Bool
 end
 mutable struct NonLink <: AbstractDyad
   src::Int64
   dst::Int64
   ϕout::Vector{Float64}
   ϕin::Vector{Float64}
-  # function NonLink(src, dst) = new(src, dst, ϕout,ϕin)
-  # isholdout::Bool
 end
 ==(x::Dyad, y::Dyad) = x.src == y.src && x.dst == y.dst
 ==(x::Link, y::Link) = x.src == y.src && x.dst == y.dst
@@ -78,7 +73,6 @@ Network{T<:Integer}(nrows::T) = SparseMatrixCSC{T,T}(nrows, nrows, ones(T, nrows
 
 # Base.digamma{T<:Number,R<:Integer}(x::T, dim::R) = @fastmath @inbounds return sum(digamma(x+.5*(1-i)) for i in 1:dim)
 # Base.Math.lgamma{T<:Number,R<:Integer}(x::T, dim::R)=.25*(dim*dim-1)*log(pi)+sum(lgamma(x+.5*(1-i)) for i in 1:dim)
-
 function digamma(x::Float64)
 	p=zero(Float64)
   x=x+6.0
@@ -87,8 +81,6 @@ function digamma(x::Float64)
   p=p+log(x)-0.5/x-1.0/(x-1.0)-1.0/(x-2.0)-1.0/(x-3.0)-1.0/(x-4.0)-1.0/(x-5.0)-1.0/(x-6.0)
   p
 end
-
-
 function lgamma(x::Float64)
 	z=1.0/(x*x)
  	x=x+6.0
@@ -115,7 +107,7 @@ function logsumexp{T<:Real}(x::AbstractArray{T})
     end
     log(s) + u
 end
-
+###check
 function expnormalize{T<:Real}(xs::Array{T})
   s = zero(eltype(xs))
   a = maximum(xs)
@@ -128,7 +120,7 @@ function expnormalize{T<:Real}(xs::Array{T})
   end
   xs[:]
 end
-
+##check softmax
 function softmax!{R<:AbstractFloat,T<:Real}(r::AbstractArray{R}, x::AbstractArray{T})
     n = length(x)
     length(r) == n || throw(DimensionMismatch("Inconsistent array lengths."))
@@ -138,9 +130,11 @@ function softmax!{R<:AbstractFloat,T<:Real}(r::AbstractArray{R}, x::AbstractArra
         s += (r[i] = exp(x[i] - u))
     end
     invs = convert(R, inv(s))
-    @inbounds for i = 1:n
-        r[i] *= invs
-    end
+
+    # @inbounds for i = 1:n
+    #     r[i] *= invs
+    # end
+    r .*= invs
     r
 end
 
@@ -190,8 +184,4 @@ end
 function neighbors(network::Network{Int64},curr::Int64, N::Int64)
   vcat(sinks(network, curr, N), sources(network, curr, N))
 end
-
-
-
-
 print();

@@ -13,7 +13,7 @@ using GraphPlot
 	##############################
 	##############################
 	preparedata(model)
-	iter=1000
+	iter=20000
 	# mu_curr=ones(model.N)
 	# Lambda_curr=ones(model.N)
 	# lr_mu = zeros(Float64, model.N)
@@ -80,16 +80,16 @@ using GraphPlot
 		#Learning rates
 		# mb.mballnodes
 		# model.mbids
-		lr_M = 1.0
-		lr_m = 1.0
-		lr_L = 1.0
-		lr_b = 1.0
+		# lr_M = 1.0
+		# lr_m = 1.0
+		# lr_L = 1.0
+		# lr_b = 1.0
 
 
-		# lr_M = 1.0/((1.0+Float64(i))^.5)
-		# lr_m = 1.0/((1.0+Float64(i))^.7)
-		# lr_L = 1.0/((1.0+Float64(i))^.9)
-		# lr_b = 1.0/((1.0+Float64(i))^.5)
+		lr_M = 1.0/((1.0+Float64(i))^.5)
+		lr_m = 1.0/((1.0+Float64(i))^.7)
+		lr_L = 1.0/((1.0+Float64(i))^.9)
+		lr_b = 1.0/((1.0+Float64(i))^.5)
 
 
 		ExpectedAllSeen=(model.N/model.mbsize)*1.5#round(Int64,nv(network)*sum([1.0/i for i in 1:nv(network)]))
@@ -135,6 +135,10 @@ using GraphPlot
 		updateM!(model, mb)
 		model.M = model.M_old.*(1.0-lr_M)+lr_M.*model.M
 
+
+		model.est_θ[model.mbids,:] = estimate_θs(model, mb)
+
+
 		checkelbo = (i % elboevery == 0)
 		if checkelbo || i == 1
 			print(i);print(": ")
@@ -156,8 +160,11 @@ using GraphPlot
 		switchrounds = !switchrounds
 	end
 
-
-	x = estimate_θs(model, mb)
+# isfullsample=true
+# model.mbsize=model.N
+	# mb=deepcopy(mb_zeroer)
+	# mbsampling!(mb,model, isfullsample)
+	x = deepcopy(model.est_θ)
 	sort_by_argmax!(x)
 	table=[sortperm(x[i,:]) for i in 1:model.N]
 	count = zeros(Int64, model.K)
@@ -173,30 +180,30 @@ using GraphPlot
 	end
 	idx=sortperm(count,rev=true)[(diffK+1):end]
 	x = x[:,sort(idx)]
-	p1=Plots.plot(2:length(model.elborecord),model.elborecord[2:end])
+	# p1=Plots.plot(2:length(model.elborecord),model.elborecord[2:end])
 	p2=Plots.heatmap(x, yflip=true)
 	y = (readdlm("data/true_thetas.txt"))
 	p3=Plots.heatmap(y, yflip=true)
-	decrease=0
-	for (i,v) in enumerate(model.elborecord)
-		if i < length(model.elborecord)
-			if model.elborecord[i+1] < model.elborecord[i]
-				##Decrease can happen
-				if !isapprox(model.elborecord[i+1], model.elborecord[i])
-					decrease+=1
-				end
-			end
-		end
-	end
-	println(decrease)
+	# decrease=0
+	# for (i,v) in enumerate(model.elborecord)
+	# 	if i < length(model.elborecord)
+	# 		if model.elborecord[i+1] < model.elborecord[i]
+	# 			##Decrease can happen
+	# 			if !isapprox(model.elborecord[i+1], model.elborecord[i])
+	# 				decrease+=1
+	# 			end
+	# 		end
+	# 	end
+	# end
+	# println(decrease)
 
 	computeNMI(x,y,communities)
 
-	Plots.plot(p1,p2,p3, layout=(3,1))
+	# Plots.plot(p1,p2,p3, layout=(3,1))
 	# Plots.plot(p1)
 
 
-	# Plots.plot(p2,p3, layout=(2,1))
+	Plots.plot(p2,p3, layout=(2,1))
 	# Plots.savefig(p1, "thetaest0.png")
 
 
