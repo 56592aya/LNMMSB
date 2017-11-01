@@ -13,7 +13,7 @@ using GraphPlot
 	##############################
 	##############################
 	preparedata(model)
-	iter=20000
+	iter=10000
 	# mu_curr=ones(model.N)
 	# Lambda_curr=ones(model.N)
 	# lr_mu = zeros(Float64, model.N)

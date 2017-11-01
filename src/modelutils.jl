@@ -334,4 +334,7 @@ function init_mu(model::LNMMSB, communities::Dict{Int64, Vector{Int64}}, onlyK::
     model.μ_var[i,:] = log.(model.μ_var[i,:])
   end
 end
+
+
+
 print();

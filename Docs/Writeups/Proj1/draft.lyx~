@@ -874,6 +874,14 @@ Chapter 4 builds on the findings of chapter 2 and 3 and extends these models
  formation and severance and find evidence that adopting similar behaviors
  among individuals depending on the intensity of their relationship can
  lead to either more or less homophilous bondings.
+ Figure
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Dynamic-representation-of"
+
+\end_inset
+
+ portrays the problem we are trying to tackle in chapter 4.
 \end_layout
 
 \begin_layout Standard
@@ -1132,6 +1140,13 @@ end{center}
 
 \begin_layout Plain Layout
 Dynamic representation of co-evolution
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Dynamic-representation-of"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
