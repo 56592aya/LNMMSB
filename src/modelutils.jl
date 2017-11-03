@@ -223,7 +223,73 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB, isfullsample::Bool)
 		end
 	end
 end
+##### NEW MB SAMPLING
+function mbsampling_partition!(mb::MiniBatch,model::LNMMSB, isfullsample::Bool)
+	mbcount  = 0
+	lcount = 0
+	while mbcount < model.mbsize
+		lcount = 0
+		a = 1+floor(Int64,model.N*rand())
+		while a in mb.mballnodes
+			a = 1+floor(Int64,model.N*rand())
+		end
 
+		push!(mb.mballnodes, a)
+		Bsink=sinks(model.network, a, model.N)#length is fadj
+		Bsrc=sources(model.network, a, model.N)#length is badj
+
+		for b1 in Bsink
+			if !(Dyad(a,b1) in collect(keys(model.ho_dyaddict)))
+				l = Link(a,b1,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
+				if !(l in mb.mblinks)
+					push!(mb.mblinks, l)
+					lcount +=1
+				end
+			end
+		end
+		for b2 in Bsrc
+			if !(Dyad(b2,a) in collect(keys(model.ho_dyaddict)))
+				l = Link(b2,a,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
+				if !(l in mb.mblinks)
+					push!(mb.mblinks, l)
+					lcount +=1
+				end
+			end
+		end
+
+
+		# length(mb.mblinks)
+		# nl_partition[a]
+		model.visit_count[a] +=1
+		if model.visit_count[a] == 2000
+			model.visit_count[a] = 1
+		end
+		nonlinks_map = model.nl_partition[a][model.visit_count[a]]
+		for x in nonlinks_map
+			nonlink = model.d[x,:]
+			first = nonlink[1]
+			second = nonlink[2]
+			nl = NonLink(first,second,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
+			push!(mb.mbnonlinks, nl)
+			if a == first
+				if !haskey(mb.mbfnadj, first)
+					mb.mbfnadj[first] = get(mb.mbfnadj, first, Vector{Int64}())
+				end
+				push!(mb.mbfnadj[first],second)
+			else
+				if !haskey(mb.mbbnadj, second)
+					mb.mbbnadj[second] = get(mb.mbbnadj, second, Vector{Int64}())
+				end
+				push!(mb.mbbnadj[second],first)
+			end
+		end
+		mbcount +=1
+	end
+	model.mbids[:] = collect(mb.mballnodes)[:]
+	print();
+end
+
+#######################
 
 function train_sample!(train::MiniBatch, model::LNMMSB)
 
@@ -334,7 +400,12 @@ function init_mu(model::LNMMSB, communities::Dict{Int64, Vector{Int64}}, onlyK::
     model.μ_var[i,:] = log.(model.μ_var[i,:])
   end
 end
-
+#should check that it is not a link, and it is not in holdout
+function is_trainnonlink(network::Network{Int64},model::LNMMSB,x...)
+    z = x[1]
+    # println(z)
+    !isalink(network, z[1],z[2]) &&    !haskey(model.ho_dyaddict, Dyad(z[1], z[2]))
+end
 
 
 print();

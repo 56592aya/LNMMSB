@@ -12,7 +12,7 @@ using GraphPlot
 
 	##############################
 	##############################
-	preparedata(model)
+	# preparedata(model)
 	iter=10000
 	# mu_curr=ones(model.N)
 	# Lambda_curr=ones(model.N)
@@ -20,7 +20,7 @@ using GraphPlot
 	# lr_Lambda = zeros(Float64, model.N)
 	early=true
 	switchrounds=true
-	elboevery=10
+	elboevery=20
 	model.elborecord = Vector{Float64}()
 	model.elbo = 0.0
   	model.oldelbo= -Inf
@@ -65,6 +65,8 @@ using GraphPlot
 	count_μ = zeros(Int64, model.N)
 	count_Λ = zeros(Int64, model.N)
 
+
+
 	for i in 1:iter
 
 		#Minibatch sampling/new sample
@@ -75,7 +77,8 @@ using GraphPlot
 			mbsampling!(mb,model, isfullsample)
 		elseif !isfullsample
 			mb=deepcopy(mb_zeroer)
-			mbsampling!(mb,model, isfullsample)
+			# mbsampling!(mb,model, isfullsample)
+			mbsampling_partition!(mb,model,isfullsample)
 		end
 		#Learning rates
 		# mb.mballnodes
@@ -85,11 +88,10 @@ using GraphPlot
 		# lr_L = 1.0
 		# lr_b = 1.0
 
-
 		lr_M = 1.0/((1.0+Float64(i))^.5)
-		lr_m = 1.0/((1.0+Float64(i))^.7)
-		lr_L = 1.0/((1.0+Float64(i))^.9)
-		lr_b = 1.0/((1.0+Float64(i))^.5)
+		lr_m = 1.0/((1.0+Float64(i))^.5)
+		lr_L = 1.0/((1.0+Float64(i))^.7)
+		lr_b = 1.0/((1.0+Float64(i))^.8)
 
 
 		ExpectedAllSeen=(model.N/model.mbsize)*1.5#round(Int64,nv(network)*sum([1.0/i for i in 1:nv(network)]))

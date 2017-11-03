@@ -56,6 +56,9 @@ mutable struct LNMMSB <: AbstractMMSB
     est_μ        ::Vector{Float64}
     est_Λ        ::Matrix2d{Float64}
 		lzeta        ::Vector{Float64}
+    visit_count  ::Vector{Int64}
+    nl_partition ::Dict{Int64,Array{Array{Int64,1},1}}
+    d            ::Array{Int64,2}
 
 
  function LNMMSB(network::Network{Int64}, K::Int64)
@@ -95,7 +98,7 @@ mutable struct LNMMSB <: AbstractMMSB
   b0_old        = deepcopy(b0)
   b1            =η1*ones(Float64, K) #one the beta variational param
   b1_old        = deepcopy(b1)
-  mbsize        =5 #number of nodes in the minibatch
+  mbsize        =1 #number of nodes in the minibatch
   mbids         =zeros(Int64,mbsize) # to be extended
   nho           =nnz(network)*0.025 #init nho
   ho_dyaddict   = Dict{Dyad,Bool}()
@@ -117,8 +120,11 @@ mutable struct LNMMSB <: AbstractMMSB
   est_μ         = zeros(Float64,K)
   est_Λ         = zeros(Float64,(K,K))
 	lzeta         = [logsumexp(μ_var[a,:]+.5./Λ_var[a,:]) for a in 1:N]
+  visit_count = zeros(Int64, N)
+  nl_partition = deepcopy(Dict{Int64, VectorList{Int64}}())
+  d = Array{Int64,2}()
   model = new(K, N, elbo, oldelbo, μ, μ_var,μ_var_old, m0, m,m_old, M0, M,M_old, Λ, Λ_var,Λ_var_old, l0, L0, l,
-   L,L_old, ϕlinoutsum, ϕnlinoutsum, η0, η1, b0,b0_old, b1,b1_old, network, mbsize, mbids,nho,  ho_dyaddict,ho_linkdict,    ho_nlinkdict,train_out,train_in,train_sinks,train_sources,ϕloutsum,  ϕnloutsum,  ϕlinsum,  ϕnlinsum,elborecord,est_θ, est_β, est_μ, est_Λ,lzeta)
+   L,L_old, ϕlinoutsum, ϕnlinoutsum, η0, η1, b0,b0_old, b1,b1_old, network, mbsize, mbids,nho,  ho_dyaddict,ho_linkdict,    ho_nlinkdict,train_out,train_in,train_sinks,train_sources,ϕloutsum,  ϕnloutsum,  ϕlinsum,  ϕnlinsum,elborecord,est_θ, est_β, est_μ, est_Λ,lzeta,visit_count,nl_partition,d)
   return model
  end
 end

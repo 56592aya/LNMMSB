@@ -169,6 +169,11 @@ end
 function isalink(network::Network{Int64},a::Int64, b::Int64)
   network[a,b] == 1
 end
+function isalink(network::Network{Int64},x...)
+	x = x[1]
+  network[x[1],x[2]] == 1
+end
+
 function issink(network::Network{Int64},curr::Int64, q::Int64)
   network[curr,q] == 1
 end
