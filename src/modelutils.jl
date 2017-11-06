@@ -424,8 +424,4 @@ function is_trainnonlink(network::Network{Int64},model::LNMMSB,x...)
     # println(z)
     !isalink(network, z[1],z[2]) &&    !(Dyad(z[1], z[2]) in model.ho_dyads)
 end
-
-
 print();
-model.ho_dyads
-isalink(model.network, 144, 125)

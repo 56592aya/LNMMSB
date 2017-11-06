@@ -195,9 +195,6 @@ using GraphPlot
 		    end
 
 		    avg_lik = (link_ratio*(link_lik/link_count))+((1-link_ratio)*(nonlink_lik/nonlink_count))
-		    # println()
-		    # println("")
-		    # println("")
 		    # println("===================================================")
 		    # print("Perplexity score is : ")
 		    perp_score = exp(-avg_lik)
