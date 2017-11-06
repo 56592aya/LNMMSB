@@ -234,16 +234,16 @@ end
 function updateM!(model::LNMMSB,mb::MiniBatch)
 	##Only to make it MB dependent
 	model.M_old = deepcopy(model.M)
-	model.M = (model.l*model.N).*model.L+model.M0
+	model.M = ((model.l*model.N).*model.L)+model.M0
 end
 #updateM!(model,mb)
 function updatem!(model::LNMMSB, mb::MiniBatch)
 	s = zeros(Float64, model.K)
 	for a in collect(mb.mballnodes)
-		s+=model.μ_var[a,:]
+		s.+=model.μ_var[a,:]
 	end
 	model.m_old = deepcopy(model.m)
-	model.m=inv((model.l*model.N).*model.L+model.M0)*(model.M0*model.m0+((convert(Float64,model.N)/convert(Float64,model.mbsize))*model.l).*model.L*s)
+	model.m=inv(((model.l*model.N).*model.L)+model.M0)*(model.M0*model.m0+((convert(Float64,model.N)/convert(Float64,model.mbsize))*model.l).*model.L*s)
 end
 #updatem!(model, mb)
 function updatel!(model::LNMMSB)
@@ -264,7 +264,7 @@ end
 #updateL!(model, mb)
 function updateb0!(model::LNMMSB, mb::MiniBatch)
 	model.b0_old = deepcopy(model.b0)
-	train_links_num=nnz(model.network)-length(model.ho_linkdict)
+	train_links_num=nnz(model.network)-length(model.ho_links)
 	if isequal(model.ϕlinoutsum[:], zeros(Float64, model.K))
 		model.ϕlinoutsum = zeros(Float64, model.K)
 		for k in 1:model.K
@@ -278,7 +278,7 @@ end
 #updateb0!(model, mb)
 function updateb1!(model::LNMMSB, mb::MiniBatch)
 	model.b1_old = deepcopy(model.b1)
-	train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyaddict) -length(mb.mblinks)
+	train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyads) -length(mb.mblinks)
 	if isequal(model.ϕnlinoutsum[:], zeros(Float64, model.K))
 		model.ϕnlinoutsum = zeros(Float64, model.K)
 		for k in 1:model.K
@@ -488,6 +488,7 @@ end
 
 
 function updatesimulμΛ!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,mb::MiniBatch)
+
 	model.μ_var_old[a,:]=deepcopy(model.μ_var[a,:])
 
 	model.Λ_var_old[a,:]=deepcopy(model.Λ_var[a,:])
@@ -505,7 +506,6 @@ function updatesimulμΛ!(model::LNMMSB, a::Int64, niter::Int64, ntol::Float64,m
 	dfunc(μ_var) = -model.l.*model.L*(μ_var-model.m) +
 	(model.ϕloutsum[a,:]+model.ϕlinsum[a,:]+(length(train.mbfnadj[a])/length(mb.mbfnadj[a]))*model.ϕnloutsum[a,:]+(length(train.mbbnadj[a])/length(mb.mbbnadj[a]))*model.ϕnlinsum[a,:])-
 	sumb.*sfx(μ_var)
-
 
 
 	func(μ_var,ltemp) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
@@ -596,7 +596,7 @@ function computeNMI(x::Matrix{Float64}, y::Matrix{Float64}, communities::Dict{In
 	open("./file2", "w") do f
 	  for k in 1:size(x,2)
 	    for i in 1:size(x,1)
-	      if x[i,k] > .5 #3.0/size(x,2)
+	      if x[i,k] > .3 #3.0/size(x,2)
 	        write(f, "$i ")
 	      end
 	    end
@@ -606,7 +606,7 @@ function computeNMI(x::Matrix{Float64}, y::Matrix{Float64}, communities::Dict{In
 	open("./file1", "w") do f
 	  for k in 1:size(y,2)
 	    for i in 1:size(y,1)
-	      if y[i,k] > .5 #3.0/size(y,2)
+	      if y[i,k] > .3 #3.0/size(y,2)
 	        write(f, "$i ")
 	      end
 	    end
@@ -631,5 +631,41 @@ function computeNMI(x::Matrix{Float64}, y::Matrix{Float64}, communities::Dict{In
 	run(`src/cpp/NMI/onmi file2 file3`)
 	println("NMI of truth vs init")
 	run(`src/cpp/NMI/onmi file1 file3`)
+end
+
+# function computeNMI2(model::LNMMSB, mb::MiniBatch)
+# 	Px = mean(model.est_θ, 1)
+# 	Hx_vec = -Px.*log.(2,Px)
+# 	Hx = sum(Hx_vec)
+# 	true_thetas = readdlm("data/true_thetas.txt")
+# 	Py = mean(true_thetas, 1)
+# 	Hy_vec = -Py.*log.(2,Py)
+# 	Hy = sum(Hy_vec)
+# 	Hxcy_vec =
+# 	Hxcy
+# 	Hycx_vec
+# 	Hycx
+# end
+function edge_likelihood(model::LNMMSB,pair::Dyad, β_est::Vector{Float64})
+    s = zero(Float64)
+    S = Float64
+    prob = zero(Float64)
+	src = pair.src
+	dst = pair.dst
+    for k in 1:model.K
+        if isalink(model.network, pair.src, pair.dst)
+            prob += (model.μ_var[src,k]/sum(model.μ_var[src,:]))*(model.μ_var[dst,k]/sum(model.μ_var[dst,:]))*(β_est[k])
+        else
+            prob += (model.μ_var[src,k]/sum(model.μ_var[src,:]))*(model.μ_var[dst,k]/sum(model.μ_var[dst,:]))*(1.0-β_est[k])
+        end
+        s += (model.μ_var[src,k]/sum(model.μ_var[src,:]))*(model.μ_var[dst,k]/sum(model.μ_var[dst,:]))
+    end
+
+    if isalink(model.network, pair.src, pair.dst)
+        prob += (1.0-s)*EPSILON
+    else
+        prob += (1.0-s)*(1.0-EPSILON)
+    end
+    return log(prob)::Float64
 end
 print("");

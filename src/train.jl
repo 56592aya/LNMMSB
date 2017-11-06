@@ -13,7 +13,13 @@ using GraphPlot
 	##############################
 	##############################
 	# preparedata(model)
-	iter=10000
+	iter=50000
+	train_links_num=nnz(model.network)-length(model.ho_links)
+	train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyads) -length(mb.mblinks)
+	link_ratio = .1*(train_links_num)/(train_links_num+train_nlinks_num)
+	prev_ll = -1000000
+	store_ll = Array{Float64, 1}()
+	first_converge = false
 	# mu_curr=ones(model.N)
 	# Lambda_curr=ones(model.N)
 	# lr_mu = zeros(Float64, model.N)
@@ -88,34 +94,38 @@ using GraphPlot
 		# lr_L = 1.0
 		# lr_b = 1.0
 
-		lr_M = 1.0/((1.0+Float64(i))^.5)
-		lr_m = 1.0/((1.0+Float64(i))^.5)
-		lr_L = 1.0/((1.0+Float64(i))^.7)
-		lr_b = 1.0/((1.0+Float64(i))^.8)
+		lr_M = (1024.0+Float64(i))^(-.9)
+		lr_m = (1024.0+Float64(i))^(-.9)
+		lr_L = (1024.0+Float64(i))^(-.9)
+		lr_b = (1024.0+Float64(i))^(-.9)
 
 
-		ExpectedAllSeen=(model.N/model.mbsize)*1.5#round(Int64,nv(network)*sum([1.0/i for i in 1:nv(network)]))
-		early = false
+		# ExpectedAllSeen=(model.N/model.mbsize)*1.5#round(Int64,nv(network)*sum([1.0/i for i in 1:nv(network)]))
+		if sum(model.visit_count .>= 1) == model.N
+			early = false
+		end
+
+		# early = false
     	# if i == round(Int64,ExpectedAllSeen)+1
         # 	early = false
     	# end
 
 
 		updatephil!(model, mb,early, switchrounds)
-		train_links_num=nnz(model.network)-length(model.ho_linkdict)
-		train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyaddict) -length(mb.mblinks)
+		train_links_num=nnz(model.network)-length(model.ho_links)
+		train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyads) -length(mb.mblinks)
 		dep2 = .1*(train_links_num)/(train_links_num+train_nlinks_num)
 		updatephinl!(model, mb,early, dep2,switchrounds)
 
 		for a in collect(mb.mballnodes)
 
-			# count_μ[a]+=1
-			# count_Λ[a]+=1
+			count_μ[a]+=1
+			count_Λ[a]+=1
 			updatesimulμΛ!(model, a, niter, ntol,mb)
-			# lr_μ[a] = 1.0/((1.0+Float64(count_μ[a]))^.7)
-			# lr_Λ[a] = 1.0/((1.0+Float64(count_Λ[a]))^.5)
-			# model.μ_var[a,:] = model.μ_var_old[a,:].*(1.0.-lr_μ[a])+lr_μ[a].*model.μ_var[a,:]
-			# model.Λ_var[a,:] = model.Λ_var_old[a,:].*(1.0.-lr_Λ[a])+lr_Λ[a].*model.Λ_var[a,:]
+			lr_μ[a] = (1024.0+Float64(count_μ[a]))^(-.6)
+			lr_Λ[a] = (1024.0+Float64(count_Λ[a]))^(-.6)
+			model.μ_var[a,:] = model.μ_var_old[a,:].*(1.0.-lr_μ[a])+lr_μ[a].*model.μ_var[a,:]
+			model.Λ_var[a,:] = model.Λ_var_old[a,:].*(1.0.-lr_Λ[a])+lr_Λ[a].*model.Λ_var[a,:]
 		end
 
 
@@ -160,6 +170,58 @@ using GraphPlot
 			# end
 		end
 		switchrounds = !switchrounds
+		if ((i == 1) || (i == iter) || (iter % elboevery == 0))
+			β_est = zeros(Float64, model.K)
+		    for k in 1:model.K
+		        β_est[k]=model.b0[k]/(model.b0[k]+model.b1[k])
+		    end
+		        ####
+		    link_lik = 0.0
+		    nonlink_lik = 0.0
+		    edge_lik = 0.0
+		    link_count = 0; nonlink_count = 0
+
+		    for pair in model.ho_dyads
+				src = pair.src
+				dst = pair.dst
+		        edge_lik = edge_likelihood(model,pair, β_est)
+		        if isalink(model.network, pair.src, pair.dst)
+		            link_count +=1
+		            link_lik += edge_lik
+		        else
+		            nonlink_count +=1
+		            nonlink_lik += edge_lik
+		        end
+		    end
+
+		    avg_lik = (link_ratio*(link_lik/link_count))+((1-link_ratio)*(nonlink_lik/nonlink_count))
+		    # println()
+		    # println("")
+		    # println("")
+		    # println("===================================================")
+		    # print("Perplexity score is : ")
+		    perp_score = exp(-avg_lik)
+		    # println(perp_score)
+		    # println("===================================================")
+		    push!(store_ll, avg_lik)
+		    # println(abs((prev_ll-avg_lik)/prev_ll))
+		    # if !early
+		    #     println("EARLY OFF")
+		    # end
+		    # if ((abs((prev_ll-avg_lik)/prev_ll) <= (1e-3)))
+		    #     first_converge = true
+		    #     #early = false
+		    # end
+		    # if ((abs((prev_ll-avg_lik)/prev_ll) <= (1e-10)))
+		    #     # break;
+		    #     #early = false
+		    # end
+		    prev_ll = avg_lik
+		    # println("===================================================")
+		    # print("loglikelihood: ")
+		    # println(avg_lik)
+		    # println("===================================================")
+		end
 	end
 
 # isfullsample=true
@@ -186,6 +248,7 @@ using GraphPlot
 	p2=Plots.heatmap(x, yflip=true)
 	y = (readdlm("data/true_thetas.txt"))
 	p3=Plots.heatmap(y, yflip=true)
+
 	# decrease=0
 	# for (i,v) in enumerate(model.elborecord)
 	# 	if i < length(model.elborecord)
@@ -207,6 +270,7 @@ using GraphPlot
 
 	Plots.plot(p2,p3, layout=(2,1))
 	# Plots.savefig(p1, "thetaest0.png")
+	Plots.plot(1:length(store_ll), store_ll)
 
 
 #

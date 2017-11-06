@@ -27,6 +27,10 @@ end
 ==(x::Dyad, y::Dyad) = x.src == y.src && x.dst == y.dst
 ==(x::Link, y::Link) = x.src == y.src && x.dst == y.dst
 ==(x::NonLink, y::NonLink) = x.src == y.src && x.dst == y.dst
+==(x::Dyad, y::Link) = x.src == y.src && x.dst == y.dst
+==(x::Dyad, y::NonLink) = x.src == y.src && x.dst == y.dst
+==(x::Link, y::Dyad) = x.src == y.src && x.dst == y.dst
+==(x::NonLink, y::Dyad) = x.src == y.src && x.dst == y.dst
 hash(x::Dyad, h::UInt) = hash(x.src, hash(x.dst, hash(0x7d6979235cb005d0, h)))
 hash(x::Link, h::UInt) = hash(x.src, hash(x.dst, hash(0x7d6979235cb005d0, h)))
 hash(x::NonLink, h::UInt) = hash(x.src, hash(x.dst, hash(0x7d6979235cb005d0, h)))

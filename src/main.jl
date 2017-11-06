@@ -58,8 +58,8 @@ for a in 1:model.N
     deg=model.train_in[a]+model.train_out[a]
     # length(involve[1])
     # while rounds[a] <= 200
-
-    partition_size = div(length(involve[a]),deg)
+    deg2 = 2*deg
+    partition_size = div(length(involve[a]),deg2)
     if !haskey(model.nl_partition, a)
         model.nl_partition[a]=getkey(model.nl_partition, a, VectorList{Int64}())
     end
@@ -70,9 +70,9 @@ for a in 1:model.N
             #     break;
             # end
             if i == partition_size
-                push!(model.nl_partition[a], involve[a][((partition_size-1)*deg + 1):end])
+                push!(model.nl_partition[a], involve[a][((partition_size-1)*deg2 + 1):end])
             else
-                push!(model.nl_partition[a], involve[a][((i-1)*deg + 1):i*deg])
+                push!(model.nl_partition[a], involve[a][((i-1)*deg2 + 1):i*deg2])
             end
             i+=1
         end

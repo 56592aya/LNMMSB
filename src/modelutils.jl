@@ -9,12 +9,16 @@ function setholdout(model::LNMMSB)
 		spidx = 1+floor(Int64,num_nonzeros*rand())
 		a,b = A[spidx], B[spidx]
 		d = Dyad(a,b)
-		if !haskey(model.ho_dyaddict, d)
-			model.ho_dyaddict[d] = get(model.ho_dyaddict, d, true)
+		if d in model.ho_dyads
+			continue;
+		else
+			push!(model.ho_dyads, d)
 		end
 		l = Link(a,b,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
-		if !haskey(model.ho_linkdict, l)
-			model.ho_linkdict[l] = get(model.ho_linkdict, l, true)
+		if l in model.ho_links
+			continue;
+		else
+			push!(model.ho_links, l)
 			countlink+=1
 		end
 	end
@@ -23,12 +27,16 @@ function setholdout(model::LNMMSB)
 		b = 1+floor(Int64,model.N*rand())
 		if !isalink(model.network,a, b)
 			d = a!=b ? Dyad(a,b) : continue
-			if !haskey(model.ho_dyaddict, d)
-				model.ho_dyaddict[d] = get(model.ho_dyaddict, d, true)
+			if d in model.ho_dyads
+				continue;
+			else
+				push!(model.ho_dyads, d)
 			end
 			nl = NonLink(a,b,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
-			if !haskey(model.ho_nlinkdict, nl)
-			model.ho_nlinkdict[nl] = get(model.ho_nlinkdict, nl, true)
+			if nl in model.ho_nlinks
+				continue;
+			else
+				push!(model.ho_nlinks, nl)
 				countnonlink  += 1
 			end
 		end
@@ -43,12 +51,12 @@ function train_ss!(model::LNMMSB)
 		xsrc=Int64[]
 
 		for b1 in Bsink
-			if (Dyad(a,b1) in collect(keys(model.ho_linkdict)))
+			if Dyad(a,b1) in model.ho_links
 				push!(xsink,b1)
 			end
 		end
 		for b2 in Bsrc
-			if (Dyad(b2,a) in collect(keys(model.ho_linkdict)))
+			if Dyad(b2,a) in model.ho_links
 				push!(xsrc,b2)
 			end
 		end
@@ -66,12 +74,12 @@ function train_degree!(model::LNMMSB)
 		model.train_out[a] = length(Bsink)
 		model.train_in[a] =  length(Bsrc)
 		for b1 in Bsink
-			if (Dyad(a,b1) in collect(keys(model.ho_linkdict)))
+			if Dyad(a,b1) in model.ho_links
 				model.train_out[a]-=1
 			end
 		end
 		for b2 in Bsrc
-			if (Dyad(b2,a) in collect(keys(model.ho_linkdict)))
+			if Dyad(b2,a) in model.ho_links
 				model.train_in[a]-=1
 			end
 		end
@@ -95,7 +103,9 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB)
 		Bsrc=sources(model.network, a, model.N)#length is badj
 
 		for b1 in Bsink
-			if !(Dyad(a,b1) in collect(keys(model.ho_dyaddict)))
+			if Dyad(a,b1) in model.ho_dyads
+				continue;
+			else
 				l = Link(a,b1,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
 				if !(l in mb.mblinks)
 					push!(mb.mblinks, l)
@@ -104,7 +114,9 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB)
 			end
 		end
 		for b2 in Bsrc
-			if !(Dyad(b2,a) in collect(keys(model.ho_dyaddict)))
+			if Dyad(b2,a) in model.ho_dyads
+				continue;
+			else
 				l = Link(b2,a,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
 				if !(l in mb.mblinks)
 					push!(mb.mblinks, l)
@@ -118,7 +130,7 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB)
 			b=1+floor(Int64,model.N*rand())
 			r = rand()
 			if r  < .5
-				if !(Dyad(a,b) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, a, b))
+				if !(Dyad(a,b) in model.ho_dyads) && !(isalink(model.network, a, b))
 					nl = NonLink(a,b,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
 					if !(nl in mb.mbnonlinks)
 						push!(mb.mbnonlinks, nl)
@@ -134,7 +146,7 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB)
 					end
 				end
 			else
-				if !(Dyad(b,a) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, b, a))
+				if !(Dyad(b,a) in model.ho_dyads) && !(isalink(model.network, b, a))
 					nl = NonLink(b,a,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
 					if !(nl in mb.mbnonlinks)
 						push!(mb.mbnonlinks, nl)
@@ -168,9 +180,9 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB, isfullsample::Bool)
 			Bsrc=sources(model.network, a, model.N)#length is badj
 
 			for b1 in Bsink
-				if !(Dyad(a,b1) in collect(keys(model.ho_dyaddict)))
-					# l = Link(a,b1,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
-
+				if Dyad(a,b1) in model.ho_dyads
+					continue;
+				else
 					l = Link(a,b1,softmax(model.μ_var[a,:]),softmax(model.μ_var[b1,:]))
 					if !(l in mb.mblinks)
 						push!(mb.mblinks, l)
@@ -178,8 +190,9 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB, isfullsample::Bool)
 				end
 			end
 			for b2 in Bsrc
-				if !(Dyad(b2,a) in collect(keys(model.ho_dyaddict)))
-
+				if Dyad(b2,a) in model.ho_dyads
+					continue;
+				else
 					l = Link(b2,a,softmax(model.μ_var[b2,:]),softmax(model.μ_var[a,:]))
 					if !(l in mb.mblinks)
 						push!(mb.mblinks, l)
@@ -190,7 +203,7 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB, isfullsample::Bool)
 		for a in 1:model.mbsize
 			for b in 1:model.mbsize
 				if a != b
-					if !(Dyad(a,b) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, a, b))
+					if !(Dyad(a,b) in model.ho_dyads) && !(isalink(model.network, a, b))
 						nl = NonLink(a,b,softmax(model.μ_var[a,:]),softmax(model.μ_var[b,:]))
 						if !(nl in mb.mbnonlinks)
 							push!(mb.mbnonlinks, nl)
@@ -204,7 +217,7 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB, isfullsample::Bool)
 							push!(mb.mbbnadj[b],a)
 						end
 					end
-					if !(Dyad(b,a) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, b, a))
+					if !(Dyad(b,a) in model.ho_dyads) && !(isalink(model.network, b, a))
 						nl = NonLink(b,a,softmax(model.μ_var[b,:]),softmax(model.μ_var[a,:]))
 						if !(nl in mb.mbnonlinks)
 							push!(mb.mbnonlinks, nl)
@@ -239,7 +252,9 @@ function mbsampling_partition!(mb::MiniBatch,model::LNMMSB, isfullsample::Bool)
 		Bsrc=sources(model.network, a, model.N)#length is badj
 
 		for b1 in Bsink
-			if !(Dyad(a,b1) in collect(keys(model.ho_dyaddict)))
+			if Dyad(a,b1) in model.ho_dyads
+				continue;
+			else
 				l = Link(a,b1,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
 				if !(l in mb.mblinks)
 					push!(mb.mblinks, l)
@@ -248,7 +263,9 @@ function mbsampling_partition!(mb::MiniBatch,model::LNMMSB, isfullsample::Bool)
 			end
 		end
 		for b2 in Bsrc
-			if !(Dyad(b2,a) in collect(keys(model.ho_dyaddict)))
+			if Dyad(b2,a) in model.ho_dyads
+				continue;
+			else
 				l = Link(b2,a,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
 				if !(l in mb.mblinks)
 					push!(mb.mblinks, l)
@@ -300,9 +317,9 @@ function train_sample!(train::MiniBatch, model::LNMMSB)
 		Bsrc=sources(model.network, a, model.N)#length is badj
 
 		for b1 in Bsink
-			if !(Dyad(a,b1) in collect(keys(model.ho_dyaddict)))
-				# l = Link(a,b1,(1.0/model.K)*ones(Float64, model.K),(1.0/model.K)*ones(Float64, model.K))
-
+			if Dyad(a,b1) in model.ho_dyads
+				continue;
+			else
 				l = Link(a,b1,softmax(model.μ_var[a,:]),softmax(model.μ_var[b1,:]))
 				if !(l in train.mblinks)
 					push!(train.mblinks, l)
@@ -310,8 +327,9 @@ function train_sample!(train::MiniBatch, model::LNMMSB)
 			end
 		end
 		for b2 in Bsrc
-			if !(Dyad(b2,a) in collect(keys(model.ho_dyaddict)))
-
+			if Dyad(b2,a) in model.ho_dyads
+				continue;
+			else
 				l = Link(b2,a,softmax(model.μ_var[b2,:]),softmax(model.μ_var[a,:]))
 				if !(l in train.mblinks)
 					push!(train.mblinks, l)
@@ -322,7 +340,7 @@ function train_sample!(train::MiniBatch, model::LNMMSB)
 	for a in 1:model.N
 		for b in 1:model.N
 			if a != b
-				if !(Dyad(a,b) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, a, b))
+				if !(Dyad(a,b) in model.ho_dyads) && !(isalink(model.network, a, b))
 					nl = NonLink(a,b,softmax(model.μ_var[a,:]),softmax(model.μ_var[b,:]))
 					if !(nl in train.mbnonlinks)
 						push!(train.mbnonlinks, nl)
@@ -336,7 +354,7 @@ function train_sample!(train::MiniBatch, model::LNMMSB)
 						push!(train.mbbnadj[b],a)
 					end
 				end
-				if !(Dyad(b,a) in collect(keys(model.ho_dyaddict))) && !(isalink(model.network, b, a))
+				if !(Dyad(b,a) in model.ho_dyads) && !(isalink(model.network, b, a))
 					nl = NonLink(b,a,softmax(model.μ_var[b,:]),softmax(model.μ_var[a,:]))
 					if !(nl in train.mbnonlinks)
 						push!(train.mbnonlinks, nl)
@@ -404,8 +422,10 @@ end
 function is_trainnonlink(network::Network{Int64},model::LNMMSB,x...)
     z = x[1]
     # println(z)
-    !isalink(network, z[1],z[2]) &&    !haskey(model.ho_dyaddict, Dyad(z[1], z[2]))
+    !isalink(network, z[1],z[2]) &&    !(Dyad(z[1], z[2]) in model.ho_dyads)
 end
 
 
 print();
+model.ho_dyads
+isalink(model.network, 144, 125)
