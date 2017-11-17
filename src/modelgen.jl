@@ -24,12 +24,14 @@ function gennetwork(N::Int64, K::Int64)
 
   Λ ./= N
   μ = rand(MvNormalCanon(M0*m0,M0))
+  μ -= mean(μ)
 
   # cov(1.0./(reshape(repeat(rand(MvNormalCanon(M0*m0,M0)), outer=[1000]),(4,1000)))')
   β = rand(Beta(η0, η1),K)
   ##We need to make sure that these probabilities are all positive
   for a in 1:N
     θ[a,:] = rand(MvNormalCanon(Λ*μ, Λ))
+    θ[a,:] -= mean(θ[a,:])
   end
 
 
@@ -39,9 +41,8 @@ function gennetwork(N::Int64, K::Int64)
   z_out = zeros(Float64,(N,N,K))
 
   for a in 1:N
-    θ[a,:]=softmax!(θ[a,:])
+    θ[a,:]=softmax(θ[a,:])
   end
-
   sort_by_argmax!(θ)
   if isfile("data/true_thetas.txt")
     rm("data/true_thetas.txt")
@@ -64,18 +65,6 @@ function gennetwork(N::Int64, K::Int64)
     end
   end
 
-#   open("data/mu_true.txt", "w") do f
-#     write(f, "mu=")
-#     for k in 1:K
-#       write(f, "$(μ[k])  ")
-#     end
-#     write(f, "\n")
-#     write(f, "diag(Lambda)=")
-#     for k in 1:K
-#       write(f, "$(Λ[k,k])  ")
-#     end
-#     write(f, "\n")
-#   end
 	if isfile("data/true_mu.txt")
 	    rm("data/true_mu.txt")
 	    rm("data/true_Lambda.txt")

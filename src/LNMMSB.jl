@@ -24,11 +24,8 @@ mutable struct LNMMSB <: AbstractMMSB
     l            ::Float64            #variational df
     L            ::Matrix2d{Float64}  #variational scale diagonal
     L_old        ::Matrix2d{Float64}  #variational scale diagonal
-    # ζ            ::Vector{Float64}    #additional variation param
-    # ζ_old        ::Vector{Float64}    #additional variation param
     ϕlinoutsum   ::Vector{Float64}    #sum of phi products for links
     ϕnlinoutsum  ::Vector{Float64}    #sum of phi products for nonlinks
-    # ϕbar         ::Matrix2d{Float64}  #average of phis to be used for the next round
     η0           ::Float64            #hyperprior on beta
     η1           ::Float64            #hyperprior on beta
     b0           ::Vector{Float64}    #variational param for beta
@@ -39,14 +36,13 @@ mutable struct LNMMSB <: AbstractMMSB
     mbsize       ::Int64              #minibatch size
     mbids        ::Vector{Int64}      #minibatch node ids
     nho          ::Float64            # no. of validation links
-    ho_dyaddict  ::Dict{Dyad,Bool}    #holdout dyad dictionary
-    ho_linkdict  ::Dict{Link,Bool}    #holdout link dictionary
-    ho_nlinkdict ::Dict{NonLink,Bool} #holdout nonlink dictionary
     ho_dyads     ::Vector{Dyad}       #holdout dyad vector
     ho_links     ::Vector{Link}       #holdout link vector
     ho_nlinks    ::Vector{NonLink}    #holdout nonlink vector
-    train_out    ::Vector{Int64}      #outdeg of train and mb
-    train_in     ::Vector{Int64}      #indeg of train and mb
+    ho_fnadj     ::Vector{Int64}
+    ho_bnadj     ::Vector{Int64}
+    train_outdeg    ::Vector{Int64}      #outdeg of train and mb
+    train_indeg     ::Vector{Int64}      #indeg of train and mb
     train_sinks  ::VectorList{Int64}  #sinks of train and mb
     train_sources::VectorList{Int64}  #sink sof train and mb
     ϕloutsum     ::Matrix2d{Float64}
@@ -58,10 +54,16 @@ mutable struct LNMMSB <: AbstractMMSB
     est_β        ::Vector{Float64}
     est_μ        ::Vector{Float64}
     est_Λ        ::Matrix2d{Float64}
-		lzeta        ::Vector{Float64}
     visit_count  ::Vector{Int64}
     nl_partition ::Dict{Int64,Array{Array{Int64,1},1}}
+    train_nonlinks :: Vector{NonLink}
     d            ::Array{Int64,2}
+    Elogβ0       ::Vector{Float64}
+    Elogβ1       ::Vector{Float64}
+    mb_zeroer    ::MiniBatch
+    link_set     ::Array{Array{Link,1},1}
+    nonlink_setmap::Array{Array{Array{Int64,1},1},1}
+    node_tnmap   ::Array{Array{Int64,1},1}
 
 
  function LNMMSB(network::Network{Int64}, K::Int64)
@@ -83,39 +85,31 @@ mutable struct LNMMSB <: AbstractMMSB
     Λ_var[a,:]  = rand(K)
   end
   Λ_var_old     = deepcopy(Λ_var)
-
   l0            =K*1.0 #init the df l0
   L0            =(0.05).*eye(Float64,K) #init the scale L0
-
   l             =K*1.0 #init the df l
   L             =(1.0/K).*eye(Float64,K) #zero the scale L
   L_old         = deepcopy(L)
   ϕlinoutsum    =zeros(Float64,K) #zero the phi link product sum
   ϕnlinoutsum   =zeros(Float64,K) #zero the phi nonlink product sum
-  # ϕbar          =(1.0/K).*ones(Float64, (N,K)) ## to be used for other rounds as init
-  # ζ             =ones(Float64, N) #one additional variational param
-  # ζ_old         = deepcopy(ζ)
   η0            =true_eta0 #one the beta param
-  η1            =1.1 #one the beta param
+  η1            =1.5 #one the beta param
   b0            =η0.*ones(Float64, K) #one the beta variational param
   b0_old        = deepcopy(b0)
   b1            =η1*ones(Float64, K) #one the beta variational param
   b1_old        = deepcopy(b1)
-  mbsize        =5 #number of nodes in the minibatch
+  mbsize        = 5 #number of nodes in the minibatch
   mbids         =zeros(Int64,mbsize) # to be extended
   nho           =nnz(network)*0.025 #init nho
-  ho_dyaddict   = Dict{Dyad,Bool}()
- 	ho_linkdict   = Dict{Link,Bool}()
- 	ho_nlinkdict  = Dict{NonLink,Bool}()
   ho_dyads      = Vector{Dyad}()
  	ho_links      = Vector{Link}()
  	ho_nlinks     = Vector{NonLink}()
-  train_out     = zeros(Int64, N)
- 	train_in      = zeros(Int64, N)
+  ho_fnadj      =zeros(Int64,N)
+  ho_bnadj      =zeros(Int64,N)
+  train_outdeg     = zeros(Int64, N)
+ 	train_indeg      = zeros(Int64, N)
   train_sinks   = VectorList{Int64}(N)
  	train_sources = VectorList{Int64}(N)
-  # train_nonsinks   = VectorList{Int64}(N)
- # 	train_nonsources = VectorList{Int64}(N)
   ϕloutsum      = zeros(Float64, (N,K))
   ϕnloutsum     = zeros(Float64, (N,K))
   ϕlinsum       = zeros(Float64, (N,K))
@@ -125,14 +119,21 @@ mutable struct LNMMSB <: AbstractMMSB
   est_β         = zeros(Float64,K)
   est_μ         = zeros(Float64,K)
   est_Λ         = zeros(Float64,(K,K))
-	lzeta         = [logsumexp(μ_var[a,:]+.5./Λ_var[a,:]) for a in 1:N]
-  visit_count = zeros(Int64, N)
-  nl_partition = deepcopy(Dict{Int64, VectorList{Int64}}())
-  d = Matrix2d{Int64}(0,0)
+  visit_count   = zeros(Int64, N)
+  nl_partition  = deepcopy(Dict{Int64, VectorList{Int64}}())
+  train_nonlinks = Vector{NonLink}()
+  d             = Matrix2d{Int64}(0,0)
+  Elogβ0        =zeros(Float64, K)
+  Elogβ1        =zeros(Float64, K)
+  mb_zeroer     =MiniBatch()
+  link_set      =Array{Array{Link,1},1}()
+  nonlink_setmap=Array{Array{Array{Int64,1},1},1}()
+  node_tnmap    =Array{Array{Int64,1},1}()
   model = new(K, N, elbo, oldelbo, μ, μ_var,μ_var_old, m0, m,m_old, M0, M,M_old, Λ, Λ_var,Λ_var_old, l0, L0, l,
-   L,L_old, ϕlinoutsum, ϕnlinoutsum, η0, η1, b0,b0_old, b1,b1_old, network, mbsize, mbids,nho,  ho_dyaddict,
-   ho_linkdict,ho_nlinkdict,ho_dyads, ho_links, ho_nlinks,train_out,train_in,train_sinks,train_sources,ϕloutsum,
-     ϕnloutsum,  ϕlinsum,  ϕnlinsum,elborecord,est_θ, est_β, est_μ, est_Λ,lzeta,visit_count,nl_partition,d)
+   L,L_old, ϕlinoutsum, ϕnlinoutsum, η0, η1, b0,b0_old, b1,b1_old, network, mbsize, mbids,nho, ho_dyads, ho_links,
+    ho_nlinks,ho_fnadj,ho_bnadj,train_outdeg,train_indeg,train_sinks,train_sources,ϕloutsum,
+     ϕnloutsum,  ϕlinsum,  ϕnlinsum,elborecord,est_θ, est_β, est_μ, est_Λ,visit_count,nl_partition,
+     train_nonlinks,d,Elogβ0,Elogβ1,mb_zeroer,link_set,nonlink_setmap, node_tnmap)
   return model
  end
 end

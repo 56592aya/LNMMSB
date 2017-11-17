@@ -1,0 +1,3236 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass beamer
+\begin_preamble
+\usetheme{Warsaw}
+% or ...
+
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+\usepackage{tkz-graph}  
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{fit}
+\usetikzlibrary{calc}
+\end_preamble
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "times" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 0
+\use_package esint 0
+\use_package mathdots 1
+\use_package mathtools 0
+\use_package mhchem 1
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Towards Contagion Driven Homophily in Large Networks
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Contagion Driven Homophily
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+optional, use only with long paper titles
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Community Detection
+\end_layout
+
+\begin_layout Subsection
+Modeling Network via Correlated Communities
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Motivation for Community Detection
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Subnetwork-level measures provide better understanding for processes than
+ network-level ones
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+A hub at community level may not be so much of a hub at network level.
+\end_layout
+
+\begin_layout Itemize
+Sub-networks can provide better meaning and context for behavioral patterns.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+How We Do It
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\size footnotesize
+(Correlated)Mixed Membership Stochastic Blockmodel(allowing for large directed
+ networks)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\size footnotesize
+Individuals within and between communities connect according to a probability
+ matrix(higher probabilities within than between)
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+Each person has a probability vector determining its propensity to belong
+ to different communities, which could be correlated with other individuals
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+Each person determines its community according to their potential interaction
+ to other individuals in a network 
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+Two individuals connect according to the probability of the communities
+ they have determined in potential interaction
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Big Picture
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+usetikzlibrary{arrows}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tikzset{     
+\end_layout
+
+\begin_layout Plain Layout
+
+	vertex/.style={circle,draw,minimum size=1.5em},
+\end_layout
+
+\begin_layout Plain Layout
+
+    edge/.style={->,> = latex'} 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+% vertices 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, fill={rgb:black,1;white,2}] (y) at (6,0) {$y_{ij}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi) at (4,4) {$z_{i}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj) at (8,4) {$z_j$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [draw=red, fit= (zi) (zj),  inner sep=1.00cm, dashed, ultra thick, fill=red!
+10, fill opacity=0.2] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+%edges 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi) to [out=300,in=110] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj) to [out=240,in=70] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Graphical representation of network structure
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Generative Algorithm
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+\begin_inset Formula $\forall k\in[1,..,K]$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+draw the diagonal elements of the block matrix 
+\series bold
+
+\begin_inset Formula $B$
+\end_inset
+
+
+\series default
+ via
+\begin_inset Formula $\beta_{k,k}\sim Beta(\eta_{0},\eta_{1})$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+\begin_inset Formula $\forall i\in\mathcal{N}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+draw the mean of the logit mixed membership vector through 
+\begin_inset Formula $\boldsymbol{\mu}\sim Normal(\boldsymbol{\mu}_{0},\boldsymbol{\Lambda}_{0})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+draw the precision of the logit mixed membership vector through 
+\begin_inset Formula $\boldsymbol{\Lambda}\sim Wishart(\boldsymbol{\ell}_{0},\boldsymbol{L}_{0})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+draw a 
+\begin_inset Formula $K$
+\end_inset
+
+-dimensional vector,
+\begin_inset Formula $\boldsymbol{\theta}_{i}^{*}\sim Normal(\boldsymbol{\mu},\boldsymbol{\Lambda})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+construct the simplical mixed membership via logistic transformation , 
+\begin_inset Formula $\boldsymbol{\theta}_{i,k}=\frac{exp(\boldsymbol{\theta}_{i,k}^{*})}{\sum_{l}exp(\boldsymbol{\theta}_{i,l}^{*})}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+\begin_inset Formula $\forall(i,j)\in\mathcal{E}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+draw one-hot membership indicator vector for 
+\begin_inset Formula $i$
+\end_inset
+
+ when contacting 
+\begin_inset Formula $j$
+\end_inset
+
+, 
+\begin_inset Formula $\boldsymbol{z}_{i\rightarrow j}\sim Categorical(\boldsymbol{\theta}_{i})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+draw one-hot membership indicator vector for 
+\begin_inset Formula $j$
+\end_inset
+
+ when contacted by i, 
+\begin_inset Formula $\boldsymbol{z}_{i\leftarrow j}\sim Categorical(\boldsymbol{\theta}_{j})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+sample a link between 
+\begin_inset Formula $i\rightarrow j$
+\end_inset
+
+ with probability 
+\begin_inset Formula $\boldsymbol{z}_{i\rightarrow j}\boldsymbol{B}\boldsymbol{z}_{i\leftarrow j}$
+\end_inset
+
+, 
+\begin_inset Formula $Y(i,j)\sim Bernoulli($
+\end_inset
+
+
+\begin_inset Formula $\boldsymbol{z}_{i\rightarrow j}\boldsymbol{B}\boldsymbol{z}_{i\leftarrow j}$
+\end_inset
+
+)
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+MMSB model
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+usetikzlibrary{arrows}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tikzset{     
+\end_layout
+
+\begin_layout Plain Layout
+
+	vertex/.style={circle,draw,minimum size=0.8em},
+\end_layout
+
+\begin_layout Plain Layout
+
+    edge/.style={->,> = latex'} 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+% vertices 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (y) at (2,8) {$y_{ij}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (b) at (2,6.5) {$
+\backslash
+beta_{kk}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (eta) at (0,6.5) {$
+\backslash
+eta$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (-0.5,6.5) {$
+\backslash
+eta$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zab) at (0,8.5) {$z_{ij}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zba) at (4,8.5) {$z_{ji}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (thetaa) at (0,10) {$
+\backslash
+theta^{*}_{i}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (thetab) at (4,10) {$
+\backslash
+theta^{*}_{j}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (mu) at (0.5,11) {$
+\backslash
+mu$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (Lambda) at (3.5,11) {$
+\backslash
+Lambda$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (mu0) at (-.5,12) {$
+\backslash
+mu_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (mu0.north) {$
+\backslash
+mu_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (Lambda0) at (1.5,12) {$
+\backslash
+Lambda_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (Lambda0.north) {$
+\backslash
+Lambda_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (l0) at (2.5,12) {$
+\backslash
+ell_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (l0.north) {$
+\backslash
+ell_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (L0) at (4.5,12) {$L_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (L0.north) {$L_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node[draw=red, fit= (zi1) (zj1) (zi2) (zj2),  inner sep=.60cm, dashed, ultra
+ thick, fill=red!10, fill %opacity=0.2] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node[draw=blue, fit= (zi1) (zj1) (zi2) (zj2) (zi3) (zj3),  inner sep=1.20cm,
+ dashed, ultra thick, fill=blue!%10, fill opacity=0.2] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node [yshift=3.0ex, black] at (2.4,4.3) {Link Preferences};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node [yshift=3.0ex, black] at (-.5,4.8) {Latent Space};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node[draw=black, fit= (zi1) (zj1) (zi2) (zj2) (zi3) (zj3) (y) (Ai) (Aj),
+  inner sep=1.40cm, dashed, ultra %thick, fill=black!10, fill opacity=0.2]
+ {};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node [yshift=3.0ex, black] at (13,-3.5) {$t=1..T$};
+\end_layout
+
+\begin_layout Plain Layout
+
+%edges 
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi1) to [out=300,in=110] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj1) to [out=240,in=70] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi2) to [out=270,in=110] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj2) to [out=270,in=70] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi3) to [out=270,in=180] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj3) to [out=270,in=0] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (eta) to  (b);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (b) to  (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zab) to  (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zba) to  (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (thetaa) to  (zab);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (thetab) to  (zba);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (mu) to  (thetaa);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (Lambda) to  (thetaa);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (mu) to  (thetab);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (Lambda) to  (thetab);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (mu0) to  (mu);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (Lambda0) to  (mu);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (l0) to  (Lambda);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (L0) to  (Lambda);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+MMSB model
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Inference Engine
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+For all models we use Stochastic Variational Inference to get back paramaters
+\end_layout
+
+\begin_layout Itemize
+Variational Inference(VI)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Approximating posterior through an easier tractable proposal distribution
+ by minimizing the KL divergence between true posterior and proposal
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Stochastic Variational Inference(SVI)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Using Minibatch sampling to have a noisy estimate of the gradient with decreasin
+g step size to optimize the variational objective
+\end_layout
+
+\begin_layout Itemize
+allows handling large datasets
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Subsection
+Why Community Detection Matters?
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Applications for Community Detection 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Summarizing data in a lower dimensional space
+\end_layout
+
+\begin_layout Itemize
+Identifying new roles at the sub-network level(i.e local hubs/bridges)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+domain specific influentials may not be influential/central in other domains
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Extensions:Simplifying the study of social influence when latent homophily
+ is present
+\end_layout
+
+\begin_layout Itemize
+Extensions:Allowing for monitoring the growth of a network in dynamic setting
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Subsection
+Where We Depart from Other Works
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Our Contribution
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\size scriptsize
+Although many network-level measures have been useful in predictive ability,
+ but networks are in fact mixture of multiple subnetworks
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+Other models such as latent space models aim at answering similar questions
+ but fails to give meaning and context to the euclidean latent space
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\size scriptsize
+Latent space models do not provide measures for subnetworks.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\size scriptsize
+MMSB model estimations for larger networks make unnecessary simplifying
+ assumptions
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\size scriptsize
+For inference convenience they deal with undirected graphs
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+They do not allow for correlated membership by assuming conjugate priors
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+They do not allow for potential evolution of networks by assuming conjugate
+ priors
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\size scriptsize
+We address all of these problems by assuming
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\size scriptsize
+directed links
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+correlated membership through logistic normal prior
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+allowing for evolution in later dynamic model by introducing logistic normal
+ priors
+\end_layout
+
+\begin_layout Itemize
+
+\size scriptsize
+Allow large networks by incorporarting our scalable SVI with these new constrain
+ts
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Section
+Using Behavioral Data in Community Detection
+\end_layout
+
+\begin_layout Subsection
+Insights from Networked Behavior via Community Structure
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Using Behavioral Data
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+We exploit behavioral data in better detecting communities, and labeling
+ them
+\end_layout
+
+\begin_layout Itemize
+We can assess improved prediction of signal penetration rate
+\end_layout
+
+\begin_layout Itemize
+We can redefine opinion leadership as a function of community roles
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+View of the Latent Space
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Underlying Latent Structure
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Individuals connect according the similarity in preferences they have for
+ tie formation
+\end_layout
+
+\begin_layout Itemize
+People may choose their ties according to both their tie and behavioral
+ preferences
+\end_layout
+
+\begin_layout Itemize
+Link and Behavioral latent space may overlap
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Solution:joint modeling of behavior and link formation
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Latent Space
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+usetikzlibrary{arrows}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tikzset{     
+\end_layout
+
+\begin_layout Plain Layout
+
+	vertex/.style={circle,draw,minimum size=1.2em},
+\end_layout
+
+\begin_layout Plain Layout
+
+    edge/.style={->,> = latex'} 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+% vertices 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (y) at (4,3) {$y_{ij}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi1) at (3,6) {$z_{i1}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi2) at (2,6) {$z_{i2}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi3) at (0,6) {$z_{i3}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj1) at (5,6) {$z_{j1}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj2) at (6,6) {$z_{j2}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj3) at (8,6) {$z_{j3}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Ai) at (2.5,3.5) {$A_i$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Aj) at (5.5,3.5) {$A_j$};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[red,thick,dotted] ($(zi2.north west)+(-0.3,0.6)$)  rectangle ($(zj2.south
+ east)+(0.3,-0.6)$);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[blue,thick,dotted] ($(zi3.north west)+(-0.5,1.0)$)  rectangle ($(zj3.south
+ east)+(0.5,-1.0)$);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (2.5,6.1) {
+\backslash
+scriptsize{Link Preferences}};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (0.1,6.6) {
+\backslash
+scriptsize{Latent Space}};
+\end_layout
+
+\begin_layout Plain Layout
+
+%edges 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi1) to [out=300,in=110] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj1) to [out=240,in=70] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi2) to [out=270,in=110] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj2) to [out=270,in=70] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi3) to [out=270,in=180] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj3) to [out=270,in=0] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Graphical representation of network structure and behavior
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+When Influence is Present
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+usetikzlibrary{arrows}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tikzset{     
+\end_layout
+
+\begin_layout Plain Layout
+
+	vertex/.style={circle,draw,minimum size=1.2em},
+\end_layout
+
+\begin_layout Plain Layout
+
+    edge/.style={->,> = latex'} 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+% vertices 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (y) at (4,2) {$y_{ij}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi1) at (3,6) {$z_{i1}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi2) at (2,6) {$z_{i2}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi3) at (0,6) {$z_{i3}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj1) at (5,6) {$z_{j1}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj2) at (6,6) {$z_{j2}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj3) at (8,6) {$z_{j3}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Ai) at (2.5,2.5) {$A_i$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Aj) at (5.5,3.5) {$A_j$};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[red,thick,dotted] ($(zi2.north west)+(-0.3,0.6)$)  rectangle ($(zj2.south
+ east)+(0.3,-0.6)$);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[blue,thick,dotted] ($(zi3.north west)+(-0.5,1.0)$)  rectangle ($(zj3.south
+ east)+(0.5,-1.0)$);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (2.5,6.1) {
+\backslash
+scriptsize{Link Preferences}};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (0.1,6.6) {
+\backslash
+scriptsize{Latent Space}};
+\end_layout
+
+\begin_layout Plain Layout
+
+%edges 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, red] (zi1) to [out=300,in=110] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, red] (zj1) to [out=240,in=70] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, red] (zi2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, red] (zj2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, red] (zi2) to [out=270,in=110] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, red] (zj2) to [out=270,in=70] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, red] (zi3) to [out=270,in=180] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, red] (zj3) to [out=270,in=0] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, dotted] (Aj) to (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Graphical representation of network structure and behavior with influence
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+What We Do
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+usetikzlibrary{arrows}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tikzset{     
+\end_layout
+
+\begin_layout Plain Layout
+
+	vertex/.style={circle,draw,minimum size=1.2em},
+\end_layout
+
+\begin_layout Plain Layout
+
+    edge/.style={->,> = latex'} 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+% vertices 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (y) at (4,2) {$y_{ij}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi1) at (3,8) {$z_{i1}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi2) at (2,8) {$z_{i2}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi3) at (0,8) {$z_{i3}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj1) at (5,8) {$z_{j1}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj2) at (6,8) {$z_{j2}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj3) at (8,8) {$z_{j3}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (xi1) at (3,6) {$x_{i1}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (xi2) at (1,6) {$x_{i2}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (xj1) at (5,6) {$x_{j1}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (xj2) at (7	,6) {$x_{j2}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Ai) at (2.5,2.5) {$A_i$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Aj) at (5.5,3.5) {$A_j$};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+%edges 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi1) to  (xi1);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj1) to  (xj1);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi2) -- (xi1);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj2) -- (xj1);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (xi2) to  (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (xj2) to  (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (xi1) to  (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (xj1) to  (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (xi1) to  (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (xj1) to  (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi3) to  (xi2);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj3) to  (xj2);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, dotted] (Aj) to (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Graphical representation of network structure and behavior with influence
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+What We Do in Practice
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+usetikzlibrary{arrows}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tikzset{     
+\end_layout
+
+\begin_layout Plain Layout
+
+	vertex/.style={circle,draw,minimum size=0.7em},
+\end_layout
+
+\begin_layout Plain Layout
+
+    edge/.style={->,> = latex'} 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+% vertices 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (y) at (2,8) {$y_{ij}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (w) at (-1.5,6.5) {$A_{i}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (b) at (2,6.5) {$
+\backslash
+beta_{kk}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (eta) at (0,6.5) {$
+\backslash
+eta$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (-0.5,6.5) {$
+\backslash
+eta$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zab) at (0,8.5) {$z_{ij}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (za) at (-1.5,8.5) {$z_{i}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zba) at (4,8.5) {$z_{ji}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (thetaa) at (0,10) {$
+\backslash
+theta^{*}_{i}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (thetab) at (4,10) {$
+\backslash
+theta^{*}_{j}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (mu) at (0.5,11) {$
+\backslash
+mu$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (Lambda) at (3.5,11) {$
+\backslash
+Lambda$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (mu0) at (-.5,12) {$
+\backslash
+mu_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (mu0.north) {$
+\backslash
+mu_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (Lambda0) at (1.5,12) {$
+\backslash
+Lambda_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (Lambda0.north) {$
+\backslash
+Lambda_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (l0) at (2.5,12) {$
+\backslash
+ell_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (l0.north) {$
+\backslash
+ell_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (L0) at (4.5,12) {$L_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (L0.north) {$L_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node[draw=red, fit= (zi1) (zj1) (zi2) (zj2),  inner sep=.60cm, dashed, ultra
+ thick, fill=red!10, fill %opacity=0.2] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node[draw=blue, fit= (zi1) (zj1) (zi2) (zj2) (zi3) (zj3),  inner sep=1.20cm,
+ dashed, ultra thick, fill=blue!%10, fill opacity=0.2] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node [yshift=3.0ex, black] at (2.4,4.3) {Link Preferences};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node [yshift=3.0ex, black] at (-.5,4.8) {Latent Space};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node[draw=black, fit= (zi1) (zj1) (zi2) (zj2) (zi3) (zj3) (y) (Ai) (Aj),
+  inner sep=1.40cm, dashed, ultra %thick, fill=black!10, fill opacity=0.2]
+ {};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node [yshift=3.0ex, black] at (13,-3.5) {$t=1..T$};
+\end_layout
+
+\begin_layout Plain Layout
+
+%edges 
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi1) to [out=300,in=110] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj1) to [out=240,in=70] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi2) to [out=270,in=110] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj2) to [out=270,in=70] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi3) to [out=270,in=180] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj3) to [out=270,in=0] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (eta) to  (b);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (b) to  (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (za) to  (w);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zab) to  (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zab) to  (za);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zba) to  (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (thetaa) to  (zab);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (thetab) to  (zba);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (mu) to  (thetaa);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (Lambda) to  (thetaa);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (mu) to  (thetab);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (Lambda) to  (thetab);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (mu0) to  (mu);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (Lambda0) to  (mu);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (l0) to  (Lambda);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (L0) to  (Lambda);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Graphical representation of network structure and behavior with influence
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Implications of Joint modeling 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Improved community discovery
+\end_layout
+
+\begin_layout Itemize
+Improved predcition of signal penetration rate
+\end_layout
+
+\begin_layout Itemize
+Relevance of social data in predicting behavior
+\end_layout
+
+\begin_layout Itemize
+Identifying contagion from homophily
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Our Contribution
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Scalable inference for large networked behavioral data
+\end_layout
+
+\begin_layout Itemize
+Joint modeling explains the network processes better
+\end_layout
+
+\begin_layout Itemize
+Other models that try to jointly model these two
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+either make strong parametric assumptions without accounting for latent
+ homophily(Stochastic Actor Based model)
+\end_layout
+
+\begin_layout Itemize
+Rely only on observed characteristics and ignore latent homophily(Mathced
+ sample estimation)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Allowing for dynamic modeling of the diffusion process(next project)
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Dynamic Networks:Contagion Driven Homophily
+\end_layout
+
+\begin_layout Subsection
+Contagion Driven Homophily in Large Dynamic Networks
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Dynamic Networks:Contagion-Driven Homophily
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Dynamic model of the trajectory of the latent space
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+there exists evidence that networks dynamically evolve
+\end_layout
+
+\begin_layout Itemize
+links can be formed or severed(evolution of bursts)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Finding evidence of behavior affecting network positions
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+there exists evidence of change in preferences for tie formation when behavior
+ changes(evolution of bursts)
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Dynamic Networks:Contagion-Driven Homophily
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+usetikzlibrary{arrows}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tikzset{     
+\end_layout
+
+\begin_layout Plain Layout
+
+	vertex/.style={circle,draw,minimum size=1.2em},
+\end_layout
+
+\begin_layout Plain Layout
+
+    edge/.style={->,> = latex'} 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+% vertices 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (y) at (4,3) {$y_{ijt}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi1) at (3,6) {$z_{i1t}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi2) at (2,6) {$z_{i2t}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi3) at (0,6) {$z_{i3t}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj1) at (5,6) {$z_{j1t}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj2) at (6,6) {$z_{j2t}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj3) at (8,6) {$z_{j3t}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Ai) at (2.5,3.5) {$A_{it}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Aj) at (5.5,3.5) {$A_{jt}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[red,thick,dotted] ($(zi2.north west)+(-0.3,0.6)$)  rectangle ($(zj2.south
+ east)+(0.3,-0.6)$);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[blue,thick,dotted] ($(zi3.north west)+(-0.5,1.0)$)  rectangle ($(zj3.south
+ east)+(0.5,-1.0)$);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (2.5,6.1) {
+\backslash
+scriptsize{Link Preferences}};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (0.1,6.6) {
+\backslash
+scriptsize{Latent Space}};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[draw=black, fit= (zi1) (zj1) (zi2) (zj2) (zi3) (zj3) (y) (Ai) (Aj),
+  inner sep=1.0cm, dashed, ultra thick, fill=black!10, fill opacity=0.2] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (8.2,1.8) {$t=1..T$};
+\end_layout
+
+\begin_layout Plain Layout
+
+%edges 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi1) to [out=300,in=110] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj1) to [out=240,in=70] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi2) to [out=270,in=110] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj2) to [out=270,in=70] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi3) to [out=270,in=180] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj3) to [out=270,in=0] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Dynamic representation of co-evolution
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Contribution
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Our Contribution
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Finding evidence and possibly measuring how behavior affects tie preferences
+\end_layout
+
+\begin_layout Itemize
+Better redefinition of opinion leadership at subnetwork level
+\end_layout
+
+\begin_layout Itemize
+Better seeding strategies
+\end_layout
+
+\end_deeper
+\end_body
+\end_document
