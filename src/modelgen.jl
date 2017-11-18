@@ -24,14 +24,14 @@ function gennetwork(N::Int64, K::Int64)
 
   Λ ./= N
   μ = rand(MvNormalCanon(M0*m0,M0))
-  μ -= mean(μ)
+  # μ -= mean(μ)
 
   # cov(1.0./(reshape(repeat(rand(MvNormalCanon(M0*m0,M0)), outer=[1000]),(4,1000)))')
   β = rand(Beta(η0, η1),K)
   ##We need to make sure that these probabilities are all positive
   for a in 1:N
     θ[a,:] = rand(MvNormalCanon(Λ*μ, Λ))
-    θ[a,:] -= mean(θ[a,:])
+    # θ[a,:] -= mean(θ[a,:])
   end
 
 

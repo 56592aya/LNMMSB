@@ -24,6 +24,8 @@ function setholdout!(model::LNMMSB)
 			continue;
 		else
 			push!(model.ho_links, l)
+			model.ho_fadj[l.src]+=1
+			model.ho_badj[l.dst]+=1
 			countlink+=1
 		end
 	end
@@ -132,7 +134,9 @@ function train_nonlinks!(model::LNMMSB)
 	x = Vector{Dyad}()
 	for i in 1:model.N
 		for j in 1:model.N
-			if i !=j
+			if i ==j
+				continue;
+			else
 				push!(x,Dyad(i,j))
 			end
 		end
@@ -140,7 +144,7 @@ function train_nonlinks!(model::LNMMSB)
 	x = setdiff(x, model.ho_dyads)
 
 	for xx in x
-		if model.network[xx.src,xx.dst] == 1
+		if isalink(model, "train", xx.src, xx.dst)
 			continue;
 		else
 			push!(model.train_nonlinks, NonLink(xx.src, xx.dst,_init_ϕ,_init_ϕ))
@@ -235,6 +239,10 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB, meth::String,mbsize::Int64)
 					end
 				end
 			end
+		end
+		for a in mb.mbnodes
+			model.trainfnadj[a] = model.N-1-model.train_outdeg[a]-model.ho_fadj[a]-model.ho_fnadj[a]
+			model.trainbnadj[a] = model.N-1-model.train_indeg[a]-model.ho_badj[a]-model.ho_bnadj[a]
 		end
 	end
 end

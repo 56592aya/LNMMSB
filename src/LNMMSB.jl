@@ -41,6 +41,10 @@ mutable struct LNMMSB <: AbstractMMSB
     ho_nlinks    ::Vector{NonLink}    #holdout nonlink vector
     ho_fnadj     ::Vector{Int64}
     ho_bnadj     ::Vector{Int64}
+    ho_fadj     ::Vector{Int64}
+    ho_badj     ::Vector{Int64}
+    trainfnadj   ::Vector{Int64}
+    trainbnadj   ::Vector{Int64}
     train_outdeg    ::Vector{Int64}      #outdeg of train and mb
     train_indeg     ::Vector{Int64}      #indeg of train and mb
     train_sinks  ::VectorList{Int64}  #sinks of train and mb
@@ -98,14 +102,18 @@ mutable struct LNMMSB <: AbstractMMSB
   b0_old        = deepcopy(b0)
   b1            =η1*ones(Float64, K) #one the beta variational param
   b1_old        = deepcopy(b1)
-  mbsize        = 5 #number of nodes in the minibatch
+  mbsize        = N#round(Int64, .2*N) #number of nodes in the minibatch
   mbids         =zeros(Int64,mbsize) # to be extended
   nho           =nnz(network)*0.025 #init nho
   ho_dyads      = Vector{Dyad}()
  	ho_links      = Vector{Link}()
  	ho_nlinks     = Vector{NonLink}()
+  ho_fadj      =zeros(Int64,N)
+  ho_badj      =zeros(Int64,N)
   ho_fnadj      =zeros(Int64,N)
   ho_bnadj      =zeros(Int64,N)
+  trainfnadj    =zeros(Int64,N)
+  trainbnadj    =zeros(Int64,N)
   train_outdeg     = zeros(Int64, N)
  	train_indeg      = zeros(Int64, N)
   train_sinks   = VectorList{Int64}(N)
@@ -131,7 +139,7 @@ mutable struct LNMMSB <: AbstractMMSB
   node_tnmap    =Array{Array{Int64,1},1}()
   model = new(K, N, elbo, oldelbo, μ, μ_var,μ_var_old, m0, m,m_old, M0, M,M_old, Λ, Λ_var,Λ_var_old, l0, L0, l,
    L,L_old, ϕlinoutsum, ϕnlinoutsum, η0, η1, b0,b0_old, b1,b1_old, network, mbsize, mbids,nho, ho_dyads, ho_links,
-    ho_nlinks,ho_fnadj,ho_bnadj,train_outdeg,train_indeg,train_sinks,train_sources,ϕloutsum,
+    ho_nlinks,ho_fadj,ho_badj,ho_fnadj,ho_bnadj,trainfnadj,trainbnadj,train_outdeg,train_indeg,train_sinks,train_sources,ϕloutsum,
      ϕnloutsum,  ϕlinsum,  ϕnlinsum,elborecord,est_θ, est_β, est_μ, est_Λ,visit_count,nl_partition,
      train_nonlinks,d,Elogβ0,Elogβ1,mb_zeroer,link_set,nonlink_setmap, node_tnmap)
   return model

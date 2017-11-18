@@ -14,14 +14,16 @@ mb=deepcopy(model.mb_zeroer)
 include("modelutils.jl")
 preparedata(model)
 mbsampling!(mb, model, "isns", model.mbsize)
-
-
-
-
-
-
 include("trainutils.jl")
 
+sum(model.train_outdeg)
+sum(model.trainfnadj)
+sum(model.trainbnadj)
+length(model.train_nonlinks)
+sum(model.ho_fadj)
+sum(model.ho_badj)
+sum(model.ho_fnadj)
+sum(model.ho_bnadj)
 
 
 
