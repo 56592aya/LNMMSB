@@ -53,6 +53,7 @@ mutable struct LNMMSB <: AbstractMMSB
     ϕnloutsum    ::Matrix2d{Float64}
     ϕlinsum      ::Matrix2d{Float64}
     ϕnlinsum     ::Matrix2d{Float64}
+    ϕbar         ::Matrix2d{Float64}
     elborecord   ::Vector{Float64}
     est_θ        ::Matrix2d{Float64}
     est_β        ::Vector{Float64}
@@ -68,7 +69,8 @@ mutable struct LNMMSB <: AbstractMMSB
     link_set     ::Array{Array{Link,1},1}
     nonlink_setmap::Array{Array{Array{Int64,1},1},1}
     node_tnmap   ::Array{Array{Int64,1},1}
-
+    fmap         ::Matrix2d{Int64}
+    comm         ::VectorList{Int64}
 
  function LNMMSB(network::Network{Int64}, K::Int64)
   N             = size(network,1) #setting size of nodes
@@ -102,7 +104,7 @@ mutable struct LNMMSB <: AbstractMMSB
   b0_old        = deepcopy(b0)
   b1            =η1*ones(Float64, K) #one the beta variational param
   b1_old        = deepcopy(b1)
-  mbsize        = N#round(Int64, .2*N) #number of nodes in the minibatch
+  mbsize        = div(N,50)#round(Int64, .05*N) #number of nodes in the minibatch
   mbids         =zeros(Int64,mbsize) # to be extended
   nho           =nnz(network)*0.025 #init nho
   ho_dyads      = Vector{Dyad}()
@@ -122,6 +124,7 @@ mutable struct LNMMSB <: AbstractMMSB
   ϕnloutsum     = zeros(Float64, (N,K))
   ϕlinsum       = zeros(Float64, (N,K))
   ϕnlinsum      = zeros(Float64, (N,K))
+  ϕbar          =zeros(Float64, (N,K))
   elborecord    = Vector{Float64}()
   est_θ         = zeros(Float64,(N,K))
   est_β         = zeros(Float64,K)
@@ -137,11 +140,13 @@ mutable struct LNMMSB <: AbstractMMSB
   link_set      =Array{Array{Link,1},1}()
   nonlink_setmap=Array{Array{Array{Int64,1},1},1}()
   node_tnmap    =Array{Array{Int64,1},1}()
+  fmap          = zeros(Float64, (N,K))
+  comm          =[Int64[] for i in 1:K]
   model = new(K, N, elbo, oldelbo, μ, μ_var,μ_var_old, m0, m,m_old, M0, M,M_old, Λ, Λ_var,Λ_var_old, l0, L0, l,
    L,L_old, ϕlinoutsum, ϕnlinoutsum, η0, η1, b0,b0_old, b1,b1_old, network, mbsize, mbids,nho, ho_dyads, ho_links,
     ho_nlinks,ho_fadj,ho_badj,ho_fnadj,ho_bnadj,trainfnadj,trainbnadj,train_outdeg,train_indeg,train_sinks,train_sources,ϕloutsum,
-     ϕnloutsum,  ϕlinsum,  ϕnlinsum,elborecord,est_θ, est_β, est_μ, est_Λ,visit_count,nl_partition,
-     train_nonlinks,d,Elogβ0,Elogβ1,mb_zeroer,link_set,nonlink_setmap, node_tnmap)
+     ϕnloutsum,  ϕlinsum,  ϕnlinsum,ϕbar,elborecord,est_θ, est_β, est_μ, est_Λ,visit_count,nl_partition,
+     train_nonlinks,d,Elogβ0,Elogβ1,mb_zeroer,link_set,nonlink_setmap, node_tnmap, fmap,comm)
   return model
  end
 end

@@ -9,10 +9,11 @@ using GraphPlot
 	# end
 	# f = open("data/messages.txt","w")
 
-
+	meth = "isns2"
 	##############################
 	##############################
 	# preparedata(model)
+	nmitemp = Float64[]
 	iter=1000
 	train_links_num=0
 	train_nlinks_num = 0
@@ -34,11 +35,13 @@ using GraphPlot
 	link_ratio = convert(Float64, train_links_num)/convert(Float64,train_nlinks_num)
 	dep2 = .1*(train_links_num)/(train_links_num+train_nlinks_num)
 	_init_ϕ = deepcopy(ones(Float64, model.K).*1.0/model.K)
-	link_thresh=.2
+	link_thresh=.9
+	min_deg = minimum(model.train_outdeg)
 	true_θs = (readdlm("data/true_thetas.txt"))
 	init_mu(model,communities,model.K)##from Gopalan
 	_init_μ = deepcopy(model.μ_var)
-	model.Λ_var = 10*ones(Float64, (model.N, model.K))
+	# _init_μ = zeros(Float64, (model.N, model.K))
+	model.Λ_var = 100*ones(Float64, (model.N, model.K))
 	_init_Λ = deepcopy(model.Λ_var)
 	function update_Elogβ!(model::LNMMSB)
 		for k in 1:model.K
@@ -55,31 +58,32 @@ using GraphPlot
 	true_μ = readdlm("data/true_mu.txt")
 
 	model.m = zeros(Float64,model.K)#deepcopy(reshape(true_mu,model.K))
-	model.M = (10.0).*eye(Float64,model.K)##to move around more
-	model.l = model.K+3
-	if length(communities) == inputtomodelgen[2]
-		true_Lambda = readdlm("data/true_Lambda.txt")
-		Lambda = deepcopy(true_Lambda)
-		model.L=1.0.*(Lambda)./model.l
-	else
+	model.M = (100.0).*eye(Float64,model.K)##to move around more
+	model.l = model.K+2
+	# if length(communities) == inputtomodelgen[2]
+	# 	true_Lambda = readdlm("data/true_Lambda.txt")
+	# 	Lambda = deepcopy(true_Lambda)
+	# 	model.L=1.0.*(Lambda)./model.l
+	# else
 		Ltemp = zeros(Float64, model.K, model.K)
 	  	for i in 1:model.N
 	    	Ltemp .+= rand(Wishart(model.K+1,0.001*diagm(ones(Float64, model.K))))
 	  	end
   		Ltemp ./= model.N
-		model.L=1.0.*(Ltemp)./model.l
-	end
+		model.L=100.0.*(Ltemp)./model.l
+	# end
 	# model.L=.5.*(model.L+model.L')
 	isfullsample=false
 	if model.mbsize == model.N
 		isfullsample = true
 	end
-	# lr_μ=ones(Float64, model.N)
-	# lr_Λ=ones(Float64, model.N)
-	# count_μ = zeros(Int64, model.N)
-	# count_Λ = zeros(Int64, model.N)
+	lr_μ=ones(Float64, model.N)
+	lr_Λ=ones(Float64, model.N)
+	count_μ = zeros(Int64, model.N)
+	count_Λ = zeros(Int64, model.N)
 
-
+	model.fmap = zeros(Float64, (model.N,model.K))
+	model.comm = [Int64[] for i in 1:model.K]
 	for i in 1:iter
 		#Minibatch sampling/new sample
 		##the following deepcopy is very important
@@ -89,122 +93,134 @@ using GraphPlot
 		# 	mbsampling!(mb, model, "isns", model.N)
 		# 	# mbsampling!(mb,model, isfullsample)
 		# elseif !isfullsample
+
 			mb=deepcopy(model.mb_zeroer)
 			# mbsampling!(mb,model, isfullsample)
-			mbsampling!(mb, model, "isns", model.mbsize)
+			# mbsampling!(mb, model, "isns", model.mbsize)
+			mbsampling!(mb, model, meth, model.mbsize)
 			# mbsampling_partition!(mb,model,isfullsample)
 		# end
 		#Learning rates
 		# mb.mballnodes
 		# model.mbids
-		# lr_M = 1.0
-		# lr_m = 1.0
-		# lr_L = 1.0
-		# lr_b = 1.0
+		model.fmap = zeros(Float64, (model.N,model.K))
+
+		lr_M = 1.0
+		lr_m = 1.0
+		lr_L = 1.0
+		lr_b = 1.0
 		if !isfullsample
-			lr_M = (1.0+Float64(i-1.0))^(-.9)
-			lr_m = (1.0+Float64(i-1.0))^(-.5)
-			lr_L = (1.0+Float64(i-1.0))^(-.5)
-			lr_b = (1.0+Float64(i-1.0))^(-.9)
+			lr_M = (1024+(i-1))^-.5
+			# lr_m = (1.0+Float64(i-1.0))^(-.5)
+			lr_m = (1024+(i-1))^-.9
+			# pekh = .501
+			# Plots.plot(collect(1:5000) ,[(1024+(i-1))^-.9 for i in collect(1:5000)])
+			# lr_L = (1.0+Float64(i-1.0))^(-.7)
+			lr_L = (1024+(i-1))^-.5
+			# lr_b = (1.0+Float64(i-1.0))^(-.9)
+			lr_b = (1024+(i-1))^-.9
 		end
-		# if !isfullsample
-			lr_M = (1.0+Float64(i-1.0))^(-.9)
-			lr_m = (1.0+Float64(i-1.0))^(-.5)
-			lr_L = (1.0+Float64(i-1.0))^(-.5)
-			lr_b = (1.0+Float64(i-1.0))^(-.9)
-		# end
-		# ExpectedAllSeen=(model.N/model.mbsize)*1.5#round(Int64,nv(network)*sum([1.0/i for i in 1:nv(network)]))
-		# if sum(model.visit_count .>= 1) == model.N
-		# 	early = false
-		# end
-		early = false
-		# describe(model.visit_count)
-    	# if i == round(Int64,ExpectedAllSeen)+1
-        # 	early = false
-    	# end
+		# lr_M = (1.0+Float64(i-1.0))^(-.9)
+		# lr_m = (1.0+Float64(i-1.0))^(-.5)
+		# lr_L = (1.0+Float64(i-1.0))^(-.5)
+		# lr_b = (1.0+Float64(i-1.0))^(-.9)
+		# early = false
+		if i > iter/model.mbsize
+			early = false
+		end
 
 		model.μ_var[model.mbids,:]=deepcopy(_init_μ[model.mbids,:])
-		model.ϕlinoutsum[:] = zeros(Float64, model.K)
-		model.ϕloutsum = zeros(Float64, (model.N,model.K))
-		model.ϕlinsum = zeros(Float64, (model.N,model.K))
-		for l in mb.mblinks
-			# l.ϕout[:] = _init_ϕ[:];l.ϕin[:] = _init_ϕ[:];
-			# while !_converged##decide what you mean
-				if switchrounds
-					for k in 1:model.K
-						updatephilout!(model, mb, early, switchrounds,l)
+		# for l in mb.mblinks
+		# 	l.ϕout[:] = _init_ϕ[:];l.ϕin[:] = _init_ϕ[:];
+		# end
+		for j in 1:5
+			model.ϕlinoutsum[:] = zeros(Float64, model.K)
+			model.ϕloutsum = zeros(Float64, (model.N,model.K))
+			model.ϕlinsum = zeros(Float64, (model.N,model.K))
+			for l in mb.mblinks
+				# while !_converged##decide what you mean
+					if switchrounds
+						for k in 1:model.K
+							updatephilout!(model, mb, early, switchrounds,l)
+						end
+						for k in 1:model.K
+							updatephilin!(model, mb, early, switchrounds,l)
+						end
+						switchrounds = !switchrounds
+					else
+						for k in 1:model.K
+							updatephilin!(model, mb, early, switchrounds,l)
+						end
+						for k in 1:model.K
+							updatephilout!(model, mb, early, switchrounds,l)
+						end
+						switchrounds = !switchrounds
 					end
-					for k in 1:model.K
-						updatephilin!(model, mb, early, switchrounds,l)
-					end
-					switchrounds = !switchrounds
-				else
-					for k in 1:model.K
-						updatephilin!(model, mb, early, switchrounds,l)
-					end
-					for k in 1:model.K
-						updatephilout!(model, mb, early, switchrounds,l)
-					end
-					switchrounds = !switchrounds
-				end
 
-			# end
-			for k in 1:model.K
-				model.ϕloutsum[l.src,k] += l.ϕout[k]
-				model.ϕlinsum[l.dst,k] += l.ϕin[k]
-				model.ϕlinoutsum[k] += l.ϕout[k]*l.ϕin[k]
+				# end
+				for k in 1:model.K
+					model.ϕloutsum[l.src,k] += l.ϕout[k]
+					model.ϕlinsum[l.dst,k] += l.ϕin[k]
+					model.ϕlinoutsum[k] += l.ϕout[k]*l.ϕin[k]
+				end
+				log_comm(model, mb, l, link_thresh, min_deg)
 			end
 		end
-		model.ϕnlinoutsum[:] = zeros(Float64, model.K)
-		model.ϕnloutsum = zeros(Float64, (model.N,model.K))
-		model.ϕnlinsum = zeros(Float64, (model.N,model.K))
-		for nl in mb.mbnonlinks
-			# nl.ϕout[:] = _init_ϕ;nl.ϕin[:] = _init_ϕ;
-			# while !_converged##decide what you mean
-				if switchrounds
-					for k in 1:model.K
-						updatephinlout!(model, mb, early, switchrounds,nl)
-					end
-					for k in 1:model.K
-						updatephinlin!(model, mb, early, switchrounds,nl)
-					end
-					switchrounds = !switchrounds
-				else
-					for k in 1:model.K
-						updatephinlin!(model, mb, early, switchrounds,nl)
-					end
-					for k in 1:model.K
-						updatephinlout!(model, mb, early, switchrounds,nl)
-					end
-					switchrounds = !switchrounds
-				end
-			# end
-			# @assert model.ϕnloutsum[nl.src,:] == zeros(Float64, model.K)
-			# @assert model.ϕnlinsum[nl.dst, : ] == zeros(Float64, model.K)
-
-			for k in 1:model.K
-				model.ϕnloutsum[nl.src,k] += nl.ϕout[k]
-				model.ϕnlinsum[nl.dst,k] += nl.ϕin[k]
-				model.ϕnlinoutsum[k] += nl.ϕout[k]*nl.ϕin[k]
-			end
+		for k in 1:model.K
+			model.comm[k] = unique(model.comm[k])
 		end
-		model.ϕnloutsum[model.mbids,:]
-		model.ϕnlinsum[model.mbids,:]
-		# updatephil!(model, mb,early, switchrounds)
-
-		# train_links_num=nnz(model.network)-length(model.ho_links)
-		# train_nlinks_num = model.N*(model.N-1) - length(model.ho_dyads) -length(mb.mblinks)
-		# updatephinl!(model, mb,early, dep2,switchrounds)
-		model.μ_var[model.mbids,:]
+		if meth == "isns2"
+			# for nl in mb.mbnonlinks
+			# 	nl.ϕout[:] = _init_ϕ;nl.ϕin[:] = _init_ϕ;
+			# end
+			for j in 1:5
+				model.ϕnlinoutsum[:] = zeros(Float64, model.K)
+				model.ϕnloutsum = zeros(Float64, (model.N,model.K))
+				model.ϕnlinsum = zeros(Float64, (model.N,model.K))
+				for nl in mb.mbnonlinks
+					# while !_converged##decide what you mean
+					if switchrounds
+						for k in 1:model.K
+							updatephinlout!(model, mb, early, switchrounds,nl)
+						end
+						for k in 1:model.K
+							updatephinlin!(model, mb, early, switchrounds,nl)
+						end
+						switchrounds = !switchrounds
+					else
+						for k in 1:model.K
+							updatephinlin!(model, mb, early, switchrounds,nl)
+						end
+						for k in 1:model.K
+							updatephinlout!(model, mb, early, switchrounds,nl)
+						end
+						switchrounds = !switchrounds
+					end
+					for k in 1:model.K
+						model.ϕnloutsum[nl.src,k] += nl.ϕout[k]
+						model.ϕnlinsum[nl.dst,k] += nl.ϕin[k]
+						model.ϕnlinoutsum[k] += nl.ϕout[k]*nl.ϕin[k]
+					end
+				end
+			end
+		elseif meth == "link"
+			for a in mb.mbnodes
+				updatephibar!(model, mb, a)
+			end
+			@assert isapprox(sum(model.ϕbar[mb.mbnodes,:],2)[:,1],ones(Float64, length(mb.mbnodes)))
+		end
 		for a in mb.mbnodes
-
-			# count_μ[a]+=1
-			# count_Λ[a]+=1
-			updatesimulμΛ!(model, a, mb)
-			# lr_μ[a] = (1.0+Float64(count_μ[a]-1.0))^(-.7)
-			# lr_Λ[a] = (1.0+Float64(count_Λ[a]-1.0))^(-.7)
-			# model.μ_var[a,:] = model.μ_var_old[a,:].*(1.0.-lr_μ[a])+lr_μ[a].*model.μ_var[a,:]
-			# model.Λ_var[a,:] = model.Λ_var_old[a,:].*(1.0.-lr_Λ[a])+lr_Λ[a].*model.Λ_var[a,:]
+			if !isfullsample
+				count_μ[a]+=1
+				count_Λ[a]+=1
+				updatesimulμΛ!(model, a, mb,meth)
+				lr_μ[a] = (1024.0+Float64(count_μ[a]-1.0))^(-.5)
+				lr_Λ[a] = (1024.0+Float64(count_Λ[a]-1.0))^(-.5)
+				model.μ_var[a,:] = model.μ_var_old[a,:].*(1.0.-lr_μ[a])+lr_μ[a].*model.μ_var[a,:]
+				model.Λ_var[a,:] = model.Λ_var_old[a,:].*(1.0.-lr_Λ[a])+lr_Λ[a].*model.Λ_var[a,:]
+			else
+				updatesimulμΛ!(model, a, mb,meth)
+			end
 		end
 
 
@@ -221,10 +237,10 @@ using GraphPlot
 		updateL!(model, mb)
 		model.L = model.L_old.*(1.0-lr_L)+lr_L*model.L
 
-		updateb0!(model, mb,train_links_num)
+		updateb0!(model, mb)
 		model.b0 = (1.0-lr_b).*model.b0_old + lr_b.*((model.b0))
 
-		updateb1!(model,mb,train_nlinks_num)
+		updateb1!(model,mb,meth)
 		model.b1 = (1.0-lr_b).*model.b1_old+lr_b.*((model.b1))
 
 		update_Elogβ!(model)
@@ -242,6 +258,7 @@ using GraphPlot
 		if checkelbo || i == 1
 			print(i);print(": ")
 			println(model.b0./(model.b0.+model.b1))
+
 			# if isfullsample
 			# 	computeelbo!(model, mb)
 			# 	increase=isinf(model.oldelbo)?65535.0:(model.elbo-model.oldelbo)/model.oldelbo;
@@ -256,36 +273,42 @@ using GraphPlot
 			#  	break;
 			# end
 		end
+
+		if (i % 100 == 0) || i==1
+			println(compute_NMI3(model))
+			push!(nmitemp,compute_NMI3(model))
+		end
 		# switchrounds = !switchrounds
-		if ((i == 1) || (i == iter) || (iter % elboevery == 0))
-			β_est = zeros(Float64, model.K)
-		    for k in 1:model.K
-		        β_est[k]=model.b0[k]/(model.b0[k]+model.b1[k])
-		    end
-		        ####
-		    link_lik = 0.0
-		    nonlink_lik = 0.0
-		    edge_lik = 0.0
-		    link_count = 0; nonlink_count = 0
-
-		    for pair in model.ho_dyads
-				# pair = model.ho_dyads[1]
-				src = pair.src
-				dst = pair.dst
-		        edge_lik = edge_likelihood(model,pair, β_est)
-		        if isalink(model, "network",src, dst)
-		            link_count +=1
-		            link_lik += edge_lik
-		        else
-		            nonlink_count +=1
-		            nonlink_lik += edge_lik
-		        end
-		    end
-
-		    avg_lik = (link_ratio*(link_lik/link_count))+((1.0-link_ratio)*(nonlink_lik/nonlink_count))
-		    perp_score = exp(-avg_lik)
-		    push!(store_ll, avg_lik)
-		    prev_ll = avg_lik
+		# if ((i == 1) || (i == iter) || (iter % elboevery == 0))
+		# 	β_est = zeros(Float64, model.K)
+		#     for k in 1:model.K
+		#         β_est[k]=model.b0[k]/(model.b0[k]+model.b1[k])
+		#     end
+		#         ####
+		#     link_lik = 0.0
+		#     nonlink_lik = 0.0
+		#     edge_lik = 0.0
+		#     link_count = 0; nonlink_count = 0
+		#
+		#     for pair in model.ho_dyads
+		# 		# pair = model.ho_dyads[1]
+		# 		src = pair.src
+		# 		dst = pair.dst
+		#         edge_lik = edge_likelihood(model,pair, β_est)
+		#         if isalink(model, "network",src, dst)
+		#             link_count +=1
+		#             link_lik += edge_lik
+		#         else
+		#             nonlink_count +=1
+		#             nonlink_lik += edge_lik
+		#         end
+		#     end
+		#
+		#
+		#     avg_lik = (link_ratio*(link_lik/link_count))+((1.0-link_ratio)*(nonlink_lik/nonlink_count))
+		#     perp_score = exp(-avg_lik)
+		#     push!(store_ll, avg_lik)
+		#     prev_ll = avg_lik
 			####
 			x = deepcopy(model.est_θ)
 			sort_by_argmax!(x)
@@ -324,11 +347,12 @@ using GraphPlot
 			# 	push!(store_nmi,computeNMI_med(x,y,communities,link_thresh));
 			# end
 			####
-		end
+		# end
+
 	end
 
 # isfullsample=true
-# model.mbsize=model.N
+# model.mbsinclude("trainutils.jl")ize=model.N
 	# mb=deepcopy(mb_zeroer)
 	# mbsampling!(mb,model, isfullsample)
 	x = deepcopy(model.est_θ)
@@ -353,6 +377,7 @@ using GraphPlot
 	# y = (readdlm("data/true_thetas.txt"))
 	p3=Plots.heatmap(true_θs, yflip=true)
 
+
 	# decrease=0
 	# for (i,v) in enumerate(model.elborecord)
 	# 	if i < length(model.elborecord)
@@ -366,18 +391,28 @@ using GraphPlot
 	# end
 	# println(decrease)
 
-	computeNMI(x,true_θs,communities,link_thresh)
+# 	nmitemp=[computeNMI(x,true_θs,communities,i) for i in collect(linspace(0.01,.99, 10000))]
+# 	Plots.plot(collect(linspace(0.01,.99, 10000)), nmitemp)
+# 	computeNMI(x,true_θs,communities,0.49950995099509954)
+# 	nmitemp[indmax(nmitemp)]
+# 	collect(linspace(0.01,.99, 10000))[indmax(nmitemp)]
+# 	# collect(linspace(0.01,.99, 100))[33]
+# (collect(linspace(0.01,.99, 10000))[indmax(nmitemp)]+
+# collect(linspace(0.01,.99, 10000))[indmax(nmitemp)+1])/2
 
 	# Plots.plot(p1)
 	# Plots.plot(1:length(vec(x)),sort(vec(x)))
 	Plots.plot(p2,p3, layout=(2,1))
 	# Plots.savefig(p1, "thetaest0.png")
-	Plots.plot(1:length(store_nmi), store_nmi)
-	Plots.plot(1:length(store_ll), store_ll)
+	# Plots.plot(1:length(store_nmi), store_nmi)
+	# Plots.plot(1:length(store_ll), store_ll)
 
 	est = deepcopy(model.est_θ)
+	Plots.plot(1:length(vec(true_θs)),sort(vec(true_θs)))
 	sort_by_argmax!(est)
+	Plots.plot(1:length(vec(est)),sort(vec(est)))
 	Plots.heatmap(est, yflip=true)
-
+	Plots.plot(1:length(nmitemp), nmitemp)
+	println(maximum(nmitemp))
 #
 # end

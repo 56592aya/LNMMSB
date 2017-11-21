@@ -10,7 +10,7 @@ l0            =(K+2.0)*1.0 #init the df l0
 L0            =(.01/l0).*eye(Float64,K) #init the scale L0
 η0            =9.0 #one the beta param
 η1            =1.0 #one the beta param
-
+truth_comm = [Int64[] for k in 1:K]
 function gennetwork(N::Int64, K::Int64)
   network=Network(N)
   θ=zeros(Float64, (N,K))
@@ -57,6 +57,8 @@ function gennetwork(N::Int64, K::Int64)
         z_out[a,b,:] = rand(Multinomial(1,θ[a,:]))
         z_in[a,b,:] = rand(Multinomial(1,θ[b,:]))
         if z_in[a,b,:] == z_out[a,b,:]
+          push!(truth_comm[indmax(z_out[a,b,:])], a)
+          push!(truth_comm[indmax(z_out[a,b,:])], b)
           network[a,b]=rand(Binomial(1,β[indmax(z_out[a,b,:])]),1)[1]
         else
           network[a,b]=rand(Binomial(1,EPSILON))[1]
@@ -64,7 +66,9 @@ function gennetwork(N::Int64, K::Int64)
       end
     end
   end
-
+  for k in 1:K
+    truth_comm[k] = unique(truth_comm[k])
+  end
 	if isfile("data/true_mu.txt")
 	    rm("data/true_mu.txt")
 	    rm("data/true_Lambda.txt")
@@ -76,6 +80,9 @@ function gennetwork(N::Int64, K::Int64)
 	    rm("data/true_eta0.txt")
 	    rm("data/true_eta1.txt")
 	end
+  if isfile("data/truth_comm.txt")
+    rm("data/truth_comm.txt")
+  end
 	if isfile("data/network.jld")
 		rm("data/network.jld")
 		JLD.@save("data/network.jld",network)
@@ -91,7 +98,14 @@ function gennetwork(N::Int64, K::Int64)
 	writedlm("data/true_BigL0.txt", L0)
 	writedlm("data/true_eta0.txt", η0)
 	writedlm("data/true_eta1.txt", η1)
-
+  open("./data/truth_comm.txt", "w") do f
+    for k in 1:inputtomodelgen[2]
+      for n in truth_comm[k]
+        write(f, "$n ")
+      end
+      write(f, "\n")
+    end
+  end
 end
 
 isassigned(inputtomodelgen,2)?gennetwork(inputtomodelgen[1],inputtomodelgen[2]):println("you should set ARGS for gennetwork(N,K)")

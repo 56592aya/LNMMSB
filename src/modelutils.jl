@@ -1,56 +1,58 @@
 
-function setholdout!(model::LNMMSB)
-	_init_ϕ=(1.0/model.K)*ones(Float64, model.K)
-	model.ho_dyads = Vector{Dyad}()
-	model.ho_links = Vector{Link}()
-	model.ho_nlinks= Vector{NonLink}()
-	countlink = zero(Int64)
-	countnonlink = zero(Int64)
-	# sample model.nho from nonzeros of model.network
-	num_nonzeros=nnz(model.network)
-	A,B,Val=findnz(model.network)
-	while countlink <= model.nho
-		spidx = 1+floor(Int64,num_nonzeros*rand())
-		a,b = A[spidx], B[spidx]
-		d = Dyad(a,b)
-		if d in model.ho_dyads
-			continue;
-		else
-			push!(model.ho_dyads, d)
-		end
-
-		l = Link(a,b,_init_ϕ,_init_ϕ)
-		if l in model.ho_links
-			continue;
-		else
-			push!(model.ho_links, l)
-			model.ho_fadj[l.src]+=1
-			model.ho_badj[l.dst]+=1
-			countlink+=1
-		end
-	end
-	while countnonlink <= model.nho
-		a = 1+floor(Int64,model.N*rand())
-		b = 1+floor(Int64,model.N*rand())
-		if model.network[a,b] == 0
-			d = a!=b ? Dyad(a,b) : continue
+function setholdout!(model::LNMMSB,meth::String)
+	if meth == "isns"
+		_init_ϕ=(1.0/model.K)*ones(Float64, model.K)
+		model.ho_dyads = Vector{Dyad}()
+		model.ho_links = Vector{Link}()
+		model.ho_nlinks= Vector{NonLink}()
+		countlink = zero(Int64)
+		countnonlink = zero(Int64)
+		# sample model.nho from nonzeros of model.network
+		num_nonzeros=nnz(model.network)
+		A,B,Val=findnz(model.network)
+		while countlink <= model.nho
+			spidx = 1+floor(Int64,num_nonzeros*rand())
+			a,b = A[spidx], B[spidx]
+			d = Dyad(a,b)
 			if d in model.ho_dyads
 				continue;
 			else
 				push!(model.ho_dyads, d)
 			end
-			nl = NonLink(a,b,_init_ϕ,_init_ϕ)
-			if nl in model.ho_nlinks
+
+			l = Link(a,b,_init_ϕ,_init_ϕ)
+			if l in model.ho_links
 				continue;
 			else
-				push!(model.ho_nlinks, nl)
-				model.ho_fnadj[nl.src]+=1
-				model.ho_bnadj[nl.dst]+=1
-				countnonlink  += 1
+				push!(model.ho_links, l)
+				model.ho_fadj[l.src]+=1
+				model.ho_badj[l.dst]+=1
+				countlink+=1
 			end
 		end
+		while countnonlink <= model.nho
+			a = 1+floor(Int64,model.N*rand())
+			b = 1+floor(Int64,model.N*rand())
+			if model.network[a,b] == 0
+				d = a!=b ? Dyad(a,b) : continue
+				if d in model.ho_dyads
+					continue;
+				else
+					push!(model.ho_dyads, d)
+				end
+				nl = NonLink(a,b,_init_ϕ,_init_ϕ)
+				if nl in model.ho_nlinks
+					continue;
+				else
+					push!(model.ho_nlinks, nl)
+					model.ho_fnadj[nl.src]+=1
+					model.ho_bnadj[nl.dst]+=1
+					countnonlink  += 1
+				end
+			end
+		end
+		println("holdout maps created")
 	end
-	println("holdout maps created")
 end
 function isalink(model::LNMMSB, place::String,a::Int64, b::Int64)
 	ret = false
@@ -117,18 +119,28 @@ function neighbors_(model::LNMMSB,place::String,curr::Int64)
   vcat(sinks(model, place,curr), sources(model,place, curr))
 end
 
-function train_sinksrcs!(model::LNMMSB)
-	@assert !isempty(model.ho_links)
-	for a in 1:model.N
-		model.train_sinks[a] = sinks(model,"train",a)#length is fadj
-		model.train_outdeg[a] = length(model.train_sinks[a])
-		model.train_sources[a]=sources(model,"train",a)#length is badj
-		model.train_indeg[a] = length(model.train_sources[a])
+function train_sinksrcs!(model::LNMMSB,meth::String)
+	if meth == "isns"
+		@assert !isempty(model.ho_links)
+		for a in 1:model.N
+			model.train_sinks[a] = sinks(model,"train",a)#length is fadj
+			model.train_outdeg[a] = length(model.train_sinks[a])
+			model.train_sources[a]=sources(model,"train",a)#length is badj
+			model.train_indeg[a] = length(model.train_sources[a])
+		end
+	end
+	if meth == "isns2" || meth == "link"
+		for a in 1:model.N
+			model.train_sinks[a] = sinks(model,"network",a)#length is fadj
+			model.train_outdeg[a] = length(model.train_sinks[a])
+			model.train_sources[a]=sources(model,"network",a)#length is badj
+			model.train_indeg[a] = length(model.train_sources[a])
+		end
 	end
 	println("training sink and sources figured")
 end
 ##think about speeding this up-1ms not good
-function train_nonlinks!(model::LNMMSB)
+function train_nonlinks!(model::LNMMSB,ignoreho::Bool)
 	_init_ϕ = (1.0/model.K)*ones(Float64, model.K)
 	@assert isempty(model.train_nonlinks)
 	x = Vector{Dyad}()
@@ -141,13 +153,23 @@ function train_nonlinks!(model::LNMMSB)
 			end
 		end
 	end
-	x = setdiff(x, model.ho_dyads)
+	if !ignoreho
+		x = setdiff(x, model.ho_dyads)
 
-	for xx in x
-		if isalink(model, "train", xx.src, xx.dst)
-			continue;
-		else
-			push!(model.train_nonlinks, NonLink(xx.src, xx.dst,_init_ϕ,_init_ϕ))
+		for xx in x
+			if isalink(model, "train", xx.src, xx.dst)
+				continue;
+			else
+				push!(model.train_nonlinks, NonLink(xx.src, xx.dst,_init_ϕ,_init_ϕ))
+			end
+		end
+	else
+		for xx in x
+			if isalink(model, "network", xx.src, xx.dst)
+				continue;
+			else
+				push!(model.train_nonlinks, NonLink(xx.src, xx.dst,_init_ϕ,_init_ϕ))
+			end
 		end
 	end
 	model.train_nonlinks = shuffle!(model.train_nonlinks)
@@ -176,7 +198,7 @@ function set_partitions!(model::LNMMSB)
 		model.node_tnmap[tt.dst]=vcat(model.node_tnmap[tt.dst],ii)
 	end
 	# model.train_nonlinks[model.node_tnmap[1]]
-	nonlinksetsize = round.(Int64, .5*(model.train_indeg .+ model.train_outdeg))
+	nonlinksetsize = round.(Int64, 1.0*(model.train_indeg .+ model.train_outdeg))
 	for a in 1:model.N
 		i=1
 		while i < div(length(model.node_tnmap[a]),nonlinksetsize[a])
@@ -244,13 +266,105 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB, meth::String,mbsize::Int64)
 			model.trainfnadj[a] = model.N-1-model.train_outdeg[a]-model.ho_fadj[a]-model.ho_fnadj[a]
 			model.trainbnadj[a] = model.N-1-model.train_indeg[a]-model.ho_badj[a]-model.ho_bnadj[a]
 		end
+	elseif meth == "link"
+		node_n  = 0
+
+		# mbsize = model.mbsize
+
+		while node_n < mbsize
+			a = ceil(Int64,model.N*rand())
+			if a in mb.mbnodes
+				continue;
+			else
+				push!(mb.mbnodes, a)
+				node_n +=1
+			end
+
+			for l in model.link_set[a]
+				if l in mb.mblinks
+					continue;
+				else
+					push!(mb.mblinks, l)
+				end
+			end
+		end
+		# for l in mb.mblinks
+		# 	if !(l.src in mb.mbnodes)
+		# 		push!(mb.mbnodes, l.src)
+		# 	elseif !(l.dst in mb.mbnodes)
+		# 		push!(mb.mbnodes, l.dst)
+		# 	else
+		# 		continue;
+		# 	end
+		# end
+		# mb.mbnodes = unique(mb.mbnodes)
+		model.mbids = mb.mbnodes
+		# model.mbsize = length(mb.mbnodes)
+	elseif meth == "isns2"
+		node_n  = 0
+		while node_n < mbsize
+			a = ceil(Int64,model.N*rand())
+			if a in mb.mbnodes
+				continue;
+			else
+				push!(mb.mbnodes, a)
+				node_n +=1
+			end
+		end
+		model.mbids[:] = mb.mbnodes[:]
+
+		for a in mb.mbnodes
+			for l in model.link_set[a]
+				if l in mb.mblinks
+					continue;
+				else
+					push!(mb.mblinks, l)
+				end
+			end
+			model.nonlink_setmap[a][1]
+			# length(mb.mbfnadj[a])+length(mb.mbbnadj[a])-length(intersect(mb.mbfnadj[a],	mb.mbbnadj[a]))
+			# model.train_nonlinks[model.nonlink_setmap[a][1]]
+			
+			picknl = ceil(Int64,length(model.nonlink_setmap[a])*rand())
+			# length(model.nonlink_setmap[a][1])+length(model.nonlink_setmap[a][2])
+			# 2N-2-model.train_outdeg[a]-model.train_indeg[a]
+			for nl in model.train_nonlinks[model.nonlink_setmap[a][picknl]]
+				if nl in mb.mbnonlinks
+					continue;
+				else
+					push!(mb.mbnonlinks, nl)
+					if !haskey(mb.mbfnadj, nl.src)
+						mb.mbfnadj[nl.src] = get(mb.mbfnadj, nl.src, Vector{Int64}())
+					end
+					if nl.dst in mb.mbfnadj[nl.src]
+						continue;
+					else
+						push!(mb.mbfnadj[nl.src],nl.dst)
+					end
+					if !haskey(mb.mbbnadj, nl.dst)
+						mb.mbbnadj[nl.dst] = get(mb.mbbnadj, nl.dst, Vector{Int64}())
+					end
+					if nl.src in mb.mbbnadj[nl.dst]
+						continue;
+					else
+						push!(mb.mbbnadj[nl.dst],nl.src)
+					end
+				end
+			end
+		end
+		# for a in mb.mbnodes
+		# 	model.trainfnadj[a] = model.N-1-model.train_outdeg[a]-model.ho_fadj[a]-model.ho_fnadj[a]
+		# 	model.trainbnadj[a] = model.N-1-model.train_indeg[a]-model.ho_badj[a]-model.ho_bnadj[a]
+		# end
+
 	end
+	print();
 end
 # mbsampling!(mb,model, "isns")
-function preparedata(model::LNMMSB)
-	setholdout!(model)
-	train_sinksrcs!(model)
-	train_nonlinks!(model)
+function preparedata(model::LNMMSB,ignoreho::Bool,meth::String)
+	setholdout!(model, meth)
+	train_sinksrcs!(model,meth)
+	train_nonlinks!(model,ignoreho)
 	set_partitions!(model)
 	# mb = deepcopy(model.mb_zeroer)
 end

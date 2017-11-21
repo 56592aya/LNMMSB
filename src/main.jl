@@ -1,6 +1,6 @@
 # module main
 using LightGraphs;using GraphPlot;using Gadfly;using PyPlot;
-inputtomodelgen=[100,4]; ## N, K
+inputtomodelgen=[150,4]; ## N, K
 include("utils.jl")
 include("modelgen.jl")
 true_eta0 = readdlm("data/true_eta0.txt")[1]
@@ -12,19 +12,11 @@ onlyK = length(communities)
 model=LNMMSB(network, onlyK)
 mb=deepcopy(model.mb_zeroer)
 include("modelutils.jl")
-preparedata(model)
-mbsampling!(mb, model, "isns", model.mbsize)
+meth = "isns2"
+preparedata(model,true, meth)
+# mbsampling!(mb, model, "isns", model.mbsize)
+mbsampling!(mb, model, meth, model.mbsize)
 include("trainutils.jl")
-
-sum(model.train_outdeg)
-sum(model.trainfnadj)
-sum(model.trainbnadj)
-length(model.train_nonlinks)
-sum(model.ho_fadj)
-sum(model.ho_badj)
-sum(model.ho_fnadj)
-sum(model.ho_bnadj)
-
 
 
 

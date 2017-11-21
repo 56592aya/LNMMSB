@@ -2,9 +2,17 @@
 using GradDescent
 using ForwardDiff
 
+function updatephibar!(model::LNMMSB, mb::MiniBatch, a::Int64)
+	model.ϕbar[a,:]= (model.ϕloutsum[a,:]+model.ϕlinsum[a,:])/(model.train_outdeg[a]+model.train_indeg[a])
+end
 function updatephilout!(model::LNMMSB, mb::MiniBatch, early::Bool, switchrounds::Bool, link::Link)
 	for k in 1:model.K
-		link.ϕout[k] = model.μ_var[link.src,k] + link.ϕin[k]*(model.Elogβ0[k]-log(EPSILON))
+		if early
+
+			link.ϕout[k] = model.μ_var[link.src,k] + link.ϕin[k]*(log(train_nlinks_num+train_links_num/train_nlinks_num))
+		else
+			link.ϕout[k] = model.μ_var[link.src,k] + link.ϕin[k]*(model.Elogβ0[k]-log(EPSILON))
+		end
 	end
 	r = logsumexp(link.ϕout)
 	link.ϕout[:] = exp.(link.ϕout[:] .- r)[:]
@@ -15,7 +23,11 @@ end
 # link = Link(1,2, _init_ϕ,_init_ϕ)
 function updatephilin!(model::LNMMSB, mb::MiniBatch, early::Bool, switchrounds::Bool, link::Link)
 	for k in 1:model.K
-		link.ϕin[k] = model.μ_var[link.dst,k] + link.ϕout[k]*(model.Elogβ0[k]-log(EPSILON))
+		if early
+			link.ϕin[k] = model.μ_var[link.dst,k] + link.ϕout[k]*(log(train_nlinks_num+train_links_num/train_nlinks_num))
+		else
+			link.ϕin[k] = model.μ_var[link.dst,k] + link.ϕout[k]*(model.Elogβ0[k]-log(EPSILON))
+		end
 	end
 	r=logsumexp(link.ϕin)
 	link.ϕin[:] = exp.(link.ϕin[:] .- r)[:]
@@ -24,8 +36,13 @@ function updatephilin!(model::LNMMSB, mb::MiniBatch, early::Bool, switchrounds::
 	# end
 end
 function updatephinlout!(model::LNMMSB, mb::MiniBatch, early::Bool, switchrounds::Bool, nlink::NonLink)
+	# log(train_links_num/train_nlinks_num)
 	for k in 1:model.K
-		nlink.ϕout[k] = model.μ_var[nlink.src,k] + nlink.ϕin[k]*(model.Elogβ1[k]-log1p(-EPSILON))
+		if early
+			nlink.ϕout[k] = model.μ_var[nlink.src,k] + nlink.ϕin[k]*log(train_links_num/(train_links_num+train_nlinks_num))
+		else
+			nlink.ϕout[k] = model.μ_var[nlink.src,k] + nlink.ϕin[k]*(model.Elogβ1[k]-log1p(-EPSILON))
+		end
 	end
 	r = logsumexp(nlink.ϕout)
 	nlink.ϕout[:] = exp.(nlink.ϕout[:] .- r)[:]
@@ -36,7 +53,12 @@ end
 # link = Link(1,2, _init_ϕ,_init_ϕ)
 function updatephinlin!(model::LNMMSB, mb::MiniBatch, early::Bool, switchrounds::Bool, nlink::NonLink)
 	for k in 1:model.K
-		nlink.ϕin[k] = model.μ_var[nlink.dst,k] + nlink.ϕout[k]*(model.Elogβ1[k]-log1p(-EPSILON))
+		if early
+			nlink.ϕin[k] = model.μ_var[nlink.dst,k] + nlink.ϕout[k]*log(train_links_num/(train_links_num+train_nlinks_num))
+		else
+			nlink.ϕin[k] = model.μ_var[nlink.dst,k] + nlink.ϕout[k]*(model.Elogβ1[k]-log1p(-EPSILON))
+
+		end
 	end
 	r=logsumexp(nlink.ϕin)
 	nlink.ϕin[:] = exp.(nlink.ϕin[:] .- r)[:]
@@ -51,46 +73,48 @@ end
 ## model.ϕloutsum,model.ϕlinsum,model.ϕnlinsum, model.ϕnloutsum
 
 
-function updatesimulμΛ!(model::LNMMSB, a::Int64,mb::MiniBatch)
-
+function updatesimulμΛ!(model::LNMMSB, a::Int64,mb::MiniBatch,meth::String)
 	model.μ_var_old[a,:]=deepcopy(model.μ_var[a,:])
 	model.Λ_var_old[a,:]=deepcopy(model.Λ_var[a,:])
+	if meth == "link"
+	# sumb = model.train_outdeg[a]+model.train_indeg[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
+		μ_var = deepcopy(model.μ_var[a,:])
 
-	sumb = model.train_outdeg[a]+model.train_indeg[a]+length(mb.mbfnadj[a])+length(mb.mbbnadj[a])
-	μ_var = deepcopy(model.μ_var[a,:])
-	Λ_ivar = deepcopy(1.0./model.Λ_var[a,:])
-	ltemp = [log(Λ_ivar[k]) for k in 1:model.K]
-	sfx(μ_var)=softmax(μ_var .+.5.*exp.(ltemp))
-	x = sfx(μ_var)
-	scaler1=(length(model.trainfnadj[a])/length(mb.mbfnadj[a]))
-	scaler2 = (length(model.trainbnadj[a])/length(mb.mbbnadj[a]))
-	dfunc(μ_var) = -model.l.*model.L*(μ_var-model.m) +
-	(model.ϕloutsum[a,:]+model.ϕlinsum[a,:]+scaler1*model.ϕnloutsum[a,:]+scaler2*model.ϕnlinsum[a,:])-
-	sumb.*x
+		Λ_ivar = deepcopy(1.0./model.Λ_var[a,:])
+		ltemp = [log(Λ_ivar[k]) for k in 1:model.K]
+		sfx(μ_var)= softmax(μ_var .+.5.*exp.(ltemp))
+		sumb = 2.0*(model.N-1.0)
+		ca = model.train_outdeg[a]+model.train_indeg[a]
+		x = sfx(μ_var)
+		# scaler1=(length(model.trainfnadj[a])/length(mb.mbfnadj[a]))
+		# scaler2 = (length(model.trainbnadj[a])/length(mb.mbbnadj[a]))
+		# dfunc(μ_var) = -model.l.*model.L*(μ_var-model.m) +
+		# (model.ϕloutsum[a,:]+model.ϕlinsum[a,:]+scaler1*model.ϕnloutsum[a,:]+scaler2*model.ϕnlinsum[a,:])-
+		# sumb.*x
+		X=model.ϕloutsum[a,:]+model.ϕlinsum[a,:]
+		scaler = sumb/ca
+		dfunc(μ_var) = -model.l.*model.L*(μ_var-model.m) +scaler.*X - sumb.*x
 
 
-	func(μ_var,ltemp) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
-	(model.ϕloutsum[a,:]'+model.ϕlinsum[a,:]'+scaler1*model.ϕnloutsum[a,:]'+scaler2*model.ϕnlinsum[a,:]')*μ_var-
-	sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp
 
-	func1(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
-	(model.ϕloutsum[a,:]'+model.ϕlinsum[a,:]'+scaler1*model.ϕnloutsum[a,:]'+scaler2*model.ϕnlinsum[a,:]')*μ_var-
-	sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))
+		func(μ_var,ltemp) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
+		(scaler.*X)'*μ_var-sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp
 
-	func2(ltemp) =-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*exp.(ltemp))))
+		func1(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
+		(scaler.*X)'*μ_var-	sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))
 
-	opt1 = Adagrad()
-	opt2 = Adagrad()
-	oldval = func(μ_var, ltemp)
-	g1 = -dfunc(μ_var)
-	δ1 = update(opt1,g1)
-	g2 = -ForwardDiff.gradient(func2, ltemp)
-	δ2 = update(opt2,g2)
-	newval = func(μ_var-δ1, ltemp-δ2)
-	μ_var-=δ1
-	ltemp-=δ2
-	##Have to have this newval and oldval outside to not take the first step
-	for j in 1:10
+		func2(ltemp) =-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*exp.(ltemp))))
+
+		opt1 = Adagrad()
+		opt2 = Adagrad()
+		oldval = func(μ_var, ltemp)
+		g1 = -dfunc(μ_var)
+		δ1 = update(opt1,g1)
+		g2 = -ForwardDiff.gradient(func2, ltemp)
+		δ2 = update(opt2,g2)
+		newval = func(μ_var-δ1, ltemp-δ2)
+		μ_var-=δ1
+		ltemp-=δ2
 
 		g1 = -dfunc(μ_var)
 		δ1 = update(opt1,g1)
@@ -98,26 +122,62 @@ function updatesimulμΛ!(model::LNMMSB, a::Int64,mb::MiniBatch)
 		δ2 = update(opt2,g2)
 		μ_var-=δ1
 		ltemp-=δ2
-		# oldval=newval
-		# newval = func(μ_var,ltemp)
-		# end
+
+		model.μ_var[a,:]=μ_var
+		model.Λ_var[a,:]=1.0./exp.(ltemp)
+	elseif meth == "isns2"
+		μ_var = deepcopy(model.μ_var[a,:])
+		Λ_ivar = deepcopy(1.0./model.Λ_var[a,:])
+		ltemp = [log(Λ_ivar[k]) for k in 1:model.K]
+		sfxi(μ_var)= softmax(μ_var .+.5.*exp.(ltemp))
+		x = sfxi(μ_var)
+
+		s1 = N-1-model.train_outdeg[a]
+		c1 = length(mb.mbfnadj[a])
+		s2 = N-1-model.train_indeg[a]
+		c2 = length(mb.mbbnadj[a])
+		sumb =2*(model.N-1)#
+		# model.train_outdeg[a]
+
+
+
+		X=model.ϕloutsum[a,:]+model.ϕlinsum[a,:]+(s1/c1).*(model.ϕnloutsum[a,:])+(s2/c2).*(model.ϕnlinsum[a,:])
+
+		dfunci(μ_var) = -model.l.*model.L*(μ_var-model.m) +X - sumb.*x
+
+
+
+		funci(μ_var,ltemp) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
+		(X)'*μ_var-sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp
+
+		func1i(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
+		(X)'*μ_var-	sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))
+
+		func2i(ltemp) =-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*exp.(ltemp))))
+
+		opt1 = Adagrad()
+		opt2 = Adagrad()
+
+		# oldval = funci(μ_var, ltemp)
+		for i in 1:5
+			g1 = -dfunci(μ_var)
+			δ1 = update(opt1,g1)
+			g2 = -ForwardDiff.gradient(func2i, ltemp)
+			δ2 = update(opt2,g2)
+			# newval = funci(μ_var-δ1, ltemp-δ2)
+			μ_var-=δ1
+			ltemp-=δ2
+		end
+
+		# g1 = -dfunci(μ_var)
+		# δ1 = update(opt1,g1)
+		# g2 = -ForwardDiff.gradient(func2i, ltemp)
+		# δ2 = update(opt2,g2)
+		# μ_var-=δ1
+		# ltemp-=δ2
+		model.μ_var[a,:]=μ_var
+		model.Λ_var[a,:]=1.0./exp.(ltemp)
 	end
-	# while oldval > newval
-	# 	if isapprox(newval, oldval)
-	# 		break;
-	# 	else
-	# 		g1 = -dfunc(μ_var)
-	# 		δ1 = update(opt1,g1)
-	# 		g2 = -ForwardDiff.gradient(func2, ltemp)
-	# 		δ2 = update(opt2,g2)
-	# 		μ_var-=δ1
-	# 		ltemp-=δ2
-	# 		oldval=newval
-	# 		newval = func(μ_var,ltemp)
-	# 	end
-	# end
-	model.μ_var[a,:]=μ_var
-	model.Λ_var[a,:]=1.0./exp.(ltemp)
 	print();
 #######
 end
@@ -153,22 +213,55 @@ function updateL!(model::LNMMSB, mb::MiniBatch)
 	model.L = inv(s)
 end
 #updateL!(model, mb)
-function updateb0!(model::LNMMSB, mb::MiniBatch,train_links_num::Int64)
+function updateb0!(model::LNMMSB, mb::MiniBatch)
 	model.b0_old = deepcopy(model.b0)
 	#replace #length(train.mblinks)
-	train_links_num=convert(Float64, train_links_num)
+	# train_links_num=convert(Float64, train_links_num)
+	train_links_num=convert(Float64,nnz(model.network))
 	scaler=(train_links_num/convert(Float64,length(mb.mblinks)))
 	@assert !isequal(model.ϕlinoutsum[:], zeros(Float64, model.K))
-	model.b0[:] = model.η0.+scaler.*model.ϕlinoutsum[:]
+	model.b0[:] = model.η0.+ (scaler.*model.ϕlinoutsum[:])
 end
 #updateb0!(model, mb)
-function updateb1!(model::LNMMSB, mb::MiniBatch,train_nlinks_num::Int64)
+function updateb1!(model::LNMMSB, mb::MiniBatch, meth::String)
 	model.b1_old = deepcopy(model.b1)
-	#replace #length(train.mblinks)
-	train_nlinks_num = convert(Float64,train_nlinks_num)
-	scaler = (train_nlinks_num/convert(Float64,length(mb.mbnonlinks)))
-	@assert !isequal(model.ϕnlinoutsum[:], zeros(Float64, model.K))
-	model.b1[:] = model.η1.+scaler.*model.ϕnlinoutsum[:]
+	# train_nlinks_num = convert(Float64,train_nlinks_num)
+	train_nlinks_num = convert(Float64,model.N*model.N-model.N-sum(model.train_outdeg))
+
+	if meth == "link"
+		scaler = model.N/model.mbsize
+		# @assert !isequal(model.ϕnlinoutsum[:], zeros(Float64, model.K))
+		# model.b1[:] = model.η1.+scaler.*model.ϕnlinoutsum[:]
+		r = zeros(Float64, model.K)
+		s1 = zeros(Float64, model.K)
+		s2 = zeros(Float64, model.K)
+		s3 = zeros(Float64, (model.N,model.K))
+		s4 = zeros(Float64, model.K)
+		for a in mb.mbnodes
+			s1[:] += model.ϕbar[a,:]
+			s2[:] += (model.ϕbar[a,:]).^2
+			for b in model.train_sinks[a]
+				if (Dyad(a,b) in model.ho_links)
+					continue;
+				else
+					s3[a,:]+=model.ϕbar[b,:]
+				end
+			end
+		end
+
+		s1 = (scaler.*s1).^2
+		for a in mb.mbnodes
+			s4[:]+=model.ϕbar[a,:].*s3[a,:]
+		end
+
+
+		r = s1.-scaler.*s2.-scaler.*s4
+		model.b1[:] = model.η1.+r
+	elseif meth == "isns2"
+		scaler= length(model.train_nonlinks)/(length(mb.mbnonlinks))
+		model.b1[:] = model.η1 .+ (scaler.*model.ϕnlinoutsum[:])
+	end
+	# model.b1[model.b1 .< .0] = model.η1
 end
 
 #updateb1!(model, mb)
@@ -197,16 +290,6 @@ function estimate_θs!(model::LNMMSB, mb::MiniBatch)
 		# model.est_θ[a,:]=exp(model.μ_var[a,:])./sum(exp(model.μ_var[a,:]))#
 		model.est_θ[a,:]=softmax(model.μ_var[a,:])
 	end
-	# model.μ_var[1,:]
-	# softmax!(model.μ_var[1,:])
-	# model.μ_var[1,:]
-	# model.est_θ[1,:]=softmax!(model.μ_var[1,:])
-	# model.μ_var
-	# model.est_θ
-	# softmax!()
-	# model.μ_var[1,:]
-	# exp(model.μ_var[1,1])/sum(exp(model.μ_var[1,:]))
-	# exp(model.μ_var[1,4])/sum(exp(model.μ_var[1,:]))
 	model.est_θ[mb.mbnodes,:]
 end
 
@@ -253,11 +336,13 @@ function computeNMI(x::Matrix{Float64}, y::Matrix{Float64}, communities::Dict{In
 	end
 	println("NMI of estimated vs truth")
 	run(`src/cpp/NMI/onmi file2 file1`)
+	nmi = read(`src/cpp/NMI/onmi file2 file1`, String)
+	nmi=parse(Float64,nmi[6:(end-1)])
 	println("NMI of estimated vs init")
 	run(`src/cpp/NMI/onmi file2 file3`)
 	println("NMI of truth vs init")
 	run(`src/cpp/NMI/onmi file1 file3`)
-
+	return nmi
 end
 function computeNMI_med(x::Matrix{Float64}, y::Matrix{Float64}, communities::Dict{Int64, Vector{Int64}}, threshold::Float64)
 	open("./file2", "w") do f
@@ -285,38 +370,35 @@ function computeNMI_med(x::Matrix{Float64}, y::Matrix{Float64}, communities::Dic
 	return nmi
 end
 
-function computeNMI2(model::LNMMSB, mb::MiniBatch)
-	# Px = mean(model.est_θ, 1)
-	K = size(true_thetas,2)
-	true_thetas = readdlm("data/true_thetas.txt")
-	Py = reshape(mean(true_thetas, 1), K)
-	Px = reshape(mean(x, 1),K)
-	a = Matrix2d{Float64}(K, K)
-	b = Matrix2d{Float64}(K, K)
-	c = Matrix2d{Float64}(K, K)
-	d = Matrix2d{Float64}(K, K)
+function log_comm(model::LNMMSB, mb::MiniBatch, link::Link, link_thresh::Float64, min_deg::Int64)
+	m_out = indmax(link.ϕout)
+	if link.ϕout[m_out] > link_thresh
+		model.fmap[link.src,m_out]+=1
+		model.fmap[link.dst,m_out]+=1
+		if model.fmap[link.src,m_out] >= minimum(model.train_outdeg)
+			push!(model.comm[m_out], link.src)
+		end
 
-	for i in 1:K
-		for j in 1:K
-			a[i,j] = .5*model.N*((1.0-Px[i])+(1.0-Py[j]))
-			b[i,j] = .5*model.N*((1.0-Px[i])+Py[j])
-			c[i,j] = .5*model.N*(Px[i]+(1.0-Py[j]))
-			d[i,j] = .5*model.N*(Px[i]+Py[j])
+		if model.fmap[link.src,m_out] >=minimum(model.train_outdeg)
+			push!(model.comm[m_out], link.dst)
 		end
 	end
-	HxiCyj = Matrix2d{Float64}(K, K)
-	h(w,n) = -w*log(2, w/n)
-	for i in 1:K
-		for j in 1:K
-			HxiCyj[i,j] = (h(a[i,j], model.N)+h(d[i,j], model.N))>(h(b[i,j], model.N)+h(c[i,j], model.N))? h(a[i,j], model.N)+h(b[i,j], model.N)+h(c[i,j], model.N)+h(d[i,j], model.N)-
-			h(b[i,j]+d[i,j], model.N)-h(a[i,j]+c[i,j], model.N) :h(c[i,j]+d[i,j], model.N)+h(a[i,j]+b[i,j], model.N)
-		end
+end
+function compute_NMI3(model::LNMMSB)
+	open("./data/est_comm.txt", "w") do f
+	  for k in 1:length(model.comm)
+	    for n in model.comm[k]
+	        write(f, "$n ")
+	    end
+	    write(f, "\n")
+	  end
 	end
-	HxiCy = Vector{Float64}(K)
-	for i in 1:K
-		HxiCy[i] = minimum(HxiCyj[i,:])
-	end
-	HxCy = sum(HxiCy)
+
+	println("NMI of estimated vs truth")
+	# run(`src/cpp/NMI/onmi file2 file1`)
+	nmi = read(`src/cpp/NMI/onmi data/truth_comm.txt data/est_comm.txt`, String)
+	nmi=parse(Float64,nmi[6:(end-1)])
+	return nmi
 end
 function edge_likelihood(model::LNMMSB,pair::Dyad, β_est::Vector{Float64})
     s = zero(Float64)
@@ -324,13 +406,16 @@ function edge_likelihood(model::LNMMSB,pair::Dyad, β_est::Vector{Float64})
     prob = zero(Float64)
 	src = pair.src
 	dst = pair.dst
+	sfxa=softmax(model.μ_var[pair.src,:])
+	sfxb=softmax(model.μ_var[pair.dst,:])
     for k in 1:model.K
+
         if isalink(model, "network",src, dst)
-            prob += (model.μ_var[src,k]/sum(model.μ_var[src,:]))*(model.μ_var[dst,k]/sum(model.μ_var[dst,:]))*(β_est[k])
+            prob += (sfxa[k]/sum(sfxa))*(sfxb[k]/sum(sfxb))*(β_est[k])
         else
-            prob += (model.μ_var[src,k]/sum(model.μ_var[src,:]))*(model.μ_var[dst,k]/sum(model.μ_var[dst,:]))*(1.0-β_est[k])
+            prob += (sfxa[k]/sum(sfxa))*(sfxb[k]/sum(sfxb))*(1.0-β_est[k])
         end
-        s += (model.μ_var[src,k]/sum(model.μ_var[src,:]))*(model.μ_var[dst,k]/sum(model.μ_var[dst,:]))
+        s += (sfxa[k]/sum(sfxa))*(sfxb[k]/sum(sfxb))
     end
 
     if isalink(model, "network",src, dst)
