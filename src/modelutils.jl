@@ -198,7 +198,7 @@ function set_partitions!(model::LNMMSB)
 		model.node_tnmap[tt.dst]=vcat(model.node_tnmap[tt.dst],ii)
 	end
 	# model.train_nonlinks[model.node_tnmap[1]]
-	nonlinksetsize = round.(Int64, 1.0*(model.train_indeg .+ model.train_outdeg))
+	nonlinksetsize = round.(Int64, ceil.(1.0*(model.train_indeg .+ model.train_outdeg)))
 	for a in 1:model.N
 		i=1
 		while i < div(length(model.node_tnmap[a]),nonlinksetsize[a])
@@ -321,10 +321,10 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB, meth::String,mbsize::Int64)
 					push!(mb.mblinks, l)
 				end
 			end
-			model.nonlink_setmap[a][1]
+			# model.nonlink_setmap[a][1]
 			# length(mb.mbfnadj[a])+length(mb.mbbnadj[a])-length(intersect(mb.mbfnadj[a],	mb.mbbnadj[a]))
 			# model.train_nonlinks[model.nonlink_setmap[a][1]]
-			
+
 			picknl = ceil(Int64,length(model.nonlink_setmap[a])*rand())
 			# length(model.nonlink_setmap[a][1])+length(model.nonlink_setmap[a][2])
 			# 2N-2-model.train_outdeg[a]-model.train_indeg[a]

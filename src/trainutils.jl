@@ -5,10 +5,9 @@ using ForwardDiff
 function updatephibar!(model::LNMMSB, mb::MiniBatch, a::Int64)
 	model.ϕbar[a,:]= (model.ϕloutsum[a,:]+model.ϕlinsum[a,:])/(model.train_outdeg[a]+model.train_indeg[a])
 end
-function updatephilout!(model::LNMMSB, mb::MiniBatch, early::Bool, switchrounds::Bool, link::Link)
+function updatephilout!(model::LNMMSB, mb::MiniBatch, early::Bool, link::Link)
 	for k in 1:model.K
 		if early
-
 			link.ϕout[k] = model.μ_var[link.src,k] + link.ϕin[k]*(log(train_nlinks_num+train_links_num/train_nlinks_num))
 		else
 			link.ϕout[k] = model.μ_var[link.src,k] + link.ϕin[k]*(model.Elogβ0[k]-log(EPSILON))
@@ -16,12 +15,8 @@ function updatephilout!(model::LNMMSB, mb::MiniBatch, early::Bool, switchrounds:
 	end
 	r = logsumexp(link.ϕout)
 	link.ϕout[:] = exp.(link.ϕout[:] .- r)[:]
-	# for k in 1:model.K
-	# 	model.ϕloutsum[link.src,k] += link.ϕout[k]##remember to zero this when needed
-	# end
 end
-# link = Link(1,2, _init_ϕ,_init_ϕ)
-function updatephilin!(model::LNMMSB, mb::MiniBatch, early::Bool, switchrounds::Bool, link::Link)
+function updatephilin!(model::LNMMSB, mb::MiniBatch, early::Bool, link::Link)
 	for k in 1:model.K
 		if early
 			link.ϕin[k] = model.μ_var[link.dst,k] + link.ϕout[k]*(log(train_nlinks_num+train_links_num/train_nlinks_num))
@@ -31,12 +26,8 @@ function updatephilin!(model::LNMMSB, mb::MiniBatch, early::Bool, switchrounds::
 	end
 	r=logsumexp(link.ϕin)
 	link.ϕin[:] = exp.(link.ϕin[:] .- r)[:]
-	# for k in 1:model.K
-	# 	model.ϕlinsum[link.src,k] += link.ϕin[k]##remember to zero this when needed
-	# end
 end
-function updatephinlout!(model::LNMMSB, mb::MiniBatch, early::Bool, switchrounds::Bool, nlink::NonLink)
-	# log(train_links_num/train_nlinks_num)
+function updatephinlout!(model::LNMMSB, mb::MiniBatch, early::Bool, nlink::NonLink)
 	for k in 1:model.K
 		if early
 			nlink.ϕout[k] = model.μ_var[nlink.src,k] + nlink.ϕin[k]*log(train_links_num/(train_links_num+train_nlinks_num))
@@ -46,25 +37,17 @@ function updatephinlout!(model::LNMMSB, mb::MiniBatch, early::Bool, switchrounds
 	end
 	r = logsumexp(nlink.ϕout)
 	nlink.ϕout[:] = exp.(nlink.ϕout[:] .- r)[:]
-	# for k in 1:model.K
-	# 	model.ϕnloutsum[nlink.src,k] += nlink.ϕout[k]##remember to zero this when needed
-	# end
 end
-# link = Link(1,2, _init_ϕ,_init_ϕ)
-function updatephinlin!(model::LNMMSB, mb::MiniBatch, early::Bool, switchrounds::Bool, nlink::NonLink)
+function updatephinlin!(model::LNMMSB, mb::MiniBatch, early::Bool, nlink::NonLink)
 	for k in 1:model.K
 		if early
 			nlink.ϕin[k] = model.μ_var[nlink.dst,k] + nlink.ϕout[k]*log(train_links_num/(train_links_num+train_nlinks_num))
 		else
 			nlink.ϕin[k] = model.μ_var[nlink.dst,k] + nlink.ϕout[k]*(model.Elogβ1[k]-log1p(-EPSILON))
-
 		end
 	end
 	r=logsumexp(nlink.ϕin)
 	nlink.ϕin[:] = exp.(nlink.ϕin[:] .- r)[:]
-	# for k in 1:model.K
-	# 	model.ϕnlinsum[nlink.src,k] += nlink.ϕin[k]##remember to zero this when needed
-	# end
 end
 
 ## Need to repeat updatephilout!,updatephilin!,,updatephinlout!,updatephinlin! until
@@ -131,11 +114,10 @@ function updatesimulμΛ!(model::LNMMSB, a::Int64,mb::MiniBatch,meth::String)
 		ltemp = [log(Λ_ivar[k]) for k in 1:model.K]
 		sfxi(μ_var)= softmax(μ_var .+.5.*exp.(ltemp))
 		x = sfxi(μ_var)
-
-		s1 = N-1-model.train_outdeg[a]
-		c1 = length(mb.mbfnadj[a])
-		s2 = N-1-model.train_indeg[a]
-		c2 = length(mb.mbbnadj[a])
+		s1 = haskey(mb.mbfnadj,a)?N-1-model.train_outdeg[a]:0
+		c1 = haskey(mb.mbfnadj,a)?length(mb.mbfnadj[a]):1
+		s2 = haskey(mb.mbbnadj,a)?N-1-model.train_indeg[a]:0
+		c2 = haskey(mb.mbbnadj,a)?length(mb.mbbnadj[a]):1
 		sumb =2*(model.N-1)#
 		# model.train_outdeg[a]
 
@@ -159,7 +141,7 @@ function updatesimulμΛ!(model::LNMMSB, a::Int64,mb::MiniBatch,meth::String)
 		opt2 = Adagrad()
 
 		# oldval = funci(μ_var, ltemp)
-		for i in 1:5
+		for i in 1:10
 			g1 = -dfunci(μ_var)
 			δ1 = update(opt1,g1)
 			g2 = -ForwardDiff.gradient(func2i, ltemp)
@@ -168,13 +150,6 @@ function updatesimulμΛ!(model::LNMMSB, a::Int64,mb::MiniBatch,meth::String)
 			μ_var-=δ1
 			ltemp-=δ2
 		end
-
-		# g1 = -dfunci(μ_var)
-		# δ1 = update(opt1,g1)
-		# g2 = -ForwardDiff.gradient(func2i, ltemp)
-		# δ2 = update(opt2,g2)
-		# μ_var-=δ1
-		# ltemp-=δ2
 		model.μ_var[a,:]=μ_var
 		model.Λ_var[a,:]=1.0./exp.(ltemp)
 	end
@@ -280,7 +255,7 @@ function mcsampler(model,mean, diagprec, num)
 	return vec
 
 end
-function estimate_βs(model::LNMMSB, mb::MiniBatch)
+function estimate_βs!(model::LNMMSB, mb::MiniBatch)
 	model.est_β=model.b0./(model.b0.+model.b1)
 end
 
@@ -385,6 +360,7 @@ function log_comm(model::LNMMSB, mb::MiniBatch, link::Link, link_thresh::Float64
 	end
 end
 function compute_NMI3(model::LNMMSB)
+
 	open("./data/est_comm.txt", "w") do f
 	  for k in 1:length(model.comm)
 	    for n in model.comm[k]

@@ -99,12 +99,12 @@ mutable struct LNMMSB <: AbstractMMSB
   ϕlinoutsum    =zeros(Float64,K) #zero the phi link product sum
   ϕnlinoutsum   =zeros(Float64,K) #zero the phi nonlink product sum
   η0            =true_eta0 #one the beta param
-  η1            =1.5 #one the beta param
+  η1            =1.1 #one the beta param
   b0            =η0.*ones(Float64, K) #one the beta variational param
   b0_old        = deepcopy(b0)
   b1            =η1*ones(Float64, K) #one the beta variational param
   b1_old        = deepcopy(b1)
-  mbsize        = div(N,50)#round(Int64, .05*N) #number of nodes in the minibatch
+  mbsize        = div(N,200)>1?div(N,200):div(N,50)#round(Int64, .05*N) #number of nodes in the minibatch
   mbids         =zeros(Int64,mbsize) # to be extended
   nho           =nnz(network)*0.025 #init nho
   ho_dyads      = Vector{Dyad}()
