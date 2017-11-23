@@ -104,7 +104,7 @@ mutable struct LNMMSB <: AbstractMMSB
   b0_old        = deepcopy(b0)
   b1            =η1*ones(Float64, K) #one the beta variational param
   b1_old        = deepcopy(b1)
-  mbsize        = div(N,200)>1?div(N,200):div(N,50)#round(Int64, .05*N) #number of nodes in the minibatch
+  mbsize        = div(N,200)>1?div(N,200):div(N,N)#round(Int64, .05*N) #number of nodes in the minibatch
   mbids         =zeros(Int64,mbsize) # to be extended
   nho           =nnz(network)*0.025 #init nho
   ho_dyads      = Vector{Dyad}()

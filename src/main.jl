@@ -18,34 +18,3 @@ preparedata(model,true, meth)
 # mbsampling!(mb, model, "isns", model.mbsize)
 mbsampling!(mb, model, meth, model.mbsize)
 include("trainutils.jl")
-
-
-
-# g = LightGraphs.DiGraph(network)
-# inf_nodes = [Int[] for i in 1:model.N]
-# for a in 1:model.N
-#     for b in neighbors(g,a)
-#         for c in neighbors(g,b)
-#             if (network[a,c] == 0) && (network[c,a] == 0) && (c !=a)
-#                 push!(inf_nodes[a], c)
-#             end
-#         end
-#     end
-#     inf_nodes[a] = unique(inf_nodes[a])
-# end
-# a=94
-# model.train_nonlinks[model.nonlink_setmap[a][1]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-# end
