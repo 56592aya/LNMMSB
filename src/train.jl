@@ -62,6 +62,7 @@ using GraphPlot
 	lr_Λ=ones(Float64, model.N)
 	count_μ = zeros(Int64, model.N)
 	count_Λ = zeros(Int64, model.N)
+	count_a = zeros(Int64, model.N)
 	model.fmap = zeros(Float64, (model.N,model.K))
 	model.comm = [Int64[] for i in 1:model.K]
 	if isfile("./data/est_comm.txt")
@@ -78,21 +79,21 @@ using GraphPlot
 		lr_L = 1.0
 		lr_b = 1.0
 		if !isfullsample
-			lr_M = (1024+(i-1))^-.99
-			lr_m = (1024+(i-1))^-.99
-			lr_L = (1024+(i-1))^-.99
-			lr_b = (1024+(i-1))^-.99
+			lr_M = (1024+(i-1))^-.9
+			lr_m = (1024+(i-1))^-.9
+			lr_L = (1024+(i-1))^-.9
+			lr_b = (1024+(i-1))^-.9
 		end
 		if i > model.N/model.mbsize
 			early = false
 		end
 
 
-		switchrounds = bitrand(1)[1]
+		# switchrounds = bitrand(1)[1]
 		model.ϕlinoutsum[:] = zeros(Float64, model.K)
 		model.ϕloutsum = zeros(Float64, (model.N,model.K))
 		model.ϕlinsum = zeros(Float64, (model.N,model.K))
-		model.μ_var_old[model.mbids,:]=model.μ_var[model.mbids,:]
+		model.μ_var_old[model.mbids,:]=deepcopy(model.μ_var[model.mbids,:])
 	#	model.μ_var[model.mbids,:]=zeros(Float64,(model.mbsize,model.K))
 		for l in mb.mblinks
 			for j in 1:15
@@ -116,17 +117,17 @@ using GraphPlot
 				model.ϕlinoutsum[k] += l.ϕout[k]*l.ϕin[k]
 			end
 			# if i>900
-			# 	log_comm(model, mb, l, link_thresh, min_deg)
+			log_comm(model, mb, l, link_thresh, min_deg)
 			# end
 		end
 		# if i>900
-		# 	for k in 1:model.K
-		# 		model.comm[k] = unique(model.comm[k])
-		# 	end
+		for k in 1:model.K
+			model.comm[k] = unique(model.comm[k])
+		end
 		# end
 
 		if meth == "isns2"
-			switchrounds = bitrand(1)[1]
+			# switchrounds = bitrand(1)[1]
 			model.ϕnlinoutsum[:] = zeros(Float64, model.K)
 			model.ϕnloutsum = zeros(Float64, (model.N,model.K))
 			model.ϕnlinsum = zeros(Float64, (model.N,model.K))
@@ -170,12 +171,13 @@ using GraphPlot
 			end
 			@assert isapprox(sum(model.ϕbar[mb.mbnodes,:],2)[:,1],ones(Float64, length(mb.mbnodes)))
 		end
-		model.μ_var[model.mbids,:]=model.μ_var_old[model.mbids,:]
-		model.μ_var[model.mbids,:]=_init_μ[model.mbids,:]##I added instead of the above
+		model.μ_var[model.mbids,:]=deepcopy(model.μ_var_old[model.mbids,:])## I commented
+		model.μ_var[model.mbids,:]=deepcopy(_init_μ[model.mbids,:])##I added instead of the above)
 		for a in mb.mbnodes
 			if !isfullsample
 				# count_μ[a]+=1
 				# count_Λ[a]+=1
+				count_a[a] += 1
 				updatesimulμΛ!(model, a, mb,meth)
 				# lr_μ[a] = (1024.0+Float64(count_μ[a]-1.0))^(-.5)
 				# lr_Λ[a] = (1024.0+Float64(count_Λ[a]-1.0))^(-.5)
@@ -211,10 +213,10 @@ using GraphPlot
 			println(model.est_β)
 		end
 
-		# if (i % 100 == 0) && i > 900
-		# 	println(compute_NMI3(model))
-		# 	push!(nmitemp,compute_NMI3(model))
-		# end
+		if (i % 100 == 0)
+			println(compute_NMI3(model))
+			push!(nmitemp,compute_NMI3(model))
+		end
 		x = deepcopy(model.est_θ)
 		sort_by_argmax!(x)
 		table=[sortperm(x[i,:]) for i in 1:model.N]
@@ -253,9 +255,9 @@ using GraphPlot
 	Plots.plot(p2,p3, layout=(2,1))
 	est = deepcopy(model.est_θ)
 	sort_by_argmax!(est)
+	Plots.plot(1:length(nmitemp), nmitemp)
+	println(maximum(nmitemp))
 	Plots.plot(1:length(vec(true_θs)),sort(vec(true_θs)))
 	Plots.plot(1:length(vec(est)),sort(vec(est)))
 	Plots.heatmap(est, yflip=true)
-	# Plots.plot(1:length(nmitemp), nmitemp)
-	# println(maximum(nmitemp))
 # end

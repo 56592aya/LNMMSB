@@ -71,6 +71,12 @@ mutable struct LNMMSB <: AbstractMMSB
     node_tnmap   ::Array{Array{Int64,1},1}
     fmap         ::Matrix2d{Int64}
     comm         ::VectorList{Int64}
+    train_link_map:: Map{Int64, Set{Int64}}
+    ho_map        :: Map{Dyad, Bool}
+    test_map      :: Map{Dyad, Bool}
+    minibatch_set :: Set{Dyad}
+    linked_edges  :: Set{Dyad}
+    num_peices    :: Int64
 
  function LNMMSB(network::Network{Int64}, K::Int64)
   N             = size(network,1) #setting size of nodes
@@ -106,7 +112,7 @@ mutable struct LNMMSB <: AbstractMMSB
   b1_old        = deepcopy(b1)
   mbsize        = div(N,200)>1?div(N,200):div(N,N)#round(Int64, .05*N) #number of nodes in the minibatch
   mbids         =zeros(Int64,mbsize) # to be extended
-  nho           =nnz(network)*0.025 #init nho
+  nho           =0.01*(N*(N-1)) #init nho
   ho_dyads      = Vector{Dyad}()
  	ho_links      = Vector{Link}()
  	ho_nlinks     = Vector{NonLink}()
@@ -142,11 +148,19 @@ mutable struct LNMMSB <: AbstractMMSB
   node_tnmap    =Array{Array{Int64,1},1}()
   fmap          = zeros(Float64, (N,K))
   comm          =[Int64[] for i in 1:K]
+  train_link_map= Map{Int64, Set{Int64}}()
+  ho_map        = Map{Dyad, Bool}()
+  test_map      = Map{Dyad, Bool}()
+  minibatch_set = Set{Dyad}()
+  linked_edges  = Set{Dyad}()
+  num_peices    =10
+
   model = new(K, N, elbo, oldelbo, μ, μ_var,μ_var_old, m0, m,m_old, M0, M,M_old, Λ, Λ_var,Λ_var_old, l0, L0, l,
    L,L_old, ϕlinoutsum, ϕnlinoutsum, η0, η1, b0,b0_old, b1,b1_old, network, mbsize, mbids,nho, ho_dyads, ho_links,
     ho_nlinks,ho_fadj,ho_badj,ho_fnadj,ho_bnadj,trainfnadj,trainbnadj,train_outdeg,train_indeg,train_sinks,train_sources,ϕloutsum,
      ϕnloutsum,  ϕlinsum,  ϕnlinsum,ϕbar,elborecord,est_θ, est_β, est_μ, est_Λ,visit_count,nl_partition,
-     train_nonlinks,d,Elogβ0,Elogβ1,mb_zeroer,link_set,nonlink_setmap, node_tnmap, fmap,comm)
+     train_nonlinks,d,Elogβ0,Elogβ1,mb_zeroer,link_set,nonlink_setmap, node_tnmap, fmap,comm,
+     train_link_map,ho_map,test_map,minibatch_set,linked_edges,num_peices)
   return model
  end
 end

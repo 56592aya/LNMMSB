@@ -20,9 +20,11 @@ mutable struct Link <: AbstractDyad
   dst::Int64
   ϕout::Vector{Float64}
   ϕin::Vector{Float64}
+
   # ϕoutold::Vector{Float64}
   # ϕinold::Vector{Float64}
 end
+
 mutable struct NonLink <: AbstractDyad
   src::Int64
   dst::Int64
@@ -31,7 +33,6 @@ mutable struct NonLink <: AbstractDyad
   # ϕoutold::Vector{Float64}
   # ϕinold::Vector{Float64}
 end
-
 ==(x::Dyad, y::Dyad) = x.src == y.src && x.dst == y.dst
 ==(x::Link, y::Link) = x.src == y.src && x.dst == y.dst
 ==(x::NonLink, y::NonLink) = x.src == y.src && x.dst == y.dst
@@ -39,6 +40,7 @@ end
 ==(x::Dyad, y::NonLink) = x.src == y.src && x.dst == y.dst
 ==(x::Link, y::Dyad) = x.src == y.src && x.dst == y.dst
 ==(x::NonLink, y::Dyad) = x.src == y.src && x.dst == y.dst
+
 #
 # hash(x::Dyad, h::UInt) = hash(x.src, hash(x.dst, hash(0x7d6979235cb005d0, h)))
 # hash(x::Link, h::UInt) = hash(x.src, hash(x.dst, hash(0x7d6979235cb005d0, h)))
@@ -81,6 +83,9 @@ mutable struct Training
     new(traininglinks,trainingnonlinks,trainingallnodes,trainingfnadj,trainingbnadj)
   end
 end
+
+Map{R,T} = Dict{R,T}
+
 
 Network{T<:Integer}(nrows::T) = SparseMatrixCSC{T,T}(nrows, nrows, ones(T, nrows+1), Vector{T}(0), Vector{T}(0))
 

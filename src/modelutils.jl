@@ -1,4 +1,195 @@
 
+function do_linked_edges!(model::LNMMSB)
+	Src, Sink, Val= findnz(model.network)
+	model.linked_edges=Set{Dyad}()
+	for i in 1:length(Val)
+		push!(model.linked_edges, Dyad(Src[i],Sink[i]))
+	end
+end
+function minibatch_set_srns(model::LNMMSB)
+	model.minibatch_set = Set{Dyad}()
+	a = ceil(Int64,model.N*rand())
+	flag = bitrand(1)[1]
+	if !flag ##nonlinks
+		minibatch_size = round(Int64, model.N/model.num_peices)
+		p = minibatch_size
+		while p > 1
+			node_list = sample(1:N, minibatch_size*2)
+
+			for neighbor in node_list
+				if p < 1
+					break;
+				end
+				if neighbor == a
+					continue;
+				end
+				dyads=Vector{Dyad}()
+				if !isalink(model, "network", a, neighbor)
+					push!(dyads, Dyad(a, neighbor))
+			  	end
+				if !isalink(model, "network", neighbor, a)
+					push!(dyads, Dyad(neighbor, a))
+				end
+				if isempty(dyads)
+					continue;
+				end
+				for dd in dyads
+					if dd in model.linked_edges || haskey(model.ho_map,dd) ||
+						haskey(model.test_map,dd) || dd in  model.minibatch_set
+						continue;
+					end
+				end
+
+				push!(model.minibatch_set, dyads[sample(1:length(dyads))])
+				p-=1
+			end
+		end
+		return (model.minibatch_set, model.N*model.num_peices)
+	else
+		for neighbor in model.train_link_map[a]
+			if issink(model, "network", a, neighbor)
+				push!(model.minibatch_set, Dyad(a, neighbor))
+			end
+			if issink(model, "network", neighbor, a)
+				push!(model.minibatch_set, Dyad(neighbor, a))
+			end
+		end
+		return (model.minibatch_set, model.N)
+	end
+end
+
+function init_train_link_map!(model::LNMMSB)
+	for a in 1:model.N
+		if !haskey(model.train_link_map, a)
+			model.train_link_map[a] = get(model.train_link_map, a, Set{Int64}())
+		end
+	end
+	for d in model.linked_edges
+		push!(model.train_link_map[d.src],d.dst)
+		push!(model.train_link_map[d.dst],d.src)
+	end
+end
+
+
+function init_ho_map!(model::LNMMSB)
+	p= round(Int64,model.nho/2)
+	if length(model.linked_edges) < p
+		exit("something wrong here!")
+	end
+	sampled_linked_edges = collect(model.linked_edges)[sample(1:length(model.linked_edges), p, replace=false)]
+	for edge in sampled_linked_edges
+
+		if !haskey(model.ho_map, edge)
+			model.ho_map[edge] = get(model.ho_map, edge, true)
+		end
+		model.ho_map[edge]=true
+		if haskey(model.train_link_map,edge.src)
+			delete!(model.train_link_map[edge.src], edge.dst)
+		end
+		if haskey(model.train_link_map,edge.dst)
+			delete!(model.train_link_map[edge.dst], edge.src)
+		end
+	end
+	while p > 1
+
+		edge = get_random_ho_nonlink(model)
+		if !haskey(model.ho_map, edge)
+			model.ho_map[edge] = get(model.ho_map, edge, false)
+		end
+		model.ho_map[edge]=false
+		p-=1
+	end
+end
+function init_test_map!(model::LNMMSB)
+	p = round(Int64,model.nho/2)
+	while p > 1
+		sampled_linked_edges = collect(model.linked_edges)[sample(1:length(model.linked_edges), 2p, replace=false)]
+		for edge in sampled_linked_edges
+			if p < 1
+				break;
+			end
+			if haskey(model.ho_map,edge) || haskey(model.test_map,edge)
+				continue;
+			else
+				if !haskey(model.test_map, edge)
+					model.test_map[edge] = get(model.test_map, edge, true)
+				end
+				model.ho_map[edge]=true
+				if haskey(model.train_link_map,edge.src)
+					delete!(model.train_link_map[edge.src], edge.dst)
+				end
+				if haskey(model.train_link_map,edge.dst)
+					delete!(model.train_link_map[edge.dst], edge.src)
+				end
+				p-=1
+			end
+		end
+	end
+	p = round(Int64,model.nho/2)
+	while p > 1
+		edge = get_random_test_nonlink(model)
+		if !haskey(model.test_map, edge)
+			model.test_map[edge] = get(model.test_map, edge, false)
+		end
+		model.test_map[edge] = false
+		p-=1
+	end
+end
+function get_random_ho_nonlink(model::LNMMSB)
+	while true
+		a,b = sample(1:model.N, 2)
+		if a!=b
+			edge = Dyad(a,b)
+			if edge in model.linked_edges || haskey(model.ho_map,edge)
+				continue;
+			end
+			return edge
+		end
+	end
+end
+function get_random_test_nonlink(model::LNMMSB)
+	while true
+		a,b = sample(1:model.N, 2)
+		if a!=b
+			edge = Dyad(a,b)
+			if edge in model.linked_edges || haskey(model.ho_map,edge) || haskey(model.test_map,edge)
+				continue;
+			end
+			return edge
+		end
+	end
+end
+function sample_neighbors(neighbors_set, num_node_sample, node)
+	p = num_node_sample
+	neighbors_set = Set{Int64}()
+	while p > 1
+		nodelist = sample(1:model.N, num_node_sample*2)
+
+		for neighborid in nodelist
+			if p < 1
+				break;
+			end
+
+			if neighborid == node
+				continue;
+			end
+			edges = [Dyad(neighborid,node), Dyad(node, neighborid)]
+
+			for edge in edges
+
+				if haskey(model.ho_map, edge) || haskey(model.test_map, edge) ||
+					(neighborid in neighbors_set)
+					continue;
+				else
+					push!(neighbors_set, neighborid)
+					p-=1
+				end
+			end
+		end
+	end
+	return neighbors_set
+end
+#############################################
 function setholdout!(model::LNMMSB,meth::String)
 	if meth == "isns"
 		_init_ϕ=(1.0/model.K)*ones(Float64, model.K)
@@ -368,7 +559,12 @@ function preparedata(model::LNMMSB,ignoreho::Bool,meth::String)
 	set_partitions!(model)
 	# mb = deepcopy(model.mb_zeroer)
 end
-
+function preparedata2!(model::LNMMSB)
+	do_linked_edges!(model)
+	init_train_link_map!(model)
+	init_ho_map!(model)
+	init_test_map!(model)
+end
 ##Better set model.K either true K or number of communities length(communities)
 function init_mu(model::LNMMSB, communities::Dict{Int64, Vector{Int64}}, onlyK::Int64)
   Belong = Dict{Int64, Vector{Int64}}()

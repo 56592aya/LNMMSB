@@ -13,6 +13,8 @@ onlyK = length(communities)
 model=LNMMSB(network, onlyK)
 mb=deepcopy(model.mb_zeroer)
 include("modelutils.jl")
+# preparedata2!(model)
+# minibatch_set_srns(model)
 meth = "isns2"
 preparedata(model,true, meth)
 # mbsampling!(mb, model, "isns", model.mbsize)
