@@ -9,6 +9,7 @@ using GraphPlot
 	include("modelutils.jl")
 	preparedata2!(model)
 	minibatch_set_srns(model)
+	include("trainutils.jl")
 	iter=5000
 	# train_links_num=0
 	# train_nlinks_num = 0
@@ -240,13 +241,13 @@ using GraphPlot
 			end
 		end
 
-		updatem!(model, mb)
+		updatemtemp!(model, mb,scale)
 		model.m = model.m_old.*(1.0-lr_m)+lr_m.*model.m
 
-		updateM!(model, mb)
+		updateMtemp!(model, mb,scale)
 		model.M = model.M_old.*(1.0-lr_M)+lr_M.*model.M
 
-		updateL!(model, mb)
+		updateLtemp!(model, mb,scale)
 		model.L = model.L_old.*(1.0-lr_L)+lr_L*model.L
 
 		updateb0temp!(model, mb,scale, ϕlinoutsum_old)

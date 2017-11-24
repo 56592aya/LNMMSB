@@ -200,6 +200,15 @@ function updatem!(model::LNMMSB, mb::MiniBatch)
 	scaler=(convert(Float64,model.N)/convert(Float64,model.mbsize))
 	model.m=inv(model.M)*(model.M0*model.m0+scaler*model.l).*model.L*s
 end
+function updatemtemp!(model::LNMMSB, mb::MiniBatch, scale)
+	model.m_old = deepcopy(model.m)
+	s = zeros(Float64, model.K)
+	for a in mb.mbnodes
+		s.+=model.μ_var[a,:]
+	end
+	# scaler=(convert(Float64,model.N)/convert(Float64,model.mbsize))
+	model.m=inv(model.M)*(model.M0*model.m0+scale*model.l).*model.L*s
+end
 #updatem!(model, mb)
 function updatel!(model::LNMMSB)
 	##should be set in advance, not needed in the loop
@@ -213,6 +222,16 @@ function updateL!(model::LNMMSB, mb::MiniBatch)
 		s +=(model.μ_var[a,:]-model.m)*(model.μ_var[a,:]-model.m)'+diagm(1.0./model.Λ_var[a,:])
 	end
 	s=(convert(Float64,model.N)/convert(Float64,model.mbsize)).*s
+	s+=inv(model.L0)+model.N.*inv(model.M)
+	model.L = inv(s)
+end
+function updateLtemp!(model::LNMMSB, mb::MiniBatch,scale)
+	model.L_old = deepcopy(model.L)
+	s = zero(Float64)
+	for a in mb.mbnodes
+		s +=(model.μ_var[a,:]-model.m)*(model.μ_var[a,:]-model.m)'+diagm(1.0./model.Λ_var[a,:])
+	end
+	s=scale.*s
 	s+=inv(model.L0)+model.N.*inv(model.M)
 	model.L = inv(s)
 end

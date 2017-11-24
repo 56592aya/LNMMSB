@@ -1,6 +1,6 @@
 # module main
 using LightGraphs;using GraphPlot;using Gadfly;using PyPlot;
-inputtomodelgen=[150,4]; ## N, K
+inputtomodelgen=[250,8]; ## N, K
 include("utils.jl")
 include("modelgen.jl")
 true_eta0 = readdlm("data/true_eta0.txt")[1]
@@ -12,6 +12,7 @@ lg = LightGraphs.DiGraph(network);# draw(PNG("Docs/net$(inputtomodelgen[1]).png"
 onlyK = length(communities)
 model=LNMMSB(network, onlyK)
 mb=deepcopy(model.mb_zeroer)
+model.nho=0
 include("modelutils.jl")
 # preparedata2!(model)
 # minibatch_set_srns(model)
