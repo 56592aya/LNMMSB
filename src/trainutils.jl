@@ -62,48 +62,6 @@ function sfx(μ_var::Vector{Float64},ltemp::Vector{Float64})
 	return softmax(μ_var .+.5.*exp.(ltemp))
 end
 function updatesimulμΛ!(model::LNMMSB, a::Int64,mb::MiniBatch,meth::String)
-	# if meth == "link"
-	# 	μ_var = deepcopy(model.μ_var[a,:])
-	# 	Λ_ivar = deepcopy(1.0./model.Λ_var[a,:])
-	# 	ltemp = [log(Λ_ivar[k]) for k in 1:model.K]
-	#
-	# 	sumb = 2.0*(model.N-1.0)
-	# 	ca = model.train_outdeg[a]+model.train_indeg[a]
-	# 	x = sfx(μ_var,ltemp)
-	# 	X=model.ϕloutsum[a,:]+model.ϕlinsum[a,:]
-	# 	scaler = sumb/ca
-	# 	dfunc(μ_var) = -model.l.*model.L*(μ_var-model.m) +scaler.*X - sumb.*x
-	#
-	# 	func(μ_var,ltemp) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
-	# 	(scaler.*X)'*μ_var-sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp
-	#
-	# 	func1(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
-	# 	(scaler.*X)'*μ_var-	sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))
-	#
-	# 	func2(ltemp) =-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*exp.(ltemp))))
-	#
-	# 	opt1 = Adagrad()
-	# 	opt2 = Adagrad()
-	# 	oldval = func(μ_var, ltemp)
-	# 	g1 = -dfunc(μ_var)
-	# 	δ1 = update(opt1,g1)
-	# 	g2 = -ForwardDiff.gradient(func2, ltemp)
-	# 	δ2 = update(opt2,g2)
-	# 	newval = func(μ_var-δ1, ltemp-δ2)
-	# 	μ_var-=δ1
-	# 	ltemp-=δ2
-	#
-	# 	g1 = -dfunc(μ_var)
-	# 	δ1 = update(opt1,g1)
-	# 	g2 = -ForwardDiff.gradient(func2, ltemp)
-	# 	δ2 = update(opt2,g2)
-	# 	μ_var-=δ1
-	# 	ltemp-=δ2
-	#
-	# 	model.μ_var[a,:]=μ_var
-	# 	model.Λ_var[a,:]=1.0./exp.(ltemp)
-	# elseif meth == "isns2"
-
 		model.μ_var_old[a,:]=deepcopy(model.μ_var[a,:])
 		model.Λ_var_old[a,:]=deepcopy(model.Λ_var[a,:])
 		μ_var = deepcopy(model.μ_var[a,:])
@@ -113,10 +71,10 @@ function updatesimulμΛ!(model::LNMMSB, a::Int64,mb::MiniBatch,meth::String)
 		s1 = haskey(mb.mbfnadj,a)?(N-1-model.train_outdeg[a]):0
 		c1 = haskey(mb.mbfnadj,a)?length(mb.mbfnadj[a]):1
 		s2 = haskey(mb.mbbnadj,a)?(N-1-model.train_indeg[a]):0
-
 		c2 = haskey(mb.mbbnadj,a)?length(mb.mbbnadj[a]):1
 		sumb =2*(model.N-1)
 		X=model.ϕloutsum[a,:]+model.ϕlinsum[a,:]+(s1/c1).*(model.ϕnloutsum[a,:])+(s2/c2).*(model.ϕnlinsum[a,:])
+		X=2*model.N.*(model.ϕloutsum[a,:]+model.ϕlinsum[a,:])+(2*10*model.N).*((model.ϕnloutsum[a,:]).+(model.ϕnlinsum[a,:]))
 
 		dfunci(μ_var) = -model.l.*model.L*(μ_var-model.m) +X - sumb.*x
 
@@ -130,6 +88,40 @@ function updatesimulμΛ!(model::LNMMSB, a::Int64,mb::MiniBatch,meth::String)
 
 		# opt1 = RMSprop()
 		# opt2 = RMSprop()
+		opt1 = Adagrad(η=1.0)
+		opt2 = Adagrad(η=1.0)
+		for i in 1:10
+			x  = sfx(μ_var,ltemp)
+			g1 = dfunci(μ_var)
+			δ1 = update(opt1,g1)
+			g2 = ForwardDiff.gradient(func2i, ltemp)
+			δ2 = update(opt2,g2)
+			μ_var+=δ1
+			ltemp+=δ2
+		end
+		model.μ_var[a,:]=μ_var
+		model.Λ_var[a,:]=1.0./exp.(ltemp)
+	# end
+	print();
+end
+function updatesimulμΛfull!(model::LNMMSB, a::Int64,mb::MiniBatch,meth::String)
+		model.μ_var_old[a,:]=deepcopy(model.μ_var[a,:])
+		model.Λ_var_old[a,:]=deepcopy(model.Λ_var[a,:])
+		μ_var = deepcopy(model.μ_var[a,:])
+		Λ_ivar = deepcopy(1.0./model.Λ_var[a,:])
+		ltemp = [log(Λ_ivar[k]) for k in 1:model.K]
+		x = sfx(μ_var,ltemp)
+		sumb =2*(model.N-1)
+		X=model.ϕloutsum[a,:].+model.ϕlinsum[a,:].+model.ϕnloutsum[a,:].+model.ϕnlinsum[a,:]
+		dfunci(μ_var) = -model.l.*model.L*(μ_var-model.m) + X - sumb.*x
+
+		funci(μ_var,ltemp) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
+		(X)'*μ_var-sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp
+
+		func1i(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
+		(X)'*μ_var-	sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))
+
+		func2i(ltemp) =-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*exp.(ltemp))))
 		opt1 = Adagrad(η=1.0)
 		opt2 = Adagrad(η=1.0)
 		for i in 1:10
@@ -163,7 +155,7 @@ function updatesimulμΛ2!(model::LNMMSB, a::Int64,mb::MiniBatch,scale::Int64)
 		(X)'*μ_var-scale*sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp
 
 		func1i(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
-		(X)'*μ_var-	scale*sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))
+		(X)'*μ_var-	scale*su#updateb1!(model, mb)mb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))
 
 		func2i(ltemp) =-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp-scale*sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*exp.(ltemp))))
 
@@ -197,8 +189,17 @@ function updatem!(model::LNMMSB, mb::MiniBatch)
 	for a in mb.mbnodes
 		s.+=model.μ_var[a,:]
 	end
-	scaler=(convert(Float64,model.N)/convert(Float64,model.mbsize))
+	# scaler=(convert(Float64,model.N)/convert(Float64,model.mbsize))
+	scaler = 2*model.N
 	model.m=inv(model.M)*(model.M0*model.m0+scaler*model.l).*model.L*s
+end
+function updatemfull!(model::LNMMSB, mb::MiniBatch)
+	model.m_old = deepcopy(model.m)
+	s = zeros(Float64, model.K)
+	for a in mb.mbnodes
+		s.+=model.μ_var[a,:]
+	end
+	model.m=inv(model.M)*(model.M0*model.m0+model.l).*model.L*s
 end
 function updatemtemp!(model::LNMMSB, mb::MiniBatch, scale)
 	model.m_old = deepcopy(model.m)
@@ -221,7 +222,17 @@ function updateL!(model::LNMMSB, mb::MiniBatch)
 	for a in mb.mbnodes
 		s +=(model.μ_var[a,:]-model.m)*(model.μ_var[a,:]-model.m)'+diagm(1.0./model.Λ_var[a,:])
 	end
-	s=(convert(Float64,model.N)/convert(Float64,model.mbsize)).*s
+	s=2*model.N.*s
+	# s=(convert(Float64,model.N)/convert(Float64,model.mbsize)).*s
+	s+=inv(model.L0)+model.N.*inv(model.M)
+	model.L = inv(s)
+end
+function updateLfull!(model::LNMMSB, mb::MiniBatch)
+	model.L_old = deepcopy(model.L)
+	s = zero(Float64)
+	for a in mb.mbnodes
+		s +=(model.μ_var[a,:]-model.m)*(model.μ_var[a,:]-model.m)'+diagm(1.0./model.Λ_var[a,:])
+	end
 	s+=inv(model.L0)+model.N.*inv(model.M)
 	model.L = inv(s)
 end
@@ -241,9 +252,15 @@ function updateb0!(model::LNMMSB, mb::MiniBatch)
 	#replace #length(train.mblinks)
 	# train_links_num=convert(Float64, train_links_num)
 	train_links_num=convert(Float64,nnz(model.network))
-	scaler=(train_links_num/convert(Float64,length(mb.mblinks)))
+	# scaler=(train_links_num/convert(Float64,length(mb.mblinks)))
+	scaler=2*model.N
 	@assert !isequal(model.ϕlinoutsum[:], zeros(Float64, model.K))
 	model.b0[:] = model.η0.+ (scaler.*model.ϕlinoutsum[:])
+end
+function updateb0full!(model::LNMMSB, mb::MiniBatch)
+	model.b0_old = deepcopy(model.b0)
+	# @assert !isequal(model.ϕlinoutsum[:], zeros(Float64, model.K))
+	model.b0[:] = model.η0.+ model.ϕlinoutsum[:]
 end
 function updateb0temp!(model::LNMMSB, mb::MiniBatch, scale,ϕlinoutsum_old)
 	model.b0_old = deepcopy(model.b0)
@@ -259,41 +276,46 @@ function updateb1!(model::LNMMSB, mb::MiniBatch, meth::String)
 	# train_nlinks_num = convert(Float64,train_nlinks_num)
 	train_nlinks_num = convert(Float64,model.N*model.N-model.N-sum(model.train_outdeg))
 
-	if meth == "link"
-		scaler = model.N/model.mbsize
-		# @assert !isequal(model.ϕnlinoutsum[:], zeros(Float64, model.K))
-		# model.b1[:] = model.η1.+scaler.*model.ϕnlinoutsum[:]
-		r = zeros(Float64, model.K)
-		s1 = zeros(Float64, model.K)
-		s2 = zeros(Float64, model.K)
-		s3 = zeros(Float64, (model.N,model.K))
-		s4 = zeros(Float64, model.K)
-		for a in mb.mbnodes
-			s1[:] += model.ϕbar[a,:]
-			s2[:] += (model.ϕbar[a,:]).^2
-			for b in model.train_sinks[a]
-				if (Dyad(a,b) in model.ho_links)
-					continue;
-				else
-					s3[a,:]+=model.ϕbar[b,:]
-				end
-			end
-		end
-
-		s1 = (scaler.*s1).^2
-		for a in mb.mbnodes
-			s4[:]+=model.ϕbar[a,:].*s3[a,:]
-		end
-
-
-		r = s1.-scaler.*s2.-scaler.*s4
-		model.b1[:] = model.η1.+r
-	elseif meth == "isns2"
+	# if meth == "link"
+	# 	scaler = model.N/model.mbsize
+	# 	# @assert !isequal(model.ϕnlinoutsum[:], zeros(Float64, model.K))
+	# 	# model.b1[:] = model.η1.+scaler.*model.ϕnlinoutsum[:]
+	# 	r = zeros(Float64, model.K)
+	# 	s1 = zeros(Float64, model.K)
+	# 	s2 = zeros(Float64, model.K)
+	# 	s3 = zeros(Float64, (model.N,model.K))
+	# 	s4 = zeros(Float64, model.K)
+	# 	for a in mb.mbnodes
+	# 		s1[:] += model.ϕbar[a,:]
+	# 		s2[:] += (model.ϕbar[a,:]).^2
+	# 		for b in model.train_sinks[a]
+	# 			if (Dyad(a,b) in model.ho_links)
+	# 				continue;
+	# 			else
+	# 				s3[a,:]+=model.ϕbar[b,:]
+	# 			end
+	# 		end
+	# 	end
+	#
+	# 	s1 = (scaler.*s1).^2
+	# 	for a in mb.mbnodes
+	# 		s4[:]+=model.ϕbar[a,:].*s3[a,:]
+	# 	end
+	#
+	#
+	# 	r = s1.-scaler.*s2.-scaler.*s4
+	# 	model.b1[:] = model.η1.+r
+	# elseif meth == "isns2"
 		# scaler= length(model.train_nonlinks)/(model.N*length(mb.mbnonlinks))
-		scaler= length(model.train_nonlinks)/(length(mb.mbnonlinks))
+		# scaler= length(model.train_nonlinks)/(length(mb.mbnonlinks))
+		scaler = 2*model.N*10
 		model.b1[:] = model.η1 .+ (scaler.*model.ϕnlinoutsum[:])
-	end
+	# end
 	# model.b1[model.b1 .< .0] = model.η1
+end
+function updateb1full!(model::LNMMSB, mb::MiniBatch, meth::String)
+	model.b1_old = deepcopy(model.b1)
+	model.b1[:] = model.η1 .+ model.ϕnlinoutsum[:]
 end
 function updateb1temp!(model::LNMMSB, mb::MiniBatch, scale,ϕnlinoutsum_old)
 	model.b1_old = deepcopy(model.b1)
@@ -305,7 +327,7 @@ function updateb1temp!(model::LNMMSB, mb::MiniBatch, scale,ϕnlinoutsum_old)
 	# model.b1[model.b1 .< .0] = model.η1
 end
 
-#updateb1!(model, mb)
+
 
 
 

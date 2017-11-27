@@ -427,7 +427,10 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB, meth::String,mbsize::Int64)
 					push!(mb.mblinks, l)
 				end
 			end
+			#####
 
+
+			#####
 			picknl = ceil(Int64,length(model.nonlink_setmap[a])*rand())
 			for nl in model.train_nonlinks[model.nonlink_setmap[a][picknl]]
 				if nl in mb.mbnonlinks
@@ -503,7 +506,7 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB, meth::String,mbsize::Int64)
 			end
 		end
 		model.mbids[:] = mb.mbnodes[:]
-
+		_init_ϕ = (1.0/model.K).*ones(Float64, model.K)
 		for a in mb.mbnodes
 			for l in model.link_set[a]
 				if l in mb.mblinks
@@ -516,29 +519,77 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB, meth::String,mbsize::Int64)
 			# length(mb.mbfnadj[a])+length(mb.mbbnadj[a])-length(intersect(mb.mbfnadj[a],	mb.mbbnadj[a]))
 			# model.train_nonlinks[model.nonlink_setmap[a][1]]
 
-			picknl = ceil(Int64,length(model.nonlink_setmap[a])*rand())
-			# length(model.nonlink_setmap[a][1])+length(model.nonlink_setmap[a][2])
-			# 2N-2-model.train_outdeg[a]-model.train_indeg[a]
-			for nl in model.train_nonlinks[model.nonlink_setmap[a][picknl]]
-				if nl in mb.mbnonlinks
-					continue;
-				else
-					push!(mb.mbnonlinks, nl)
-					if !haskey(mb.mbfnadj, nl.src)
-						mb.mbfnadj[nl.src] = get(mb.mbfnadj, nl.src, Vector{Int64}())
+			# picknl = ceil(Int64,length(model.nonlink_setmap[a])*rand())
+			#
+			# for nl in model.train_nonlinks[model.nonlink_setmap[a][picknl]]
+			# 	if nl in mb.mbnonlinks
+			# 		continue;
+			# 	else
+			# 		push!(mb.mbnonlinks, nl)
+			# 		if !haskey(mb.mbfnadj, nl.src)
+			# 			mb.mbfnadj[nl.src] = get(mb.mbfnadj, nl.src, Vector{Int64}())
+			# 		end
+			# 		if nl.dst in mb.mbfnadj[nl.src]
+			# 			continue;
+			# 		else
+			# 			push!(mb.mbfnadj[nl.src],nl.dst)
+			# 		end
+			# 		if !haskey(mb.mbbnadj, nl.dst)
+			# 			mb.mbbnadj[nl.dst] = get(mb.mbbnadj, nl.dst, Vector{Int64}())
+			# 		end
+			# 		if nl.src in mb.mbbnadj[nl.dst]
+			# 			continue;
+			# 		else
+			# 			push!(mb.mbbnadj[nl.dst],nl.src)
+			# 		end
+			# 	end
+			# end
+
+			nlinksize = round(Int64, model.N/10)
+			p = nlinksize
+			while p > 1
+				node_list = sample(1:model.N, nlinksize*2)
+				for neighbor in node_list
+					if p < 1
+						break;
 					end
-					if nl.dst in mb.mbfnadj[nl.src]
+					if neighbor == a
+						continue;
+					end
+					nlinks=Vector{NonLink}()
+					if !isalink(model, "network", a, neighbor)
+						push!(nlinks, NonLink(a, neighbor,_init_ϕ,_init_ϕ))
+				  	end
+					if !isalink(model, "network", neighbor, a)
+						push!(nlinks, NonLink(neighbor, a,_init_ϕ,_init_ϕ))
+					end
+					if isempty(nlinks)
+						continue;
+					end
+					for dd in nlinks
+						if dd in mb.mbnonlinks#dd in model.linked_edges || #haskey(model.ho_map,dd) ||
+							#haskey(model.test_map,dd) || dd in  model.minibatch_set
+							continue;
+						end
+					end
+					nlink = nlinks[sample(1:length(nlinks))]
+					push!(mb.mbnonlinks, nlink)
+					p-=1
+					if !haskey(mb.mbfnadj, nlink.src)
+						mb.mbfnadj[nlink.src] = get(mb.mbfnadj, nlink.src, Vector{Int64}())
+					end
+					if nlink.dst in mb.mbfnadj[nlink.src]
 						continue;
 					else
-						push!(mb.mbfnadj[nl.src],nl.dst)
+						push!(mb.mbfnadj[nlink.src], nlink.dst)
 					end
-					if !haskey(mb.mbbnadj, nl.dst)
-						mb.mbbnadj[nl.dst] = get(mb.mbbnadj, nl.dst, Vector{Int64}())
+					if !haskey(mb.mbbnadj, nlink.dst)
+						mb.mbbnadj[nlink.dst] = get(mb.mbbnadj, nlink.dst, Vector{Int64}())
 					end
-					if nl.src in mb.mbbnadj[nl.dst]
+					if nlink.src in mb.mbbnadj[nlink.dst]
 						continue;
 					else
-						push!(mb.mbbnadj[nl.dst],nl.src)
+						push!(mb.mbbnadj[nlink.dst], nlink.src)
 					end
 				end
 			end
@@ -550,6 +601,42 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB, meth::String,mbsize::Int64)
 
 	end
 	print();
+end
+function mbsamplingfull!(mb::MiniBatch,model::LNMMSB, meth::String,mbsize::Int64)
+	_init_ϕ = (1.0/model.K).*ones(Float64, model.K)
+	mb.mbnodes = collect(1:model.N)
+	model.mbids[:] = mb.mbnodes[:]
+	do_linked_edges!(model)
+	for d in model.linked_edges
+		push!(mb.mblinks, Link(d.src, d.dst, _init_ϕ,_init_ϕ))
+	end
+	for a in mb.mbnodes
+		for b in mb.mbnodes
+			if a == b
+				continue;
+			end
+			if Dyad(a,b) in model.linked_edges
+				continue;
+			end
+			push!(mb.mbnonlinks, NonLink(a,b,_init_ϕ,_init_ϕ))
+			if !haskey(mb.mbfnadj, a)
+				mb.mbfnadj[a] = get(mb.mbfnadj, a, Vector{Int64}())
+			end
+			if b in mb.mbfnadj[a]
+				continue;
+			else
+				push!(mb.mbfnadj[a], b)
+			end
+			if !haskey(mb.mbbnadj, b)
+				mb.mbbnadj[b] = get(mb.mbbnadj, b, Vector{Int64}())
+			end
+			if a in mb.mbbnadj[b]
+				continue;
+			else
+				push!(mb.mbbnadj[b], a)
+			end
+		end
+	end
 end
 # mbsampling!(mb,model, "isns")
 function preparedata(model::LNMMSB,ignoreho::Bool,meth::String)

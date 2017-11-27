@@ -5,6 +5,7 @@ using GraphPlot
 	# preparedata(model)
 	# nmitemp = Float64[]
 	model=LNMMSB(network, onlyK)
+	model.nho=0
 	mb=deepcopy(model.mb_zeroer)
 	include("modelutils.jl")
 	preparedata2!(model)
@@ -119,11 +120,7 @@ using GraphPlot
 				end
 			end
 		end
-		# num_node_sample = div(model.N,50)
-		# neighborset = Set{Int64}()
-		# for node in mb.mbnodes
-		# 	neighborset = sample_neighbors(neighborset, num_node_sample, node)
-		# end
+
 
 
 		# model.fmap = zeros(Float64, (model.N,model.K))
@@ -223,7 +220,16 @@ using GraphPlot
 			end
 
 		end
-
+		num_node_sample = div(model.N,50)
+		neighborset = Set{Int64}()
+		for node in mb.mbnodes
+			neighborset = sample_neighbors(neighborset, num_node_sample, node)
+			for n in collect(neighborset)
+				if !(n in mb.mbnodes)
+					push!(mb.mbnodes, n)
+				end
+			end
+		end
 		model.μ_var[mb.mbnodes,:]=deepcopy(model.μ_var_old[mb.mbnodes,:])## I commented
 		model.μ_var[mb.mbnodes,:]=deepcopy(_init_μ[mb.mbnodes,:])##I added instead of the above)
 		for a in mb.mbnodes
@@ -244,7 +250,7 @@ using GraphPlot
 		updatemtemp!(model, mb,scale)
 		model.m = model.m_old.*(1.0-lr_m)+lr_m.*model.m
 
-		updateMtemp!(model, mb,scale)
+		updateM!(model, mb)
 		model.M = model.M_old.*(1.0-lr_M)+lr_M.*model.M
 
 		updateLtemp!(model, mb,scale)
