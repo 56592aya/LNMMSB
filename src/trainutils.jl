@@ -10,11 +10,10 @@ function updatephilout!(model::LNMMSB, mb::MiniBatch, early::Bool, link::Link, t
 		if early
 			link.ϕout[k] = model.μ_var[link.src,k] + link.ϕin[k]*tuner
 		else
-			link.ϕout[k] = model.μ_var[link.src,k] + link.ϕin[k]*(model.Elogβ0[k]-log(EPSILON))
+			link.ϕout[k] = model.μ_var[link.src,k] + link.ϕin[k]*(model.Elogβ0[k]-log1p(-1.0+EPSILON))
 			# link.ϕout[k] = model.μ_var[link.src,k] + link.ϕin[k]*(model.Elogβ0[k])#+sum(link.ϕin[1:end .!=k].*log(EPSILON))
 		end
 	end
-	x=[1,2,3,4]
 
 	r = logsumexp(link.ϕout)
 	link.ϕout[:] = exp.(link.ϕout[:] .- r)[:]
@@ -25,7 +24,7 @@ function updatephilin!(model::LNMMSB, mb::MiniBatch, early::Bool, link::Link,tun
 		if early
 			link.ϕin[k] = model.μ_var[link.dst,k] + link.ϕout[k]*tuner
 		else
-			link.ϕin[k] = model.μ_var[link.dst,k] + link.ϕout[k]*(model.Elogβ0[k]-log(EPSILON))
+			link.ϕin[k] = model.μ_var[link.dst,k] + link.ϕout[k]*(model.Elogβ0[k]-log1p(-1.0+EPSILON))
 			# link.ϕin[k] = model.μ_var[link.dst,k] + link.ϕout[k]*(model.Elogβ0[k])#+sum(link.ϕout[1:end .!=k].*log(EPSILON))
 		end
 	end
@@ -35,25 +34,25 @@ end
 function updatephinlout!(model::LNMMSB, mb::MiniBatch, early::Bool, nlink::NonLink, tuner::Float64)
 
 	for k in 1:model.K
-		if early
-			nlink.ϕout[k] = model.μ_var[nlink.src,k] + nlink.ϕin[k]*tuner
-		else
-			nlink.ϕout[k] = model.μ_var[nlink.src,k] + nlink.ϕin[k]*(model.Elogβ1[k]-log(1-EPSILON))
+#		if early
+#			nlink.ϕout[k] = model.μ_var[nlink.src,k] + nlink.ϕin[k]*tuner
+#		else
+			nlink.ϕout[k] = model.μ_var[nlink.src,k] + nlink.ϕin[k]*(model.Elogβ1[k]-log1p(-EPSILON))
 			# nlink.ϕout[k] = model.μ_var[nlink.src,k] + nlink.ϕin[k]*(model.Elogβ1[k])#+sum(nlink.ϕin[1:end .!=k].*log1p(-EPSILON))
-		end
+#		end
 	end
 	r = logsumexp(nlink.ϕout)
 	nlink.ϕout[:] = exp.(nlink.ϕout[:] .- r)[:]
 end
-mb.mblinks
+#mb.mblinks
 function updatephinlin!(model::LNMMSB, mb::MiniBatch, early::Bool, nlink::NonLink,tuner::Float64)
 	for k in 1:model.K
-		if early
-			nlink.ϕin[k] = model.μ_var[nlink.dst,k] + nlink.ϕout[k]*tuner
-		else
-			nlink.ϕin[k] = model.μ_var[nlink.dst,k] + nlink.ϕout[k]*(model.Elogβ1[k]-log(1-EPSILON))
+#		if early
+#			nlink.ϕin[k] = model.μ_var[nlink.dst,k] + nlink.ϕout[k]*tuner
+#		else
+			nlink.ϕin[k] = model.μ_var[nlink.dst,k] + nlink.ϕout[k]*(model.Elogβ1[k]-log1p(-EPSILON))
 			# nlink.ϕin[k] = model.μ_var[nlink.dst,k] + nlink.ϕout[k]*(model.Elogβ1[k])#+sum(nlink.ϕout[1:end .!=k].*log1p(-EPSILON))
-		end
+#		end
 	end
 	r=logsumexp(nlink.ϕin)
 	nlink.ϕin[:] = exp.(nlink.ϕin[:] .- r)[:]
@@ -96,7 +95,7 @@ function updatesimulμΛ!(model::LNMMSB, a::Int64,mb::MiniBatch,meth::String)
 		# opt2 = RMSprop()
 		opt1 = Adagrad()
 		opt2 = Adagrad()
-		for i in 1:100
+		for i in 1:10
 			x  = sfx(μ_var,ltemp)
 			g1 = dfunci(μ_var)
 			δ1 = update(opt1,g1)

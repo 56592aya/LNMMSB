@@ -4,7 +4,7 @@ using GraphPlot
 # function train!(model::LNMMSB; iter::Int64=150, etol::Float64=1, niter::Int64=1000, ntol::Float64=1.0/(model.K^2), viter::Int64=10, vtol::Float64=1.0/(model.K^2), elboevery::Int64=10, mb::MiniBatch,lr::Float64)
 	# preparedata(model)
 	nmitemp = Float64[]
-	iter=1000
+	iter=5000
 	train_links_num=0
 	train_nlinks_num = 0
 	link_ratio = 0.0
@@ -31,6 +31,7 @@ using GraphPlot
 
 	init_mu(model,communities,model.K)##from Gopalan
 	_init_μ = deepcopy(model.μ_var)
+	# _init_μ = log.((2*model.N/model.K).*ones(Float64, (model.N, model.K)))
 	model.Λ_var = 100.0*ones(Float64, (model.N, model.K))
 	_init_Λ = deepcopy(model.Λ_var)
 	function update_Elogβ!(model::LNMMSB)
@@ -94,70 +95,8 @@ using GraphPlot
 		end
 
 
+
 		switchrounds = bitrand(1)[1]
-		# model.ϕlinoutsum = zeros(Float64, model.K)
-		# model.ϕloutsum = zeros(Float64, (model.N,model.K))
-		# model.ϕlinsum = zeros(Float64, (model.N,model.K))
-		# model.μ_var_old = deepcopy(model.μ_var)
-		# model.μ_var_old[model.mbids,:]=deepcopy(model.μ_var[model.mbids,:])
-		#
-		# # model.μ_var[model.mbids,:]=zeros(Float64,(model.mbsize,model.K))
-		# for l in mb.mblinks
-		# 	for j in 1:1
-		# 		# while !_converged##decide what you mean
-		# 		if switchrounds
-		# 			updatephilout!(model, mb, early,l,link_tuner)
-		# 			updatephilin!(model, mb, early,l,link_tuner)
-		# 			updatephilout!(model, mb, early,l,link_tuner)
-		# 			switchrounds = !switchrounds
-		# 		else
-		# 			updatephilin!(model, mb, early,l,link_tuner)
-		# 			updatephilout!(model, mb, early,l,link_tuner)
-		# 			updatephilin!(model, mb, early,l,link_tuner)
-		# 			switchrounds = !switchrounds
-		# 		end
-		# 		# end
-		# 	end
-		# 	for k in 1:model.K
-		# 		model.ϕloutsum[l.src,k] += l.ϕout[k]
-		# 		model.ϕlinsum[l.dst,k] += l.ϕin[k]
-		# 		model.ϕlinoutsum[k] += l.ϕout[k]*l.ϕin[k]
-		# 	end
-		# 	# if i>900
-		# 	log_comm(model, mb, l, link_thresh, min_deg)
-		# 	# end
-		# end
-		# # if i>900
-		# for k in 1:model.K
-		# 	model.comm[k] = unique(model.comm[k])
-		# end
-		# # end
-		#
-		# model.ϕnlinoutsum = zeros(Float64, model.K)
-		# model.ϕnloutsum = zeros(Float64, (model.N,model.K))
-		# model.ϕnlinsum = zeros(Float64, (model.N,model.K))
-		#
-		# for nl in mb.mbnonlinks
-		# 	for j in 1:1
-		# 		# while !_converged##decide what you mean
-		# 		if switchrounds
-		# 			updatephinlout!(model, mb, early,nl,nlink_tuner)
-		# 			updatephinlin!(model, mb, early,nl,nlink_tuner)
-		# 			updatephinlout!(model, mb, early,nl,nlink_tuner)
-		# 			switchrounds = !switchrounds
-		# 		else
-		# 			updatephinlin!(model, mb, early,nl,nlink_tuner)
-		# 			updatephinlout!(model, mb, early,nl,nlink_tuner)
-		# 			updatephinlin!(model, mb, early,nl,nlink_tuner)
-		# 			switchrounds = !switchrounds
-		# 		end
-		# 	end
-		# 	for k in 1:model.K
-		# 		model.ϕnloutsum[nl.src,k] += nl.ϕout[k]
-		# 		model.ϕnlinsum[nl.dst,k] += nl.ϕin[k]
-		# 		model.ϕnlinoutsum[k] += nl.ϕout[k]*nl.ϕin[k]
-		# 	end
-		# end
 		model.ϕlinoutsum = zeros(Float64, model.K)
 		model.ϕloutsum = zeros(Float64, (model.N,model.K))
 		model.ϕlinsum = zeros(Float64, (model.N,model.K))
@@ -166,24 +105,17 @@ using GraphPlot
 		model.ϕnlinoutsum = zeros(Float64, model.K)
 		model.ϕnloutsum = zeros(Float64, (model.N,model.K))
 		model.ϕnlinsum = zeros(Float64, (model.N,model.K))
+		one_over_K = ones(Float64,model.K)./model.K
 		for d in dyads
-			dyads[1] in mb.mblinks
 			if d in mb.mblinks
 				l=mb.mblinks[mb.mblinks .== d][1]
-				for j in 1:1
-					# while !_converged##decide what you mean
-					if switchrounds
-						updatephilout!(model, mb, early,l,link_tuner)
-						updatephilin!(model, mb, early,l,link_tuner)
-						updatephilout!(model, mb, early,l,link_tuner)
-						switchrounds = !switchrounds
-					else
-						updatephilin!(model, mb, early,l,link_tuner)
-						updatephilout!(model, mb, early,l,link_tuner)
-						updatephilin!(model, mb, early,l,link_tuner)
-						switchrounds = !switchrounds
-					end
-					# end
+				l.ϕout = model.est_θ[l.src,:]
+				l.ϕout = deepcopy(one_over_K)
+				l.ϕin = model.est_θ[l.dst,:]
+				l.ϕin = deepcopy(one_over_K)
+				for j in 1:20
+					updatephilout!(model, mb, early,l,link_tuner)
+					updatephilin!(model, mb, early,l,link_tuner)
 				end
 				for k in 1:model.K
 					model.ϕloutsum[l.src,k] += l.ϕout[k]
@@ -191,22 +123,17 @@ using GraphPlot
 					model.ϕlinoutsum[k] += l.ϕout[k]*l.ϕin[k]
 				end
 				# if i>900
+				
 				log_comm(model, mb, l, link_thresh, min_deg)
 			else
 				nl=mb.mbnonlinks[mb.mbnonlinks .== d][1]
-				for j in 1:1
-					# while !_converged##decide what you mean
-					if switchrounds
-						updatephinlout!(model, mb, early,nl,nlink_tuner)
-						updatephinlin!(model, mb, early,nl,nlink_tuner)
-						updatephinlout!(model, mb, early,nl,nlink_tuner)
-						switchrounds = !switchrounds
-					else
-						updatephinlin!(model, mb, early,nl,nlink_tuner)
-						updatephinlout!(model, mb, early,nl,nlink_tuner)
-						updatephinlin!(model, mb, early,nl,nlink_tuner)
-						switchrounds = !switchrounds
-					end
+				nl.ϕout = model.est_θ[nl.src,:]
+				nl.ϕout = deepcopy(one_over_K)
+				nl.ϕin = model.est_θ[nl.dst,:]
+				nl.ϕin = deepcopy(one_over_K)
+				for j in 1:20
+					updatephinlout!(model, mb, early,nl,nlink_tuner)
+					updatephinlin!(model, mb, early,nl,nlink_tuner)
 				end
 				for k in 1:model.K
 					model.ϕnloutsum[nl.src,k] += nl.ϕout[k]
@@ -226,18 +153,18 @@ using GraphPlot
 		model.μ_var[model.mbids,:]=deepcopy(_init_μ[model.mbids,:])##I added instead of the above)
 		for a in mb.mbnodes
 			if !isfullsample
-				# count_μ[a]+=1
-				# count_Λ[a]+=1
+				count_μ[a]+=1
+				count_Λ[a]+=1
 				count_a[a] += 1
 				updatesimulμΛ!(model, a, mb,meth)
 				# updatesimulμΛlink!(model, a, mb,meth)
 				# if early
 				# 	model.μ_var[a,:] = log.((length(mb.mblinks)./model.ϕlinoutsum).*softmax(model.μ_var[a,:]))
 				# end
-				# lr_μ[a] = (1024.0+Float64(count_μ[a]-1.0))^(-.5)
-				# lr_Λ[a] = (1024.0+Float64(count_Λ[a]-1.0))^(-.5)
-				# model.μ_var[a,:] = model.μ_var_old[a,:].*(1.0.-lr_μ[a])+lr_μ[a].*model.μ_var[a,:]
-				# model.Λ_var[a,:] = model.Λ_var_old[a,:].*(1.0.-lr_Λ[a])+lr_Λ[a].*model.Λ_var[a,:]
+				lr_μ[a] = (1024.0+Float64(count_μ[a]-1.0))^(-.5)
+				lr_Λ[a] = (1024.0+Float64(count_Λ[a]-1.0))^(-.5)
+				model.μ_var[a,:] = model.μ_var_old[a,:].*(1.0.-lr_μ[a])+lr_μ[a].*model.μ_var[a,:]
+				model.Λ_var[a,:] = model.Λ_var_old[a,:].*(1.0.-lr_Λ[a])+lr_Λ[a].*model.Λ_var[a,:]
 			else
 				updatesimulμΛ!(model, a, mb,meth)
 			end
@@ -262,59 +189,62 @@ using GraphPlot
 
 
 		estimate_θs!(model, mb)
-		# kindexes = Int64[]
-		# if i % (model.N/2) ==0
-		# 	kindexes = prune!(model, mb)
-		# 	if kindexes == nothing
-		# 		break;
-		# 	end
-		# 	_init_ϕ = deepcopy(ones(Float64, model.K).*1.0/model.K)
-		# 	_init_μ = _init_μ[:,kindexes]
-		# 	model.Λ_var = 100.0*ones(Float64, (model.N, model.K))
-		# 	_init_Λ = deepcopy(model.Λ_var)
-		# 	model.m = zeros(Float64,model.K)
-		# 	model.M = (100.0).*eye(Float64,model.K)
-		# 	model.l = model.K+2
-		# 	Ltemp = zeros(Float64, model.K, model.K)
-		#   	for i in 1:model.N
-		#     	Ltemp .+= rand(Wishart(model.K+1,0.001*diagm(ones(Float64, model.K))))
-		#   	end
-		# 	Ltemp ./= model.N
-		# 	model.L=100.0.*(Ltemp)./model.l
-		# 	# model.fmap = zeros(Float64, (model.N,model.K))
-		# 	# model.comm = [Int64[] for i in 1:model.K]
-		# 	# if isfile("./data/est_comm.txt")
-		# 	# 	rm("./data/est_comm.txt")
-		# 	# end
-		# 	model.b0 = model.b0[kindexes]
-		# 	model.b1 = model.b1[kindexes]
-		# 	model.μ_var=model.μ_var[:,kindexes]
-		# 	model.est_θ         = model.est_θ[:,kindexes]
-		#   	model.est_β         = model.est_β[kindexes]
-		#   	model.est_μ         = model.est_μ[kindexes]
-		#   	model.est_Λ         = model.est_Λ[kindexes,kindexes]
-		# 	model.Elogβ0        = model.Elogβ0[kindexes]
-		#   	model.Elogβ1        = model.Elogβ1[kindexes]
-		# 	model.μ_var_old     = model.μ_var_old[:,kindexes]
-		# 	model.m_old         = model.m_old[kindexes]
-		# 	model.M_old         = model.M_old[kindexes,kindexes]
-		# 	model.Λ_var_old     = model.Λ_var_old[:,kindexes]
-		# 	model.L_old         = model.L_old[kindexes,kindexes]
-		# 	model.b0_old        = model.b0_old[kindexes]
-		# 	model.b1_old        = model.b1_old[kindexes]
-		# 	model.m0            = model.m0[kindexes]
-		# 	model.M0            =model.M0[kindexes,kindexes]
-		#   	model.L0            =model.L0[kindexes,kindexes]
-		# end
+		kindexes = Int64[]
+		if i % (model.N/2) ==0
+			kindexes = prune!(model, mb)
+			if kindexes == nothing
+				continue;
+			else
+				_init_ϕ = deepcopy(ones(Float64, model.K).*1.0/model.K)
+				_init_μ = _init_μ[:,kindexes]
+				model.Λ_var = 100.0*ones(Float64, (model.N, model.K))
+				_init_Λ = deepcopy(model.Λ_var)
+				model.m = zeros(Float64,model.K)
+				model.M = (100.0).*eye(Float64,model.K)
+				model.l = model.K+2
+				Ltemp = zeros(Float64, model.K, model.K)
+			  	for i in 1:model.N
+			    	Ltemp .+= rand(Wishart(model.K+1,0.001*diagm(ones(Float64, model.K))))
+			  	end
+				Ltemp ./= model.N
+				model.L=100.0.*(Ltemp)./model.l
+				# model.fmap = zeros(Float64, (model.N,model.K))
+				# model.comm = [Int64[] for i in 1:model.K]
+				# if isfile("./data/est_comm.txt")
+				# 	rm("./data/est_comm.txt")
+				# end
+				model.b0 = model.b0[kindexes]
+				model.b1 = model.b1[kindexes]
+				model.μ_var=model.μ_var[:,kindexes]
+				model.est_θ         = model.est_θ[:,kindexes]
+			  	model.est_β         = model.est_β[kindexes]
+			  	model.est_μ         = model.est_μ[kindexes]
+			  	model.est_Λ         = model.est_Λ[kindexes,kindexes]
+				model.Elogβ0        = model.Elogβ0[kindexes]
+			  	model.Elogβ1        = model.Elogβ1[kindexes]
+				model.μ_var_old     = model.μ_var_old[:,kindexes]
+				model.m_old         = model.m_old[kindexes]
+				model.M_old         = model.M_old[kindexes,kindexes]
+				model.Λ_var_old     = model.Λ_var_old[:,kindexes]
+				model.L_old         = model.L_old[kindexes,kindexes]
+				model.b0_old        = model.b0_old[kindexes]
+				model.b1_old        = model.b1_old[kindexes]
+				model.m0            = model.m0[kindexes]
+				model.M0            =model.M0[kindexes,kindexes]
+			  	model.L0            =model.L0[kindexes,kindexes]
+			end
+		end
 
 		checkelbo = (i % elboevery == 0)
 		if checkelbo || i == 1
 			print(i);print(": ")
 			estimate_βs!(model,mb)
+			# rho = 1-(nnz(model.network)/(model.N*model.N))
 			println(model.est_β)
+			# println(model.est_β./(1.0-rho))
 		end
 
-		if (i % 100 == 0)
+		if (i % 200 == 0)
 			println(compute_NMI3(model))
 			push!(nmitemp,compute_NMI3(model))
 		end
@@ -354,11 +284,12 @@ using GraphPlot
 	p2=Plots.heatmap(x, yflip=true)
 	p3=Plots.heatmap(true_θs, yflip=true)
 	Plots.plot(p2,p3, layout=(2,1))
-	est = deepcopy(model.est_θ)
 	sort_by_argmax!(est)
-	Plots.plot(1:length(nmitemp), nmitemp)
 	println(maximum(nmitemp))
 	Plots.plot(1:length(vec(true_θs)),sort(vec(true_θs)))
 	Plots.plot(1:length(vec(est)),sort(vec(est)))
-	Plots.heatmap(est, yflip=true)
+	Plots.plot(1:length(nmitemp), nmitemp)
+	est = deepcopy(model.est_θ)
+	p4=Plots.heatmap(est, yflip=true)
+	Plots.plot(p3,p4, layout=(2,1))
 # end

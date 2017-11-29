@@ -10,7 +10,7 @@ include("init.jl");println("# of communities : ",length(communities))
 
 lg = LightGraphs.DiGraph(network);# draw(PNG("Docs/net$(inputtomodelgen[1]).png", 30cm, 30cm), gplot(lg))
 onlyK = length(communities)
-minibatchsize = 3
+minibatchsize = 1
 model=LNMMSB(network, onlyK,minibatchsize)
 model.K = onlyK
 mb=deepcopy(model.mb_zeroer)
