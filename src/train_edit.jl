@@ -147,7 +147,6 @@ using GraphPlot
 		model.μ_var_old[mb.mbnodes,:]=deepcopy(model.μ_var[mb.mbnodes,:])
 	#	model.μ_var[model.mbids,:]=zeros(Float64,(model.mbsize,model.K))
 		for l in mb.mblinks
-
 			for j in 1:15
 				# while !_converged##decide what you mean
 				if switchrounds
@@ -237,7 +236,7 @@ using GraphPlot
 				# count_μ[a]+=1
 				# count_Λ[a]+=1
 				count_a[a] += 1
-				updatesimulμΛ2!(model, a, mb,scale)
+				updatesimulμΛ2!(model, a, mb,scale*num_node_sample)
 				# lr_μ[a] = (1024.0+Float64(count_μ[a]-1.0))^(-.5)
 				# lr_Λ[a] = (1024.0+Float64(count_Λ[a]-1.0))^(-.5)
 				# model.μ_var[a,:] = model.μ_var_old[a,:].*(1.0.-lr_μ[a])+lr_μ[a].*model.μ_var[a,:]

@@ -403,202 +403,125 @@ function set_partitions!(model::LNMMSB)
 end
 
 function mbsampling!(mb::MiniBatch,model::LNMMSB, meth::String,mbsize::Int64)
-	# @assert !isempty(model.ho_links)
-	# @assert !isdefined(:mb)
-	if meth == "isns" ##informative stratified node sampling
-		##Choose random nodes
-		node_n  = 0
-		while node_n < mbsize
-			a = ceil(Int64,model.N*rand())
-			if a in mb.mbnodes
+	node_n  = 0
+	dyads = Vector{Dyad}()
+	while node_n < model.mbsize
+		a = ceil(Int64,model.N*rand())
+		if a in mb.mbnodes
+			continue;
+		else
+			push!(mb.mbnodes, a)
+			node_n +=1
+		end
+	end
+	model.mbids[:] = mb.mbnodes[:]
+	_init_ϕ = (1.0/model.K).*ones(Float64, model.K)
+
+	for a in mb.mbnodes
+		for l in model.link_set[a]
+			if l in mb.mblinks
 				continue;
 			else
-				push!(mb.mbnodes, a)
-				node_n +=1
+				push!(mb.mblinks, l)
+				push!(dyads, Dyad(l.src, l.dst))
 			end
 		end
-		model.mbids = mb.mbnodes
-		####Node selection done
-		for a in mb.mbnodes
-			for l in model.link_set[a]
-				if l in mb.mblinks
-					continue;
-				else
-					push!(mb.mblinks, l)
+		nlinksize = round(Int64, model.N/5)
+		p = nlinksize
+		while p > 1
+			node_list = sample(1:model.N, nlinksize*2)
+			for neighbor in node_list
+				if p < 1
+					break;
 				end
-			end
-			#####
-
-
-			#####
-			picknl = ceil(Int64,length(model.nonlink_setmap[a])*rand())
-			for nl in model.train_nonlinks[model.nonlink_setmap[a][picknl]]
-				if nl in mb.mbnonlinks
+				if neighbor == a
 					continue;
-				else
-					push!(mb.mbnonlinks, nl)
-					if !haskey(mb.mbfnadj, nl.src)
-						mb.mbfnadj[nl.src] = get(mb.mbfnadj, nl.src, Vector{Int64}())
-					end
-					if nl.dst in mb.mbfnadj[nl.src]
+				end
+				nlinks=Vector{NonLink}()
+				if !isalink(model, "network", a, neighbor)
+					push!(nlinks, NonLink(a, neighbor,_init_ϕ,_init_ϕ))
+				end
+				if !isalink(model, "network", neighbor, a)
+					push!(nlinks, NonLink(neighbor, a,_init_ϕ,_init_ϕ))
+				end
+				if isempty(nlinks)
+					continue;
+				end
+				for dd in nlinks
+					if dd in mb.mbnonlinks#dd in model.linked_edges || #haskey(model.ho_map,dd) ||
+						#haskey(model.test_map,dd) || dd in  model.minibatch_set
 						continue;
-					else
-						push!(mb.mbfnadj[nl.src],nl.dst)
-					end
-					if !haskey(mb.mbbnadj, nl.dst)
-						mb.mbbnadj[nl.dst] = get(mb.mbbnadj, nl.dst, Vector{Int64}())
-					end
-					if nl.src in mb.mbbnadj[nl.dst]
-						continue;
-					else
-						push!(mb.mbbnadj[nl.dst],nl.src)
 					end
 				end
+				nlink = nlinks[sample(1:length(nlinks))]
+				push!(mb.mbnonlinks, nlink)
+				push!(dyads, Dyad(nlink.src, nlink.dst))
+				p-=1
+				if !haskey(mb.mbfnadj, nlink.src)
+					mb.mbfnadj[nlink.src] = get(mb.mbfnadj, nlink.src, Vector{Int64}())
+				end
+				if nlink.dst in mb.mbfnadj[nlink.src]
+					continue;
+				else
+					push!(mb.mbfnadj[nlink.src], nlink.dst)
+				end
+				if !haskey(mb.mbbnadj, nlink.dst)
+					mb.mbbnadj[nlink.dst] = get(mb.mbbnadj, nlink.dst, Vector{Int64}())
+				end
+				if nlink.src in mb.mbbnadj[nlink.dst]
+					continue;
+				else
+					push!(mb.mbbnadj[nlink.dst], nlink.src)
+				end
+				# for nlink in nlinks
+				# 	push!(mb.mbnonlinks, nlink)
+				# 	push!(dyads, Dyad(nlink.src, nlink.dst))
+				# 	p-=1
+				# 	if !haskey(mb.mbfnadj, nlink.src)
+				# 		mb.mbfnadj[nlink.src] = get(mb.mbfnadj, nlink.src, Vector{Int64}())
+				# 	end
+				# 	if nlink.dst in mb.mbfnadj[nlink.src]
+				# 		continue;
+				# 	else
+				# 		push!(mb.mbfnadj[nlink.src], nlink.dst)
+				# 	end
+				# 	if !haskey(mb.mbbnadj, nlink.dst)
+				# 		mb.mbbnadj[nlink.dst] = get(mb.mbbnadj, nlink.dst, Vector{Int64}())
+				# 	end
+				# 	if nlink.src in mb.mbbnadj[nlink.dst]
+				# 		continue;
+				# 	else
+				# 		push!(mb.mbbnadj[nlink.dst], nlink.src)
+				# 	end
+				# end
 			end
 		end
-		for a in mb.mbnodes
-			model.trainfnadj[a] = model.N-1-model.train_outdeg[a]-model.ho_fadj[a]-model.ho_fnadj[a]
-			model.trainbnadj[a] = model.N-1-model.train_indeg[a]-model.ho_badj[a]-model.ho_bnadj[a]
+	end
+	print();
+	return dyads
+end
+function mbsamplinglink!(mb::MiniBatch,model::LNMMSB, meth::String,mbsize::Int64)
+
+	node_n  = 0
+	while node_n < model.mbsize
+		a = ceil(Int64,model.N*rand())
+		if a in mb.mbnodes
+			continue;
+		else
+			push!(mb.mbnodes, a)
+			node_n +=1
 		end
-	elseif meth == "link"
-		node_n  = 0
-
-		# mbsize = model.mbsize
-
-		while node_n < mbsize
-			a = ceil(Int64,model.N*rand())
-			if a in mb.mbnodes
+	end
+	model.mbids[:] = mb.mbnodes[:]
+	_init_ϕ = (1.0/model.K).*ones(Float64, model.K)
+	for a in mb.mbnodes
+		for l in model.link_set[a]
+			if l in mb.mblinks
 				continue;
 			else
-				push!(mb.mbnodes, a)
-				node_n +=1
-			end
-
-			for l in model.link_set[a]
-				if l in mb.mblinks
-					continue;
-				else
-					push!(mb.mblinks, l)
-				end
+				push!(mb.mblinks, l)
 			end
 		end
-		# for l in mb.mblinks
-		# 	if !(l.src in mb.mbnodes)
-		# 		push!(mb.mbnodes, l.src)
-		# 	elseif !(l.dst in mb.mbnodes)
-		# 		push!(mb.mbnodes, l.dst)
-		# 	else
-		# 		continue;
-		# 	end
-		# end
-		# mb.mbnodes = unique(mb.mbnodes)
-		model.mbids = mb.mbnodes
-		# model.mbsize = length(mb.mbnodes)
-	elseif meth == "isns2"
-		node_n  = 0
-		while node_n < mbsize
-			a = ceil(Int64,model.N*rand())
-			if a in mb.mbnodes
-				continue;
-			else
-				push!(mb.mbnodes, a)
-				node_n +=1
-			end
-		end
-		model.mbids[:] = mb.mbnodes[:]
-		_init_ϕ = (1.0/model.K).*ones(Float64, model.K)
-		for a in mb.mbnodes
-			for l in model.link_set[a]
-				if l in mb.mblinks
-					continue;
-				else
-					push!(mb.mblinks, l)
-				end
-			end
-			# model.nonlink_setmap[a][1]
-			# length(mb.mbfnadj[a])+length(mb.mbbnadj[a])-length(intersect(mb.mbfnadj[a],	mb.mbbnadj[a]))
-			# model.train_nonlinks[model.nonlink_setmap[a][1]]
-
-			# picknl = ceil(Int64,length(model.nonlink_setmap[a])*rand())
-			#
-			# for nl in model.train_nonlinks[model.nonlink_setmap[a][picknl]]
-			# 	if nl in mb.mbnonlinks
-			# 		continue;
-			# 	else
-			# 		push!(mb.mbnonlinks, nl)
-			# 		if !haskey(mb.mbfnadj, nl.src)
-			# 			mb.mbfnadj[nl.src] = get(mb.mbfnadj, nl.src, Vector{Int64}())
-			# 		end
-			# 		if nl.dst in mb.mbfnadj[nl.src]
-			# 			continue;
-			# 		else
-			# 			push!(mb.mbfnadj[nl.src],nl.dst)
-			# 		end
-			# 		if !haskey(mb.mbbnadj, nl.dst)
-			# 			mb.mbbnadj[nl.dst] = get(mb.mbbnadj, nl.dst, Vector{Int64}())
-			# 		end
-			# 		if nl.src in mb.mbbnadj[nl.dst]
-			# 			continue;
-			# 		else
-			# 			push!(mb.mbbnadj[nl.dst],nl.src)
-			# 		end
-			# 	end
-			# end
-
-			nlinksize = round(Int64, model.N/10)
-			p = nlinksize
-			while p > 1
-				node_list = sample(1:model.N, nlinksize*2)
-				for neighbor in node_list
-					if p < 1
-						break;
-					end
-					if neighbor == a
-						continue;
-					end
-					nlinks=Vector{NonLink}()
-					if !isalink(model, "network", a, neighbor)
-						push!(nlinks, NonLink(a, neighbor,_init_ϕ,_init_ϕ))
-				  	end
-					if !isalink(model, "network", neighbor, a)
-						push!(nlinks, NonLink(neighbor, a,_init_ϕ,_init_ϕ))
-					end
-					if isempty(nlinks)
-						continue;
-					end
-					for dd in nlinks
-						if dd in mb.mbnonlinks#dd in model.linked_edges || #haskey(model.ho_map,dd) ||
-							#haskey(model.test_map,dd) || dd in  model.minibatch_set
-							continue;
-						end
-					end
-					nlink = nlinks[sample(1:length(nlinks))]
-					push!(mb.mbnonlinks, nlink)
-					p-=1
-					if !haskey(mb.mbfnadj, nlink.src)
-						mb.mbfnadj[nlink.src] = get(mb.mbfnadj, nlink.src, Vector{Int64}())
-					end
-					if nlink.dst in mb.mbfnadj[nlink.src]
-						continue;
-					else
-						push!(mb.mbfnadj[nlink.src], nlink.dst)
-					end
-					if !haskey(mb.mbbnadj, nlink.dst)
-						mb.mbbnadj[nlink.dst] = get(mb.mbbnadj, nlink.dst, Vector{Int64}())
-					end
-					if nlink.src in mb.mbbnadj[nlink.dst]
-						continue;
-					else
-						push!(mb.mbbnadj[nlink.dst], nlink.src)
-					end
-				end
-			end
-		end
-		# for a in mb.mbnodes
-		# 	model.trainfnadj[a] = model.N-1-model.train_outdeg[a]-model.ho_fadj[a]-model.ho_fnadj[a]
-		# 	model.trainbnadj[a] = model.N-1-model.train_indeg[a]-model.ho_badj[a]-model.ho_bnadj[a]
-		# end
-
 	end
 	print();
 end

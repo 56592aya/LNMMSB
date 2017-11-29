@@ -75,7 +75,6 @@ using GraphPlot
 	model.mbids = collect(1:model.N)
 	mb=deepcopy(model.mb_zeroer)
 	mbsamplingfull!(mb, model, meth, model.mbsize)
-	# model.μ_var = log.(true_θs)
 	isfullsample = true
 	model.ϕloutsum = model.train_outdeg.*true_θs
 	model.ϕlinsum = model.train_indeg.*true_θs
@@ -83,6 +82,8 @@ using GraphPlot
 	model.ϕnlinsum = length(mb.mbbnadj).*true_θs
 	model.ϕlinoutsum = diag((true_θs')*true_θs)
 	model.ϕnlinoutsum = EPSILON.*ones(Float64, model.K)
+	# model.μ_var = deepcopy(log.(true_θs))
+	model.μ_var = deepcopy(_init_μ)
 	for i in 1:iter
 		model.fmap = zeros(Float64, (model.N,model.K))
 		lr_M = 1.0
@@ -228,5 +229,4 @@ using GraphPlot
 	Plots.plot(1:length(vec(true_θs)),sort(vec(true_θs)))
 	Plots.plot(1:length(vec(est)),sort(vec(est)))
 	Plots.heatmap(est, yflip=true)
-# end
 # end

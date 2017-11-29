@@ -78,7 +78,7 @@ mutable struct LNMMSB <: AbstractMMSB
     linked_edges  :: Set{Dyad}
     num_peices    :: Int64
 
- function LNMMSB(network::Network{Int64}, K::Int64)
+ function LNMMSB(network::Network{Int64}, K::Int64, minibatchsize::Int64)
   N             = size(network,1) #setting size of nodes
   elbo          =0.0 #init ELBO at zero
   oldelbo       =-Inf #init new ELBO at zero
@@ -110,7 +110,7 @@ mutable struct LNMMSB <: AbstractMMSB
   b0_old        = deepcopy(b0)
   b1            =η1*ones(Float64, K) #one the beta variational param
   b1_old        = deepcopy(b1)
-  mbsize        = div(N,200)>1?div(N,200):div(N,N)#round(Int64, .05*N) #number of nodes in the minibatch
+  mbsize        =minibatchsize#125#div(N,200)>1?div(N,200):div(N,3)#round(Int64, .05*N) #number of nodes in the minibatch
   mbids         =zeros(Int64,mbsize) # to be extended
   nho           =0.01*(N*(N-1)) #init nho
   ho_dyads      = Vector{Dyad}()
