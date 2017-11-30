@@ -95,7 +95,7 @@ function updatesimulμΛ!(model::LNMMSB, a::Int64,mb::MiniBatch,meth::String)
 		# opt2 = RMSprop()
 		opt1 = Adagrad()
 		opt2 = Adagrad()
-		for i in 1:10
+		for i in 1:20
 			x  = sfx(μ_var,ltemp)
 			g1 = dfunci(μ_var)
 			δ1 = update(opt1,g1)

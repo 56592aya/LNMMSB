@@ -12,6 +12,7 @@ mutable struct LNMMSB <: AbstractMMSB
     μ_var_old    ::Matrix2d{Float64}  #variational mean of the MVN
     m0           ::Vector{Float64}    #hyperprior on mean
     m            ::Vector{Float64}    #variational hyperprior on mean
+    m_hist       ::Vector{Vector{Float64}}
     m_old        ::Vector{Float64}    #variational hyperprior on mean
     M0           ::Matrix2d{Float64}    #hyperprior on precision diagonal
     M            ::Matrix2d{Float64}  #hyperprior on variational precision
@@ -23,14 +24,17 @@ mutable struct LNMMSB <: AbstractMMSB
     L0           ::Matrix2d{Float64}    #scale for precision in Wishart diagonal
     l            ::Float64            #variational df
     L            ::Matrix2d{Float64}  #variational scale diagonal
+    L_hist       ::Vector{Matrix2d{Float64}}
     L_old        ::Matrix2d{Float64}  #variational scale diagonal
     ϕlinoutsum   ::Vector{Float64}    #sum of phi products for links
     ϕnlinoutsum  ::Vector{Float64}    #sum of phi products for nonlinks
     η0           ::Float64            #hyperprior on beta
     η1           ::Float64            #hyperprior on beta
     b0           ::Vector{Float64}    #variational param for beta
+    b0_hist      ::Vector{Vector{Float64}}
     b0_old       ::Vector{Float64}    #variational param for beta
     b1           ::Vector{Float64}    #variational param for beta
+    b1_hist      ::Vector{Vector{Float64}}
     b1_old       ::Vector{Float64}    #variational param for beta
     network      ::Network{Int64}     #sparse view network
     mbsize       ::Int64              #minibatch size
@@ -87,6 +91,7 @@ mutable struct LNMMSB <: AbstractMMSB
   μ_var_old     = deepcopy(μ_var)
   m0            =zeros(Float64,K) #zero m0 vector
   m             =zeros(Float64,K) #zero m vector
+  m_hist        =Vector{Vector{Float64}}()
   m_old         = deepcopy(m)
   M0            =eye(Float64,K) #ones M0 matrix
   M             =eye(Float64,K) #eye M matrix
@@ -101,14 +106,17 @@ mutable struct LNMMSB <: AbstractMMSB
   L0            =(0.05).*eye(Float64,K) #init the scale L0
   l             =K*1.0 #init the df l
   L             =(1.0/K).*eye(Float64,K) #zero the scale L
+  L_hist        = Vector{Matrix2d{Float64}}()
   L_old         = deepcopy(L)
   ϕlinoutsum    =zeros(Float64,K) #zero the phi link product sum
   ϕnlinoutsum   =zeros(Float64,K) #zero the phi nonlink product sum
   η0            =true_eta0 #one the beta param
   η1            =1.1 #one the beta param
   b0            =η0.*ones(Float64, K) #one the beta variational param
+  b0_hist       =Vector{Vector{Float64}}()
   b0_old        = deepcopy(b0)
   b1            =η1*ones(Float64, K) #one the beta variational param
+  b1_hist       =Vector{Vector{Float64}}()
   b1_old        = deepcopy(b1)
   mbsize        =minibatchsize#125#div(N,200)>1?div(N,200):div(N,3)#round(Int64, .05*N) #number of nodes in the minibatch
   mbids         =zeros(Int64,mbsize) # to be extended
@@ -155,8 +163,8 @@ mutable struct LNMMSB <: AbstractMMSB
   linked_edges  = Set{Dyad}()
   num_peices    =10
 
-  model = new(K, N, elbo, oldelbo, μ, μ_var,μ_var_old, m0, m,m_old, M0, M,M_old, Λ, Λ_var,Λ_var_old, l0, L0, l,
-   L,L_old, ϕlinoutsum, ϕnlinoutsum, η0, η1, b0,b0_old, b1,b1_old, network, mbsize, mbids,nho, ho_dyads, ho_links,
+  model = new(K, N, elbo, oldelbo, μ, μ_var,μ_var_old, m0, m,m_hist,m_old, M0, M,M_old, Λ, Λ_var,Λ_var_old, l0, L0, l,
+   L,L_hist,L_old, ϕlinoutsum, ϕnlinoutsum, η0, η1, b0,b0_hist,b0_old, b1,b1_hist,b1_old, network, mbsize, mbids,nho, ho_dyads, ho_links,
     ho_nlinks,ho_fadj,ho_badj,ho_fnadj,ho_bnadj,trainfnadj,trainbnadj,train_outdeg,train_indeg,train_sinks,train_sources,ϕloutsum,
      ϕnloutsum,  ϕlinsum,  ϕnlinsum,ϕbar,elborecord,est_θ, est_β, est_μ, est_Λ,visit_count,nl_partition,
      train_nonlinks,d,Elogβ0,Elogβ1,mb_zeroer,link_set,nonlink_setmap, node_tnmap, fmap,comm,

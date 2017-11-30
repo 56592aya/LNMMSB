@@ -414,10 +414,10 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB, meth::String,mbsize::Int64)
 			node_n +=1
 		end
 	end
-	model.mbids[:] = mb.mbnodes[:]
+	model.mbids = deepcopy(mb.mbnodes)
 	_init_ϕ = (1.0/model.K).*ones(Float64, model.K)
 
-	for a in mb.mbnodes
+	for a in model.mbids
 		for l in model.link_set[a]
 			if l in mb.mblinks
 				continue;
