@@ -7,10 +7,18 @@ function do_linked_edges!(model::LNMMSB)
 	end
 end
 function minibatch_set_srns(model::LNMMSB)
+	model.mbsize=5
 	model.minibatch_set = Set{Dyad}()
-	a = ceil(Int64,model.N*rand())
-	flag = bitrand(1)[1]
-	if !flag ##nonlinks
+	node_count = 0
+	while node_count < model.mbsize
+		a = ceil(Int64,model.N*rand())
+		if a in mb.mbnodes
+			continue;
+		else
+			push!(mb.mbnodes, a)
+		end
+
+
 		minibatch_size = round(Int64, model.N/model.num_peices)
 		p = minibatch_size
 		while p > 1
@@ -44,8 +52,8 @@ function minibatch_set_srns(model::LNMMSB)
 				p-=1
 			end
 		end
-		return (model.minibatch_set, model.N*model.num_peices)
-	else
+
+
 		for neighbor in model.train_link_map[a]
 			if issink(model, "network", a, neighbor)
 				push!(model.minibatch_set, Dyad(a, neighbor))
@@ -54,7 +62,7 @@ function minibatch_set_srns(model::LNMMSB)
 				push!(model.minibatch_set, Dyad(neighbor, a))
 			end
 		end
-		return (model.minibatch_set, model.N)
+		node_count +=1
 	end
 end
 
@@ -426,7 +434,7 @@ function mbsampling!(mb::MiniBatch,model::LNMMSB, meth::String,mbsize::Int64)
 				push!(dyads, Dyad(l.src, l.dst))
 			end
 		end
-		nlinksize = round(Int64, model.N/5)
+		nlinksize = round(Int64, model.N/50)
 		p = nlinksize
 		while p > 1
 			node_list = sample(1:model.N, nlinksize*2)
@@ -608,7 +616,7 @@ function init_mu(model::LNMMSB, communities::Dict{Int64, Vector{Int64}}, onlyK::
     end
   end
   for i in 1:N
-    model.μ_var[i,:] = log.(model.μ_var[i,:])
+    model.μ_var[i,:] = log.(model.μ_var[i,:]/(sum(model.μ_var[i,:])))
   end
 end
 print();

@@ -6,6 +6,7 @@ function updatephibar!(model::LNMMSB, mb::MiniBatch, a::Int64)
 	model.ϕbar[a,:]= (model.ϕloutsum[a,:]+model.ϕlinsum[a,:])/(model.train_outdeg[a]+model.train_indeg[a])
 end
 function updatephilout!(model::LNMMSB, mb::MiniBatch, early::Bool, link::Link, tuner::Float64)
+
 	for k in 1:model.K
 		if early
 			link.ϕout[k] = model.μ_var[link.src,k] + link.ϕin[k]*tuner
@@ -37,6 +38,7 @@ function updatephinlout!(model::LNMMSB, mb::MiniBatch, early::Bool, nlink::NonLi
 #		if early
 #			nlink.ϕout[k] = model.μ_var[nlink.src,k] + nlink.ϕin[k]*tuner
 #		else
+
 			nlink.ϕout[k] = model.μ_var[nlink.src,k] + nlink.ϕin[k]*(model.Elogβ1[k]-log1p(-EPSILON))
 			# nlink.ϕout[k] = model.μ_var[nlink.src,k] + nlink.ϕin[k]*(model.Elogβ1[k])#+sum(nlink.ϕin[1:end .!=k].*log1p(-EPSILON))
 #		end
@@ -95,7 +97,8 @@ function updatesimulμΛ!(model::LNMMSB, a::Int64,mb::MiniBatch,meth::String)
 		# opt2 = RMSprop()
 		opt1 = Adagrad()
 		opt2 = Adagrad()
-		for i in 1:20
+
+		for i in 1:5
 			x  = sfx(μ_var,ltemp)
 			g1 = dfunci(μ_var)
 			δ1 = update(opt1,g1)
@@ -295,6 +298,12 @@ function updateb0!(model::LNMMSB, mb::MiniBatch)
 	scaler=nnz(model.network)/length(mb.mblinks)
 	@assert !isequal(model.ϕlinoutsum[:], zeros(Float64, model.K))
 	model.b0[:] = model.η0.+ (scaler.*model.ϕlinoutsum[:])
+	for k in 1:model.K
+		if model.b0[k] < 0
+			model.b0[k] = model.η0
+		end
+	end
+
 end
 function updateb0full!(model::LNMMSB, mb::MiniBatch)
 	model.b0_old = deepcopy(model.b0)
@@ -314,7 +323,12 @@ function updateb1!(model::LNMMSB, mb::MiniBatch, meth::String)
 	model.b1_old = deepcopy(model.b1)
 	scaler = (model.N^2 - model.N - nnz(model.network))/length(mb.mbnonlinks)
 	# scaler = (model.N/model.mbsize)*10
-	model.b1[:] = model.η1 .+ (scaler.*model.ϕnlinoutsum[:])
+	for k in 1:model.K
+		model.b1[k] = model.η1 + (scaler*model.ϕnlinoutsum[k])
+		if model.b1[k] < 0
+			model.b1[k] = model.η1
+		end
+	end
 end
 function updateb1link!(model::LNMMSB, mb::MiniBatch, meth::String)
 	model.b1_old = deepcopy(model.b1)

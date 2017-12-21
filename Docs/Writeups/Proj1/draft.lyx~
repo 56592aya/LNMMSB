@@ -1836,6 +1836,33 @@ key "braun2011scalable,ansari2011modeling,handcock2007model,hoff2002latent"
 \end_layout
 
 \begin_layout Standard
+###
+\end_layout
+
+\begin_layout Standard
+why model based:
+\end_layout
+
+\begin_layout Standard
+[w]In contrast to approaches that attempt to cluster a network given an
+ objective function, this class of methods is based on generative models,
+ which not only serve as a description of the large-scale structure of the
+ network, but also can be used to generalize the data and predict the occurrence
+ of missing or spurious links in the network
+\begin_inset CommandInset citation
+LatexCommand cite
+key "guimera2009missing,clauset2008hierarchical"
+
+\end_inset
+
+.[w]
+\end_layout
+
+\begin_layout Standard
+###
+\end_layout
+
+\begin_layout Standard
 We employ a model-based approach that allows us to define the network structure
  according to a set of hypotheses in line with the context under study and
  the theory underlying the social formation of friendships.
