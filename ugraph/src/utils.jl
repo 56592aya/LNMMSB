@@ -1,7 +1,8 @@
 include("AbstractTuple.jl")
 include("AbstractDyad.jl")
 include("AbstractMMSB.jl")
-import Base: ==, hash
+import Base: ==, hash, isequal
+import Core: ===
 
 const EPSILON = 1e-5
 VectorList{T} = Vector{Vector{T}}
@@ -29,14 +30,16 @@ mutable struct NonLink <: AbstractDyad
   # ϕoutold::Vector{Float64}
   # ϕinold::Vector{Float64}
 end
-==(x::Dyad, y::Dyad) = (x.src == y.src && x.dst == y.dst) || (x.src == y.dst && x.dst == y.src)
+==(x::Dyad, y::Dyad) = (x.src == y.src && x.dst === y.dst) || (x.src === y.dst && x.dst === y.src)
+hash(x::Dyad, h::UInt) = hash(minmax(x.src, x.dst), h)
 ==(x::Link, y::Link) = (x.src == y.src && x.dst == y.dst) || (x.src == y.dst && x.dst == y.dst)
+hash(x::Link, h::UInt) = hash(minmax(x.src, x.dst), h)
 ==(x::NonLink, y::NonLink) = (x.src == y.src && x.dst == y.dst) || (x.src == y.dst && x.dst == y.dst)
+hash(x::NonLink, h::UInt) = hash(minmax(x.src, x.dst), h)
 ==(x::Dyad, y::Link) = (x.src == y.src && x.dst == y.dst) || (x.src == y.dst && x.dst == y.dst)
 ==(x::Dyad, y::NonLink) = (x.src == y.src && x.dst == y.dst) || (x.src == y.dst && x.dst == y.dst)
 ==(x::Link, y::Dyad) = (x.src == y.src && x.dst == y.dst) || (x.src == y.dst && x.dst == y.dst)
 ==(x::NonLink, y::Dyad) = (x.src == y.src && x.dst == y.dst) || (x.src == y.dst && x.dst == y.dst)
-
 #
 # hash(x::Dyad, h::UInt) = hash(x.src, hash(x.dst, hash(0x7d6979235cb005d0, h)))
 # hash(x::Link, h::UInt) = hash(x.src, hash(x.dst, hash(0x7d6979235cb005d0, h)))

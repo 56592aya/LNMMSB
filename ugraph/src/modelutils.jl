@@ -1,4 +1,3 @@
-
 function do_linked_edges!(model::LNMMSB)
 	Src, Sink, Val= findnz(model.network)
 	model.linked_edges=Set{Dyad}()
@@ -19,13 +18,10 @@ function minibatch_set_srns(model::LNMMSB)
 		else
 			push!(mb.mbnodes, a)
 		end
-
-
 		minibatch_size = round(Int64, model.N/model.num_peices)
 		p = minibatch_size
 		while p > 1
 			node_list = sample(1:N, minibatch_size*2)
-
 			for neighbor in node_list
 				if p < 1
 					break;
@@ -33,31 +29,21 @@ function minibatch_set_srns(model::LNMMSB)
 				if neighbor == a
 					continue;
 				end
-				dyads=Vector{Dyad}()
 				if !isalink(model, "network", a, neighbor)
-					push!(dyads, Dyad(a, neighbor))
-			  	end
-				# if !isalink(model, "network", neighbor, a)
-				# 	push!(dyads, Dyad(neighbor, a))
-				# end
-				if isempty(dyads)
-					continue;
-				end
-				for dd in dyads
+					dd = a < neighbor ? Dyad(a, neighbor) : Dyad(neighbor, a)
 					if dd in model.linked_edges || haskey(model.ho_map,dd) ||
 						haskey(model.test_map,dd) || dd in  model.minibatch_set
 						continue;
+					else
+						push!(model.minibatch_set, dd)
+						p-=1
 					end
-				end
-
-				push!(model.minibatch_set, dyads[sample(1:length(dyads))])
-				p-=1
+			  	end
 			end
 		end
-
-
 		for neighbor in model.train_link_map[a]
 			if isfadj(model, "network", a, neighbor)
+				dd = a < neighbor ? Dyad(a, neighbor) : Dyad(neighbor, a)
 				push!(model.minibatch_set, Dyad(a, neighbor))
 			end
 		end
@@ -166,37 +152,7 @@ function get_random_test_nonlink(model::LNMMSB)
 		end
 	end
 end
-# function sample_neighbors(neighbors_set, num_node_sample, node)
-# 	p = num_node_sample
-# 	neighbors_set = Set{Int64}()
-# 	while p > 1
-# 		nodelist = sample(1:model.N, num_node_sample*2)
-#
-# 		for neighborid in nodelist
-# 			if p < 1
-# 				break;
-# 			end
-#
-# 			if neighborid == node
-# 				continue;
-# 			end
-# 			edges = [Dyad(neighborid,node), Dyad(node, neighborid)]
-#
-# 			for edge in edges
-#
-# 				if haskey(model.ho_map, edge) || haskey(model.test_map, edge) ||
-# 					(neighborid in neighbors_set)
-# 					continue;
-# 				else
-# 					push!(neighbors_set, neighborid)
-# 					p-=1
-# 				end
-# 			end
-# 		end
-# 	end
-# 	return neighbors_set
-# end
-#############################################
+
 
 function isalink(model::LNMMSB, place::String,a::Int64, b::Int64)
 	ret = false

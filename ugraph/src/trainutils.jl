@@ -37,8 +37,9 @@ function updatesimulμΛ!(model::LNMMSB, a::Int64,mb::MiniBatch)
 		x = sfx(μ_var,ltemp)
 		s1 = haskey(mb.mbnot,a)?(N-1-model.train_deg[a]):0
 		c1 = haskey(mb.mbnot,a)?length(mb.mbnot[a]):1
+
 		sumb =(model.N-1)
-		X=model.ϕlsum[a,:]+(s1/c1).*(model.ϕnloutsum[a,:])
+		X=model.ϕlsum[a,:]+(s1/c1).*.5.*(model.ϕnloutsum[a,:]+model.ϕnlinsum[a,:])
 
 		dfunci(μ_var) = -model.l.*model.L*(μ_var-model.m) +X - sumb.*x
 
@@ -52,7 +53,7 @@ function updatesimulμΛ!(model::LNMMSB, a::Int64,mb::MiniBatch)
 		opt1 = Adagrad()
 		opt2 = Adagrad()
 
-		for i in 1:5
+		for i in 1:10
 			x  = sfx(μ_var,ltemp)
 			g1 = dfunci(μ_var)
 			δ1 = update(opt1,g1)
@@ -78,11 +79,10 @@ function updatem!(model::LNMMSB, mb::MiniBatch)
 	for a in mb.mbnodes
 		s.+=model.μ_var[a,:]
 	end
-	# scaler=(convert(Float64,model.N)/convert(Float64,model.mbsize))
+
 	scaler = model.N/model.mbsize
 	model.m=inv(model.M)*(model.M0*model.m0+(scaler*model.l).*model.L*s)
 end
-#updatem!(model, mb)
 function updatel!(model::LNMMSB)
 	##should be set in advance, not needed in the loop
 	model.l = model.l0+convert(Float64,model.N)
@@ -95,28 +95,22 @@ function updateL!(model::LNMMSB, mb::MiniBatch)
 		s +=(model.μ_var[a,:]-model.m)*(model.μ_var[a,:]-model.m)'+diagm(1.0./model.Λ_var[a,:])
 	end
 	s=(model.N/model.mbsize)*s
-	# s=(convert(Float64,model.N)/convert(Float64,model.mbsize)).*s
 	s+=inv(model.L0)+model.N.*inv(model.M)
 	model.L = inv(s)
 end
 
 function updateb0!(model::LNMMSB, mb::MiniBatch)
 	model.b0_old = deepcopy(model.b0)
-	# scaler=2*model.N
 	scaler=nnz(model.network)/(2*length(mb.mblinks))
-
 	# @assert !isequal(model.ϕlinoutsum[:], zeros(Float64, model.K))
 	s = zeros(Float64, model.K)
 	for a in model.mbids
-		s[:] += model.ϕlsum[a,:]
+		s[:] += .5*model.ϕlsum[a,:]
 	end
 	model.b0[:] = model.η0.+ (scaler.*s)
-	# for k in 1:model.K
-	# 	if model.b0[k] < 0
-	# 		model.b0[k] = model.η0
-	# 	end
-	# end
+
 end
+
 
 #updateb0!(model, mb)
 function updateb1!(model::LNMMSB, mb::MiniBatch)
@@ -124,62 +118,12 @@ function updateb1!(model::LNMMSB, mb::MiniBatch)
 	scaler = (model.N^2 - model.N - nnz(model.network))/(2*length(mb.mbnonlinks))
 	# scaler = (model.N/model.mbsize)*10
 	for k in 1:model.K
-		model.b1[k] = model.η1 + (scaler*model.ϕnlinoutsum[k])
+		model.b1[k] = model.η1 + (.5*scaler*model.ϕnlinoutsum[k])
 	end
 end
 
 
-# function prune!(model::LNMMSB, mb::MiniBatch)
-# 	estk = zeros(Float64, model.K)
-# 	estk = (sum(model.est_θ,1)./sum(model.est_θ))[1,:]
-# 	orderedindexes = sortperm(estk)
-# 	flagk = [false for k in 1:model.K]
-# 	remove = Int64[]
-# 	for k in orderedindexes
-# 		if length(remove) == 2
-# 			break;
-# 		end
-# 		if estk[k] < log2(model.K)/model.N
-# 			flagk[k] = true
-# 			push!(remove, k)
-# 		end
-# 	end
-#
-# 	if isempty(remove)
-# 		return nothing;
-# 	end
-# 	s = 0.0
-# 	if length(remove) < 3
-# 		for r in remove
-# 			s += sum(model.est_θ[:,r])
-# 		end
-# 		s /= (model.K-length(remove))*model.N
-# 		for k in 1:model.K
-# 			if !(k in remove)
-# 				model.est_θ[:,k] += s
-# 				model.μ_var[:,k] = log.(model.est_θ[:,k])
-# 			end
-# 		end
-# 	end
-# 	kindexes = [j for j in 1:model.K if !(j in remove) ]
-# 	model.K -=length(remove)
-# 	return kindexes
-# end
-#
-#
-#
-# function mcsampler(model,mean, diagprec, num)
-# 	num=100
-# 	mean=[2.0,1.0,3.0,1.0]
-# 	diagprec=[2.0,.3,4.0, 1.5]
-# 	vec = zeros(Float64, (num, model.K))
-# 	for i in 1:num
-# 		e = rand(MvNormal(eye(Float64, model.K)),1)
-# 		vec[i,:] = mean+(1.0./diagprec).*(e)
-# 	end
-# 	return vec
-#
-# end
+
 function estimate_βs!(model::LNMMSB, mb::MiniBatch)
 	model.est_β=model.b0./(model.b0.+model.b1)
 end

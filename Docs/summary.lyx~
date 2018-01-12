@@ -1,0 +1,4080 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{tkz-graph}  
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{fit}
+\usetikzlibrary{calc}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1.5cm
+\topmargin 1.5cm
+\rightmargin 1.5cm
+\bottommargin 1.5cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Summary of Projects
+\end_layout
+
+\begin_layout Part
+Community Detection in Social Networks
+\end_layout
+
+\begin_layout Standard
+We motivate the importance of sub-network level in identifying opinion leaders/i
+nfluentials contrasting it with the common network level metrics such as
+ node centralities.
+ The concept of influential or opinion leaders in social networks arise
+ from the high level of impact that some specific individuals can have on
+ their peers to adopt a behavior or act upon an action.
+ Ample amount of literature has attributed the importance of individuals
+ at the network level to their degree of opinion leadership.
+ Degree centrality, prestige/eigenvector centrality, and betweenness centrality
+ are among common measures that incroporate the importance of individuals
+ based on their network positions.
+ On the other hand, every network is comprised of smaller sub-networks that
+ hereafter we refer to as communities.
+ We argue that analysis of individuals at these smaller communities can
+ shed more light on their real role and importance in the network.
+\end_layout
+
+\begin_layout Standard
+As an illustration for the relevance of sub-network level measures, figure
+ 1.
+ shows the graph of degree centrality of three different communities in
+ a publicly available email network of a European Research Institute extracted
+ from SNAP dataset .
+ The connections are formed based on the emails sent between members of
+ this institute, and the ground truth communities are the departments within
+ the institute.
+ As can be seen, nodes that are central (measured by degree) at the community
+ level are not necessarily central at the network level.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "33col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Writeups/Proj1/Figure_1.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "33col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Writeups/Proj1/Figure_2.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "33col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Writeups/Proj1/Figure_3.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Three different communities, where each community is sorted based on the
+ degree centrality (blue line) and the corresponding network centrality
+ for that node is shown on top (red line)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+More on Communities
+\end_layout
+
+\begin_layout Standard
+Networks usually cluster into smaller sub-networks that exhibit denser inter-com
+munity ties compared to intra-communitiy connections.
+ Many community discovery algorithms assume complete disjoint between communitie
+s(like in a mixture), however more recent studies, also account for the
+ potential overlap between these structures.
+ Approaches concerning community discovery include both algoirthmic and
+ probabilistic methods.
+ We incorporate and enhance on an exisiting probabilistic model known as
+ mixed-membership-stochastic-blockmodel(MMSB) that allows for such overlaps
+ among the communities.
+\end_layout
+
+\begin_layout Section
+Big Picture
+\end_layout
+
+\begin_layout Standard
+For developing such model we follow the argument of homophily(birds of a
+ feather flock together), where two individuals form a connection with each
+ other if they have enough commonalities that make their interaction more
+ plausible.
+ Following figure demonstrates this idea of tie formation via a simple graphical
+ model.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+usetikzlibrary{arrows}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tikzset{     
+\end_layout
+
+\begin_layout Plain Layout
+
+	vertex/.style={circle,draw,minimum size=1.5em},
+\end_layout
+
+\begin_layout Plain Layout
+
+    edge/.style={->,> = latex'} 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+% vertices 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, fill={rgb:black,1;white,2}] (y) at (6,0) {$y_{ij}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (xi) at (4,4) {$x_{i}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (xj) at (8,4) {$x_j$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [draw=red, fit= (xi) (xj),  inner sep=1.00cm, dashed, ultra thick, fill=red!
+10, fill opacity=0.2] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+%edges 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (xi) to [out=300,in=110] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (xj) to [out=240,in=70] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Big Picture-
+\size footnotesize
+The shaded node 
+\begin_inset Formula $y_{ij}$
+\end_inset
+
+ represents our observation of connection(
+\begin_inset Formula $0$
+\end_inset
+
+, or 
+\begin_inset Formula $1$
+\end_inset
+
+) between two individuals 
+\begin_inset Formula $i$
+\end_inset
+
+, and 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ The unshaded nodes 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $x_{j}$
+\end_inset
+
+ are hidden variables(potentially multidimensional) that represent characteristi
+cs or preferences of individuals pertinent to tie formation.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Model
+\end_layout
+
+\begin_layout Standard
+Based on the general idea established in the previous section, our main
+ objective for community discivery is to uncover patterns in the latent
+ variables 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ To simplify we assume that the social network consists of 
+\begin_inset Formula $K$
+\end_inset
+
+ predefined, potenitially overlapping communities, and each individual can
+ belong to several communities.
+ This overlapping strucuture is allowed by allowing individuals to activate
+ their specific roles(communities) when potentially interacting with other
+ individuals.
+ This is desired, since main volume of communications in real world networks
+ arise from common interests, and at the same time each individual has several
+ interests with different intensities.
+ In our model these intensities are expressed by a 
+\begin_inset Formula $K-$
+\end_inset
+
+dimensional membership probability vector for each individual.
+ To realize the role activation of each individual in any contact to/by
+ others, we define an interaction specific parameter(one-hot vector), where
+ the preferred community is announced.
+ However as discussed before, we expect denser patterns of communications
+ within each community in comparison with between communities.
+ To address this, we also employ a 
+\begin_inset Formula $K\times K$
+\end_inset
+
+ compatibility matrix with large probabilities on the diagonal and small
+ values in the off-diagonal entries.
+\end_layout
+
+\begin_layout Standard
+The conventional MMSB model is described as below:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula $for\,\,k\in{1,\ldots,K}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $\,\,\,\,\,\,\,\beta_{kk}=Beta(\eta_{0},\eta_{1}),\,\,\,\,\,\,\beta_{kl_{l\neq k}}=\epsilon$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $for\,\,a\in\mathcal{N}:$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $\,\,\,\,\,\,\,\theta_{a}\sim Dir(\alpha_{[K]})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $for\,\,(a,b)\in\mathcal{N}\times\mathcal{N}:$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $\,\,\,\,\,\,\,z_{a\rightarrow b}\sim Mult(\theta_{a})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $\,\,\,\,\,\,\,z_{a\leftarrow b}\sim Mult(\theta_{b})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $\,\,\,\,\,\,\,y(a,b)\sim Bern(z_{a\rightarrow b}^{T}B\,z_{a\leftarrow b})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+MMSB generative process
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that here 
+\begin_inset Formula $\theta_{a}$
+\end_inset
+
+ is a membership probability vector, and 
+\begin_inset Formula $z_{a\rightarrow b}$
+\end_inset
+
+ is a one-hot community indicator for individual 
+\begin_inset Formula $a$
+\end_inset
+
+ in a potential interaction with 
+\begin_inset Formula $b$
+\end_inset
+
+, and similarly 
+\begin_inset Formula $z_{a\leftarrow b}$
+\end_inset
+
+ is a one-hot community indicator for individual 
+\begin_inset Formula $b$
+\end_inset
+
+ , when 
+\series bold
+
+\begin_inset Formula $b$
+\end_inset
+
+ 
+\series default
+is pontentially contacted by 
+\begin_inset Formula $a$
+\end_inset
+
+.
+ Moreover 
+\begin_inset Formula $B$
+\end_inset
+
+ is the 
+\begin_inset Formula $K\times K$
+\end_inset
+
+ block matrix that has 
+\begin_inset Formula $\beta$
+\end_inset
+
+ on its diagonal and 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ elsewhere.
+\end_layout
+
+\begin_layout Standard
+There are some caveats concerning the Dirichlet prior in the MMSB generative
+ process, that we try to resolve in our proposed model.
+ We classify the potential loss by assuming Dirichlet prior in three categories:
+\end_layout
+
+\begin_layout Enumerate
+Inability to capture correlation among different individual community membership
+s–Individuals who belong to distinct yet relevant(similar) communities may
+ not be allowed to communicate with each other.
+ 
+\end_layout
+
+\begin_layout Enumerate
+The probability strengths are quite extreme, that tends to encourage very
+ disjoint clusters
+\end_layout
+
+\begin_layout Enumerate
+The forced negative correlation in Dirichlet parameters, does not allow
+ for defining actual correlations among communities and time dependence
+ in the case of network evolution.
+\end_layout
+
+\begin_layout Standard
+For the first project we only attend to the first two cases, and later on
+ in the third project address the network evolution.
+ To allows for community membership strengths to have correlation, we define
+ instead a logistic normal prior.
+ The hierarchical generative process is explained below.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+\begin_inset Formula $\forall k\in[1,..,K]$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+draw the diagonal elements of the block matrix 
+\series bold
+
+\begin_inset Formula $B$
+\end_inset
+
+
+\series default
+ via
+\begin_inset Formula $\beta_{k,k}\sim Beta(\eta_{0},\eta_{1})$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+\begin_inset Formula $\forall i\in\mathcal{N}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+draw the mean of the logit mixed membership vector through 
+\begin_inset Formula $\boldsymbol{\mu}\sim Normal(\boldsymbol{\mu}_{0},\boldsymbol{\Lambda}_{0})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+draw the precision of the logit mixed membership vector through 
+\begin_inset Formula $\boldsymbol{\Lambda}\sim Wishart(\boldsymbol{\ell}_{0},\boldsymbol{L}_{0})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+draw a 
+\begin_inset Formula $K$
+\end_inset
+
+-dimensional vector,
+\begin_inset Formula $\boldsymbol{\theta}_{i}^{*}\sim Normal(\boldsymbol{\mu},\boldsymbol{\Lambda})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+construct the simplical mixed membership via logistic transformation , 
+\begin_inset Formula $\boldsymbol{\theta}_{i,k}=\frac{exp(\boldsymbol{\theta}_{i,k}^{*})}{\sum_{l}exp(\boldsymbol{\theta}_{i,l}^{*})}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+\begin_inset Formula $\forall(i,j)\in\mathcal{E}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+draw one-hot membership indicator vector for 
+\begin_inset Formula $i$
+\end_inset
+
+ when contacting 
+\begin_inset Formula $j$
+\end_inset
+
+, 
+\begin_inset Formula $\boldsymbol{z}_{i\rightarrow j}\sim Categorical(\boldsymbol{\theta}_{i})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+draw one-hot membership indicator vector for 
+\begin_inset Formula $j$
+\end_inset
+
+ when contacted by i, 
+\begin_inset Formula $\boldsymbol{z}_{i\leftarrow j}\sim Categorical(\boldsymbol{\theta}_{j})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+
+\size footnotesize
+sample a link between 
+\begin_inset Formula $i\rightarrow j$
+\end_inset
+
+ with probability 
+\begin_inset Formula $\boldsymbol{z}_{i\rightarrow j}\boldsymbol{B}\boldsymbol{z}_{i\leftarrow j}$
+\end_inset
+
+, 
+\begin_inset Formula $Y(i,j)\sim Bernoulli($
+\end_inset
+
+
+\begin_inset Formula $\boldsymbol{z}_{i\rightarrow j}\boldsymbol{B}\boldsymbol{z}_{i\leftarrow j}$
+\end_inset
+
+)
+\end_layout
+
+\end_deeper
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+MMSB with Logistic Normal prior
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This indeed comes with some caution, as now the prior is not conjugate to
+ the categorical distribution.
+ We will elaborate more on this when we devise our variational inference
+ engine for estimation of our parameters.
+\end_layout
+
+\begin_layout Standard
+The graphical model for the above algorithm is shown below:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+usetikzlibrary{arrows}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tikzset{     
+\end_layout
+
+\begin_layout Plain Layout
+
+	vertex/.style={circle,draw,minimum size=0.8em},
+\end_layout
+
+\begin_layout Plain Layout
+
+    edge/.style={->,> = latex'} 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+% vertices 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (y) at (2,8) {$y_{ij}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (b) at (2,6.5) {$
+\backslash
+beta_{kk}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (eta) at (0,6.5) {$
+\backslash
+eta$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (-0.5,6.5) {$
+\backslash
+eta$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zab) at (0,8.5) {$z_{ij}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zba) at (4,8.5) {$z_{ji}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (thetaa) at (0,10) {$
+\backslash
+theta^{*}_{i}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (thetab) at (4,10) {$
+\backslash
+theta^{*}_{j}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (mu) at (0.5,11) {$
+\backslash
+mu$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (Lambda) at (3.5,11) {$
+\backslash
+Lambda$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (mu0) at (-.5,12) {$
+\backslash
+mu_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (mu0.north) {$
+\backslash
+mu_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (Lambda0) at (1.5,12) {$
+\backslash
+Lambda_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (Lambda0.north) {$
+\backslash
+Lambda_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (l0) at (2.5,12) {$
+\backslash
+ell_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (l0.north) {$
+\backslash
+ell_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (L0) at (4.5,12) {$L_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (L0.north) {$L_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node[draw=red, fit= (zi1) (zj1) (zi2) (zj2),  inner sep=.60cm, dashed, ultra
+ thick, fill=red!10, fill %opacity=0.2] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node[draw=blue, fit= (zi1) (zj1) (zi2) (zj2) (zi3) (zj3),  inner sep=1.20cm,
+ dashed, ultra thick, fill=blue!%10, fill opacity=0.2] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node [yshift=3.0ex, black] at (2.4,4.3) {Link Preferences};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node [yshift=3.0ex, black] at (-.5,4.8) {Latent Space};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node[draw=black, fit= (zi1) (zj1) (zi2) (zj2) (zi3) (zj3) (y) (Ai) (Aj),
+  inner sep=1.40cm, dashed, ultra %thick, fill=black!10, fill opacity=0.2]
+ {};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node [yshift=3.0ex, black] at (13,-3.5) {$t=1..T$};
+\end_layout
+
+\begin_layout Plain Layout
+
+%edges 
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi1) to [out=300,in=110] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj1) to [out=240,in=70] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi2) to [out=270,in=110] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj2) to [out=270,in=70] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi3) to [out=270,in=180] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj3) to [out=270,in=0] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (eta) to  (b);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (b) to  (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zab) to  (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zba) to  (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (thetaa) to  (zab);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (thetab) to  (zba);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (mu) to  (thetaa);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (Lambda) to  (thetaa);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (mu) to  (thetab);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (Lambda) to  (thetab);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (mu0) to  (mu);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (Lambda0) to  (mu);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (l0) to  (Lambda);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (L0) to  (Lambda);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Graphical model for LN-MMSB
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Variational Inference
+\end_layout
+
+\begin_layout Standard
+We resort to variational inference to uncover intractable distributions,
+ where methods such as MCMC may not be able to recover.
+ In this section we introduce the variational inference (VI) method which
+ transforms the problem of inference to an optimization one, by trying to
+ minimize the Kullback-Leibler divergence between the true posterior distributio
+n and a simpler proposed variational distribution.
+ Hence, instead of making exact inference through stochastic approximation,
+ variational inference uses a deterministic approximation of the model posterior
+ distribution.
+ In its simplest case, the proposed model follows a mean field assumption,
+ which decouples parameters in a way that we can still have tractable and
+ close enough results to the true posterior.
+ For data and all latent variables and parameters, the KL-divergence that
+ is minimized by VI is given by: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $KL\Big(q(Z)||p(Z|X)\Big)=-\mathbb{E}_{q}\Big[ln\,p(X,Z)\Big]+\mathbb{E}_{q}\Big[ln\,q(Z)\Big]+ln\,p(X)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The term 
+\begin_inset Formula $\mathbb{E}_{q}\Big[ln\,p(X,Z)\Big]-\mathbb{E}_{q}\Big[ln\,q(Z)\Big]$
+\end_inset
+
+ is known as the Evidence Lower BOund(ELBO), and since 
+\begin_inset Formula $p(x)$
+\end_inset
+
+ is independent of 
+\begin_inset Formula $q(z)$
+\end_inset
+
+ minimizing the KL-divergence is equivalent to a easier optimization problem,
+ maximizing the ELBO.
+ 
+\end_layout
+
+\begin_layout Standard
+We can formally define the lower bounds as :
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mathcal{L}=\mathbb{E}_{q}\Big[ln\,p(joint)\Big]+H_{q}[params]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+However this might need the screening of all individual/link level observations
+ for updating the variational parameters.
+ On the other hand, Stochastic Variational Inference (SVI) offers a stochastic
+ search in the parameter space.
+ SVI samples only a small mini-batch, where iterating over the noisy gradients
+ acquired by the sampled batch is proven to converge.There are several sub-sampli
+ng schemes, including the link-only sampling which provides efficient inference
+ for undirected networks.
+ Adding community correlation and link direction make the inference problem
+ even more computationally expensive.
+ But using SVI combined with our sampling scheme, allows us to have scalable
+ and efficient inference.
+ Since large networks exhibit very sparse patterns of connections, at each
+ iteration we sample few nodes with all their links and a small proportion
+ of their randomly selected non-links.
+ After rounds of iteration, this assumption both takes into account the
+ information of all links and non-links.
+ The log joint model of data, latent variables and parameters is given below
+\end_layout
+
+\begin_layout Standard
+The log joint probability of the model is defined as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+ln\,p(joint) & =ln\,p(\mu|m_{0},M_{0})+ln\,p(\Lambda|\ell_{0},L_{0})+\sum_{a}ln\,p(\theta_{a}|\mu,\Lambda)+\sum_{a}\sum_{b}ln\,p(z_{a\rightarrow b}|\theta_{a})\\
+ & +\sum_{a}\sum_{b}ln\,p(z_{a\leftarrow b}|\theta_{b})+\sum_{k}ln\,p(\beta_{kk}|\eta)+\sum_{a}\sum_{b}ln\,p(y_{ab}|z_{a\rightarrow b},z_{a\leftarrow b},\beta)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We further define the variational distribution for each parameter as follows
+ based on the mean field assumption:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\mu & \sim & q(\mu|m,M)\sim\mathcal{N}(\mu|m,M)\\
+\Lambda & \sim & q(\Lambda|\ell,L)\sim\mathcal{W}(\Lambda|\ell,L)\\
+\theta_{a} & \sim & q(\theta_{a}|\mu_{a},\Lambda_{a})\sim\mathcal{N}(\theta_{a}|\mu_{a},\Lambda_{a})\\
+\beta_{kk} & \sim & q(\beta_{kk}|b_{k})\sim\mathcal{B}(b_{k0},b_{k1})\\
+z_{a\rightarrow b} & \sim & q(z_{a\rightarrow b}|\phi_{a\rightarrow b})\sim Cat(z_{a\rightarrow b}|\phi_{a\rightarrow b})\\
+z_{a\leftarrow b} & \sim & q(z_{a\leftarrow b}|\phi_{a\leftarrow b})\sim Cat(z_{a\leftarrow b}|\phi_{a\leftarrow b})
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that 
+\begin_inset Formula $\phi_{a\rightarrow b}$
+\end_inset
+
+ and 
+\begin_inset Formula $\phi_{a\leftarrow b}$
+\end_inset
+
+ are the link level parameters for the Categorical distribution.
+\end_layout
+
+\begin_layout Standard
+To derive the lower bound we first expand the cross entropy term
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\mathbb{E}_{q}\Big[ln\,p(joint)\Big] & =-\tfrac{K}{2}ln\,2\pi+\tfrac{1}{2}ln\,|M_{0}|-\tfrac{1}{2}\Big(Tr\,M_{0}\Big[M^{-1}+(m-m_{0})(m-m_{0})^{T}\Big]\Big)\\
+ & -\tfrac{K(K+1)}{2}ln\,2+\tfrac{\ell_{0}-K-1}{2}\psi_{K}(\tfrac{\ell}{2})-ln\,\Gamma_{K}(\tfrac{\ell_{0}}{2})-\tfrac{\ell}{2}Tr\,(L_{0}^{-1}L)-\tfrac{K+1}{2}ln\,|L|+\tfrac{\ell_{0}}{2}ln\,|L_{0}^{-1}L|\\
+ & -\sum_{a}\tfrac{K}{2}ln\,2\pi+\tfrac{1}{2}\sum_{a}\psi_{K}(\tfrac{\ell}{2})+\tfrac{1}{2}\sum_{a}Kln\,2+\tfrac{1}{2}\sum_{a}ln\,|L|\\
+ & -\tfrac{\ell}{2}\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}\Big)\\
+ & +\sum_{a}\sum_{b}\sum_{k}\phi_{a\rightarrow b,k}\mu_{a,k}-\sum_{a}\sum_{b}\mathbb{E}_{q}[ln\,(\sum_{l}exp(\theta_{a,l}))]\\
+ & +\sum_{a}\sum_{b}\sum_{k}\phi_{a\leftarrow b,k}\mu_{b,k}-\sum_{a}\sum_{b}\mathbb{E}_{q}[ln\,(\sum_{l}exp(\theta_{b,l}))]\\
+ & +\sum_{k}ln\,\Gamma(\eta_{0}+\eta_{1})-\sum_{k}ln\,\Gamma(\eta_{0})-\sum_{k}ln\,\Gamma(\eta_{1})+\sum_{k}(\eta_{0}-1)\psi(b_{k0})\\
+ & +\sum_{k}(\eta_{1}-1)\psi(b_{k1})-\sum_{k}(\eta_{0}+\eta_{1}-2)\psi(b_{k0}+b_{k1})\\
+ & +\sum_{a,b\in link}\sum_{k}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)+ln\,\epsilon\\
+ & +\sum_{a,b\notin link}\sum_{k}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)+ln\,(1-\epsilon)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The negative entropy involving the variational distribution is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+H_{q}[params] & =\tfrac{K}{2}ln\,(2\pi)+\tfrac{K}{2}-\tfrac{1}{2}ln\,|M|\\
+ & +\tfrac{K(K+1)}{2}ln\,2+\tfrac{K+1}{2}ln\,|L|-\tfrac{\ell-K-1}{2}\psi_{K}(\tfrac{\ell}{2})+ln\,\Gamma_{K}(\tfrac{\ell}{2})+\tfrac{K\ell}{2}\\
+ & +\sum_{a}\tfrac{K}{2}ln\,(2\pi)+\sum_{a}\tfrac{K}{2}-\sum_{a}\tfrac{1}{2}ln\,|\Lambda_{a}|\\
+ & +\sum_{k}ln\,\Gamma(b_{k0})+\sum_{k}ln\,\Gamma(b_{k1})-\sum_{k}ln\,\Gamma(b_{k0}+b_{k1})-\sum_{k}(b_{k0}-1)\psi(b_{k0})\\
+ & -\sum_{k}(b_{k1}-1)\psi(b_{k1})+\sum_{k}(b_{k0}+b_{k1}-2)\psi(b_{k0}+b_{k1})\\
+ & -\sum_{a}\sum_{b}\sum_{k}\phi_{a\rightarrow b,k}ln\,\phi_{a\rightarrow b,k}\\
+ & -\sum_{a}\sum_{b}\sum_{k}\phi_{a\leftarrow b,k}ln\,\phi_{a\leftarrow b,k}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Adding both together the ELBO follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\mathcal{L} & =-\tfrac{1}{2}\Bigg(Kln\,2\pi-ln\,|M_{0}|+tr\,M_{0}(m-m_{0})(m-m_{0})^{T}+tr\,M_{0}M^{-1}\Bigg)\\
+ & +\tfrac{1}{2}\Bigg(-K(K+1)ln\,2+(\ell_{0}-K-1)\sum_{i}\Psi(\tfrac{\ell-i+1}{2})-\tfrac{K(K-1)}{2}ln\,\pi-2\sum_{i}ln\,\Gamma(\tfrac{\ell_{0}-i+1}{2})\\
+ & -\ell tr\,(L_{0}^{-1}L)-(K+1)ln\,|L|+\ell_{0}ln\,|L_{0}^{-1}L|\Bigg)\\
+ & -\tfrac{1}{2}\sum_{a}\Bigg(Kln\,2\pi-\sum_{i}\Psi(\tfrac{\ell-i+1}{2})-Kln\,2-ln\,|L|+\\
+ & \ell tr\,\Big\{ L\big[(\mu_{a}-m)(\mu_{a}-m)^{T}+M^{-1}+\Lambda_{a}^{-1}\big]\Big\}\Bigg)\\
+ & +\sum_{a}\sum_{b\in sink(a)}\Big(\sum_{k}\phi_{a\rightarrow b,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)\\
+ & +\sum_{a}\sum_{b\notin sink(a)}\Big(\sum_{k}\phi_{a\rightarrow b,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)\\
+ & +\sum_{a}\sum_{b\in source(a)}\Big(\sum_{k}\phi_{b\leftarrow a,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)\\
+ & +\sum_{a}\sum_{b\notin source(a)}\Big(\sum_{k}\phi_{b\leftarrow a,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)\\
+ & +\sum_{k}ln\,\Gamma(\eta_{0}+\eta_{1})-\sum_{k}ln\,\Gamma(\eta_{0})-\sum_{k}ln\,\Gamma(\eta_{1})+\sum_{k}(\eta_{0}-1)\Psi(b_{k0})+\sum_{k}(\eta_{1}-1)\Psi(b_{k1})\\
+ & -\sum_{k}(\eta_{0}+\eta_{1}-2)\Psi(b_{k0}+b_{k1})\\
+ & +\sum_{a}\sum_{b\in sink(a)}\sum_{k}\Big(\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}(\Psi(b_{k0})-\Psi(b_{k0}+b_{k1})-ln\,\epsilon)+ln\,\epsilon\Big)\\
+ & +\sum_{a}\sum_{b\notin sink(a)}\sum_{k}\Big(\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}(\Psi(b_{k1})-\Psi(b_{k0}+b_{k1})-ln\,(1-\epsilon))+ln\,(1-\epsilon)\Big)\\
+ & +\tfrac{1}{2}\Big(Kln\,2\pi+K-ln\,|M|\Big)\\
+ & +\tfrac{1}{2}\Big((K+1)ln\,|L|+K(K+1)ln\,2+\ell K+\tfrac{1}{2}K(K-1)ln\,\pi\\
+ & +2\sum_{i}ln\,\Gamma(\tfrac{\ell-i+1}{2})-(\ell-K-1)\sum_{i}\Psi(\tfrac{\ell-i+1}{2})\Big)\\
+ & +\tfrac{1}{2}\sum_{a}\Big(Kln\,2\pi-ln\,|\Lambda_{a}|+K\Big)\\
+ & +\sum_{k}\Big(ln\,\Gamma(b_{k0})+ln\,\Gamma(b_{k1})-ln\,\Gamma(b_{k0}+b_{k1})-(b_{k0}-1)\Psi(b_{k0})\\
+ & -(b_{k1}-1)\Psi(b_{k1})+(b_{k0}+b_{k1}-2)\Psi(b_{k0}+b_{k1})\Big)\\
+ & -\sum_{a}\sum_{b\in sink(a)}\sum_{k}\Big(\phi_{a\rightarrow b,k}ln\,\phi_{a\rightarrow b,k}\Big)\\
+ & -\sum_{a}\sum_{b\notin sink(a)}\sum_{k}\Big(\phi_{a\rightarrow b,k}ln\,\phi_{a\rightarrow b,k}\Big)\\
+ & -\sum_{a}\sum_{b\in sink(a)}\sum_{k}\Big(\phi_{a\leftarrow b,k}ln\,\phi_{a\leftarrow b,k}\Big)\\
+ & -\sum_{a}\sum_{b\notin sink(a)}\sum_{k}\Big(\phi_{a\leftarrow b,k}ln\,\phi_{a\leftarrow b,k}\Big)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+More information about deriving the cross entropies and entropies are given
+ in the appendix.
+\end_layout
+
+\begin_layout Section
+ELBO Gradients
+\end_layout
+
+\begin_layout Subsection
+Gradient with respect to 
+\begin_inset Formula $m$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{m} & = & -\tfrac{1}{2}\Big(Tr\,M_{0}(m-m_{0})(m-m_{0}){}^{T}\Big]\Big)\\
+ &  & -\tfrac{\ell}{2}\Big(Tr\,L\Big(\sum_{a}(\mu_{a}-m)(\mu_{a}-m)^{T}\Big)\Big)\\
+ & \propto & Tr\,M_{0}(m-m_{0})(m-m_{0}){}^{T}\\
+ &  & +\ell\Big(Tr\,L\big(\sum_{a}mm^{T}+\mu_{a}\mu_{a}^{T}-m\mu_{a}^{T}-\mu_{a}m^{T}\big)\Big)\\
+ & =\\
+ & \Longrightarrow\\
+\nabla_{m}\mathcal{L}_{m} & \propto & 2M_{0}(m-m_{0})-2\ell L\sum_{a}(\mu_{a}-m)=0\\
+ & \Longrightarrow\\
+ &  & \boxed{m=(M_{0}+N\ell L)^{-1}(M_{0}m_{0}+\ell L\sum_{a}\mu_{a})}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In minibatch node sampling this would be
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\boxed{m=M^{-1}(M_{0}m_{0}+\ell L\dfrac{N}{\#mbnodes}\sum_{a\in mbnodes}\mu_{a})}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Gradient with respect to 
+\begin_inset Formula $M$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{M} & = & -\tfrac{1}{2}\Big(Tr\,M_{0}M^{-1}\Big)\\
+ &  & -\tfrac{\ell}{2}Tr\,NLM^{-1}\\
+ &  & -\tfrac{1}{2}ln\,|M|\\
+ & \propto & Tr\,M_{0}M^{-1}+\ell Tr\,NLM^{-1}+ln\,|M|\\
+ & \Longrightarrow\\
+\nabla_{M^{-1}}\mathcal{L}_{M} & = & 0\\
+\\
+ & = & -M_{0}-N\ell L+M=0\\
+ &  & \boxed{M=M_{0}+N\ell L}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Gradient with respect to 
+\begin_inset Formula $L$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{L} & = & -\tfrac{\ell}{2}Tr\,(L_{0}^{-1}L)-\tfrac{K+1}{2}ln\,|L|+\tfrac{\ell_{0}}{2}ln\,|L_{0}^{-1}L|\\
+ &  & +\tfrac{1}{2}\sum_{a}ln\,|L|-\tfrac{\ell}{2}\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(\mu_{a}-m)(\mu_{a}-m)^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}\Big)\\
+ &  & +\tfrac{K+1}{2}ln\,|L|\\
+ & \propto & -\ell Tr\,(L_{0}^{-1}L)\bcancel{-(K+1)ln\,|L}|+\ell_{0}ln\,|L_{0}^{-1}L|\\
+ &  & +\sum_{a}ln\,|L|-\ell\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(\mu_{a}-m)(\mu_{a}-m)^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}\Big)\\
+ &  & +\bcancel{(K+1)ln\,|L|}\\
+ & \Longrightarrow\\
+\nabla_{L}\mathcal{L}_{L} & = & -\ell L_{0}^{-1}+\tfrac{1}{2}(\ell_{0}+N)L^{-1}-\ell\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(\mu_{a}-m)(\mu_{a}-m)^{T}\big)+\sum_{a}M^{-1}\Big)^{T}=0\\
+ &  & \ell(L_{0}^{-1}+\sum_{a}\Lambda_{a}^{-1}+\sum_{a}(\mu_{a}-m)(\mu_{a}-m)^{T}+NM^{-1})=(N+\ell_{0})L^{-1}\\
+ & \Longrightarrow & \boxed{L=\dfrac{(N+\ell_{0})}{\ell}\Bigg((L_{0}^{-1}+\sum_{a}\big(\Lambda_{a}^{-1}+(\mu_{a}-m)(\mu_{a}-m)^{T}\big)+\sum_{a}M^{-1})\Bigg)^{-1}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+optimizing simultaeneously with 
+\begin_inset Formula $\ell$
+\end_inset
+
+ in the minibatch setting:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\boxed{L=\Bigg((L_{0}^{-1}+\dfrac{N}{\#mbnodes}\big\{\sum_{a}\Lambda_{a}^{-1}+\sum_{a}(\mu_{a}-m)(\mu_{a}-m)^{T}\big\}+NM^{-1})\Bigg)^{-1}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Gradient with respect to 
+\begin_inset Formula $\ell$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{\ell} & = & revise\\
+\\
+\\
+ & \propto\\
+\\
+\\
+ & \Longrightarrow\\
+\\
+ & \propto\\
+\\
+ & \Longrightarrow\\
+\nabla_{\ell}\mathcal{L}_{\ell} & =\\
+\\
+\\
+ & \Longrightarrow\\
+ & hence,\\
+ & \Longrightarrow\\
+ &  & \boxed{\ell=\ell_{0}+N}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Gradient with respect to 
+\begin_inset Formula $b_{k}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{b_{k}} & = & revise\\
+\\
+\\
+\\
+\\
+ &  & \text{simultaenously optimizing \ensuremath{b_{k0}}},\mbox{\ensuremath{b_{k1}}}\\
+ & \Longrightarrow & \text{Similar to our previous results}\\
+\nabla_{b_{k0}}\mathcal{L}_{b_{k}} & = & 0\\
+ & \Longrightarrow & \boxed{b_{k0}=\eta_{0}+\dfrac{\#trainlinks}{\#mblinks}\sum_{a,b\in mblinks}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}}\\
+\nabla_{b_{k1}}\mathcal{L}_{b_{k}} & = & 0\\
+ &  & \boxed{b_{k1}=\eta_{1}+\dfrac{\#trainnonlinks}{\#mbnonlinks}\sum_{a,b\notin mblinks}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Gradient with respect to 
+\begin_inset Formula $\phi_{a\rightarrow b,k}$
+\end_inset
+
+ for links
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{\phi_{a\rightarrow b,k}} & = & \phi_{a\rightarrow b,k}\mu_{a,k}\\
+ &  & +\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)\\
+ &  & -\phi_{a\rightarrow b,k}ln\,\phi_{a\rightarrow b,k}\\
+ & = & \phi_{a\rightarrow b,k}\Big(\mu_{a,k}+\phi_{a\leftarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)-ln\,\phi_{a\rightarrow b,k}\Big)\\
+\nabla_{\phi_{a\rightarrow b,k}}\mathcal{L}_{\phi_{a\rightarrow b,k}} & = & \mu_{a,k}+\phi_{a\leftarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)-ln\,\phi_{a\rightarrow b,k}=0\\
+ &  & \boxed{\phi_{a\rightarrow b,k}\propto exp\Bigg\{\mu_{a,k}+\phi_{a\leftarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)\Bigg\}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Gradient with respect to 
+\begin_inset Formula $\phi_{a\leftarrow b,k}$
+\end_inset
+
+ for links
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{\phi_{a\leftarrow b,k}} & = & \phi_{a\leftarrow b,k}\mu_{b,k}\\
+ &  & +\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)\\
+ &  & -\phi_{a\leftarrow b,k}ln\,\phi_{a\leftarrow b,k}\\
+ & = & \phi_{a\leftarrow b,k}\Big(\mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)-ln\,\phi_{a\leftarrow b,k}\Big)\\
+\nabla_{\phi_{a\leftarrow b,k}}\mathcal{L}_{\phi_{a\leftarrow b,k}} & = & \mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)-ln\,\phi_{a\leftarrow b,k}=0\\
+ &  & \boxed{\phi_{a\leftarrow b,k}\propto exp\Bigg\{\mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)\Bigg\}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Gradient with respect to 
+\begin_inset Formula $\phi_{a\rightarrow b,k}$
+\end_inset
+
+ for nonlinks
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{\phi_{a\rightarrow b,k}} & = & \phi_{a\rightarrow b,k}\mu_{a,k}\\
+ &  & +\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)\\
+ &  & -\phi_{a\rightarrow b,k}ln\,\phi_{a\rightarrow b,k}\\
+ & = & \phi_{a\rightarrow b,k}\Big(\mu_{a,k}+\phi_{a\leftarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)-ln\,\phi_{a\rightarrow b,k}\Big)\\
+\nabla_{\phi_{a\rightarrow b,k}}\mathcal{L}_{\phi_{a\rightarrow b,k}} & = & \mu_{a,k}+\phi_{a\leftarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)-ln\,\phi_{a\rightarrow b,k}=0\\
+ &  & \boxed{\phi_{a\rightarrow b,k}\propto exp\Bigg\{\mu_{a,k}+\phi_{a\leftarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)\Bigg\}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Gradient with respect to 
+\begin_inset Formula $\phi_{a\leftarrow b,k}$
+\end_inset
+
+ for nonlinks
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{\phi_{a\leftarrow b,k}} & = & \phi_{a\leftarrow b,k}\mu_{b,k}\\
+ &  & +\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)\\
+ &  & -\phi_{a\leftarrow b,k}ln\,\phi_{a\leftarrow b,k}\\
+ & = & \phi_{a\leftarrow b,k}\Big(\mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)-ln\,\phi_{a\leftarrow b,k}\Big)\\
+\nabla_{\phi_{a\leftarrow b,k}}\mathcal{L}_{\phi_{a\leftarrow b,k}} & = & \mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)-ln\,\phi_{a\leftarrow b,k}=0\\
+ &  & \boxed{\phi_{a\leftarrow b,k}\propto exp\Bigg\{\mu_{b,k}+\phi_{a\rightarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)\Bigg\}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Gradient with respect to 
+\begin_inset Formula $\mu_{a}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mu_{a}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Lambda_{a}$
+\end_inset
+
+ are two of the scarier ones.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathcal{L}_{\mu_{a}} & = & -\tfrac{\ell}{2}\big[(\mu_{a}-m)^{T}L(\mu_{a}-m)\big]+\\
+ &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b}^{T}\mu_{a}+\\
+ &  & \sum_{b\notin sink(a)}\phi_{a\rightarrow b}^{T}\mu_{a}+\\
+ &  & \sum_{b\in source(a)}\phi_{b\leftarrow a}^{T}\mu_{a}+\\
+ &  & \sum_{b\notin source(a)}\phi_{b\leftarrow a}^{T}\mu_{a}-\\
+ &  & \sum_{b}log\,\Big(\boldsymbol{1}^{T}\underbar{f}(\mu_{a},\Lambda_{a})\Big)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\underbar{f}(\mu_{a},\Lambda_{a})=\left(\begin{array}{c}
+exp(\mu_{a,1}+\tfrac{1}{2}\Lambda_{a,1}^{-1})\\
+\vdots\\
+exp(\mu_{a,k}+\tfrac{1}{2}\Lambda_{a,k}^{-1})\\
+\vdots\\
+exp(\mu_{a,K}+\tfrac{1}{2}\Lambda_{a,K}^{-1})
+\end{array}\right)$
+\end_inset
+
+, and we may for convenience interchangably use 
+\begin_inset Formula $\underbar{f}_{a}$
+\end_inset
+
+ to refer to 
+\begin_inset Formula $\underbar{f}(\mu_{a},\Lambda_{a}):$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Hence the geradient is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\nabla_{\mu_{a}}\mathcal{L}_{\mu_{a}} & = & -\ell L(\mu_{a}-m)+\\
+ &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b}+\sum_{b\notin sink(a)}\phi_{a\rightarrow b}+\\
+ &  & \sum_{b\in source(a)}\phi_{b\leftarrow a}+\sum_{b\notin source(a)}\phi_{b\leftarrow a}-\\
+ &  & \sum_{b}\dfrac{\partial\underbar{f}(\mu_{a},\Lambda_{a})}{\partial\mu_{a}}(\boldsymbol{1})\\
+ & = & -\ell L(\mu_{a}-m)+\\
+ &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b}+\sum_{b\notin sink(a)}\phi_{a\rightarrow b}+\\
+ &  & \sum_{b\in source(a)}\phi_{b\leftarrow a}+\sum_{b\notin source(a)}\phi_{b\leftarrow a}-\\
+ &  & \sum_{b}\dfrac{\boldsymbol{J}_{\underbar{f}}\times\boldsymbol{1}}{\boldsymbol{1}^{T}\underbar{f}(\mu_{a},\Lambda_{a})}\\
+ & = & -\ell L(\mu_{a}-m)+\\
+ &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b}+\sum_{b\notin sink(a)}\phi_{a\rightarrow b}+\\
+ &  & \sum_{b\in source(a)}\phi_{b\leftarrow a}+\sum_{b\notin source(a)}\phi_{b\leftarrow a}-\\
+ &  & \sum_{b}\dfrac{\left(\begin{array}{ccccc}
+\dfrac{\partial\underbar{f}_{a1}}{\partial\mu_{a1}} & \ldots & \dfrac{\partial\underbar{f}_{a1}}{\partial\mu_{ak}} & \ldots & \dfrac{\partial\underbar{f}_{a1}}{\partial\mu_{aK}}\\
+\vdots & \ddots &  &  & \vdots\\
+\dfrac{\partial\underbar{f}_{ak}}{\partial\mu_{a1}} & \ldots & \dfrac{\partial\underbar{f}_{ak}}{\partial\mu_{ak}} & \ldots & \dfrac{\partial\underbar{f}_{ak}}{\partial\mu_{aK}}\\
+\vdots &  &  & \ddots & \vdots\\
+\dfrac{\partial\underbar{f}_{aK}}{\partial\mu_{a1}} &  & \ldots &  & \dfrac{\partial\underbar{f}_{aK}}{\partial\mu_{aK}}
+\end{array}\right)}{\boldsymbol{1}^{T}\underbar{f}(\mu_{a},\Lambda_{a})}\\
+ & = & -\ell L(\mu_{a}-m)+\\
+ &  & \sum_{b\in sink(a)}\phi_{a\rightarrow b}+\sum_{b\notin sink(a)}\phi_{a\rightarrow b}+\\
+ &  & \sum_{b\in source(a)}\phi_{b\leftarrow a}+\sum_{b\notin source(a)}\phi_{b\leftarrow a}-\\
+ &  & \sum_{b}\underbar{sfx}(a)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\underbar{sfx}(a)=\left(\begin{array}{c}
+\dfrac{exp(\mu_{a,1}+\tfrac{1}{2}\:\Lambda_{a,1}^{-1})}{\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\:\Lambda_{a,l}^{-1})}\\
+\vdots\\
+\dfrac{exp(\mu_{a,k}+\tfrac{1}{2}\:\Lambda_{a,k}^{-1})}{\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\:\Lambda_{a,l}^{-1})}\\
+\vdots\\
+\dfrac{exp(\mu_{a,1}+\tfrac{1}{2}\:\Lambda_{a,1}^{-1})}{\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\:\Lambda_{a,l}^{-1})}
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+so all in all the gradient is :
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\nabla_{\mu_{a}}\mathcal{L}_{\mu_{a}}=\boxed{-\ell L(\mu_{a}-m)+\sum_{b\in sink(a)}\phi_{a\rightarrow b}+\sum_{b\notin sink(a)}\phi_{a\rightarrow b}+\sum_{b\in source(a)}\phi_{b\leftarrow a}+\sum_{b\notin source(a)}\phi_{b\leftarrow a}-\sum_{b}\underbar{sfx}(a)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Similarly the Hessian will be as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\nabla_{\mu_{a}}^{2}\mathcal{L}_{\mu_{a}} & = & -\ell L-\\
+ &  & \sum_{b}\dfrac{\partial\underbar{sfx}(a)}{\partial\mu_{a}^{T}}\\
+ & = & \ell L-\\
+ &  & \sum_{b}\boldsymbol{J}_{\underbar{sfx}(a)}\\
+ & = & -\ell L-\\
+ &  & \sum_{b}\left(\begin{array}{ccccc}
+\dfrac{\partial\underbar{sfx}_{a1}}{\partial\mu_{a1}} & \ldots & \dfrac{\partial\underbar{sfx}_{a1}}{\partial\mu_{ak}} & \ldots & \dfrac{\partial\underbar{sfx}_{a1}}{\partial\mu_{aK}}\\
+\vdots & \ddots &  &  & \vdots\\
+\dfrac{\partial\underbar{sfx}_{ak}}{\partial\mu_{a1}} & \ldots & \dfrac{\partial\underbar{sfx}_{ak}}{\partial\mu_{ak}} & \ldots & \dfrac{\partial\underbar{sfx}_{ak}}{\partial\mu_{aK}}\\
+\vdots &  &  & \ddots & \vdots\\
+\dfrac{\partial s\underbar{fx}_{aK}}{\partial\mu_{a1}} &  & \ldots &  & \dfrac{\partial\underbar{sfx}_{aK}}{\partial\mu_{aK}}
+\end{array}\right)\\
+ & = & -\ell L-\\
+ &  & \sum_{b}\left(\begin{array}{ccccc}
+\underbar{sfx}_{a1}-\underbar{sfx}_{a1}^{2} & \ldots & -\underbar{sfx}_{a1}\underbar{sfx}_{ak} & \ldots & \underbar{-sfx}_{a1}\underbar{sfx}_{aK}\\
+\vdots & \ddots &  &  & \vdots\\
+\underbar{-sfx}_{a1}\underbar{sfx}_{ak} & \ldots & \underbar{sfx}_{ak}-\underbar{sfx}_{ak}^{2} & \ldots & \underbar{-sfx}_{ak}\underbar{sfx}_{ak}\\
+\vdots &  &  & \ddots & \vdots\\
+-\underbar{sfx}_{a1}\underbar{sfx}_{aK} &  & \ldots &  & \underbar{-sfx}_{aK}-\underbar{sfx}_{aK}^{2}
+\end{array}\right)\\
+ & = & \boxed{-\ell L-\sum_{b}\Big(diagm(\underbar{sfx}_{a})-\underbar{sfx}_{a}\underbar{sfx}_{a}^{T}\Big)}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Gradient with respect to 
+\begin_inset Formula $\Lambda_{a}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+similarly assuming that 
+\begin_inset Formula $\Lambda_{a}$
+\end_inset
+
+ is a diagonal matrix(or a column vector).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\mathcal{L}_{\Lambda_{a}^{-1}} & = & -\tfrac{\ell}{2}diag\,(L)'\Lambda_{a}^{-1}+\tfrac{1}{2}ln\,|diagm(\Lambda_{a}^{-1})|-\sum_{b}log\,\Big(\boldsymbol{1}^{T}\underbar{f}(\mu_{a},\Lambda_{a})\Big)\\
+ & =\\
+\nabla_{\Lambda_{a}^{-1}}\mathcal{L}_{\Lambda_{a}^{-1}}=G_{\Lambda_{a}^{-1}} & = & \boxed{-\tfrac{\ell}{2}diag(L)+\tfrac{1}{2}(\Lambda_{a})-\tfrac{1}{2}\sum_{b}(\underbar{sfx}(a))}\\
+ &  & \boxed{}\\
+\nabla_{\Lambda_{a}^{-1}}^{2}\mathcal{L}_{\Lambda_{a}^{-1}}=H_{\Lambda_{a}^{-1}} & \propto & \boxed{-\tfrac{1}{2}diagm(\Lambda_{a}\odot\Lambda_{a})-\tfrac{1}{4}\sum_{b}\Big(diagm(\underbar{sfx}_{a})-\underbar{sfx}_{a}\underbar{sfx}_{a}^{T}\Big)}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We use only the first moment and use Adagrad to optimize for this parameter.
+\end_layout
+
+\begin_layout Standard
+The above derivations are for the general case of directed networks.
+ With minor tweaks, we can apply the same model for the simpler case of
+ undirected graphs.
+ In this scenario, there is no difference between 
+\begin_inset Formula $\phi_{a\rightarrow b,k}$
+\end_inset
+
+ and 
+\begin_inset Formula $\phi_{a\leftarrow b,k}$
+\end_inset
+
+ for links and hence we represent them as 
+\begin_inset Formula $\phi_{ab,k}$
+\end_inset
+
+.
+ The gradient update for 
+\begin_inset Formula $\phi_{ab,k}$
+\end_inset
+
+for this case results in 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\phi_{ab,k} & \propto exp\Bigg\{\mu_{a,k}+\mu_{b,k}+\psi(b_{k0})-\psi(b_{k0}+b_{k1})\big)\Bigg\}\\
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We should also note that for nonlinks, 
+\begin_inset Formula $\phi_{a\rightarrow b,k}=\phi_{b\leftarrow a,k}$
+\end_inset
+
+ and 
+\begin_inset Formula $\phi_{b\rightarrow a,k}=\phi_{a\leftarrow b,k}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Social Influence and Latent Homophily
+\end_layout
+
+\begin_layout Standard
+In this project we aim to exploit the behavioral data in better detecting
+ communities and gaining insights into labeling them.
+ We can furthermore assess the improve the prediction of a specific behavior.
+ This can also shed lights in redefining opinion leadership in social networks.
+ In this scenario the latent space is not just driven by the preferences
+ for tie formation but also by behavioral tendencies.
+ Hence the latent space of behavioral and structural preferences can overlap.
+ For this, we suggest a joint modeling approach for both behavior and link
+ formation.
+ The idea of this latent space is shown below.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+usetikzlibrary{arrows}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tikzset{     
+\end_layout
+
+\begin_layout Plain Layout
+
+	vertex/.style={circle,draw,minimum size=1.2em},
+\end_layout
+
+\begin_layout Plain Layout
+
+    edge/.style={->,> = latex'} 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+% vertices 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (y) at (4,3) {$y_{ij}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi1) at (3,6) {$z_{i1}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi2) at (2,6) {$z_{i2}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi3) at (0,6) {$z_{i3}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj1) at (5,6) {$z_{j1}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj2) at (6,6) {$z_{j2}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj3) at (8,6) {$z_{j3}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Ai) at (2.5,3.5) {$A_i$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Aj) at (5.5,3.5) {$A_j$};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[red,thick,dotted] ($(zi2.north west)+(-0.3,0.6)$)  rectangle ($(zj2.south
+ east)+(0.3,-0.6)$);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[blue,thick,dotted] ($(zi3.north west)+(-0.5,1.0)$)  rectangle ($(zj3.south
+ east)+(0.5,-1.0)$);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (2.5,6.1) {
+\backslash
+scriptsize{Link Preferences}};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (0.1,6.6) {
+\backslash
+scriptsize{Latent Space}};
+\end_layout
+
+\begin_layout Plain Layout
+
+%edges 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi1) to [out=300,in=110] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj1) to [out=240,in=70] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi2) to [out=270,in=110] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj2) to [out=270,in=70] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi3) to [out=270,in=180] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj3) to [out=270,in=0] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Graphical representation of network structure and behavior
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Behaviors cluster in space and in time.
+ This can be attributed to both social influence of individuals and also
+ homophily phenomenon(and also external shocks).
+ In the presence of the social influence the graph is modified in the following
+ way.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+usetikzlibrary{arrows}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tikzset{     
+\end_layout
+
+\begin_layout Plain Layout
+
+	vertex/.style={circle,draw,minimum size=1.2em},
+\end_layout
+
+\begin_layout Plain Layout
+
+    edge/.style={->,> = latex'} 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+% vertices 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (y) at (4,2) {$y_{ij}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi1) at (3,6) {$z_{i1}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi2) at (2,6) {$z_{i2}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi3) at (0,6) {$z_{i3}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj1) at (5,6) {$z_{j1}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj2) at (6,6) {$z_{j2}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj3) at (8,6) {$z_{j3}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Ai) at (2.5,2.5) {$A_i$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Aj) at (5.5,3.5) {$A_j$};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[red,thick,dotted] ($(zi2.north west)+(-0.3,0.6)$)  rectangle ($(zj2.south
+ east)+(0.3,-0.6)$);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[blue,thick,dotted] ($(zi3.north west)+(-0.5,1.0)$)  rectangle ($(zj3.south
+ east)+(0.5,-1.0)$);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (2.5,6.1) {
+\backslash
+scriptsize{Link Preferences}};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (0.1,6.6) {
+\backslash
+scriptsize{Latent Space}};
+\end_layout
+
+\begin_layout Plain Layout
+
+%edges 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, red] (zi1) to [out=300,in=110] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, red] (zj1) to [out=240,in=70] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, red] (zi2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, red] (zj2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, red] (zi2) to [out=270,in=110] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, red] (zj2) to [out=270,in=70] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, red] (zi3) to [out=270,in=180] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, red] (zj3) to [out=270,in=0] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, dotted] (Aj) to (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Presence of social influence
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+However the effect of the social influence cannot be identified due to the
+ confounding path.
+ Our solution with joint modelling of the latent space allows us to find
+ observed proxies for the behavioral and structural preferences, and controlling
+ for that would also allow us to identify the peer effect.
+ The general idea is graphically shown below:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+usetikzlibrary{arrows}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tikzset{     
+\end_layout
+
+\begin_layout Plain Layout
+
+	vertex/.style={circle,draw,minimum size=1.2em},
+\end_layout
+
+\begin_layout Plain Layout
+
+    edge/.style={->,> = latex'} 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+% vertices 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (y) at (4,2) {$y_{ij}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi1) at (3,8) {$z_{i1}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi2) at (2,8) {$z_{i2}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi3) at (0,8) {$z_{i3}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj1) at (5,8) {$z_{j1}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj2) at (6,8) {$z_{j2}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj3) at (8,8) {$z_{j3}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (xi1) at (3,6) {$x_{i1}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (xi2) at (1,6) {$x_{i2}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (xj1) at (5,6) {$x_{j1}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (xj2) at (7	,6) {$x_{j2}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Ai) at (2.5,2.5) {$A_i$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Aj) at (5.5,3.5) {$A_j$};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+%edges 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi1) to  (xi1);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj1) to  (xj1);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi2) -- (xi1);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj2) -- (xj1);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (xi2) to  (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (xj2) to  (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (xi1) to  (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (xj1) to  (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (xi1) to  (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (xj1) to  (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi3) to  (xi2);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj3) to  (xj2);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge, dotted] (Aj) to (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Solution to the confounding path
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Specifically, in practice we modify the graph as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+usetikzlibrary{arrows}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tikzset{     
+\end_layout
+
+\begin_layout Plain Layout
+
+	vertex/.style={circle,draw,minimum size=0.7em},
+\end_layout
+
+\begin_layout Plain Layout
+
+    edge/.style={->,> = latex'} 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+% vertices 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (y) at (2,8) {$y_{ij}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (w) at (-1.5,6.5) {$A_{i}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (b) at (2,6.5) {$
+\backslash
+beta_{kk}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (eta) at (0,6.5) {$
+\backslash
+eta$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (-0.5,6.5) {$
+\backslash
+eta$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zab) at (0,8.5) {$z_{ij}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (za) at (-1.5,8.5) {$z_{i}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zba) at (4,8.5) {$z_{ji}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (thetaa) at (0,10) {$
+\backslash
+theta^{*}_{i}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (thetab) at (4,10) {$
+\backslash
+theta^{*}_{j}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (mu) at (0.5,11) {$
+\backslash
+mu$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (Lambda) at (3.5,11) {$
+\backslash
+Lambda$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (mu0) at (-.5,12) {$
+\backslash
+mu_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (mu0.north) {$
+\backslash
+mu_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (Lambda0) at (1.5,12) {$
+\backslash
+Lambda_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (Lambda0.north) {$
+\backslash
+Lambda_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (l0) at (2.5,12) {$
+\backslash
+ell_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (l0.north) {$
+\backslash
+ell_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex, shape=circle, fill, scale=.3] (L0) at (4.5,12) {$L_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (L0.north) {$L_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node[draw=red, fit= (zi1) (zj1) (zi2) (zj2),  inner sep=.60cm, dashed, ultra
+ thick, fill=red!10, fill %opacity=0.2] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node[draw=blue, fit= (zi1) (zj1) (zi2) (zj2) (zi3) (zj3),  inner sep=1.20cm,
+ dashed, ultra thick, fill=blue!%10, fill opacity=0.2] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node [yshift=3.0ex, black] at (2.4,4.3) {Link Preferences};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node [yshift=3.0ex, black] at (-.5,4.8) {Latent Space};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node[draw=black, fit= (zi1) (zj1) (zi2) (zj2) (zi3) (zj3) (y) (Ai) (Aj),
+  inner sep=1.40cm, dashed, ultra %thick, fill=black!10, fill opacity=0.2]
+ {};
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+node [yshift=3.0ex, black] at (13,-3.5) {$t=1..T$};
+\end_layout
+
+\begin_layout Plain Layout
+
+%edges 
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi1) to [out=300,in=110] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj1) to [out=240,in=70] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi2) to [out=270,in=110] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj2) to [out=270,in=70] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zi3) to [out=270,in=180] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[edge] (zj3) to [out=270,in=0] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (eta) to  (b);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (b) to  (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (za) to  (w);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zab) to  (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zab) to  (za);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zba) to  (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (thetaa) to  (zab);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (thetab) to  (zba);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (mu) to  (thetaa);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (Lambda) to  (thetaa);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (mu) to  (thetab);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (Lambda) to  (thetab);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (mu0) to  (mu);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (Lambda0) to  (mu);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (l0) to  (Lambda);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (L0) to  (Lambda);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Modified graph for identification
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Dynamic Network evolution of structure and behavior
+\end_layout
+
+\begin_layout Frame
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+usetikzlibrary{arrows}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tikzset{     
+\end_layout
+
+\begin_layout Plain Layout
+
+	vertex/.style={circle,draw,minimum size=1.2em},
+\end_layout
+
+\begin_layout Plain Layout
+
+    edge/.style={->,> = latex'} 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+% vertices 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (y) at (4,3) {$y_{ijt}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi1) at (3,6) {$z_{i1t}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi2) at (2,6) {$z_{i2t}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zi3) at (0,6) {$z_{i3t}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj1) at (5,6) {$z_{j1t}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj2) at (6,6) {$z_{j2t}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex] (zj3) at (8,6) {$z_{j3t}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Ai) at (2.5,3.5) {$A_{it}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[vertex,fill={rgb:black,1;white,2}] (Aj) at (5.5,3.5) {$A_{jt}$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[red,thick,dotted] ($(zi2.north west)+(-0.3,0.6)$)  rectangle ($(zj2.south
+ east)+(0.3,-0.6)$);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[blue,thick,dotted] ($(zi3.north west)+(-0.5,1.0)$)  rectangle ($(zj3.south
+ east)+(0.5,-1.0)$);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (2.5,6.1) {
+\backslash
+scriptsize{Link Preferences}};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (0.1,6.6) {
+\backslash
+scriptsize{Latent Space}};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[draw=black, fit= (zi1) (zj1) (zi2) (zj2) (zi3) (zj3) (y) (Ai) (Aj),
+  inner sep=1.0cm, dashed, ultra thick, fill=black!10, fill opacity=0.2] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node [yshift=3.0ex, black] at (8.2,1.8) {$t=1..T$};
+\end_layout
+
+\begin_layout Plain Layout
+
+%edges 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi1) to [out=300,in=110] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj1) to [out=240,in=70] (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj2) -- (y);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi2) to [out=270,in=110] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj2) to [out=270,in=70] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zi3) to [out=270,in=180] (Ai);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[edge] (zj3) to [out=270,in=0] (Aj);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Dynamic evolution of network and behavior
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\start_of_appendix
+
+\series bold
+Appendix
+\end_layout
+
+\begin_layout Section
+Negative cross entropies
+\end_layout
+
+\begin_layout Subsection
+Two Normals
+\end_layout
+
+\begin_layout Standard
+Note:All the normals are parametrized using the precision matrix.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $q\sim\mathcal{N}(x|m,L)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $p\sim\mathcal{N}(x|\mu,\Lambda)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\\
+\int q(x)ln\,p(x)dx & = & \int\mathcal{N}(x|m,L)\Bigg(-\tfrac{K}{2}ln\,2\pi+\tfrac{1}{2}ln\,|\Lambda|-\tfrac{1}{2}\Big(Tr\,\Lambda\{(x-\mu)(x-\mu)^{T}\}\Big)\Bigg)dx\\
+ & = & -\tfrac{K}{2}ln\,2\pi+\tfrac{1}{2}ln\,|\Lambda|+\int\mathcal{N}(x|m,L)\Bigg(-\tfrac{1}{2}\Big(Tr\,\Lambda\{(x-\mu)(x-\mu)^{T}\}\Big)\Bigg)dx\\
+ & = & -\tfrac{K}{2}ln\,2\pi+\tfrac{1}{2}ln\,|\Lambda|+\int\mathcal{N}(x|m,L)\Bigg(-\tfrac{1}{2}\Big(Tr\Lambda\{xx^{T}+\mu\mu^{T}-x\mu^{T}-\mu x^{T}\}\Big)\Bigg)dx
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We should note that 
+\begin_inset Formula $\mathbb{E}_{q}\Big[xx^{T}\Big]=Cov_{q}+\mathbb{E}_{q}\Big[x\Big]\mathbb{E}_{q}\Big[x\Big]^{T}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mathbb{E}_{q}\Big[x\Big]=m$
+\end_inset
+
+ and 
+\begin_inset Formula $Cov_{q}=L^{-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\int\mathcal{N}(x|m,L)\Bigg(-\tfrac{1}{2}\Big(Tr\,\Big[\Lambda\{xx^{T}+\mu\mu^{T}-x\mu^{T}-\mu x^{T}\}\Big]\Big)\Bigg)dx & = & -\tfrac{1}{2}Tr\,\Big[(\Lambda L^{-1}+\Lambda mm^{T})+\Lambda(mm^{T}-\mu m^{T}-m\mu^{T})\Big]\\
+ & = & -\tfrac{1}{2}\Big(Tr\,\Big[\Lambda L^{-1}\Big]+(m-\mu)^{T}\Lambda(m-\mu)\Big)\\
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Hence we have:
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boxed{{\mathbb{E}_{q}[ln\,p(x)]=-\tfrac{K}{2}ln\,2\pi+\tfrac{1}{2}ln\,|\Lambda|-\tfrac{1}{2}\Big(Tr\,\Big[\Lambda L^{-1}\Big]+(m-\mu)^{T}\Lambda(m-\mu)\Big)}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Two Wisharts
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Lambda\sim q\sim\mathcal{W}(v,W)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\Lambda\sim p\sim\mathcal{W}(n,S)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\int q(\Lambda)ln\,p(\Lambda)d\Lambda & = & \mathbb{E}_{q}[ln\,p(\Lambda)]\\
+ & = & \mathbb{E}_{q}\Bigg[ln\,\frac{|\Lambda|^{\tfrac{n-K-1}{2}}exp(-\tfrac{1}{2}Tr\,(S^{-1}\Lambda)}{2^{\tfrac{nK}{2}}|S|^{n/2}\Gamma_{p}(\tfrac{n}{2})}\Bigg]\\
+ & = & \mathbb{E}_{q}\Bigg[-\tfrac{nk}{2}ln\,2-\tfrac{n}{2}ln\,|S|-ln\,\Gamma_{K}(\tfrac{n}{2})\\
+ &  & +\tfrac{n-K-1}{2}ln\,|\Lambda|-\tfrac{1}{2}Tr\,(S^{-1}\Lambda)\Bigg]\\
+ & = & -\tfrac{nk}{2}ln\,2-\tfrac{n}{2}ln\,|S|-ln\,\Gamma_{K}(\tfrac{n}{2})\\
+ &  & +\tfrac{n-K-1}{2}\Big(\psi_{K}(\tfrac{v}{2})+Kln\,2+ln\,|W|\Big)-\tfrac{v}{2}Tr\,(S^{-1}W)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mathbb{E}_{q}[\Lambda]=vW$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mathbb{E}_{q}[ln\,|\Lambda|]=\psi_{K}(\tfrac{v}{2})+Kln\,2+ln\,|W|$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\psi_{K}(\tfrac{v}{2})=\sum_{i:1}^{K}\psi(\tfrac{v-i+1}{2})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $ln\,\Gamma_{K}(\tfrac{n}{2})=\tfrac{K(K-1)}{4}ln\,\pi+\sum_{i:1}^{K}ln\,\Gamma(\tfrac{n-i+1}{2})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathbb{E}_{q}[ln\,p(\Lambda)] & = & -\tfrac{K(K+1)}{2}ln\,2+\tfrac{n-K-1}{2}\psi_{K}(\tfrac{v}{2})-ln\,\Gamma_{K}(\tfrac{n}{2})\\
+ &  & -\tfrac{v}{2}Tr\,(S^{-1}W)+\tfrac{n-K-1}{2}ln\,|W|-\tfrac{n}{2}ln\,|S|
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+so we have:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boxed{\mathbb{E}_{q}[ln\,p(\Lambda)]=-\tfrac{K(K+1)}{2}ln\,2+\tfrac{n-K-1}{2}\psi_{K}(\tfrac{v}{2})-ln\,\Gamma_{K}(\tfrac{n}{2})-\tfrac{v}{2}Tr\,(S^{-1}W)+\tfrac{n-K-1}{2}ln\,|W|-\tfrac{n}{2}ln\,|S|}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+or 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boxed{\mathbb{E}_{q}[ln\,p(\Lambda)]=-\tfrac{K(K+1)}{2}ln\,2+\tfrac{n-K-1}{2}\psi_{K}(\tfrac{v}{2})-ln\,\Gamma_{K}(\tfrac{n}{2})-\tfrac{v}{2}Tr\,(S^{-1}W)-\tfrac{K+1}{2}ln\,|W|+\tfrac{n}{2}ln\,|S^{-1}W|}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Two Betas
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\beta\sim q\sim Beta(b)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\beta\sim p\sim Beta(\eta)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathbb{E}_{q}[ln\,p(\beta)] & = & \mathbb{E}_{q}\Big[ln\,\Gamma(\eta_{0}+\eta_{1})-ln\,\Gamma(\eta_{0})-ln\,\Gamma(\eta_{1})+(\eta_{0}-1)ln\,\beta+(\eta_{1}-1)ln\,(1-\beta)\Big]\\
+ & = & ln\,\Gamma(\eta_{0}+\eta_{1})-ln\,\Gamma(\eta_{0})-ln\,\Gamma(\eta_{1})+(\eta_{0}-1)\big(\psi(b_{0})-\psi(b_{0}+b_{1})\big)+(\eta_{1}-1)\big(\psi(b_{1})-\psi(b_{0}+b_{1})\big)\\
+ & = & ln\,\Gamma(\eta_{0}+\eta_{1})-ln\,\Gamma(\eta_{0})-ln\,\Gamma(\eta_{1})+(\eta_{0}-1)\psi(b_{0})+(\eta_{1}-1)\psi(b_{1})-(\eta_{0}+\eta_{1}-2)\psi(b_{0}+b_{1})
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that 
+\begin_inset Formula $\mathbb{E}_{q}[ln\,\beta]=\psi(b_{0})-\psi(b_{0}+b_{1})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+so :
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boxed{\mathbb{E}_{q}[ln\,p(\beta)]=ln\,\Gamma(\eta_{0}+\eta_{1})-ln\,\Gamma(\eta_{0})-ln\,\Gamma(\eta_{1})+(\eta_{0}-1)\psi(b_{0})+(\eta_{1}-1)\psi(b_{1})-(\eta_{0}+\eta_{1}-2)\psi(b_{0}+b_{1})}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Entropies
+\end_layout
+
+\begin_layout Subsection
+Normal
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $q(x)\sim\mathcal{N}(m,M)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boxed{H[q]=\tfrac{K}{2}ln\,(2\pi)+\tfrac{K}{2}-\tfrac{1}{2}ln\,|M|}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Wishart
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Lambda\sim q\sim\mathcal{W}(v,W)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+H[q] & = & -\tfrac{v-K-1}{2}\mathbb{E}_{q}ln|\Lambda|-(-\tfrac{1}{2}\mathbb{E}_{q}Tr\,(W^{-1}\Lambda))+\tfrac{v}{2}ln\,|W|+\tfrac{vK}{2}ln\,2+ln\,\Gamma_{K}(\tfrac{v}{2})\\
+ & = & -\tfrac{v-K-1}{2}(\psi_{K}(\tfrac{v}{2})+\tfrac{Kv}{2}+Kln\,2+ln\,|W|)+\tfrac{v}{2}ln\,|W|+\tfrac{vK}{2}ln\,2+ln\,\Gamma_{K}(\tfrac{v}{2})\\
+ & = & \tfrac{K(K+1)}{2}ln\,2+\tfrac{K+1}{2}ln\,|W|-\tfrac{v-K-1}{2}\psi_{p}(\tfrac{v}{2})+ln\,\Gamma_{K}(\tfrac{v}{2})+\tfrac{Kv}{2}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+so 
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\boxed{H[q]=\tfrac{K(K+1)}{2}ln\,2+\tfrac{K+1}{2}ln\,|W|-\tfrac{v-K-1}{2}\psi_{K}(\tfrac{v}{2})+ln\,\Gamma_{K}(\tfrac{v}{2})+\tfrac{Kv}{2}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Beta
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\beta\sim q\sim Beta(b)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+H[q] & = & ln\,\Gamma(b_{0})+ln\,\Gamma(b_{1})-ln\,\Gamma(b_{0}+b_{1})-(b_{0}-1)\mathbb{E}_{q}[ln\,\beta]-(b_{1}-1)\mathbb{E}_{q}[ln\,(1-\beta)]\\
+ & = & ln\,\Gamma(b_{0})+ln\,\Gamma(b_{1})-ln\,\Gamma(b_{0}+b_{1})-(b_{0}-1)\psi(b_{0})-(b_{1}-1)\psi(b_{1})+(b_{0}+b_{1}-2)\psi(b_{0}+b_{1})
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boxed{H[q]=ln\,\Gamma(b_{0})+ln\,\Gamma(b_{1})-ln\,\Gamma(b_{0}+b_{1})-(b_{0}-1)\psi(b_{0})-(b_{1}-1)\psi(b_{1})+(b_{0}+b_{1}-2)\psi(b_{0}+b_{1})}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Multinomial(,1) or Categorical
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $z\sim q\sim Cat(\phi)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+H[q] & = & -\sum_{k}\mathbb{E}_{q}[z_{k}]ln\,\phi_{k}\\
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+so,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boxed{H[q]=-\sum_{k}\phi_{k}ln\,\phi_{k}}$
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
