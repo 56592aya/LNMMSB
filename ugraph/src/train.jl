@@ -65,17 +65,107 @@
 		count_a = zeros(Int64, model.N)
 		model.μ_var=deepcopy(_init_μ)
 
+		# function getCommSets(model::LNMMSB, mb::MiniBatch) ## uses model.est_θ and returns or inplace updates?
+		# 	est=deepcopy(model.est_θ)
+		#
+		# 	for a in mb.mbnodes
+		# 		model.sortedK[a] = sortperm(est[a,:],rev=true)
+		# 		s = 0.0
+		# 		for (i,k) in enumerate(model.sortedK[a])
+		# 			if s > .9
+		# 				model.stopAt[a] = i-1
+		# 				break;
+		# 			else
+		# 				s += est[a,k]
+		# 			end
+		# 		end
+		# 	end
+		# 	for a in mb.mbnodes
+		# 		for j in model.sortedK[a][1:model.stopAt[a]]
+		# 			push!(model.Active[a], j)
+		# 		end
+		# 		model.Active[a] = unique(model.Active[a])
+		# 		for b in neighbors(lg,a)
+		#
+		# 			for k in model.sortedK[a]
+		# 				if k in model.Active[a]
+		# 					continue;
+		# 				else
+		# 					if k in model.Active[b]
+		# 						push!(model.Candidate[a], k)
+		# 					else
+		# 						push!(model.Bulk[a], k)
+		# 					end
+		# 				end
+		# 			end
+		# 		end
+		# 		model.Candidate[a] = unique(model.Candidate[a])
+		# 		model.Bulk[a] = unique(model.Bulk[a])
+		# 	end
+		# end
+		# function getCommSets(model::LNMMSB) ## uses model.est_θ and returns or inplace updates?
+		# 	est=deepcopy(model.est_θ)
+		#
+		# 	for a in model.N
+		# 		model.sortedK[a] = sortperm(est[a,:],rev=true)
+		# 		s = 0.0
+		# 		for (i,k) in enumerate(model.sortedK[a])
+		# 			if s > .9
+		# 				model.stopAt[a] = i-1
+		# 				break;
+		# 			else
+		# 				s += est[a,k]
+		# 			end
+		# 		end
+		# 	end
+		# 	for a in 1:model.N
+		# 		for j in model.sortedK[a][1:model.stopAt[a]]
+		# 			push!(model.Active[a], j)
+		# 		end
+		# 		model.Active[a] = unique(model.Active[a])
+		# 		for b in neighbors(lg,a)
+		#
+		# 			for k in model.sortedK[a]
+		# 				if k in model.Active[a]
+		# 					continue;
+		# 				else
+		# 					if k in model.Active[b]
+		# 						push!(model.Candidate[a], k)
+		# 					else
+		# 						push!(model.Bulk[a], k)
+		# 					end
+		# 				end
+		# 			end
+		# 		end
+		# 		model.Candidate[a] = unique(model.Candidate[a])
+		# 		model.Bulk[a] = unique(model.Bulk[a])
+		# 	end
+		# end
+
+
+		estimate_θs!(model)
+
+		# getCommSets(model)
+		# for a in 1:model.N
+		# 	model.est_θ[a,model.Bulk[a]]=(1.0 - sum(model.est_θ[a,union(model.Active[a], model.Candidate[a])]))/(model.K-length(union(model.Active[a], model.Candidate[a])))
+		# 	model.μ_var[a,:] = log.(model.est_θ[a,:])
+		# end
+
+
+# @btime updatesimulμΛ!(model, mb.mbnodes[1],mb)
+# using ProfileView
+# Profile.clear()
+# @profile updatesimulμΛ!(model, mb.mbnodes[1],mb)
+# ProfileView.view()
+		#####
+
+		#####
 		for i in 1:iter
 
 			mb=deepcopy(model.mb_zeroer)
 			minibatch_set_srns(model)
 			model.mbids = deepcopy(mb.mbnodes)
 			shuffled = shuffle!(collect(model.minibatch_set))
-
-			# xx=[Dyad(1,2), Dyad(2,1)]
-			# unique(xx)
-			# isequal(xx[1] ,xx[2])
-			# xx[1] == xx[2]
 
 
 			for d in shuffled
@@ -142,23 +232,28 @@
 			model.ϕnloutsum = deepcopy(zeros(Float64, (model.N,model.K)))
 			model.ϕnlinsum = deepcopy(zeros(Float64, (model.N,model.K)))
 			one_over_K = deepcopy(ones(Float64,model.K)./model.K)
+
 			for d in shuffled
 				if d in mb.mblinks
 					l=deepcopy(mb.mblinks[mb.mblinks .== d][1])
 					l.ϕ = deepcopy(one_over_K)
 					for j in 1:10
 						updatephil!(model, mb, l)
+						# updatephil!(model, mb, l,"check")
 					end
 					for k in 1:model.K
 						model.ϕlsum[l.src,k] += l.ϕ[k]
 						model.ϕlsum[l.dst,k] += l.ϕ[k]
 					end
+
+
 				else
 					nl=deepcopy(mb.mbnonlinks[mb.mbnonlinks .== d][1])
 					nl.ϕout = deepcopy(one_over_K)
 					nl.ϕin = deepcopy(one_over_K)
 					for j in 1:10
 						updatephinl!(model, mb, nl)
+						# updatephinl!(model, mb, nl, "check")
 					end
 					for k in 1:model.K
 						model.ϕnloutsum[nl.src,k] += nl.ϕout[k]
@@ -191,6 +286,17 @@
 					updatesimulμΛ!(model, a, mb,meth)
 				end
 			end
+			estimate_θs!(model, mb)
+			# getCommSets(model, mb)
+			# for a in mb.mbnodes
+			# 	model.est_θ[a,model.Bulk[a]]=(1.0 - sum(model.est_θ[a,union(model.Active[a], model.Candidate[a])]))/(model.K-length(union(model.Active[a], model.Candidate[a])))
+			# 	model.μ_var[a,:] = log.(model.est_θ[a,:])
+			# end
+
+## define a function that returns the A, B, C, ...
+## also have a promote/demote function if necessary
+
+
 
 			# if i % 100 == 0
 
@@ -214,7 +320,9 @@
 
 			update_Elogβ!(model)
 
-			estimate_θs!(model, mb)
+
+
+
 
 			checkelbo = (i % model.N/model.mbsize == 0)
 			if checkelbo || i == 1

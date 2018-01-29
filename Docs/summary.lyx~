@@ -89,22 +89,22 @@ Summary of Projects
 Community Detection in Social Networks
 \end_layout
 
-\begin_layout Standard
+\begin_layout Quotation
 We motivate the importance of sub-network level in identifying opinion leaders/i
-nfluentials contrasting it with the common network level metrics such as
- node centralities.
+nfluentials by contrasting it with the common network level metrics such
+ as node centralities.
  The concept of influential or opinion leaders in social networks arise
  from the high level of impact that some specific individuals can have on
  their peers to adopt a behavior or act upon an action.
  Ample amount of literature has attributed the importance of individuals
  at the network level to their degree of opinion leadership.
  Degree centrality, prestige/eigenvector centrality, and betweenness centrality
- are among common measures that incroporate the importance of individuals
+ are among common measures that incorporate the importance of individuals
  based on their network positions.
  On the other hand, every network is comprised of smaller sub-networks that
  hereafter we refer to as communities.
  We argue that analysis of individuals at these smaller communities can
- shed more light on their real role and importance in the network.
+ shed more light on their real roles and importance in the network.
 \end_layout
 
 \begin_layout Standard
@@ -112,7 +112,7 @@ As an illustration for the relevance of sub-network level measures, figure
  1.
  shows the graph of degree centrality of three different communities in
  a publicly available email network of a European Research Institute extracted
- from SNAP dataset .
+ from SNAP data set .
  The connections are formed based on the emails sent between members of
  this institute, and the ground truth communities are the departments within
  the institute.
@@ -262,13 +262,13 @@ More on Communities
 
 \begin_layout Standard
 Networks usually cluster into smaller sub-networks that exhibit denser inter-com
-munity ties compared to intra-communitiy connections.
+munity ties compared to intra-community connections.
  Many community discovery algorithms assume complete disjoint between communitie
 s(like in a mixture), however more recent studies, also account for the
  potential overlap between these structures.
- Approaches concerning community discovery include both algoirthmic and
+ Approaches concerning community discovery include both algorithmic and
  probabilistic methods.
- We incorporate and enhance on an exisiting probabilistic model known as
+ We incorporate and enhance on an existing probabilistic model known as
  mixed-membership-stochastic-blockmodel(MMSB) that allows for such overlaps
  among the communities.
 \end_layout
@@ -467,7 +467,7 @@ Model
 
 \begin_layout Standard
 Based on the general idea established in the previous section, our main
- objective for community discivery is to uncover patterns in the latent
+ objective for community discovery is to uncover patterns in the latent
  variables 
 \begin_inset Formula $x$
 \end_inset
@@ -477,9 +477,9 @@ Based on the general idea established in the previous section, our main
 \begin_inset Formula $K$
 \end_inset
 
- predefined, potenitially overlapping communities, and each individual can
+ predefined, potentially overlapping communities, and each individual can
  belong to several communities.
- This overlapping strucuture is allowed by allowing individuals to activate
+ This overlapping structure is allowed by allowing individuals to activate
  their specific roles(communities) when potentially interacting with other
  individuals.
  This is desired, since main volume of communications in real world networks
@@ -620,7 +620,7 @@ Note that here
 
  
 \series default
-is pontentially contacted by 
+is potentially contacted by 
 \begin_inset Formula $a$
 \end_inset
 
@@ -669,9 +669,9 @@ The forced negative correlation in Dirichlet parameters, does not allow
 \end_layout
 
 \begin_layout Standard
-For the first project we only attend to the first two cases, and later on
- in the third project address the network evolution.
- To allows for community membership strengths to have correlation, we define
+For the first project we only attend to the first two cases, and only later,
+ in the third project, we address the network evolution.
+ To allow for community membership strengths to have correlation, we define
  instead a logistic normal prior.
  The hierarchical generative process is explained below.
  
@@ -1379,8 +1379,8 @@ The term
 \begin_inset Formula $q(z)$
 \end_inset
 
- minimizing the KL-divergence is equivalent to a easier optimization problem,
- maximizing the ELBO.
+ minimizing the KL-divergence is equivalent to an easier optimization problem,
+ which leads to maximizing the ELBO.
  
 \end_layout
 
@@ -1397,7 +1397,7 @@ We can formally define the lower bounds as :
 
 \begin_layout Standard
 However this might need the screening of all individual/link level observations
- for updating the variational parameters.
+ for updating the variational parameters in our case.
  On the other hand, Stochastic Variational Inference (SVI) offers a stochastic
  search in the parameter space.
  SVI samples only a small mini-batch, where iterating over the noisy gradients
@@ -1552,6 +1552,38 @@ More information about deriving the cross entropies and entropies are given
  in the appendix.
 \end_layout
 
+\begin_layout Standard
+*Note: for a link from 
+\begin_inset Formula $a$
+\end_inset
+
+ to 
+\begin_inset Formula $b$
+\end_inset
+
+, namely 
+\begin_inset Formula $a\rightarrow b$
+\end_inset
+
+, 
+\begin_inset Formula $b$
+\end_inset
+
+ is the 'sink' of 
+\begin_inset Formula $a$
+\end_inset
+
+, and 
+\begin_inset Formula $a$
+\end_inset
+
+ is known as the 'source' of 
+\begin_inset Formula $b$
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Section
 ELBO Gradients
 \end_layout
@@ -1584,7 +1616,7 @@ Gradient with respect to
 \end_layout
 
 \begin_layout Standard
-In minibatch node sampling this would be
+In mini-batch node sampling this would be
 \end_layout
 
 \begin_layout Standard
@@ -1654,11 +1686,11 @@ Gradient with respect to
 \end_layout
 
 \begin_layout Standard
-optimizing simultaeneously with 
+optimizing simultaneously with 
 \begin_inset Formula $\ell$
 \end_inset
 
- in the minibatch setting:
+ in the mini-batch setting:
 \end_layout
 
 \begin_layout Standard
@@ -1790,7 +1822,7 @@ Gradient with respect to
 \begin_inset Formula $\phi_{a\rightarrow b,k}$
 \end_inset
 
- for nonlinks
+ for non-links
 \end_layout
 
 \begin_layout Standard
@@ -1814,7 +1846,7 @@ Gradient with respect to
 \begin_inset Formula $\phi_{a\leftarrow b,k}$
 \end_inset
 
- for nonlinks
+ for non-links
 \end_layout
 
 \begin_layout Standard
@@ -1879,7 +1911,7 @@ exp(\mu_{a,K}+\tfrac{1}{2}\Lambda_{a,K}^{-1})
 \end{array}\right)$
 \end_inset
 
-, and we may for convenience interchangably use 
+, and we may for convenience interchangeably use 
 \begin_inset Formula $\underbar{f}_{a}$
 \end_inset
 
@@ -1891,7 +1923,7 @@ exp(\mu_{a,K}+\tfrac{1}{2}\Lambda_{a,K}^{-1})
 \end_layout
 
 \begin_layout Standard
-Hence the geradient is 
+Hence the gradient is 
 \end_layout
 
 \begin_layout Standard
@@ -2057,7 +2089,7 @@ for this case results in
 \end_layout
 
 \begin_layout Standard
-We should also note that for nonlinks, 
+We should also note that for non-links, 
 \begin_inset Formula $\phi_{a\rightarrow b,k}=\phi_{b\leftarrow a,k}$
 \end_inset
 
@@ -2348,8 +2380,8 @@ Graphical representation of network structure and behavior
 
 \begin_layout Standard
 Behaviors cluster in space and in time.
- This can be attributed to both social influence of individuals and also
- homophily phenomenon(and also external shocks).
+ This can be attributed to both social influence and homophily phenomenon(,and
+ also external shocks).
  In the presence of the social influence the graph is modified in the following
  way.
 \end_layout
@@ -2625,7 +2657,7 @@ Presence of social influence
 \begin_layout Standard
 However the effect of the social influence cannot be identified due to the
  confounding path.
- Our solution with joint modelling of the latent space allows us to find
+ Our solution with joint modeling of the latent space allows us to find
  observed proxies for the behavioral and structural preferences, and controlling
  for that would also allow us to identify the peer effect.
  The general idea is graphically shown below:
@@ -3405,8 +3437,51 @@ Modified graph for identification
 
 \end_layout
 
+\begin_layout Section*
+Why Adding Behavior?
+\end_layout
+
+\begin_layout Standard
+The advantage of adding behavior to sociometric data can be manifold.
+ First of all jointly modeling behavior and network ties can lead to better
+ community detection.
+ We can further see how much improvement in detecting communities we can
+ have in the presence of behavioral information from the individuals.
+ Moreover existence of such data can help us better label the communities
+ and get some insights about what activities are prevalent in each community.
+ Additionally, adding behavior allows us to delve into a more important
+ question of identifying social influence.
+ A seminal paper in this regards is Aral et al 2009, where they identify
+ social influence from homophily in a diffusion process using a data-rich
+ framework that allows the authors to apply dynamic matched sample estimation
+ to assess the effect of social influence.
+ Our work is similar to Aral et al 2009, in a way that we are trying to
+ identify the social influence in the presence of latent homophily, but
+ in a data-poor environment, using only the network connections and the
+ individual behaviors.
+ Allowing the joint modeling can strengthen the identification of social
+ influence from other confounding such as homophilous assimilation of behavior.
+ When dealing with dynamic networked behavior, this can also be leveraged
+ to allow for meaningful evolution of both structure and behavioral interests.
+ For example whether members within a community assimilate more due to adopting
+ each others behavior.
+ 
+\end_layout
+
 \begin_layout Part
 Dynamic Network evolution of structure and behavior
+\end_layout
+
+\begin_layout Standard
+There are extensive evidence that social networks evolve over time; this
+ means that some individuals form new connections or sever their existing
+ ones.
+ This can indeed be an indication of change in current communities, and
+ new communities forming or disappearing.
+ Dynamic model can help understanding the as to why some of the changes
+ in both network structure and behavior can happen.
+ For instance, changes in behavior or induced change of behavior due to
+ new structure can be identified.
 \end_layout
 
 \begin_layout Frame
@@ -3676,13 +3751,109 @@ Dynamic evolution of network and behavior
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
+\end_layout
+
+\begin_layout Part*
+Data
+\end_layout
+
+\begin_layout Standard
+First we have used simulated data to check how well we can get our parameters
+ back for several configurations(small(100-250 nodes) and relatively larger
+ networks(1000-2000 nodes).
+ Currently we are working on the co-authorship data from the Marketing Science
+ database submission where the network data of authors in marketing from
+ 1973 to 2009 are available on a yearly basis.
+ This data can also be applied for all three projects to find communities
+ based on the whole network, or by each specific time window independently
+ based only on the authors network for those years.
+ In the second project we can also add behavioral information by using other
+ information such as field or journal or keywords data to determine the
+ state of collaboration.
+ Additionally For the third project we can use the evolution of network
+ communities and behavior, to figure out the estimated evolution of topics
+ over the years.
+ This might shed some light when a new topic arises or who the stars of
+ a specific field are.
+ On the other hand the network looks quite sparse, which makes the idea
+ of having finer grained domains of expertise more intriguing.
+ 
+\end_layout
+
+\begin_layout Section*
+Handling large number of communities
+\end_layout
+
+\begin_layout Standard
+One challenge with the co-authorship data is the large number of potential
+ communities, which makes the inference loop quite costly, for that we are
+ trying to make a rather wiser set of updates, since for each sampled node,
+ not all the communities are relevant, and we want to use this information
+ to make faster inference about nodes.
+ Similar to Li, Ahn, Welling 2015 For example at each iteration, we keep
+ an 
+\emph on
+active set
+\emph default
+, which represents the highest likely communities of a node, a 
+\emph on
+candidate
+\emph default
+ set, which holds those commununities that are most important for the neighbors
+ of a node, and are not in the active set, and a 
+\emph on
+bulk
+\emph default
+ set that holds the rest of the communities.
+ Due to sparsity at each iteration the information from the active and the
+ candidate set are most relevant and we can use a one shot update for the
+ communities in the bulk set.
+ Where number of communities are very large we can expect 
+\begin_inset Formula $|Bulk|\gg|Active\cup Candidate|$
+\end_inset
+
+, hence updates of size 
+\begin_inset Formula $|Active|+|Candidate|+1$
+\end_inset
+
+ would be much more cost efficient.
+\end_layout
+
+\begin_layout Part*
+Adjusting Learning Rates and Batch size
+\end_layout
+
+\begin_layout Standard
+One of the benefits of stochastic variational inference, is the use of mini-batc
+hes instead of the full sample to derive the values of the parameters.
+ However there is a trade-off between the accuracy and the noise of estimates
+ and the batch size.
+ For that, it would be wiser to adjust the batch size and the learning rates
+ accordingly at different stages of the inference algorithm, and let the
+ engine decide how much to increase or decrease the learning rates and also
+ how to increase the batch size.
+ It is only sensible to start with small mini-bacth sizes in the early stages
+ and the we expect the gradients to be quite noisy.
+ But this should be adjusted for as we move on with our training.
+ Moreover, not all the parameters are equally visited or updated, hence
+ we need to account for that, and adjust our learning rates for the ones
+ we see and update.
+ For example how much change do we expect from a node-sepcific and from
+ a community level parameter.
+ Additionally step sizes as prescribed by Robbins Monroe might lead to apparent
+ convergence, as the they decrease to infinitely small steps.
+ This might lead to inappropriate convergence that is far from the optimum.
+ Also allowing the steps sizes to decrease too quickly may hinder the convergenc
+e rate.
+ We propose, starting with a rather large step size and decreasing it more
+ slowly in the beginning to observe some bouncing around the optimum.
+ We have to clarify what this bouncing around means(for example by monitoring
+ the average change in the last X iterations), and use this information
+ to possibly increase the batch size, as the current batch size may not
+ prove useful.
 \end_layout
 
 \begin_layout Standard

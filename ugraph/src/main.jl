@@ -21,3 +21,5 @@ mb=deepcopy(model.mb_zeroer)
 include("modelutils.jl")
 preparedata2!(model)
 include("trainutils.jl")
+
+# include("train.jl")
