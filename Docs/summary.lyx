@@ -773,7 +773,8 @@ draw a
 \noindent
 
 \size footnotesize
-construct the simplical mixed membership via logistic transformation , 
+construct the mixed membership via logistic transformation on a simplex,
+ 
 \begin_inset Formula $\boldsymbol{\theta}_{i,k}=\frac{exp(\boldsymbol{\theta}_{i,k}^{*})}{\sum_{l}exp(\boldsymbol{\theta}_{i,l}^{*})}$
 \end_inset
 

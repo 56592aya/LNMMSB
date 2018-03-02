@@ -9,7 +9,7 @@ include("LNMMSB.jl")
 include("init.jl");println("# of communities : ",length(communities))
 lg = LightGraphs.Graph(network);# draw(PNG("Docs/net$(inputtomodelgen[1]).png", 30cm, 30cm), gplot(lg))
 onlyK = length(communities)
-minibatchsize = 1
+minibatchsize = 5
 model=LNMMSB(network, onlyK,minibatchsize)
 model.η0 = 1.1
 model.num_peices = 20

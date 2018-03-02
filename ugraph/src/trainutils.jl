@@ -61,42 +61,49 @@ end
 function sfx(μ_var::Vector{Float64},ltemp::Vector{Float64})
 	return softmax(μ_var .+.5.*exp.(ltemp))
 end
+function sfx(μ_var::Vector{Float64})
+	return softmax(μ_var)
+end
 function updatesimulμΛ!(model::LNMMSB, a::Int64,mb::MiniBatch)
 		model.μ_var_old[a,:]=deepcopy(model.μ_var[a,:])
-		model.Λ_var_old[a,:]=deepcopy(model.Λ_var[a,:])
+		#model.Λ_var_old[a,:]=deepcopy(model.Λ_var[a,:])
 		μ_var = deepcopy(model.μ_var[a,:])
-		Λ_ivar = deepcopy(1.0./model.Λ_var[a,:])
-		ltemp = [log(Λ_ivar[k]) for k in 1:model.K]
-		x = sfx(μ_var,ltemp)
+		#Λ_ivar = deepcopy(1.0./model.Λ_var[a,:])
+		#ltemp = [log(Λ_ivar[k]) for k in 1:model.K]
+		#x = sfx(μ_var,ltemp)
+		x = sfx(μ_var)
 		s1 = haskey(mb.mbnot,a)?(N-1-model.train_deg[a]):0
 		c1 = haskey(mb.mbnot,a)?length(mb.mbnot[a]):1
 
 		sumb =(model.N-1)
 		X=model.ϕlsum[a,:]+(s1/c1).*.5.*(model.ϕnloutsum[a,:]+model.ϕnlinsum[a,:])
+		##added this line
 
+		#model.μ_var[a,:] = model.m + inv(model.l*model.L)* (X - (model.N-1)*model.est_θ[a,:])
 		dfunci(μ_var) = -model.l.*model.L*(μ_var-model.m) +X - sumb.*x
-
-		func1i(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
-		(X)'*μ_var-	sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))
-
-		func2i(ltemp) =-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*exp.(ltemp))))
-
-		# opt1 = RMSprop()
-		# opt2 = RMSprop()
+        #
+		# func1i(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
+		# (X)'*μ_var-	sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))
+        #
+		# func2i(ltemp) =-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*exp.(ltemp))))
+        #
+		# # opt1 = RMSprop()
+		# # opt2 = RMSprop()
 		opt1 = Adagrad()
-		opt2 = Adagrad()
-
+		# opt2 = Adagrad()
+        #
 		for i in 1:10
-			x  = sfx(μ_var,ltemp)
+			# x  = sfx(μ_var,ltemp)
+			x  = sfx(μ_var)
 			g1 = dfunci(μ_var)
 			δ1 = update(opt1,g1)
-			g2 = ForwardDiff.gradient(func2i, ltemp)
-			δ2 = update(opt2,g2)
+			# g2 = ForwardDiff.gradient(func2i, ltemp)
+			# δ2 = update(opt2,g2)
 			μ_var+=δ1
-			ltemp+=δ2
+			# ltemp+=δ2
 		end
 		model.μ_var[a,:]=μ_var
-		model.Λ_var[a,:]=1.0./exp.(ltemp)
+		# model.Λ_var[a,:]=1.0./exp.(ltemp)
 	# end
 	print();
 end
@@ -164,16 +171,32 @@ function updatel!(model::LNMMSB)
 	model.l = model.l0+convert(Float64,model.N)
 end
 #updatel!(model,mb)
-function updateL!(model::LNMMSB, mb::MiniBatch)
+function updateL!(model::LNMMSB, mb::MiniBatch, i::Int64)
 	model.L_old = deepcopy(model.L)
 	s = zero(Float64)
+	# for a in mb.mbnodes
+	# 	s +=(model.μ_var[a,:]-model.m)*(model.μ_var[a,:]-model.m)'+diagm(1.0./model.Λ_var[a,:])
+	# end
+	#added this for instead
 	for a in mb.mbnodes
-		s +=(model.μ_var[a,:]-model.m)*(model.μ_var[a,:]-model.m)'+diagm(1.0./model.Λ_var[a,:])
+		s +=(model.μ_var[a,:]-model.m)*(model.μ_var[a,:]-model.m)'
 	end
 	s=(model.N/model.mbsize)*s
 	s+=inv(model.L0)+model.N.*inv(model.M)
-	model.L = inv(s)
+	# inv(s)
+	# pinv(s)
+	# model.L = inv(s)
+	model.L = try
+		inv(s)
+	catch y
+		if isa(y, Base.LinAlg.SingularException)
+			println("i is ", i)
+			error("hey hey hey singular")
+		end
+	end
+
 end
+
 
 function updateb0!(model::LNMMSB, mb::MiniBatch)
 	model.b0_old = deepcopy(model.b0)
@@ -386,7 +409,6 @@ function getCommSets(model::LNMMSB, mb::MiniBatch) ## uses model.est_θ and retu
 		end
 		model.Active[a] = unique(model.Active[a])
 		for b in neighbors(lg,a)
-
 			for k in model.sortedK[a]
 				if k in model.Active[a]
 					continue;
