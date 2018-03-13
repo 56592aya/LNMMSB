@@ -74,10 +74,10 @@ mutable struct LNMMSB <: AbstractMMSB
     minibatch_set :: Set{Dyad}
     linked_edges  :: Set{Dyad}
     num_peices    :: Int64
-    sortedK       :: Array{Array{Int64,1},1}
-    Active        :: Array{Array{Int64,1},1}
-    Candidate     :: Array{Array{Int64,1},1}
-    Bulk          :: Array{Array{Int64,1},1}
+    Korder       :: Array{Array{Int64,1},1}
+    A        :: Array{Array{Int64,1},1}
+    C     :: Array{Array{Int64,1},1}
+    B          :: Array{Array{Int64,1},1}
     stopAt        ::Array{Int64,1}
 
  function LNMMSB(network::Network{Int64}, K::Int64, minibatchsize::Int64)
@@ -153,10 +153,10 @@ mutable struct LNMMSB <: AbstractMMSB
   minibatch_set = Set{Dyad}()
   linked_edges  = Set{Dyad}()
   num_peices    = 10
-  sortedK       = [sortperm(est_θ[i,:],rev=true) for  i in 1:N]
-  Active        = [Int64[] for a in 1:N]
-  Candidate     = [Int64[] for a in 1:N]
-  Bulk          = [Int64[] for a in 1:N]
+  Korder        = [sortperm(est_θ[i,:],rev=true) for  i in 1:N]
+  A             = [Int64[] for a in 1:N]
+  C             = [Int64[] for a in 1:N]
+  B             = [Int64[] for a in 1:N]
   stopAt        = ones(Int64, N)
 
   model = new(K, N, elbo, oldelbo, μ, μ_var,μ_var_old, m0, m,m_hist,m_old, M0, M,M_old, Λ, Λ_var,Λ_var_old, l0, L0, l,
@@ -164,7 +164,7 @@ mutable struct LNMMSB <: AbstractMMSB
     ho_nlinks,ho_fadj,ho_not,trainnot,train_deg,train_fadj,
      ϕnloutsum,  ϕnlinsum,ϕbar,elborecord,est_θ, est_β, est_μ, est_Λ,visit_count,nl_partition,
      train_nonlinks,d,Elogβ0,Elogβ1,mb_zeroer,link_set,nonlink_setmap, node_tnmap, fmap,comm,
-     train_link_map,ho_map,test_map,minibatch_set,linked_edges,num_peices,sortedK, Active,Candidate,Bulk,stopAt)
+     train_link_map,ho_map,test_map,minibatch_set,linked_edges,num_peices,Korder, A,C,B,stopAt)
   return model
  end
 end

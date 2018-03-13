@@ -18,6 +18,7 @@ model.elborecord = Vector{Float64}()
 model.elbo = 0.0
 model.oldelbo= -Inf
 train_links_num=sum(model.train_deg)/2
+
 train_nlinks_num=(model.N*model.N-model.N)/2- length(model.ho_dyads)-train_links_num
 link_ratio = convert(Float64, train_links_num)/convert(Float64,train_nlinks_num)
 _init_ϕ = deepcopy(ones(Float64, model.K).*1.0/model.K)
@@ -64,24 +65,51 @@ model.μ_var=deepcopy(_init_μ)
 
 
 estimate_θs!(model)
-#
-# getCommSets(model)
-# for a in 1:model.N
-# 	model.est_θ[a,model.Bulk[a]]=(1.0 - sum(model.est_θ[a,union(model.Active[a], model.Candidate[a])]))/(model.K-length(union(model.Active[a], model.Candidate[a])))
-# 	model.μ_var[a,:] = log.(model.est_θ[a,:])
-# end
+threshold=.9
+# Here we need do determine the A, C, B for the first round before getting into the variational loop
+"""
+	getSets(model::LNMMSB, threshold::Float64)
+	Function that returns the A, C, B of all nodes and keeps an ordering for communities
+	Input: estimated_θ's
+	Output: None, but updates A, C, B, Ordering, and mu's in the bulk set
+"""
+function getSets!(model::LNMMSB, threshold::Float64)
+	est_θ = deepcopy(model.est_θ)
 
+	for a in 1:model.N
+		model.Korder[a] = sortperm(est_θ[a,:], rev=true)
+		F = 0.0
+		counter = 1
+		while (F < threshold && counter < model.K)
+			k = model.Korder[a][counter]
+			F += est_θ[a,k]
+			counter += 1
+			push!(model.A[a], k)
+		end
+	end
+	for a in 1:model.N
+		neighbors = neighbors_(model, a)
+		for b in neighbors
+			for k in model.A[b]
+				if !(k in model.A[a])
+					push!(model.C[a], k)
+				end
+			end
+		end
+		model.C[a] = unique(model.C[a])
+		model.B[a] = setdiff(model.Korder[a], union(model.A[a], model.C[a]))
+		if !(isempty(model.B[a]))
+			bulk_θs  = sum(est_θ[a,model.B[a]])/length(model.B[a])
+			model.est_θ[a,model.B[a]] = bulk_θs
+			model.μ_var[a,model.B[a]] = log.(bulk_θs)
+		end
+		_init_μ[a,:] = model.μ_var[a,:]
+	end
+end
 
-# @btime updatesimulμΛ!(model, mb.mbnodes[1],mb)
-# using ProfileView
-# Profile.clear()
-# @profile updatesimulμΛ!(model, mb.mbnodes[1],mb)
-# ProfileView.view()
-#####
-
-#####
 #Starting the variational loop
 for i in 1:iter
+
 	# i = i+1
 	#MB sampling, eveyr time we create an empty minibatch object
 	mb=deepcopy(model.mb_zeroer)
@@ -129,7 +157,27 @@ for i in 1:iter
 			end
 		end
 	end
-
+	##Place to construct the C and B in the next iteration where the minibatch is set up
+	for a in mb.mbnodes
+		neighbors = neighbors_(model, a)
+		#we can speed up here if we have visited the neighbor before but for later
+		# idea is that if have not visited we can skip it, also should be reset somewhere
+		for b in neighbors
+			for k in model.A[b]
+				if !(k in model.A[a])
+					push!(model.C[a], k)
+				end
+			end
+		end
+		model.C[a] = unique(model.C[a])
+		model.B[a] = setdiff(model.Korder[a], union(model.A[a], model.C[a]))
+		if !(isempty(model.B[a]))
+			bulk_θs  = sum(model.est_θ[a,model.B[a]])/length(model.B[a])
+			model.est_θ[a,model.B[a]] = bulk_θs
+			model.μ_var[a,model.B[a]] = log.(bulk_θs)
+		end
+	end
+	##
 	# mbsamplinglink!(mb, model, meth, model.mbsize)
 	# model.fmap = deepcopy(zeros(Float64, (model.N,model.K)))
 	#Setting the learning rates for full sample
@@ -147,7 +195,7 @@ for i in 1:iter
 
 
 	switchrounds = bitrand(1)[1]
-
+	#getSets!(model, mb, threshold)
 	# model.μ_var_old = deepcopy(model.μ_var)
 	# model.μ_var_old[model.mbids,:]=deepcopy(model.μ_var[model.mbids,:])
 	#setting the old value of mu to its init value
@@ -213,18 +261,73 @@ for i in 1:iter
 		end
 	end
 	estimate_θs!(model, mb)
-	# getCommSets(model, mb)
-	# for a in mb.mbnodes
-	# 	model.est_θ[a,model.Bulk[a]]=(1.0 - sum(model.est_θ[a,union(model.Active[a], model.Candidate[a])]))/(model.K-length(union(model.Active[a], model.Candidate[a])))
-	# 	model.μ_var[a,:] = log.(model.est_θ[a,:])
-	# end
+	#
+	###Finger example
+	### old ordering where F(k ∈ A U C | est_θ[a,k] > est_θ[a,κ]) = .8 < .9
+	### condition est_θ[a,k] > est_θ[a,κ] may leave out some of the ones in C(or even A potentially)
+	### Vanilla version where condition est_θ[a,k] > est_θ[a,κ] always holds for any k in A or C
+		### |A U C|=8, and |B|=20, so est_θ[a,κ] = .01
+		### we have to sample (.9-.8)/0.01 = 10 from B
+		### Now we have |A U C U sampled|=18 where F(A U C U sampled)=.9
+		### and |B_rest| = 10
+		### now since they meet .9 threshold I put (A U C U sampled) into active set of A
+		### For that I first sort (A U C U sampled)
+		### Should see which ones in B can be promoted to C, and leave rest as B
+			### this could be done in the next rounds of iteration given already modified A's
+	### General version where we need to check for the condition est_θ[a,k] > est_θ[a,κ]
+		### We know who is in A, C, or B, we have the indices
+		### We sort the new est_θ and and keep the indices in the original {K}
+		### we check whether est_θ[a,k] > est_θ[a,κ] for k in A U C we call this A* U C*
+			### for that in the new sorted list
+				### as we want to construct the F, we check whether the k is in A or C and
+				### if est_θ[a,k] > est_θ[a,κ]
+		### if the F we constructed hits the .9 that is the new A
+		### Else
+			### if this F is less than the .9 threshold, we have to sample (threshold - F)/est_θ[a,κ] from B
+		### Now we have new A as (A* U C* U sampled)
+		### in the next iteration we construct the C
+			### from Actives of neighbors which could potentially be from the B
+			### the rest will remain as B
 
-## define a function that returns the A, B, C, ...
-## also have a promote/demote function if necessary
+	est_θ = deepcopy(model.est_θ)
+	for a in mb.mbnodes
 
-
-
-	# if i % 100 == 0
+		model.Korder[a] = sortperm(est_θ[a,:],rev=true)
+		F = 0.0
+		count = 1
+		newA=Int64[]
+		while (F < threshold && count < model.K)
+			k = model.Korder[a][count]
+			if (k in model.B[a])
+				count+=1
+			else
+				if !isempty(model.B[a])
+					if est_θ[a,k] > est_θ[a,model.B[a][1]]
+						F += est_θ[a,k]
+						push!(newA, k)
+						count += 1
+					end
+				else
+					F += est_θ[a,k]
+					push!(newA, k)
+					count += 1
+				end
+			end
+		end
+		toAdd = Int64[]
+		if (threshold-F > 0.0)
+			toSample = (threshold-F)/est_θ[a,model.B[a][1]]
+			toAdd = sample(model.B[a], toSample, replace=false)
+		end
+		if !isempty(toAdd)
+			for el in toAdd
+				model.A[a]= push!(newA, el)
+			end
+		else
+			model.A[a] = newA
+		end
+	end
+	#
 
 	updatem!(model, mb)
 	model.m = model.m_old.*(1.0-lr_m)+lr_m.*model.m

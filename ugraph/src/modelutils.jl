@@ -154,6 +154,9 @@ function get_random_test_nonlink(model::LNMMSB)
 end
 
 
+function isalink(model::LNMMSB, a::Int64, b::Int64)
+	return (model.network[a,b] == 1)
+end
 function isalink(model::LNMMSB, place::String,a::Int64, b::Int64)
 	ret = false
   	if place in ["network", "Network", "net", "Net"]
@@ -197,9 +200,13 @@ function isfadj(model::LNMMSB,place::String,curr::Int64, q::Int64)
   ret
 end
 
+function neighbors_(model::LNMMSB,curr::Int64)
+	[b for b in 1:model.N if isalink(model,curr, b)]
+end
 function neighbors_(model::LNMMSB,place::String,curr::Int64)
   [b for b in 1:model.N if isalink(model,place, curr, b)]
 end
+
 
 function preparedata2!(model::LNMMSB)
 	do_linked_edges!(model)
