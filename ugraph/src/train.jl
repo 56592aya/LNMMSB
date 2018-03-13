@@ -106,11 +106,9 @@ function getSets!(model::LNMMSB, threshold::Float64)
 		_init_μ[a,:] = model.μ_var[a,:]
 	end
 end
-
+getSets!(model, threshold)
 #Starting the variational loop
 for i in 1:iter
-
-	# i = i+1
 	#MB sampling, eveyr time we create an empty minibatch object
 	mb=deepcopy(model.mb_zeroer)
 	#fill in the mb with the nodes and links sampled
@@ -298,11 +296,13 @@ for i in 1:iter
 		newA=Int64[]
 		while (F < threshold && count < model.K)
 			k = model.Korder[a][count]
+
 			if (k in model.B[a])
 				count+=1
 			else
 				if !isempty(model.B[a])
 					if est_θ[a,k] > est_θ[a,model.B[a][1]]
+						#println("I got here!")
 						F += est_θ[a,k]
 						push!(newA, k)
 						count += 1
