@@ -773,8 +773,8 @@ draw a
 \noindent
 
 \size footnotesize
-construct the mixed membership vector on a simplex via logistic transformation
- on a simplex, 
+construct the mixed membership vector on a simplex via logistic transformation,
+ 
 \begin_inset Formula $\boldsymbol{\theta}_{i,k}=\frac{exp(\boldsymbol{\theta}_{i,k}^{*})}{\sum_{l}exp(\boldsymbol{\theta}_{i,l}^{*})}$
 \end_inset
 
@@ -1523,6 +1523,333 @@ H_{q}[params] & =\tfrac{K}{2}ln\,(2\pi)+\tfrac{K}{2}-\tfrac{1}{2}ln\,|M|\\
 
 \begin_layout Standard
 Annotated version should go here
+\end_layout
+
+\begin_layout Standard
+Here we show the ELBO for each 
+\begin_inset Formula $\mathbb{E}_{q}[.]$
+\end_inset
+
+ expressions:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boldsymbol{\mathbb{E}_{q}\Big[ln\,p(\mu|m_{0},M_{0})\Big]}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\mathbb{E}_{q}\Big[ln\,p(\mu|m_{0},M_{0})\Big] & =\\
+ & -\tfrac{K}{2}ln\,2\pi+\tfrac{1}{2}ln\,|M_{0}|-\tfrac{1}{2}\Big(Tr\,M_{0}\Big[M^{-1}+(m-m_{0})(m-m_{0})^{T}\Big]\Big)\\
+ & =-\tfrac{1}{2}\Bigg(Kln\,2\pi-ln\,|M_{0}|+tr\,M_{0}(m-m_{0})(m-m_{0})^{T}+tr\,M_{0}M^{-1}\Bigg)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boldsymbol{\mathbb{E}_{q}\Big[ln\,p(\Lambda|\ell_{0},L_{0})\Big]}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\mathbb{E}_{q}\Big[ln\,p(\Lambda|\ell_{0},L_{0})\Big] & =\\
+ & -\tfrac{K(K+1)}{2}ln\,2+\tfrac{\ell_{0}-K-1}{2}\psi_{K}(\tfrac{\ell}{2})-ln\,\Gamma_{K}(\tfrac{\ell_{0}}{2})\\
+ & -\tfrac{\ell}{2}Tr\,(L_{0}^{-1}L)-\tfrac{K+1}{2}ln\,|L|+\tfrac{\ell_{0}}{2}ln\,|L_{0}^{-1}L|\\
+ & -\sum_{a}\tfrac{K}{2}ln\,2\pi+\tfrac{1}{2}\sum_{a}\psi_{K}(\tfrac{\ell}{2})+\tfrac{1}{2}\sum_{a}Kln\,2+\tfrac{1}{2}\sum_{a}ln\,|L|\\
+ & =\tfrac{1}{2}\Bigg(-K(K+1)ln\,2+(\ell_{0}-K-1)\sum_{i}\Psi(\tfrac{\ell-i+1}{2})\\
+ & -\tfrac{K(K-1)}{2}ln\,\pi-2\sum_{i}ln\,\Gamma(\tfrac{\ell_{0}-i+1}{2})-\ell tr\,(L_{0}^{-1}L)\\
+ & -(K+1)ln\,|L|+\ell_{0}ln\,|L_{0}^{-1}L|\Bigg)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boldsymbol{\mathbb{E}_{q}\Big[\sum_{a}ln\,p(\theta_{a}|\mu,\Lambda)\Big]}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\mathbb{E}_{q}\Big[\sum_{a}ln\,p(\theta_{a}|\mu,\Lambda)\Big] & =\\
+ & -\tfrac{\ell}{2}\Big(Tr\,\Big[L\Big(\sum_{a}\big(\Lambda_{a}^{-1}+(m-\mu_{a})(m-\mu_{a})^{T}\big)+\sum_{a}M^{-1}\Big)\Big\}\Big)\\
+= & -\tfrac{1}{2}\ell tr\,\Big\{ L\sum_{a}\big[(\mu_{a}-m)(\mu_{a}-m)^{T}+M^{-1}+\Lambda_{a}^{-1}\big]\Big\}\Bigg)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boldsymbol{\mathbb{E}_{q}\Big[\sum_{a}\sum_{b}ln\,p(z_{a\rightarrow b}|\theta_{a})\Big]}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\mathbb{E}_{q}\Big[\sum_{a}\sum_{b}ln\,p(z_{a\rightarrow b}|\theta_{a})\Big] & =\\
+ & \sum_{a}\sum_{b}\sum_{k}\phi_{a\rightarrow b,k}\mu_{a,k}-\sum_{a}\sum_{b}\mathbb{E}_{q}[ln\,(\sum_{l}exp(\theta_{a,l}))]\\
+ & =\sum_{a}\sum_{b\in sink(a)}\Big(\sum_{k}\phi_{a\rightarrow b,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)\\
+ & +\sum_{a}\sum_{b\notin sink(a)}\Big(\sum_{k}\phi_{a\rightarrow b,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boldsymbol{\mathbb{E}_{q}\Big[\sum_{a}\sum_{b}ln\,p(z_{a\leftarrow b}|\theta_{b})\Big]}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\mathbb{E}_{q}\Big[\sum_{a}\sum_{b}ln\,p(z_{a\leftarrow b}|\theta_{b})\Big] & =\\
+ & \sum_{a}\sum_{b\in source(a)}\Big(\sum_{k}\phi_{b\leftarrow a,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)\\
+ & +\sum_{a}\sum_{b\notin source(a)}\Big(\sum_{k}\phi_{b\leftarrow a,k}\mu_{a,k}-ln\,\sum_{l}exp(\mu_{a,l}+\tfrac{1}{2}\Lambda_{a,l}^{-1})\Big)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\begin_inset Formula $\boldsymbol{\mathbb{E}_{q}\Big[\sum_{k}ln\,p(\beta_{kk}|\eta)\Big]}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\mathbb{E}_{q}\Big[\sum_{k}ln\,p(\beta_{kk}|\eta)\Big] & =\\
+ & \sum_{k}ln\,\Gamma(\eta_{0}+\eta_{1})-\sum_{k}ln\,\Gamma(\eta_{0})-\sum_{k}ln\,\Gamma(\eta_{1})+\sum_{k}(\eta_{0}-1)\psi(b_{k0})\\
+ & +\sum_{k}(\eta_{1}-1)\psi(b_{k1})-\sum_{k}(\eta_{0}+\eta_{1}-2)\psi(b_{k0}+b_{k1})
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boldsymbol{\mathbb{E}_{q}\Big[\sum_{a}\sum_{b}ln\,p(y_{ab}|z_{a\rightarrow b},z_{a\leftarrow b},\beta)\Big]}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\mathbb{E}_{q}\Big[\sum_{a}\sum_{b}ln\,p(y_{ab}|z_{a\rightarrow b},z_{a\leftarrow b},\beta)\Big] & =\\
+ & \sum_{a,b\in link}\sum_{k}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\big(\psi(b_{k0})-\psi(b_{k0}+b_{k1})-ln\,\epsilon\big)+ln\,\epsilon\\
+ & +\sum_{a,b\notin link}\sum_{k}\phi_{a\rightarrow b,k}\phi_{a\leftarrow b,k}\big(\psi(b_{k1})-\psi(b_{k0}+b_{k1})-ln\,(1-\epsilon)\big)+ln\,(1-\epsilon)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\boldsymbol{-\mathbb{E}_{q}\Big[q(\mu|m,M)\Big]}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{align*}
+-\mathbb{E}_{q}\Big[q(\mu|m,M)\Big] & =\\
+ & \tfrac{K}{2}ln\,(2\pi)+\tfrac{K}{2}-\tfrac{1}{2}ln\,|M|
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\boldsymbol{-\mathbb{E}_{q}\Big[q(\Lambda|\ell,L)\Big]}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{align*}
+-\mathbb{E}_{q}\Big[q(\Lambda|\ell,L)\Big] & =\\
+ & \tfrac{K(K+1)}{2}ln\,2+\tfrac{K+1}{2}ln\,|L|-\tfrac{\ell-K-1}{2}\psi_{K}(\tfrac{\ell}{2})+ln\,\Gamma_{K}(\tfrac{\ell}{2})+\tfrac{K\ell}{2}\\
+ & =\\
+ & \tfrac{1}{2}\Big((K+1)ln\,|L|+K(K+1)ln\,2+\ell K+\tfrac{1}{2}K(K-1)ln\,\pi\\
+ & +2\sum_{i}ln\,\Gamma(\tfrac{\ell-i+1}{2})-(\ell-K-1)\sum_{i}\Psi(\tfrac{\ell-i+1}{2})\Big)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boldsymbol{-\mathbb{E}_{q}\Big[q(\theta_{a}|\mu_{a},\Lambda_{a})\Big]}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+-\mathbb{E}_{q}\Big[q(\theta_{a}|\mu_{a},\Lambda_{a})\Big] & =\\
+ & \sum_{a}\tfrac{K}{2}ln\,(2\pi)+\sum_{a}\tfrac{K}{2}-\sum_{a}\tfrac{1}{2}ln\,|\Lambda_{a}|
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boldsymbol{-\mathbb{E}_{q}\Big[q(\beta_{kk}|b_{k})\Big]}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+-\mathbb{E}_{q}\Big[q(\beta_{kk}|b_{k})\Big] & =\\
+ & \sum_{k}ln\,\Gamma(b_{k0})+\sum_{k}ln\,\Gamma(b_{k1})-\sum_{k}ln\,\Gamma(b_{k0}+b_{k1})-\sum_{k}(b_{k0}-1)\psi(b_{k0})\\
+ & -\sum_{k}(b_{k1}-1)\psi(b_{k1})+\sum_{k}(b_{k0}+b_{k1}-2)\psi(b_{k0}+b_{k1})
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $-\mathbb{E}_{q}\Big[q(z_{a\rightarrow b}|\phi_{a\rightarrow b})\Big]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+-\mathbb{E}_{q}\Big[q(z_{a\rightarrow b}|\phi_{a\rightarrow b})\Big] & =\\
+ & -\sum_{a}\sum_{b}\sum_{k}\phi_{a\rightarrow b,k}ln\,\phi_{a\rightarrow b,k}\\
+ & =\\
+ & -\sum_{a}\sum_{b\in sink(a)}\sum_{k}\Big(\phi_{a\rightarrow b,k}ln\,\phi_{a\rightarrow b,k}\Big)\\
+ & -\sum_{a}\sum_{b\notin sink(a)}\sum_{k}\Big(\phi_{a\rightarrow b,k}ln\,\phi_{a\rightarrow b,k}\Big)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boldsymbol{-\mathbb{E}_{q}\Big[q(z_{a\leftarrow b}|\phi_{a\leftarrow b})\Big]}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+-\mathbb{E}_{q}\Big[q(z_{a\leftarrow b}|\phi_{a\leftarrow b})\Big] & =\\
+ & -\sum_{a}\sum_{b}\sum_{k}\phi_{a\leftarrow b,k}ln\,\phi_{a\leftarrow b,k}\\
+ & =\\
+ & -\sum_{a}\sum_{b\in sink(a)}\sum_{k}\Big(\phi_{a\leftarrow b,k}ln\,\phi_{a\leftarrow b,k}\Big)\\
+ & -\sum_{a}\sum_{b\notin sink(a)}\sum_{k}\Big(\phi_{a\leftarrow b,k}ln\,\phi_{a\leftarrow b,k}\Big)
+\end{align*}
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
