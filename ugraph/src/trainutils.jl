@@ -14,18 +14,32 @@ function updatephil!(model::LNMMSB, mb::MiniBatch, link::Link)
 end
 
 function updatephil!(model::LNMMSB, mb::MiniBatch, link::Link, check::String)
-	# activecandidateidxsrc = union(model.Active[link.src], model.Candidate[link.src])
-	# activecandidateidxdst = union(model.Active[link.dst], model.Candidate[link.dst])
-	activecandidateidx = union(model.Active[link.src], model.Candidate[link.src],model.Active[link.dst], model.Candidate[link.dst])
+	a = link.src
+	b = link.dst
+	union_a = union(model.A[a], model.C[a])
+	link.ϕ[:] = model.Elogβ0[:]
 
-	for k in activecandidateidx
-		link.ϕ[k] = model.μ_var[link.src,k] + model.μ_var[link.dst,k]+model.Elogβ0[k]
+	for k in union_a
+		link.ϕ[k] += model.μ_var[a,k]
 	end
-	rest = setdiff(1:model.K,activecandidateidx)
-	if !isempty(rest)
-		link.ϕ[rest] .= model.μ_var[link.src,rest[1]] + model.μ_var[link.dst,rest[1]]+model.Elogβ0[rest[1]]
+	union_b = union(model.A[b], model.C[b])
+	for k in union_b
+		link.ϕ[k] += model.μ_var[b,k]
 	end
-
+	if !isempty(model.B[a])
+		κ = model.B[a][1]
+		val = model.μ_var[a,κ]
+		for k in model.B[a]
+			link.ϕ[k] += val
+		end
+	end
+	if !isempty(model.B[b])
+		κ = model.B[b][1]
+		val=model.μ_var[b,κ]
+		for k in model.B[b]
+			link.ϕ[k] += val
+		end
+	end
 	r = logsumexp(link.ϕ)
 	link.ϕ[:] = exp.(link.ϕ[:] .- r)[:]
 end
@@ -41,16 +55,27 @@ function updatephinl!(model::LNMMSB, mb::MiniBatch, nlink::NonLink)
 	nlink.ϕin[:] = exp.(nlink.ϕin[:] .- r)[:]
 end
 function updatephinl!(model::LNMMSB, mb::MiniBatch, nlink::NonLink, check::String)
-	activecandidateidx = union(model.Active[nlink.src], model.Active[nlink.dst], model.Candidate[nlink.src], model.Candidate[nlink.dst])
-	for k in activecandidateidx
-		nlink.ϕout[k] = model.μ_var[nlink.src,k] + nlink.ϕin[k]*(model.Elogβ1[k]-log1p(-EPSILON))
-		nlink.ϕin[k] = model.μ_var[nlink.dst,k] + nlink.ϕout[k]*(model.Elogβ1[k]-log1p(-EPSILON))
+	a = nlink.src
+	b = nlink.dst
+	constant = (model.Elogβ1 .-log1p(-EPSILON))
+	union_a = union(model.A[a], model.C[a])
+	for k in union_a
+		nlink.ϕout[k] = model.μ_var[a,k]
+	end
+	union_b = union(model.A[b], model.C[b])
+	for k in union_a
+		nlink.ϕin[k] = model.μ_var[b,k]
+	end
+	if !isempty(model.B[a])
+		κ = model.B[a][1]
+		val = model.μ_var[a,κ]
+		nlink.ϕout[k] = val
 
 	end
-	rest = setdiff(1:model.K,activecandidateidx)
-	if !isempty(rest)
-		nlink.ϕout[rest] .= model.μ_var[nlink.src,rest[1]] + nlink.ϕin[rest[1]]*(model.Elogβ1[rest[1]]-log1p(-EPSILON))
-		nlink.ϕin[rest] .= model.μ_var[nlink.dst,rest[1]] + nlink.ϕout[rest[1]]*(model.Elogβ1[rest[1]]-log1p(-EPSILON))
+	if !isempty(model.B[b])
+		κ = model.B[b][1]
+		val = model.μ_var[b,κ]
+		nlink.ϕin[k] = val
 	end
 	r = logsumexp(nlink.ϕout)
 	nlink.ϕout[:] = exp.(nlink.ϕout[:] .- r)[:]
@@ -92,6 +117,7 @@ function updatesimulμΛ!(model::LNMMSB, a::Int64,mb::MiniBatch)
 		opt1 = Adagrad()
 		# opt2 = Adagrad()
         #
+
 		for i in 1:10
 			# x  = sfx(μ_var,ltemp)
 			x  = sfx(μ_var)
@@ -183,9 +209,6 @@ function updateL!(model::LNMMSB, mb::MiniBatch, i::Int64)
 	end
 	s=(model.N/model.mbsize)*s
 	s+=inv(model.L0)+model.N.*inv(model.M)
-	# inv(s)
-	# pinv(s)
-	# model.L = inv(s)
 	model.L = try
 		inv(s)
 	catch y

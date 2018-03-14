@@ -289,11 +289,12 @@ for i in 1:iter
 
 	est_θ = deepcopy(model.est_θ)
 	for a in mb.mbnodes
-
+		
 		model.Korder[a] = sortperm(est_θ[a,:],rev=true)
 		F = 0.0
 		count = 1
 		newA=Int64[]
+		#could use enumerate and continue instead
 		while (F < threshold && count < model.K)
 			k = model.Korder[a][count]
 
