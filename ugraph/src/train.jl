@@ -211,8 +211,8 @@ for i in 1:iter
 			l=deepcopy(mb.mblinks[mb.mblinks .== d][1])
 			l.ϕ = deepcopy(one_over_K)
 			for j in 1:10
-				updatephil!(model, mb, l)
-				# updatephil!(model, mb, l,"check")
+				# updatephil!(model, mb, l)
+				updatephil!(model, mb, l,"check")
 			end
 			for k in 1:model.K
 				model.ϕlsum[l.src,k] += l.ϕ[k]
@@ -226,8 +226,8 @@ for i in 1:iter
 			nl.ϕout = deepcopy(one_over_K)
 			nl.ϕin = deepcopy(one_over_K)
 			for j in 1:10
-				updatephinl!(model, mb, nl)
-				# updatephinl!(model, mb, nl, "check")
+				# updatephinl!(model, mb, nl)
+				updatephinl!(model, mb, nl, "check")
 			end
 			for k in 1:model.K
 				model.ϕnloutsum[nl.src,k] += nl.ϕout[k]
@@ -289,7 +289,7 @@ for i in 1:iter
 
 	est_θ = deepcopy(model.est_θ)
 	for a in mb.mbnodes
-		
+
 		model.Korder[a] = sortperm(est_θ[a,:],rev=true)
 		F = 0.0
 		count = 1

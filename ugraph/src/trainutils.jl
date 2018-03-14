@@ -54,7 +54,15 @@ function updatephinl!(model::LNMMSB, mb::MiniBatch, nlink::NonLink)
 	r=logsumexp(nlink.ϕin)
 	nlink.ϕin[:] = exp.(nlink.ϕin[:] .- r)[:]
 end
+#I think this requires the two updates to be separated
 function updatephinl!(model::LNMMSB, mb::MiniBatch, nlink::NonLink, check::String)
+	updatephinlout!(model, mb, nlink, check)
+	updatephinlin!(model, mb, nlink, check)
+end
+
+
+##
+function updatephinlout!(model::LNMMSB, mb::MiniBatch, nlink::NonLink, check::String)
 	a = nlink.src
 	b = nlink.dst
 	constant = (model.Elogβ1 .-log1p(-EPSILON))
@@ -62,26 +70,64 @@ function updatephinl!(model::LNMMSB, mb::MiniBatch, nlink::NonLink, check::Strin
 	for k in union_a
 		nlink.ϕout[k] = model.μ_var[a,k]
 	end
-	union_b = union(model.A[b], model.C[b])
-	for k in union_a
-		nlink.ϕin[k] = model.μ_var[b,k]
-	end
+
 	if !isempty(model.B[a])
 		κ = model.B[a][1]
 		val = model.μ_var[a,κ]
-		nlink.ϕout[k] = val
+		for k in model.B[a]
+			nlink.ϕout[k] = val
+		end
+	end
 
+	union_b = union(model.A[b], model.C[b])
+	for k in union_b
+		nlink.ϕout[k] += nlink.ϕin[k]*constant[k]
 	end
 	if !isempty(model.B[b])
 		κ = model.B[b][1]
-		val = model.μ_var[b,κ]
-		nlink.ϕin[k] = val
+		val = nlink.ϕin[κ]*constant[κ]
+		for k in model.B[b]
+			nlink.ϕout[k] = val
+		end
 	end
+
+
 	r = logsumexp(nlink.ϕout)
 	nlink.ϕout[:] = exp.(nlink.ϕout[:] .- r)[:]
+
+end
+function updatephinlin!(model::LNMMSB, mb::MiniBatch, nlink::NonLink, check::String)
+	a = nlink.src
+	b = nlink.dst
+	constant = (model.Elogβ1 .-log1p(-EPSILON))
+	union_b = union(model.A[b], model.C[b])
+	for k in union_b
+		nlink.ϕin[k] = model.μ_var[b,k]
+	end
+
+	if !isempty(model.B[b])
+		κ = model.B[b][1]
+		val = model.μ_var[b,κ]
+		for k in model.B[b]
+			nlink.ϕin[k] = val
+		end
+	end
+
+	union_a = union(model.A[a], model.C[a])
+	for k in union_a
+		nlink.ϕin[k] += nlink.ϕout[k]*constant[k]
+	end
+	if !isempty(model.B[a])
+		κ = model.B[a][1]
+		val = nlink.ϕout[κ]*constant[κ]
+		for k in model.B[a]
+			nlink.ϕin[k] = val
+		end
+	end
 	r=logsumexp(nlink.ϕin)
 	nlink.ϕin[:] = exp.(nlink.ϕin[:] .- r)[:]
 end
+##
 
 function sfx(μ_var::Vector{Float64},ltemp::Vector{Float64})
 	return softmax(μ_var .+.5.*exp.(ltemp))
