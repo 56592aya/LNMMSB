@@ -479,7 +479,7 @@ Based on the general idea established in the previous section, our main
 
  predefined, potentially overlapping communities, and each individual can
  belong to several communities.
- This overlapping structure is allowed by allowing individuals to activate
+ This overlapping structure is created by allowing individuals to activate
  their specific roles(communities) when potentially interacting with other
  individuals.
  This is desired, since main volume of communications in real world networks
@@ -493,7 +493,7 @@ dimensional membership probability vector for each individual.
  To realize the role activation of each individual in any contact to/by
  others, we define an interaction specific parameter(one-hot vector), where
  the preferred community is announced.
- However as discussed before, we expect denser patterns of communications
+ However as discussed before, we expect denser patterns of link formation
  within each community in comparison with between communities.
  To address this, we also employ a 
 \begin_inset Formula $K\times K$
@@ -773,7 +773,8 @@ draw a
 \noindent
 
 \size footnotesize
-construct the simplical mixed membership via logistic transformation , 
+construct the mixed membership vector on a simplex via logistic transformation
+ on a simplex, 
 \begin_inset Formula $\boldsymbol{\theta}_{i,k}=\frac{exp(\boldsymbol{\theta}_{i,k}^{*})}{\sum_{l}exp(\boldsymbol{\theta}_{i,l}^{*})}$
 \end_inset
 
@@ -1454,6 +1455,16 @@ z_{a\leftarrow b} & \sim & q(z_{a\leftarrow b}|\phi_{a\leftarrow b})\sim Cat(z_{
 \end_layout
 
 \begin_layout Standard
+In our scenario we set 
+\begin_inset Formula $\Lambda_{a}=\infty$
+\end_inset
+
+ to construct the points estimates as we have only one observation per individua
+ls.
+ 
+\end_layout
+
+\begin_layout Standard
 Note that 
 \begin_inset Formula $\phi_{a\rightarrow b}$
 \end_inset
@@ -1508,6 +1519,10 @@ H_{q}[params] & =\tfrac{K}{2}ln\,(2\pi)+\tfrac{K}{2}-\tfrac{1}{2}ln\,|M|\\
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Annotated version should go here
 \end_layout
 
 \begin_layout Standard
@@ -3319,9 +3334,6 @@ draw[edge] (zab) to  (y);
 
 \begin_layout Plain Layout
 
-
-\backslash
-draw[edge] (zab) to  (za);
 \end_layout
 
 \begin_layout Plain Layout
@@ -3335,7 +3347,7 @@ draw[edge] (zba) to  (y);
 
 
 \backslash
-draw[edge] (thetaa) to  (zab);
+draw[edge] (thetaa) to  (za);
 \end_layout
 
 \begin_layout Plain Layout
