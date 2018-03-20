@@ -56,8 +56,13 @@ function updatephinl!(model::LNMMSB, mb::MiniBatch, nlink::NonLink)
 end
 #I think this requires the two updates to be separated
 function updatephinl!(model::LNMMSB, mb::MiniBatch, nlink::NonLink, check::String)
-	updatephinlout!(model, mb, nlink, check)
-	updatephinlin!(model, mb, nlink, check)
+	if rand(Bool, 1)[1]
+		updatephinlout!(model, mb, nlink, check)
+		updatephinlin!(model, mb, nlink, check)
+	else
+		updatephinlin!(model, mb, nlink, check)
+		updatephinlout!(model, mb, nlink, check)
+	end
 end
 
 
@@ -66,32 +71,13 @@ function updatephinlout!(model::LNMMSB, mb::MiniBatch, nlink::NonLink, check::St
 	a = nlink.src
 	b = nlink.dst
 	constant = (model.Elogβ1 .-log1p(-EPSILON))
-	union_a = union(model.A[a], model.C[a])
-	for k in union_a
-		nlink.ϕout[k] = model.μ_var[a,k]
-	end
-
-	if !isempty(model.B[a])
-		κ = model.B[a][1]
-		val = model.μ_var[a,κ]
-		for k in model.B[a]
-			nlink.ϕout[k] = val
+	for k in 1:model.K
+		if k in model.B[b]
+			nlink.ϕout[k] = model.μ_var[a,k]
+		else
+			nlink.ϕout[k] = model.μ_var[a,k] + nlink.ϕin[k]*constant[k]
 		end
 	end
-
-	union_b = union(model.A[b], model.C[b])
-	for k in union_b
-		nlink.ϕout[k] += nlink.ϕin[k]*constant[k]
-	end
-	if !isempty(model.B[b])
-		κ = model.B[b][1]
-		val = nlink.ϕin[κ]*constant[κ]
-		for k in model.B[b]
-			nlink.ϕout[k] = val
-		end
-	end
-
-
 	r = logsumexp(nlink.ϕout)
 	nlink.ϕout[:] = exp.(nlink.ϕout[:] .- r)[:]
 
@@ -100,28 +86,11 @@ function updatephinlin!(model::LNMMSB, mb::MiniBatch, nlink::NonLink, check::Str
 	a = nlink.src
 	b = nlink.dst
 	constant = (model.Elogβ1 .-log1p(-EPSILON))
-	union_b = union(model.A[b], model.C[b])
-	for k in union_b
-		nlink.ϕin[k] = model.μ_var[b,k]
-	end
-
-	if !isempty(model.B[b])
-		κ = model.B[b][1]
-		val = model.μ_var[b,κ]
-		for k in model.B[b]
-			nlink.ϕin[k] = val
-		end
-	end
-
-	union_a = union(model.A[a], model.C[a])
-	for k in union_a
-		nlink.ϕin[k] += nlink.ϕout[k]*constant[k]
-	end
-	if !isempty(model.B[a])
-		κ = model.B[a][1]
-		val = nlink.ϕout[κ]*constant[κ]
-		for k in model.B[a]
-			nlink.ϕin[k] = val
+	for k in 1:model.K
+		if k in model.B[a]
+			nlink.ϕin[k] = model.μ_var[b,k]
+		else
+			nlink.ϕin[k] = model.μ_var[b,k] + nlink.ϕout[k]*constant[k]
 		end
 	end
 	r=logsumexp(nlink.ϕin)
@@ -135,6 +104,32 @@ end
 function sfx(μ_var::Vector{Float64})
 	return softmax(μ_var)
 end
+
+function updateμ!(model::LNMMSB, a::Int64,mb::MiniBatch, check::String)
+	model.μ_var_old[a,:]=deepcopy(model.μ_var[a,:])
+	μ_var = deepcopy(model.μ_var[a,:])
+	x = sfx(μ_var)
+	s1 = haskey(mb.mbnot,a)?(N-1-model.train_deg[a]):0
+	c1 = haskey(mb.mbnot,a)?length(mb.mbnot[a]):1
+
+	sumb =(model.N-1)
+	X=model.ϕlsum[a,:]+(s1/c1).*.5.*(model.ϕnloutsum[a,:]+model.ϕnlinsum[a,:])
+	##added this line
+
+	dfunci(μ_var) = -model.l.*model.L*(μ_var-model.m) +X - sumb.*x
+	opt1 = Adagrad()
+
+	for i in 1:10
+		x  = sfx(μ_var)
+		g1 = dfunci(μ_var)
+		δ1 = update(opt1,g1)
+		μ_var+=δ1
+	end
+	model.μ_var[a,:]=μ_var
+	print();
+end
+
+
 function updatesimulμΛ!(model::LNMMSB, a::Int64,mb::MiniBatch)
 		model.μ_var_old[a,:]=deepcopy(model.μ_var[a,:])
 		#model.Λ_var_old[a,:]=deepcopy(model.Λ_var[a,:])

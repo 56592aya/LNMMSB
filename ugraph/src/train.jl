@@ -12,7 +12,7 @@ prev_ll = -1000000
 store_ll = Array{Float64, 1}()
 store_nmi = Array{Float64, 1}()
 first_converge = false
-switchrounds=true
+# switchrounds=true
 elboevery=200
 model.elborecord = Vector{Float64}()
 model.elbo = 0.0
@@ -106,8 +106,11 @@ function getSets!(model::LNMMSB, threshold::Float64)
 		_init_μ[a,:] = model.μ_var[a,:]
 	end
 end
+
 getSets!(model, threshold)
 #Starting the variational loop
+
+
 for i in 1:iter
 	#MB sampling, eveyr time we create an empty minibatch object
 	mb=deepcopy(model.mb_zeroer)
@@ -192,7 +195,7 @@ for i in 1:iter
 
 
 
-	switchrounds = bitrand(1)[1]
+	# switchrounds = bitrand(1)[1]
 	#getSets!(model, mb, threshold)
 	# model.μ_var_old = deepcopy(model.μ_var)
 	# model.μ_var_old[model.mbids,:]=deepcopy(model.μ_var[model.mbids,:])
@@ -247,9 +250,9 @@ for i in 1:iter
 			#we also ignore the Lambda assuming its very large or cov is 0
 			count_a[a] += 1
 			expectedvisits = (iter/(4*model.N/model.mbsize))
-			updatesimulμΛ!(model, a, mb)
+			# updatesimulμΛ!(model, a, mb)
+			updateμ!(model, a, mb, "check")
 			lr_μ[a] = (expectedvisits/(expectedvisits+Float64(count_a[a]-1.0)))^(.5)
-			#lr_Λ[a] = (expectedvisits/(expectedvisits+Float64(count_a[a]-1.0)))^(.5)
 			model.μ_var[a,:] = model.μ_var_old[a,:].*(1.0.-lr_μ[a])+lr_μ[a].*model.μ_var[a,:]
 			# if i  < 1500
 			# 	model.μ_var[a,:] .+= log.(nnz(model.network)./(2.*sum(model.ϕlsum, 1)[:]))
@@ -261,7 +264,7 @@ for i in 1:iter
 	estimate_θs!(model, mb)
 	#
 	###Finger example
-	### old ordering where F(k ∈ A U C | est_θ[a,k] > est_θ[a,κ]) = .8 < .9
+	### new ordering old sets where F(k ∈ A U C | est_θ[a,k] > est_θ[a,κ]) = .8 < .9
 	### condition est_θ[a,k] > est_θ[a,κ] may leave out some of the ones in C(or even A potentially)
 	### Vanilla version where condition est_θ[a,k] > est_θ[a,κ] always holds for any k in A or C
 		### |A U C|=8, and |B|=20, so est_θ[a,κ] = .01
@@ -274,7 +277,7 @@ for i in 1:iter
 			### this could be done in the next rounds of iteration given already modified A's
 	### General version where we need to check for the condition est_θ[a,k] > est_θ[a,κ]
 		### We know who is in A, C, or B, we have the indices
-		### We sort the new est_θ and and keep the indices in the original {K}
+		### We sort the new est_θ and  keep the indices in the original {K}
 		### we check whether est_θ[a,k] > est_θ[a,κ] for k in A U C we call this A* U C*
 			### for that in the new sorted list
 				### as we want to construct the F, we check whether the k is in A or C and
@@ -284,7 +287,7 @@ for i in 1:iter
 			### if this F is less than the .9 threshold, we have to sample (threshold - F)/est_θ[a,κ] from B
 		### Now we have new A as (A* U C* U sampled)
 		### in the next iteration we construct the C
-			### from Actives of neighbors which could potentially be from the B
+			### C from Actives of neighbors which are from those other than in A
 			### the rest will remain as B
 
 	est_θ = deepcopy(model.est_θ)
