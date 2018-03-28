@@ -17,9 +17,19 @@ model.nho = .01*model.N*(model.N-1)
 model.nho = 0
 model.mbsize = minibatchsize
 model.K = onlyK
+
 mb=deepcopy(model.mb_zeroer)
 include("modelutils.jl")
 preparedata2!(model)
 include("trainutils.jl")
-
-# include("train.jl")
+#think about number of columns getting larger and storing observations column wise# this is a big change
+# function f()
+#     include("train.jl")
+# end
+# using ProfileView
+# f()
+# # Profile.init()
+# Profile.clear()
+# @profile f()
+#
+# ProfileView.view()

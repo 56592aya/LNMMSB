@@ -4,6 +4,9 @@ using GraphPlot
 for a in 1:model.N
 	model.train_deg[a] = sum(model.network[a,:])
 end
+
+
+
 iter=10000
 train_links_num=0
 train_nlinks_num = 0
@@ -66,122 +69,28 @@ model.μ_var=deepcopy(_init_μ)
 
 estimate_θs!(model)
 threshold=.9
-# Here we need do determine the A, C, B for the first round before getting into the variational loop
-"""
-	getSets(model::LNMMSB, threshold::Float64)
-	Function that returns the A, C, B of all nodes and keeps an ordering for communities
-	Input: estimated_θ's
-	Output: None, but updates A, C, B, Ordering, and mu's in the bulk set
-"""
-function getSets!(model::LNMMSB, threshold::Float64)
-	est_θ = deepcopy(model.est_θ)
 
-	for a in 1:model.N
-		model.Korder[a] = sortperm(est_θ[a,:], rev=true)
-		F = 0.0
-		counter = 1
-		while (F < threshold && counter < model.K)
-			k = model.Korder[a][counter]
-			F += est_θ[a,k]
-			counter += 1
-			push!(model.A[a], k)
-		end
-	end
-	for a in 1:model.N
-		neighbors = neighbors_(model, a)
-		for b in neighbors
-			for k in model.A[b]
-				if !(k in model.A[a])
-					push!(model.C[a], k)
-				end
-			end
-		end
-		model.C[a] = unique(model.C[a])
-		model.B[a] = setdiff(model.Korder[a], union(model.A[a], model.C[a]))
-		if !(isempty(model.B[a]))
-			bulk_θs  = sum(est_θ[a,model.B[a]])/length(model.B[a])
-			model.est_θ[a,model.B[a]] = bulk_θs
-			model.μ_var[a,model.B[a]] = log.(bulk_θs)
-		end
-		_init_μ[a,:] = model.μ_var[a,:]
-	end
-end
 
 getSets!(model, threshold)
-#Starting the variational loop
 
+#Starting the variational loop
+println("Initialized the sets for all nodes")
 
 for i in 1:iter
 	#MB sampling, eveyr time we create an empty minibatch object
 	mb=deepcopy(model.mb_zeroer)
 	#fill in the mb with the nodes and links sampled
-	minibatch_set_srns(model)
+	minibatch_set_srns(model, mb)
 	model.mbids = deepcopy(mb.mbnodes)
-	#shuffle them, so that the order is random
 	shuffled = shuffle!(collect(model.minibatch_set))
-
-
-	for d in shuffled
-		#creating link objects and initializing their phis
-		if isalink(model, "network", d.src, d.dst)
-			l = Link(d.src, d.dst,_init_ϕ)
-			if l in mb.mblinks
-				continue;
-			else
-				push!(mb.mblinks, l)
-			end
-		else
-			#creating nonlink objects and initializing their phis
-			nl = NonLink(d.src, d.dst, _init_ϕ,_init_ϕ)
-
-			if nl in mb.mbnonlinks
-				continue;
-			else
-				#also adding their nonsources and nonsinks
-				push!(mb.mbnonlinks, nl)
-				if !haskey(mb.mbnot, nl.src)
-					mb.mbnot[nl.src] = get(mb.mbnot, nl.src, Vector{Int64}())
-				end
-				if nl.dst in mb.mbnot[nl.src]
-					continue;
-				else
-					push!(mb.mbnot[nl.src], nl.dst)
-				end
-				if !haskey(mb.mbnot, nl.dst)
-					mb.mbnot[nl.dst] = get(mb.mbnot, nl.dst, Vector{Int64}())
-				end
-				if nl.src in mb.mbnot[nl.dst]
-					continue;
-				else
-					push!(mb.mbnot[nl.dst], nl.src)
-				end
-			end
-		end
-	end
+	setup_mblnl!(model, mb, shuffled)
 	##Place to construct the C and B in the next iteration where the minibatch is set up
-	for a in mb.mbnodes
-		neighbors = neighbors_(model, a)
-		#we can speed up here if we have visited the neighbor before but for later
-		# idea is that if have not visited we can skip it, also should be reset somewhere
-		for b in neighbors
-			for k in model.A[b]
-				if !(k in model.A[a])
-					push!(model.C[a], k)
-				end
-			end
-		end
-		model.C[a] = unique(model.C[a])
-		model.B[a] = setdiff(model.Korder[a], union(model.A[a], model.C[a]))
-		if !(isempty(model.B[a]))
-			bulk_θs  = sum(model.est_θ[a,model.B[a]])/length(model.B[a])
-			model.est_θ[a,model.B[a]] = bulk_θs
-			model.μ_var[a,model.B[a]] = log.(bulk_θs)
-		end
-	end
+	update_sets!(model, mb)
 	##
 	# mbsamplinglink!(mb, model, meth, model.mbsize)
 	# model.fmap = deepcopy(zeros(Float64, (model.N,model.K)))
 	#Setting the learning rates for full sample
+
 	lr_M = 1.0
 	lr_m = 1.0
 	lr_L = 1.0

@@ -1,3 +1,4 @@
+using StatsBase
 function do_linked_edges!(model::LNMMSB)
 	Src, Sink, Val= findnz(model.network)
 	model.linked_edges=Set{Dyad}()
@@ -8,7 +9,24 @@ function do_linked_edges!(model::LNMMSB)
 	end
 end
 
-function minibatch_set_srns(model::LNMMSB)
+using BenchmarkTools
+using StatsBase
+function f1(model::LNMMSB, mbnodes::Vector{Int64})
+	node_count = 0
+	# mb = deepcopy(model.mb_zeroer)
+	while node_count < 5
+		a = ceil(Int64,model.N*rand())
+		if a in mbnodes
+			continue;
+		else
+			push!(mbnodes, a)
+			node_count +=1
+		end
+	end
+	mbnodes
+end
+
+function minibatch_set_srns(model::LNMMSB, mb::MiniBatch)
 	model.minibatch_set = Set{Dyad}()
 	node_count = 0
 	while node_count < model.mbsize
@@ -50,7 +68,34 @@ function minibatch_set_srns(model::LNMMSB)
 		node_count +=1
 	end
 end
-
+# function f(model::LNMMSB, mb::MiniBatch)
+# 	mb = deepcopy(model.mb_zeroer)
+# 	model.minibatch_set = Set{Dyad}()
+# 	node_count = 0
+# 	while node_count < model.mbsize
+# 		a = ceil(Int64,model.N*rand())
+# 		if a in mb.mbnodes
+# 			continue;
+# 		else
+# 			push!(mb.mbnodes, a)
+# 			node_count +=1
+# 		end
+# 		neigh = neighbors_(model, a)
+# 		nonneigh = setdiff(1:model.N , vcat(a, neigh))
+# 		x = collect.(zip(repmat([a], length(neigh)), neigh))
+# 		x = Set([convert(Dyad, xx) for xx in x])
+# 		union!(model.minibatch_set,x)
+# 		minibatch_size = round(Int64, model.N/model.num_peices)
+# 		p = minibatch_size
+# 		nind =StatsBase.knuths_sample!(1:length(nonneigh), zeros(Int64, p))
+# 		nonneigh=nonneigh[nind]
+# 		x = collect.(zip(repmat([a], length(nonneigh)), nonneigh))
+# 		x = Set([convert(Dyad, xx) for xx in x])
+# 		union!(model.minibatch_set,x)
+# 	end
+# end
+# @time minibatch_set_srns(model, mb)
+# @time f(model, mb)
 function init_train_link_map!(model::LNMMSB)
 	for a in 1:model.N
 		if !haskey(model.train_link_map, a)
@@ -200,9 +245,13 @@ function isfadj(model::LNMMSB,place::String,curr::Int64, q::Int64)
   ret
 end
 
-function neighbors_(model::LNMMSB,curr::Int64)
-	[b for b in 1:model.N if isalink(model,curr, b)]
+function neighbors_(model::LNMMSB, curr::Int64)
+	model.network[:,curr].nzind
 end
+
+# function neighbors_(model::LNMMSB,curr::Int64)
+# 	[b for b in 1:model.N if isalink(model,curr, b)]
+# end
 function neighbors_(model::LNMMSB,place::String,curr::Int64)
   [b for b in 1:model.N if isalink(model,place, curr, b)]
 end
@@ -250,4 +299,113 @@ function init_mu(model::LNMMSB, communities::Dict{Int64, Vector{Int64}}, onlyK::
     model.μ_var[i,:] = log.(model.μ_var[i,:]/(sum(model.μ_var[i,:])))
   end
 end
+
+
+# Here we need do determine the A, C, B for the first round before getting into the variational loop
+"""
+	getSets(model::LNMMSB, threshold::Float64)
+	Function that returns the A, C, B of all nodes and keeps an ordering for communities
+	Input: estimated_θ's
+	Output: None, but updates A, C, B, Ordering, and mu's in the bulk set
+"""
+
+
+function getSets!(model::LNMMSB, threshold::Float64)
+	est_θ = deepcopy(model.est_θ)
+
+	for a in 1:model.N
+		model.Korder[a] = sortperm(est_θ[a,:], rev=true)
+		F = 0.0
+		counter = 1
+		while (F < threshold && counter < model.K)
+			k = model.Korder[a][counter]
+			F += est_θ[a,k]
+			counter += 1
+			push!(model.A[a], k)
+		end
+	end
+	for a in 1:model.N
+		neighbors = neighbors_(model, a)
+		for b in neighbors
+			for k in model.A[b]
+				if !(k in model.A[a])
+					push!(model.C[a], k)
+				end
+			end
+		end
+		model.C[a] = unique(model.C[a])
+		model.B[a] = setdiff(model.Korder[a], union(model.A[a], model.C[a]))
+		if !(isempty(model.B[a]))
+			bulk_θs  = sum(est_θ[a,model.B[a]])/length(model.B[a])
+			model.est_θ[a,model.B[a]] = bulk_θs
+			model.μ_var[a,model.B[a]] = log.(bulk_θs)
+		end
+		_init_μ[a,:] = model.μ_var[a,:]
+	end
+end
+
+
+function update_sets!(model::LNMMSB, mb::MiniBatch)
+	@inbounds for a in mb.mbnodes
+		neighbors = neighbors_(model, a)
+		#we can speed up here if we have visited the neighbor before but for later
+		# idea is that if have not visited we can skip it, also should be reset somewhere
+		@inbounds for b in neighbors
+			@inbounds for k in model.A[b]
+				if !(k in model.A[a])
+					push!(model.C[a], k)
+				end
+			end
+		end
+		model.C[a] = unique(model.C[a])
+		model.B[a] = setdiff(model.Korder[a], union(model.A[a], model.C[a]))
+		if !(isempty(model.B[a]))
+			bulk_θs  = sum(model.est_θ[a,model.B[a]])/length(model.B[a])
+			model.est_θ[a,model.B[a]] = bulk_θs
+			model.μ_var[a,model.B[a]] = log.(bulk_θs)
+		end
+	end
+end
+function setup_mblnl!(model::LNMMSB, mb::MiniBatch, shuffled::Vector{Dyad})
+	#shuffle them, so that the order is random
+
+	for d in shuffled
+		#creating link objects and initializing their phis
+		if isalink(model, "network", d.src, d.dst)
+			l = Link(d.src, d.dst,_init_ϕ)
+			if l in mb.mblinks
+				continue;
+			else
+				push!(mb.mblinks, l)
+			end
+		else
+			#creating nonlink objects and initializing their phis
+			nl = NonLink(d.src, d.dst, _init_ϕ,_init_ϕ)
+
+			if nl in mb.mbnonlinks
+				continue;
+			else
+				#also adding their nonsources and nonsinks
+				push!(mb.mbnonlinks, nl)
+				if !haskey(mb.mbnot, nl.src)
+					mb.mbnot[nl.src] = get(mb.mbnot, nl.src, Vector{Int64}())
+				end
+				if nl.dst in mb.mbnot[nl.src]
+					continue;
+				else
+					push!(mb.mbnot[nl.src], nl.dst)
+				end
+				if !haskey(mb.mbnot, nl.dst)
+					mb.mbnot[nl.dst] = get(mb.mbnot, nl.dst, Vector{Int64}())
+				end
+				if nl.src in mb.mbnot[nl.dst]
+					continue;
+				else
+					push!(mb.mbnot[nl.dst], nl.src)
+				end
+			end
+		end
+	end
+end
+
 print();

@@ -15,7 +15,8 @@ struct Dyad <: AbstractDyad
  src::Int64
  dst::Int64
 end
-
+import Base: convert
+convert(::Type{Dyad}, x::Tuple) = Dyad(x[1], x[2])
 mutable struct Link <: AbstractDyad
   src::Int64
   dst::Int64
@@ -117,7 +118,6 @@ function logsumexp(X::Vector{Float64})
     end
     log1p(r-1.0) + alpha
 end
-
 function logsumexp(X::Float64, Y::Float64)
     alpha = -Inf
     r = 0.0
@@ -138,6 +138,7 @@ function logsumexp(X::Float64, Y::Float64)
     end
     log1p(r-1.0) + alpha
 end
+
 
 function softmax(X::Vector{Float64})
   exp.(X.-logsumexp(X))

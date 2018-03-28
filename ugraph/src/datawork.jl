@@ -30,7 +30,7 @@ edge_df = convert(DataFrame,edge_df)
 edge_df = unique(edge_df)
 orig_nodes = unique(vcat(edge_df[:x1], edge_df[:x2]))
 N = length(orig_nodes)
-include("utils.jl")
+# include("utils.jl")
 network = Network(N)
 ##############################
 ##Change labels
@@ -131,9 +131,9 @@ describe(comm_len)
 # GraphPlot.draw(PNG("/home/arashyazdiha/Dropbox/Arash/EUR/Workspace/CLSM/Julia Implementation/ProjectLN/ugraph/data/netrevised.png", 30cm, 30cm), gplot(lg))
 
 
-include("LNMMSB.jl")
+# include("LNMMSB.jl")
 onlyK = length(communities)
-minibatchsize = 1
+minibatchsize = 10
 true_eta0 = 9
 model=LNMMSB(network, onlyK,minibatchsize)
 model.η0 = 1.1
