@@ -23,13 +23,19 @@ include("modelutils.jl")
 preparedata2!(model)
 include("trainutils.jl")
 #think about number of columns getting larger and storing observations column wise# this is a big change
-# function f()
-#     include("train.jl")
-# end
-# using ProfileView
+function f()
+    include("train.jl")
+end
+# Pkg.add("StatProfilerHTML")
+using StatProfilerHTML
 # f()
-# # Profile.init()
-# Profile.clear()
-# @profile f()
+Profile.init(100000000, 0.01)
+Profile.clear()
+@profile f()
+StatProfilerHTML.statprofilehtml()
+
+# Pkg.add("FProfile")
+# using ProfileView
+#
 #
 # ProfileView.view()

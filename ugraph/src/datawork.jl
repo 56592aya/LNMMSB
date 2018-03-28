@@ -6,7 +6,7 @@ edge_df = zeros(Int64, (1,2))
 for yr in 1973:2009
     linktab = readtable("../data/Authors/Links_2010_Final/Links $yr.csv")
     edgetab = linktab[:,[1,2]]
-    complete_cases!(edgetab)
+    completecases!(edgetab)
 
     temp = zeros(Int64, (nrow(edgetab),2))
     temp[:,1] = edgetab[:,1]

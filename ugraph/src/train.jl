@@ -72,11 +72,29 @@ threshold=.9
 
 
 getSets!(model, threshold)
+##test whether the sets are mutually exclusive and form a full set together
+function test_sets(model)
+	wrongs = Int64[]
+	for a in 1:model.N
+		cond = isempty(intersect(model.A[a], model.C[a])) &&	isempty(intersect(model.A[a], model.B[a])) &&
+				isempty(intersect(model.B[a], model.C[a]))
+		if !cond
+			push!(wrongs, a)
+		end
+	end
+	if isempty(wrongs)
+		println("sets correctly set")
+		println("Initialized the sets for all nodes")
+	end
+	println(wrongs)
+end
+println()
+test_sets(model)
 
 #Starting the variational loop
-println("Initialized the sets for all nodes")
 
 for i in 1:iter
+
 	#MB sampling, eveyr time we create an empty minibatch object
 	mb=deepcopy(model.mb_zeroer)
 	#fill in the mb with the nodes and links sampled
@@ -86,6 +104,8 @@ for i in 1:iter
 	setup_mblnl!(model, mb, shuffled)
 	##Place to construct the C and B in the next iteration where the minibatch is set up
 	update_sets!(model, mb)
+	# println()
+	# test_sets(model)
 	##
 	# mbsamplinglink!(mb, model, meth, model.mbsize)
 	# model.fmap = deepcopy(zeros(Float64, (model.N,model.K)))
@@ -171,75 +191,10 @@ for i in 1:iter
 		end
 	end
 	estimate_θs!(model, mb)
-	#
-	###Finger example
-	### new ordering old sets where F(k ∈ A U C | est_θ[a,k] > est_θ[a,κ]) = .8 < .9
-	### condition est_θ[a,k] > est_θ[a,κ] may leave out some of the ones in C(or even A potentially)
-	### Vanilla version where condition est_θ[a,k] > est_θ[a,κ] always holds for any k in A or C
-		### |A U C|=8, and |B|=20, so est_θ[a,κ] = .01
-		### we have to sample (.9-.8)/0.01 = 10 from B
-		### Now we have |A U C U sampled|=18 where F(A U C U sampled)=.9
-		### and |B_rest| = 10
-		### now since they meet .9 threshold I put (A U C U sampled) into active set of A
-		### For that I first sort (A U C U sampled)
-		### Should see which ones in B can be promoted to C, and leave rest as B
-			### this could be done in the next rounds of iteration given already modified A's
-	### General version where we need to check for the condition est_θ[a,k] > est_θ[a,κ]
-		### We know who is in A, C, or B, we have the indices
-		### We sort the new est_θ and  keep the indices in the original {K}
-		### we check whether est_θ[a,k] > est_θ[a,κ] for k in A U C we call this A* U C*
-			### for that in the new sorted list
-				### as we want to construct the F, we check whether the k is in A or C and
-				### if est_θ[a,k] > est_θ[a,κ]
-		### if the F we constructed hits the .9 that is the new A
-		### Else
-			### if this F is less than the .9 threshold, we have to sample (threshold - F)/est_θ[a,κ] from B
-		### Now we have new A as (A* U C* U sampled)
-		### in the next iteration we construct the C
-			### C from Actives of neighbors which are from those other than in A
-			### the rest will remain as B
-
 	est_θ = deepcopy(model.est_θ)
-	for a in mb.mbnodes
+	update_A!(model, mb, est_θ,threshold)
 
-		model.Korder[a] = sortperm(est_θ[a,:],rev=true)
-		F = 0.0
-		count = 1
-		newA=Int64[]
-		#could use enumerate and continue instead
-		while (F < threshold && count < model.K)
-			k = model.Korder[a][count]
 
-			if (k in model.B[a])
-				count+=1
-			else
-				if !isempty(model.B[a])
-					if est_θ[a,k] > est_θ[a,model.B[a][1]]
-						#println("I got here!")
-						F += est_θ[a,k]
-						push!(newA, k)
-						count += 1
-					end
-				else
-					F += est_θ[a,k]
-					push!(newA, k)
-					count += 1
-				end
-			end
-		end
-		toAdd = Int64[]
-		if (threshold-F > 0.0)
-			toSample = (threshold-F)/est_θ[a,model.B[a][1]]
-			toAdd = sample(model.B[a], toSample, replace=false)
-		end
-		if !isempty(toAdd)
-			for el in toAdd
-				model.A[a]= push!(newA, el)
-			end
-		else
-			model.A[a] = newA
-		end
-	end
 	#
 
 	updatem!(model, mb)

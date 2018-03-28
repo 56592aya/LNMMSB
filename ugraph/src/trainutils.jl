@@ -12,33 +12,50 @@ using ForwardDiff
 # 	r = logsumexp(link.ϕ)
 # 	link.ϕ[:] = exp.(link.ϕ[:] .- r)[:]
 # end
-
+# @btime updatephil!(model, mb, mb.mblinks[1], "hello")
+# function updatephil!(model::LNMMSB, mb::MiniBatch, link::Link, check::String)
+# 	a = link.src
+# 	b = link.dst
+# 	union_a = union(model.A[a], model.C[a])
+# 	link.ϕ[:] = model.Elogβ0[:]
+#
+# 	for k in union_a
+# 		link.ϕ[k] += model.μ_var[a,k]
+# 	end
+# 	union_b = union(model.A[b], model.C[b])
+# 	for k in union_b
+# 		link.ϕ[k] += model.μ_var[b,k]
+# 	end
+# 	if !isempty(model.B[a])
+# 		κ = model.B[a][1]
+# 		val = model.μ_var[a,κ]
+# 		for k in model.B[a]
+# 			link.ϕ[k] += val
+# 		end
+# 	end
+# 	if !isempty(model.B[b])
+# 		κ = model.B[b][1]
+# 		val=model.μ_var[b,κ]
+# 		for k in model.B[b]
+# 			link.ϕ[k] += val
+# 		end
+# 	end
+# 	r = logsumexp(link.ϕ)
+# 	link.ϕ[:] = exp.(link.ϕ[:] .- r)[:]
+# end
 function updatephil!(model::LNMMSB, mb::MiniBatch, link::Link, check::String)
 	a = link.src
 	b = link.dst
-	union_a = union(model.A[a], model.C[a])
-	link.ϕ[:] = model.Elogβ0[:]
-
+	union_a = vcat(model.A[a], model.C[a])
+	union_b = vcat(model.A[b], model.C[b])
+	vala = !isempty(model.B[a])? model.μ_var[a, model.B[a][1]]: 0.0
+	valb = !isempty(model.B[b])? model.μ_var[b, model.B[b][1]]: 0.0
+	link.ϕ[:] = model.Elogβ0[:] + vala + valb
 	for k in union_a
-		link.ϕ[k] += model.μ_var[a,k]
+		link.ϕ[k] += model.μ_var[a,k] - vala
 	end
-	union_b = union(model.A[b], model.C[b])
 	for k in union_b
-		link.ϕ[k] += model.μ_var[b,k]
-	end
-	if !isempty(model.B[a])
-		κ = model.B[a][1]
-		val = model.μ_var[a,κ]
-		for k in model.B[a]
-			link.ϕ[k] += val
-		end
-	end
-	if !isempty(model.B[b])
-		κ = model.B[b][1]
-		val=model.μ_var[b,κ]
-		for k in model.B[b]
-			link.ϕ[k] += val
-		end
+		link.ϕ[k] += model.μ_var[b,k] - valb
 	end
 	r = logsumexp(link.ϕ)
 	link.ϕ[:] = exp.(link.ϕ[:] .- r)[:]
@@ -71,12 +88,10 @@ function updatephinlout!(model::LNMMSB, mb::MiniBatch, nlink::NonLink, check::St
 	a = nlink.src
 	b = nlink.dst
 	constant = (model.Elogβ1 .-log1p(-EPSILON))
-	for k in 1:model.K
-		if k in model.B[b]
-			nlink.ϕout[k] = model.μ_var[a,k]
-		else
-			nlink.ϕout[k] = model.μ_var[a,k] + nlink.ϕin[k]*constant[k]
-		end
+	nlink.ϕout[:] = model.μ_var[a,:]
+	union_b = vcat(model.A[b], model.C[b])
+	for k in union_b
+		nlink.ϕout[k] += nlink.ϕin[k]*constant[k]
 	end
 	r = logsumexp(nlink.ϕout)
 	nlink.ϕout[:] = exp.(nlink.ϕout[:] .- r)[:]
@@ -86,12 +101,10 @@ function updatephinlin!(model::LNMMSB, mb::MiniBatch, nlink::NonLink, check::Str
 	a = nlink.src
 	b = nlink.dst
 	constant = (model.Elogβ1 .-log1p(-EPSILON))
-	for k in 1:model.K
-		if k in model.B[a]
-			nlink.ϕin[k] = model.μ_var[b,k]
-		else
-			nlink.ϕin[k] = model.μ_var[b,k] + nlink.ϕout[k]*constant[k]
-		end
+	nlink.ϕin[:] = model.μ_var[b,:]
+	union_a = vcat(model.A[a], model.C[a])
+	for k in union_a
+		nlink.ϕin[k] += nlink.ϕout[k]*constant[k]
 	end
 	r=logsumexp(nlink.ϕin)
 	nlink.ϕin[:] = exp.(nlink.ϕin[:] .- r)[:]
@@ -104,6 +117,9 @@ end
 function sfx(μ_var::Vector{Float64})
 	return softmax(μ_var)
 end
+
+
+
 
 function updateμ!(model::LNMMSB, a::Int64,mb::MiniBatch, check::String)
 	model.μ_var_old[a,:]=deepcopy(model.μ_var[a,:])

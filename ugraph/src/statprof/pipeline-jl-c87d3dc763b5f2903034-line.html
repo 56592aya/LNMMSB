@@ -1,0 +1,4273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="statprofiler.css">
+
+    <title>StatProfilerHTML.jl: /home/arashyazdiha/.julia/v0.6/Plots/src/pipeline.jl</title>
+  </head>
+  <body>
+<div class="report-header">
+  <div class="backlink"><a href="index.html">Report index</a></div>
+  <div class="report-title">StatProfilerHTML.jl report</div>
+  <div class="generated-on">Generated on wo 28 mrt 2018 16:05:06 CEST</div>
+</div>
+
+    <div id="body-content">
+      <table>
+        <caption>File source code</caption>
+        <tr>
+          <th>Line</td>
+          <th>Exclusive</th>
+          <th>Inclusive</th>
+          <th>Code</th>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-1"></a>1</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-2"></a>2</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-3"></a>3</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># ------------------------------------------------------------------
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-4"></a>4</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># preprocessing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-5"></a>5</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-6"></a>6</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function command_idx(kw_list::AVec{KW}, kw::KW)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-7"></a>7</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    Int(kw[:series_plotindex]) - Int(kw_list[1][:series_plotindex]) + 1
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-8"></a>8</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-9"></a>9</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-10"></a>10</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _expand_seriestype_array(d::KW, args)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-11"></a>11</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    sts = get(d, :seriestype, :path)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-12"></a>12</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if typeof(sts) &lt;: AbstractArray
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-13"></a>13</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        delete!(d, :seriestype)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-14"></a>14</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        RecipeData[begin
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-15"></a>15</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            dc = copy(d)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-16"></a>16</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            dc[:seriestype] = sts[r:r,:]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-17"></a>17</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            RecipeData(dc, args)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-18"></a>18</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end for r=1:size(sts,1)]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-19"></a>19</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-20"></a>20</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        RecipeData[RecipeData(copy(d), args)]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-21"></a>21</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-22"></a>22</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-23"></a>23</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-24"></a>24</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _preprocess_args(d::KW, args, still_to_process::Vector{RecipeData})
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-25"></a>25</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # the grouping mechanism is a recipe on a GroupBy object
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-26"></a>26</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # we simply add the GroupBy object to the front of the args list to allow
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-27"></a>27</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # the recipe to be applied
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-28"></a>28</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if haskey(d, :group)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-29"></a>29</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        args = (extractGroupArgs(d[:group], args...), args...)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-30"></a>30</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-31"></a>31</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-32"></a>32</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # if we were passed a vector/matrix of seriestypes and there&#39;s more than one row,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-33"></a>33</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # we want to duplicate the inputs, once for each seriestype row.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-34"></a>34</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if !isempty(args)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-35"></a>35</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        append!(still_to_process, _expand_seriestype_array(d, args))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-36"></a>36</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-37"></a>37</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-38"></a>38</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # remove subplot and axis args from d... they will be passed through in the kw_list
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-39"></a>39</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if !isempty(args)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-40"></a>40</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        for (k,v) in d
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-41"></a>41</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            for defdict in (_subplot_defaults,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-42"></a>42</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                            _axis_defaults,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-43"></a>43</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                            _axis_defaults_byletter)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-44"></a>44</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                if haskey(defdict, k)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-45"></a>45</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                    delete!(d, k)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-46"></a>46</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-47"></a>47</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-48"></a>48</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-49"></a>49</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-50"></a>50</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-51"></a>51</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    args
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-52"></a>52</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-53"></a>53</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-54"></a>54</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># ------------------------------------------------------------------
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-55"></a>55</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># user recipes
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-56"></a>56</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-57"></a>57</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-58"></a>58</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _process_userrecipes(plt::Plot, d::KW, args)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-59"></a>59</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    still_to_process = RecipeData[]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-60"></a>60</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    args = _preprocess_args(d, args, still_to_process)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-61"></a>61</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-62"></a>62</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # for plotting recipes, swap out the args and update the parameter dictionary
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-63"></a>63</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # we are keeping a stack of series that still need to be processed.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-64"></a>64</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # each pass through the loop, we pop one off and apply the recipe.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-65"></a>65</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # the recipe will return a list a Series objects... the ones that are
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-66"></a>66</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # finished (no more args) get added to the kw_list, the ones that are not
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-67"></a>67</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # are placed on top of the stack and are then processed further.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-68"></a>68</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    kw_list = KW[]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-69"></a>69</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    while !isempty(still_to_process)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-70"></a>70</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        # grab the first in line to be processed and either add it to the kw_list or
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-71"></a>71</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        # pass it through apply_recipe to generate a list of RecipeData objects (data + attributes)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-72"></a>72</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        # for further processing.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-73"></a>73</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        next_series = shift!(still_to_process)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-74"></a>74</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        # recipedata should be of type RecipeData.  if it&#39;s not then the inputs must not have been fully processed by recipes
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-75"></a>75</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        if !(typeof(next_series) &lt;: RecipeData)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-76"></a>76</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            error(&quot;Inputs couldn&#39;t be processed... expected RecipeData but got: $next_series&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-77"></a>77</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-78"></a>78</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        if isempty(next_series.args)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-79"></a>79</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            _process_userrecipe(plt, kw_list, next_series)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-80"></a>80</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-81"></a>81</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            rd_list = RecipesBase.apply_recipe(next_series.d, next_series.args...)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-82"></a>82</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            prepend!(still_to_process,rd_list)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-83"></a>83</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-84"></a>84</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-85"></a>85</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-86"></a>86</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # don&#39;t allow something else to handle it
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-87"></a>87</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    d[:smooth] = false
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-88"></a>88</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    kw_list
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-89"></a>89</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-90"></a>90</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-91"></a>91</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _process_userrecipe(plt::Plot, kw_list::Vector{KW}, recipedata::RecipeData)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-92"></a>92</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # when the arg tuple is empty, that means there&#39;s nothing left to recursively
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-93"></a>93</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # process... finish up and add to the kw_list
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-94"></a>94</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    kw = recipedata.d
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-95"></a>95</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    preprocessArgs!(kw)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-96"></a>96</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    _preprocess_userrecipe(kw)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-97"></a>97</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    warnOnUnsupported_scales(plt.backend, kw)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-98"></a>98</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-99"></a>99</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # add the plot index
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-100"></a>100</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    plt.n += 1
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-101"></a>101</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    kw[:series_plotindex] = plt.n
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-102"></a>102</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-103"></a>103</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    push!(kw_list, kw)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-104"></a>104</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    _add_errorbar_kw(kw_list, kw)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-105"></a>105</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    _add_smooth_kw(kw_list, kw)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-106"></a>106</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    return
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-107"></a>107</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-108"></a>108</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-109"></a>109</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _preprocess_userrecipe(kw::KW)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-110"></a>110</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    _add_markershape(kw)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-111"></a>111</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-112"></a>112</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # if there was a grouping, filter the data here
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-113"></a>113</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    _filter_input_data!(kw)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-114"></a>114</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-115"></a>115</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # map marker_z if it&#39;s a Function
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-116"></a>116</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if isa(get(kw, :marker_z, nothing), Function)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-117"></a>117</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        # TODO: should this take y and/or z as arguments?
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-118"></a>118</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        kw[:marker_z] = map(kw[:marker_z], kw[:x], kw[:y], kw[:z])
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-119"></a>119</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-120"></a>120</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-121"></a>121</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # map line_z if it&#39;s a Function
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-122"></a>122</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if isa(get(kw, :line_z, nothing), Function)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-123"></a>123</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        kw[:line_z] = map(kw[:line_z], kw[:x], kw[:y], kw[:z])
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-124"></a>124</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-125"></a>125</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-126"></a>126</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # convert a ribbon into a fillrange
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-127"></a>127</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if get(kw, :ribbon, nothing) != nothing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-128"></a>128</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        make_fillrange_from_ribbon(kw)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-129"></a>129</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-130"></a>130</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    return
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-131"></a>131</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-132"></a>132</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-133"></a>133</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _add_errorbar_kw(kw_list::Vector{KW}, kw::KW)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-134"></a>134</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # handle error bars by creating new recipedata data... these will have
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-135"></a>135</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # the same recipedata index as the recipedata they are copied from
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-136"></a>136</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    for esym in (:xerror, :yerror)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-137"></a>137</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        if get(kw, esym, nothing) != nothing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-138"></a>138</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            # we make a copy of the KW and apply an errorbar recipe
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-139"></a>139</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            errkw = copy(kw)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-140"></a>140</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            errkw[:seriestype] = esym
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-141"></a>141</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            errkw[:label] = &quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-142"></a>142</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            errkw[:primary] = false
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-143"></a>143</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            push!(kw_list, errkw)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-144"></a>144</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-145"></a>145</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-146"></a>146</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-147"></a>147</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-148"></a>148</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _add_smooth_kw(kw_list::Vector{KW}, kw::KW)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-149"></a>149</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # handle smoothing by adding a new series
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-150"></a>150</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if get(kw, :smooth, false)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-151"></a>151</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        x, y = kw[:x], kw[:y]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-152"></a>152</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        β, α = convert(Matrix{Float64}, [x ones(length(x))]) \ convert(Vector{Float64}, y)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-153"></a>153</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        sx = [ignorenan_minimum(x), ignorenan_maximum(x)]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-154"></a>154</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        sy = β * sx + α
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-155"></a>155</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        push!(kw_list, merge(copy(kw), KW(
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-156"></a>156</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            :seriestype =&gt; :path,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-157"></a>157</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            :x =&gt; sx,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-158"></a>158</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            :y =&gt; sy,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-159"></a>159</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            :fillrange =&gt; nothing,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-160"></a>160</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            :label =&gt; &quot;&quot;,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-161"></a>161</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            :primary =&gt; false,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-162"></a>162</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        )))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-163"></a>163</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-164"></a>164</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-165"></a>165</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-166"></a>166</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># ------------------------------------------------------------------
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-167"></a>167</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># plot recipes
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-168"></a>168</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-169"></a>169</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># Grab the first in line to be processed and pass it through apply_recipe
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-170"></a>170</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># to generate a list of RecipeData objects (data + attributes).
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-171"></a>171</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># If we applied a &quot;plot recipe&quot; without error, then add the returned datalist&#39;s KWs,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-172"></a>172</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># otherwise we just add the original KW.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-173"></a>173</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _process_plotrecipe(plt::Plot, kw::KW, kw_list::Vector{KW}, still_to_process::Vector{KW})
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-174"></a>174</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if !isa(get(kw, :seriestype, nothing), Symbol)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-175"></a>175</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        # seriestype was never set, or it&#39;s not a Symbol, so it can&#39;t be a plot recipe
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-176"></a>176</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        push!(kw_list, kw)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-177"></a>177</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        return
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-178"></a>178</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-179"></a>179</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    try
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-180"></a>180</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        st = kw[:seriestype]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-181"></a>181</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        st = kw[:seriestype] = get(_typeAliases, st, st)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-182"></a>182</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        datalist = RecipesBase.apply_recipe(kw, Val{st}, plt)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-183"></a>183</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        for data in datalist
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-184"></a>184</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            preprocessArgs!(data.d)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-185"></a>185</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            if data.d[:seriestype] == st
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-186"></a>186</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                error(&quot;Plot recipe $st returned the same seriestype: $(data.d)&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-187"></a>187</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-188"></a>188</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            push!(still_to_process, data.d)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-189"></a>189</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-190"></a>190</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    catch err
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-191"></a>191</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        if isa(err, MethodError)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-192"></a>192</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            push!(kw_list, kw)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-193"></a>193</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-194"></a>194</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            rethrow()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-195"></a>195</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-196"></a>196</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-197"></a>197</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    return
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-198"></a>198</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-199"></a>199</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-200"></a>200</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-201"></a>201</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># ------------------------------------------------------------------
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-202"></a>202</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># setup plot and subplot
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-203"></a>203</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-204"></a>204</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _plot_setup(plt::Plot, d::KW, kw_list::Vector{KW})
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-205"></a>205</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # merge in anything meant for the Plot
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-206"></a>206</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    for kw in kw_list, (k,v) in kw
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-207"></a>207</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        haskey(_plot_defaults, k) &amp;&amp; (d[k] = pop!(kw, k))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-208"></a>208</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-209"></a>209</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-210"></a>210</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # TODO: init subplots here
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-211"></a>211</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    _update_plot_args(plt, d)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-212"></a>212</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if !plt.init
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-213"></a>213</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        plt.o = Base.invokelatest(_create_backend_figure, plt)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-214"></a>214</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-215"></a>215</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        # create the layout and subplots from the inputs
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-216"></a>216</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        plt.layout, plt.subplots, plt.spmap = build_layout(plt.attr)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-217"></a>217</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        for (idx,sp) in enumerate(plt.subplots)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-218"></a>218</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            sp.plt = plt
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-219"></a>219</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            sp.attr[:subplot_index] = idx
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-220"></a>220</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-221"></a>221</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-222"></a>222</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        plt.init = true
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-223"></a>223</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-224"></a>224</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-225"></a>225</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-226"></a>226</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # handle inset subplots
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-227"></a>227</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    insets = plt[:inset_subplots]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-228"></a>228</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if insets != nothing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-229"></a>229</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        if !(typeof(insets) &lt;: AVec)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-230"></a>230</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            insets = [insets]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-231"></a>231</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-232"></a>232</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        for inset in insets
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-233"></a>233</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            parent, bb = is_2tuple(inset) ? inset : (nothing, inset)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-234"></a>234</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            P = typeof(parent)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-235"></a>235</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            if P &lt;: Integer
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-236"></a>236</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                parent = plt.subplots[parent]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-237"></a>237</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            elseif P == Symbol
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-238"></a>238</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                parent = plt.spmap[parent]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-239"></a>239</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-240"></a>240</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                parent = plt.layout
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-241"></a>241</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-242"></a>242</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            sp = Subplot(backend(), parent=parent)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-243"></a>243</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            sp.plt = plt
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-244"></a>244</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            push!(plt.subplots, sp)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-245"></a>245</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            push!(plt.inset_subplots, sp)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-246"></a>246</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            sp.attr[:relative_bbox] = bb
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-247"></a>247</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            sp.attr[:subplot_index] = length(plt.subplots)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-248"></a>248</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-249"></a>249</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-250"></a>250</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    plt[:inset_subplots] = nothing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-251"></a>251</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-252"></a>252</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-253"></a>253</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _subplot_setup(plt::Plot, d::KW, kw_list::Vector{KW})
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-254"></a>254</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # we&#39;ll keep a map of subplot to an attribute override dict.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-255"></a>255</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # Subplot/Axis attributes set by a user/series recipe apply only to the
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-256"></a>256</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # Subplot object which they belong to.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-257"></a>257</td>
+          <td></td>
+          <td></td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-julia-v0-6-Plots-src-pipeline-jl-_subplot_setup-257"></a>
+              1 (0.0069%) samples spent in _subplot_setup<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              _plot!
+              <a href="plot-jl-587c158875ec6f8aa3d0-line.html#Lplot-jl-587c158875ec6f8aa3d0-line.html-205">line 205</a><br />
+            </div>
+            <span class="code">    # TODO: allow matrices to still apply to all subplots
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-258"></a>258</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    sp_attrs = Dict{Subplot,Any}()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-259"></a>259</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    for kw in kw_list
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-260"></a>260</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        # get the Subplot object to which the series belongs.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-261"></a>261</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        sps = get(kw, :subplot, :auto)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-262"></a>262</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        sp = get_subplot(plt, _cycle(sps == :auto ? plt.subplots : plt.subplots[sps], command_idx(kw_list,kw)))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-263"></a>263</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        kw[:subplot] = sp
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-264"></a>264</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-265"></a>265</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        # extract subplot/axis attributes from kw and add to sp_attr
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-266"></a>266</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        attr = KW()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-267"></a>267</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        for (k,v) in collect(kw)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-268"></a>268</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            if haskey(_subplot_defaults, k) || haskey(_axis_defaults_byletter, k)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-269"></a>269</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                attr[k] = pop!(kw, k)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-270"></a>270</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-271"></a>271</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            if haskey(_axis_defaults, k)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-272"></a>272</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                v = pop!(kw, k)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-273"></a>273</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                for letter in (:x,:y,:z)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-274"></a>274</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                    attr[Symbol(letter,k)] = v
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-275"></a>275</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-276"></a>276</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-277"></a>277</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            for k in (:scale,), letter in (:x,:y,:z)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-278"></a>278</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                # Series recipes may need access to this information
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-279"></a>279</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                lk = Symbol(letter,k)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-280"></a>280</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                if haskey(attr, lk)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-281"></a>281</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                    kw[lk] = attr[lk]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-282"></a>282</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-283"></a>283</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-284"></a>284</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-285"></a>285</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        sp_attrs[sp] = attr
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-286"></a>286</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-287"></a>287</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-288"></a>288</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # override subplot/axis args.  `sp_attrs` take precendence
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-289"></a>289</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    for (idx,sp) in enumerate(plt.subplots)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-290"></a>290</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        attr = if !haskey(d, :subplot) || d[:subplot] == idx
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-291"></a>291</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            merge(d, get(sp_attrs, sp, KW()))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-292"></a>292</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-293"></a>293</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            get(sp_attrs, sp, KW())
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-294"></a>294</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-295"></a>295</td>
+          <td></td>
+          <td>1 (0.0069%)</td>
+          <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="args-jl-03aa3112441b53b05d6c-line.html#S-home-arashyazdiha-julia-v0-6-Plots-src-args-jl-_update_subplot_args-1395">_update_subplot_args</a><br />
+            </div>
+            <span class="code">        _update_subplot_args(plt, sp, attr, idx, false)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-296"></a>296</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-297"></a>297</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-298"></a>298</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # do we need to link any axes together?
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-299"></a>299</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    link_axes!(plt.layout, plt[:link])
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-300"></a>300</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-301"></a>301</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-302"></a>302</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># getting ready to add the series... last update to subplot from anything
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-303"></a>303</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># that might have been added during series recipes
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-304"></a>304</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _prepare_subplot(plt::Plot{T}, d::KW) where T
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-305"></a>305</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    st::Symbol = d[:seriestype]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-306"></a>306</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    sp::Subplot{T} = d[:subplot]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-307"></a>307</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    sp_idx = get_subplot_index(plt, sp)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-308"></a>308</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    _update_subplot_args(plt, sp, d, sp_idx, true)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-309"></a>309</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-310"></a>310</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    st = _override_seriestype_check(d, st)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-311"></a>311</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-312"></a>312</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # change to a 3d projection for this subplot?
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-313"></a>313</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if is3d(st)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-314"></a>314</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        sp.attr[:projection] = &quot;3d&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-315"></a>315</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-316"></a>316</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-317"></a>317</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # initialize now that we know the first series type
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-318"></a>318</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if !haskey(sp.attr, :init)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-319"></a>319</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        _initialize_subplot(plt, sp)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-320"></a>320</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        sp.attr[:init] = true
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-321"></a>321</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-322"></a>322</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    sp
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-323"></a>323</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-324"></a>324</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-325"></a>325</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># ------------------------------------------------------------------
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-326"></a>326</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># series types
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-327"></a>327</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-328"></a>328</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _override_seriestype_check(d::KW, st::Symbol)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-329"></a>329</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # do we want to override the series type?
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-330"></a>330</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if !is3d(st)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-331"></a>331</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        z = d[:z]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-332"></a>332</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        if !isa(z, Void) &amp;&amp; (size(d[:x]) == size(d[:y]) == size(z))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-333"></a>333</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            st = (st == :scatter ? :scatter3d : :path3d)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-334"></a>334</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            d[:seriestype] = st
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-335"></a>335</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-336"></a>336</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-337"></a>337</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    st
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-338"></a>338</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-339"></a>339</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-340"></a>340</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _prepare_annotations(sp::Subplot, d::KW)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-341"></a>341</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # strip out series annotations (those which are based on series x/y coords)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-342"></a>342</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # and add them to the subplot attr
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-343"></a>343</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    sp_anns = annotations(sp[:annotations])
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-344"></a>344</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # series_anns = annotations(pop!(d, :series_annotations, []))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-345"></a>345</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # if isa(series_anns, SeriesAnnotations)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-346"></a>346</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    #     series_anns.x = d[:x]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-347"></a>347</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    #     series_anns.y = d[:y]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-348"></a>348</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # elseif length(series_anns) &gt; 0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-349"></a>349</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    #     x, y = d[:x], d[:y]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-350"></a>350</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    #     nx, ny, na = map(length, (x,y,series_anns))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-351"></a>351</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    #     n = max(nx, ny, na)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-352"></a>352</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    #     series_anns = [(x[mod1(i,nx)], y[mod1(i,ny)], text(series_anns[mod1(i,na)])) for i=1:n]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-353"></a>353</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-354"></a>354</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # sp.attr[:annotations] = vcat(sp_anns, series_anns)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-355"></a>355</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-356"></a>356</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-357"></a>357</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _expand_subplot_extrema(sp::Subplot, d::KW, st::Symbol)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-358"></a>358</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # adjust extrema and discrete info
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-359"></a>359</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if st == :image
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-360"></a>360</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        w, h = size(d[:z])
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-361"></a>361</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        expand_extrema!(sp[:xaxis], (0,w))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-362"></a>362</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        expand_extrema!(sp[:yaxis], (0,h))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-363"></a>363</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        sp[:yaxis].d[:flip] = true
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-364"></a>364</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    elseif !(st in (:pie, :histogram, :bins2d, :histogram2d))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-365"></a>365</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        expand_extrema!(sp, d)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-366"></a>366</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-367"></a>367</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # expand for zerolines (axes through origin)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-368"></a>368</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if sp[:framestyle] in (:origin, :zerolines)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-369"></a>369</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        expand_extrema!(sp[:xaxis], 0.0)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-370"></a>370</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        expand_extrema!(sp[:yaxis], 0.0)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-371"></a>371</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-372"></a>372</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-373"></a>373</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-374"></a>374</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _add_the_series(plt, sp, d)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-375"></a>375</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    warnOnUnsupported_args(plt.backend, d)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-376"></a>376</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    warnOnUnsupported(plt.backend, d)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-377"></a>377</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    series = Series(d)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-378"></a>378</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    push!(plt.series_list, series)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-379"></a>379</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    push!(sp.series_list, series)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-380"></a>380</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    _series_added(plt, series)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-381"></a>381</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-382"></a>382</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-383"></a>383</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># -------------------------------------------------------------------------------
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-384"></a>384</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-385"></a>385</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># this method recursively applies series recipes when the seriestype is not supported
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-386"></a>386</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># natively by the backend
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-387"></a>387</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _process_seriesrecipe(plt::Plot, d::KW)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-388"></a>388</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # replace seriestype aliases
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-389"></a>389</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    st = Symbol(d[:seriestype])
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-390"></a>390</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    st = d[:seriestype] = get(_typeAliases, st, st)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-391"></a>391</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-392"></a>392</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # shapes shouldn&#39;t have fillrange set
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-393"></a>393</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if d[:seriestype] == :shape
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-394"></a>394</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        d[:fillrange] = nothing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-395"></a>395</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-396"></a>396</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-397"></a>397</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # if it&#39;s natively supported, finalize processing and pass along to the backend, otherwise recurse
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-398"></a>398</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if is_seriestype_supported(st)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-399"></a>399</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        sp = _prepare_subplot(plt, d)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-400"></a>400</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        _prepare_annotations(sp, d)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-401"></a>401</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        _expand_subplot_extrema(sp, d, st)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-402"></a>402</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        _add_the_series(plt, sp, d)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-403"></a>403</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-404"></a>404</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-405"></a>405</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        # get a sub list of series for this seriestype
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-406"></a>406</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        datalist = RecipesBase.apply_recipe(d, Val{st}, d[:x], d[:y], d[:z])
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-407"></a>407</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-408"></a>408</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        # assuming there was no error, recursively apply the series recipes
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-409"></a>409</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        for data in datalist
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-410"></a>410</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            if isa(data, RecipeData)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-411"></a>411</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                preprocessArgs!(data.d)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-412"></a>412</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                if data.d[:seriestype] == st
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-413"></a>413</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                    error(&quot;The seriestype didn&#39;t change in series recipe $st.  This will cause a StackOverflow.&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-414"></a>414</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-415"></a>415</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                _process_seriesrecipe(plt, data.d)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-416"></a>416</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-417"></a>417</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                warn(&quot;Unhandled recipe: $(data)&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-418"></a>418</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                break
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-419"></a>419</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-420"></a>420</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-421"></a>421</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-422"></a>422</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    nothing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpipeline-jl-c87d3dc763b5f2903034-line.html-423"></a>423</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

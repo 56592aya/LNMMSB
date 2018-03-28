@@ -1,0 +1,3903 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="statprofiler.css">
+
+    <title>StatProfilerHTML.jl: /home/arashyazdiha/.julia/v0.6/RecipesBase/src/RecipesBase.jl</title>
+  </head>
+  <body>
+<div class="report-header">
+  <div class="backlink"><a href="index.html">Report index</a></div>
+  <div class="report-title">StatProfilerHTML.jl report</div>
+  <div class="generated-on">Generated on wo 28 mrt 2018 16:05:06 CEST</div>
+</div>
+
+    <div id="body-content">
+      <table>
+        <caption>File source code</caption>
+        <tr>
+          <th>Line</td>
+          <th>Exclusive</th>
+          <th>Inclusive</th>
+          <th>Code</th>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-1"></a>1</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-2"></a>2</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">__precompile__()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-3"></a>3</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-4"></a>4</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">module RecipesBase
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-5"></a>5</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-6"></a>6</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">export
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-7"></a>7</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    @recipe,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-8"></a>8</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    @series,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-9"></a>9</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    @userplot,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-10"></a>10</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    @shorthands,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-11"></a>11</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    RecipeData,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-12"></a>12</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    AbstractBackend,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-13"></a>13</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    AbstractPlot,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-14"></a>14</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    AbstractLayout
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-15"></a>15</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-16"></a>16</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># Common abstract types for the Plots ecosystem
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-17"></a>17</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">abstract type AbstractBackend end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-18"></a>18</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">abstract type AbstractPlot{T&lt;:AbstractBackend} end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-19"></a>19</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">abstract type AbstractLayout end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-20"></a>20</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-21"></a>21</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># a placeholder to establish the name so that other packages (Plots.jl for example)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-22"></a>22</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># can add their own definition of RecipesBase.plot since RecipesBase is the common
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-23"></a>23</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># dependency of the Plots ecosystem
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-24"></a>24</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function plot end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-25"></a>25</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function plot! end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-26"></a>26</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-27"></a>27</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># a placeholder to establish the name so that other packages (Plots.jl for example)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-28"></a>28</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># can add their own definition of RecipesBase.animate since RecipesBase is the common
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-29"></a>29</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># dependency of the Plots ecosystem. Plots.jl will handle the basic cases, while
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-30"></a>30</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># other packages can now extend for their types
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-31"></a>31</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function animate end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-32"></a>32</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-33"></a>33</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># a placeholder to establish the name so that other packages (Plots.jl for example)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-34"></a>34</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># can add their own definition of RecipesBase.is_key_supported(k::Symbol)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-35"></a>35</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function is_key_supported end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-36"></a>36</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-37"></a>37</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># This holds the recipe definitions to be dispatched on
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-38"></a>38</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># the function takes in an attribute dict `d` and a list of args.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-39"></a>39</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># This default definition specifies the &quot;no-arg&quot; case.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-40"></a>40</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">apply_recipe(d::Dict{Symbol,Any}) = ()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-41"></a>41</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-42"></a>42</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const _debug_recipes = Bool[false]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-43"></a>43</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function debug(v::Bool = true)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-44"></a>44</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    _debug_recipes[1] = v
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-45"></a>45</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-46"></a>46</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-47"></a>47</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># --------------------------------------------------------------------------
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-48"></a>48</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-49"></a>49</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># this holds the data and attributes of one series, and is returned from apply_recipe
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-50"></a>50</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">struct RecipeData
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-51"></a>51</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    d::Dict{Symbol,Any}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-52"></a>52</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    args::Tuple
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-53"></a>53</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-54"></a>54</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-55"></a>55</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># --------------------------------------------------------------------------
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-56"></a>56</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-57"></a>57</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@inline to_symbol(s::Symbol) = s
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-58"></a>58</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@inline to_symbol(qn::QuoteNode) = qn.value
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-59"></a>59</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-60"></a>60</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@inline wrap_tuple(tup::Tuple) = tup
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-61"></a>61</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@inline wrap_tuple(v) = (v,)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-62"></a>62</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-63"></a>63</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># check for flags as part of the `--&gt;` expression
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-64"></a>64</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _is_arrow_tuple(expr::Expr)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-65"></a>65</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    expr.head == :tuple &amp;&amp; !isempty(expr.args) &amp;&amp;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-66"></a>66</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        isa(expr.args[1], Expr) &amp;&amp;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-67"></a>67</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        expr.args[1].head == :(--&gt;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-68"></a>68</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-69"></a>69</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-70"></a>70</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _equals_symbol(arg::Symbol, sym::Symbol)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-71"></a>71</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    arg == sym
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-72"></a>72</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-73"></a>73</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _equals_symbol(arg::Expr, sym::Symbol)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-74"></a>74</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    arg.head == :quote &amp;&amp; arg.args[1] == sym
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-75"></a>75</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-76"></a>76</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">_equals_symbol(x, sym::Symbol) = false
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-77"></a>77</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-78"></a>78</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># build an apply_recipe function header from the recipe function header
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-79"></a>79</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function get_function_def(func_signature::Expr, args::Vector)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-80"></a>80</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    front = func_signature.args[1]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-81"></a>81</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if func_signature.head == :where
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-82"></a>82</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        Expr(:where, get_function_def(front, args), esc.(func_signature.args[2:end])...)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-83"></a>83</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    elseif func_signature.head == :call
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-84"></a>84</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        func = Expr(:call, :(RecipesBase.apply_recipe), esc.([:($PLOTATTRIBUTES::Dict{Symbol, Any}); args])...)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-85"></a>85</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        if isa(front, Expr) &amp;&amp; front.head == :curly
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-86"></a>86</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            Expr(:where, func, esc.(front.args[2:end])...)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-87"></a>87</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-88"></a>88</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            func
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-89"></a>89</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-90"></a>90</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-91"></a>91</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        error(&quot;Expected `func_signature = ...` with func_signature as a call or where Expr... got: $func_signature&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-92"></a>92</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-93"></a>93</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-94"></a>94</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-95"></a>95</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function create_kw_body(func_signature::Expr)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-96"></a>96</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # get the arg list, stripping out any keyword parameters into a
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-97"></a>97</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # bunch of get!(kw, key, value) lines
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-98"></a>98</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    func_signature.head == :where &amp;&amp; return create_kw_body(func_signature.args[1])
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-99"></a>99</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    args = func_signature.args[2:end]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-100"></a>100</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    kw_body = Expr(:block)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-101"></a>101</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    cleanup_body = Expr(:block)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-102"></a>102</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if isa(args[1], Expr) &amp;&amp; args[1].head == :parameters
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-103"></a>103</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        for kwpair in args[1].args
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-104"></a>104</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            k, v = kwpair.args
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-105"></a>105</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            push!(kw_body.args, :($k = get!($PLOTATTRIBUTES, $(QuoteNode(k)), $v)))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-106"></a>106</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            push!(cleanup_body.args, :(RecipesBase.is_key_supported($(QuoteNode(k))) || delete!($PLOTATTRIBUTES, $(QuoteNode(k)))))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-107"></a>107</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-108"></a>108</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        args = args[2:end]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-109"></a>109</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-110"></a>110</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    args, kw_body, cleanup_body
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-111"></a>111</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-112"></a>112</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-113"></a>113</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># process the body of the recipe recursively.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-114"></a>114</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># when we see the series macro, we split that block off:
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-115"></a>115</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # let
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-116"></a>116</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    #   d2 = copy(d)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-117"></a>117</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    #   &lt;process_recipe_body on d2&gt;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-118"></a>118</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    #   RecipeData(d2, block_return)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-119"></a>119</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-120"></a>120</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># and we push this block onto the series_blocks list.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-121"></a>121</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># then at the end we push the main body onto the series list
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-122"></a>122</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function process_recipe_body!(expr::Expr)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-123"></a>123</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    for (i,e) in enumerate(expr.args)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-124"></a>124</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        if isa(e,Expr)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-125"></a>125</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-126"></a>126</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            # process trailing flags, like:
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-127"></a>127</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            #   a --&gt; b, :quiet, :force
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-128"></a>128</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            quiet, require, force = false, false, false
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-129"></a>129</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            if _is_arrow_tuple(e)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-130"></a>130</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                for flag in e.args
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-131"></a>131</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                    if _equals_symbol(flag, :quiet)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-132"></a>132</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                        quiet = true
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-133"></a>133</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                    elseif _equals_symbol(flag, :require)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-134"></a>134</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                        require = true
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-135"></a>135</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                    elseif _equals_symbol(flag, :force)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-136"></a>136</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                        force = true
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-137"></a>137</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-138"></a>138</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-139"></a>139</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                e = e.args[1]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-140"></a>140</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-141"></a>141</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-142"></a>142</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            # the unused operator `:=` will mean force: `x := 5` is equivalent to `x --&gt; 5, force`
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-143"></a>143</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            # note: this means &quot;x is defined as 5&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-144"></a>144</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            if e.head == :(:=)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-145"></a>145</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                force = true
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-146"></a>146</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                e.head = :(--&gt;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-147"></a>147</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-148"></a>148</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-149"></a>149</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            # we are going to recursively swap out `a --&gt; b, flags...` commands
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-150"></a>150</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            # note: this means &quot;x may become 5&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-151"></a>151</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            if e.head == :(--&gt;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-152"></a>152</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                k, v = e.args
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-153"></a>153</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                if isa(k, Symbol)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-154"></a>154</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                    k = QuoteNode(k)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-155"></a>155</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-156"></a>156</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-157"></a>157</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                set_expr = if force
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-158"></a>158</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                    # forced override user settings
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-159"></a>159</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                    :($PLOTATTRIBUTES[$k] = $v)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-160"></a>160</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-161"></a>161</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                    # if the user has set this keyword, use theirs
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-162"></a>162</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                    :(get!($PLOTATTRIBUTES, $k, $v))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-163"></a>163</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-164"></a>164</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-165"></a>165</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                expr.args[i] = if quiet
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-166"></a>166</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                    # quietly ignore keywords which are not supported
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-167"></a>167</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                    :(RecipesBase.is_key_supported($k) ? $set_expr : nothing)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-168"></a>168</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                elseif require
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-169"></a>169</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                    # error when not supported by the backend
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-170"></a>170</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                    :(RecipesBase.is_key_supported($k) ? $set_expr : error(&quot;In recipe: required keyword &quot;, $k, &quot; is not supported by backend $(backend_name())&quot;))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-171"></a>171</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-172"></a>172</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                    set_expr
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-173"></a>173</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-174"></a>174</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-175"></a>175</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            # TODO elseif it&#39;s a @series macrocall, add a series block and push to the `series` list
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-176"></a>176</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-177"></a>177</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            elseif e.head != :call
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-178"></a>178</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                # we want to recursively replace the arrows, but not inside function calls
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-179"></a>179</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                # as this might include things like Dict(1=&gt;2)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-180"></a>180</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                process_recipe_body!(e)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-181"></a>181</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-182"></a>182</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-183"></a>183</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-184"></a>184</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-185"></a>185</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-186"></a>186</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># PLOTATTRIBUTES_OLD and_replace can be removed after d for accessing plot attributes is
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-187"></a>187</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># is not supported anymore
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-188"></a>188</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const PLOTATTRIBUTES = :plotattributes
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-189"></a>189</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const PLOTATTRIBUTES_OLD = :d
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-190"></a>190</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">_replace(ex, old, new) = _replace(ex, 0, old, new)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-191"></a>191</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">_replace(ex, n, old, new) = (ex == old) ? (new, n+1) : (ex, n)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-192"></a>192</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _replace(ex::Expr, n, old, new)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-193"></a>193</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    new_args = []
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-194"></a>194</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    for old_arg in ex.args
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-195"></a>195</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        new_arg, n = _replace(old_arg, n, old, new)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-196"></a>196</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        push!(new_args, new_arg)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-197"></a>197</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-198"></a>198</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    Expr(ex.head, new_args...), n
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-199"></a>199</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-200"></a>200</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># --------------------------------------------------------------------------
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-201"></a>201</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-202"></a>202</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-203"></a>203</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">This handy macro will process a function definition, replace `--&gt;` commands, and
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-204"></a>204</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">then add a new version of `RecipesBase.apply_recipe` for dispatching on the arguments.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-205"></a>205</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-206"></a>206</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">This functionality is primarily geared to turning user types and settings into the
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-207"></a>207</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">data and attributes that describe a Plots.jl visualization.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-208"></a>208</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-209"></a>209</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Set attributes using the `--&gt;` command, and return a comma separated list of arguments that
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-210"></a>210</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">should replace the current arguments.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-211"></a>211</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-212"></a>212</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">An example:
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-213"></a>213</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-214"></a>214</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">```
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-215"></a>215</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">using RecipesBase
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-216"></a>216</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-217"></a>217</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># Our custom type that we want to display
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-218"></a>218</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">type T end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-219"></a>219</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-220"></a>220</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@recipe function plot{N&lt;:Integer}(t::T, n::N = 1; customcolor = :green)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-221"></a>221</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    markershape --&gt; :auto, :require
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-222"></a>222</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    markercolor --&gt; customcolor, :force
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-223"></a>223</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    xrotation --&gt; 5
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-224"></a>224</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    zrotation --&gt; 6, :quiet
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-225"></a>225</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    rand(10,n)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-226"></a>226</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-227"></a>227</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-228"></a>228</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># ---------------------
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-229"></a>229</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-230"></a>230</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># Plots will be the ultimate consumer of our recipe in this example
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-231"></a>231</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">using Plots; gr()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-232"></a>232</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-233"></a>233</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># This call will implicitly call `RecipesBase.apply_recipe` as part of the Plots
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-234"></a>234</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># processing pipeline (see the Pipeline section of the Plots documentation).
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-235"></a>235</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># It will plot 5 line plots, all with black circles for markers.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-236"></a>236</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># The markershape argument must be supported, and the zrotation argument&#39;s warning
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-237"></a>237</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># will be suppressed.  The user can override all arguments except markercolor.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-238"></a>238</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">plot(T(), 5; customcolor = :black, shape=:c)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-239"></a>239</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">```
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-240"></a>240</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-241"></a>241</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">In this example, we see lots of the machinery in action.  We create a new type `T` which
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-242"></a>242</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">we will use for dispatch, and an optional argument `n`, which will be used to determine the
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-243"></a>243</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">number of series to display.  User-defined keyword arguments are passed through, and the
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-244"></a>244</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">`--&gt;` command can be trailed by flags:
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-245"></a>245</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-246"></a>246</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">- quiet:   Suppress unsupported keyword warnings
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-247"></a>247</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">- require: Error if keyword is unsupported
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-248"></a>248</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">- force:   Don&#39;t allow user override for this keyword
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-249"></a>249</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-250"></a>250</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">macro recipe(funcexpr::Expr)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-251"></a>251</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    funcexpr, n_depr = _replace(funcexpr, PLOTATTRIBUTES_OLD, PLOTATTRIBUTES)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-252"></a>252</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    func_signature, func_body = funcexpr.args
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-253"></a>253</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-254"></a>254</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if n_depr &gt; 0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-255"></a>255</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        msg = &quot;Usage of `$PLOTATTRIBUTES_OLD` for accessing plot attributes is deprecated. Found $n_depr usages of `$PLOTATTRIBUTES_OLD` inside `@recipe`. Use `$PLOTATTRIBUTES` instead.\n&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-256"></a>256</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        deprecation_body = :(Base.depwarn($msg, :d))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-257"></a>257</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-258"></a>258</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        deprecation_body = :()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-259"></a>259</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-260"></a>260</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if !(funcexpr.head in (:(=), :function))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-261"></a>261</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        error(&quot;Must wrap a valid function call!&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-262"></a>262</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-263"></a>263</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if !(isa(func_signature, Expr) &amp;&amp; func_signature.head in (:call, :where))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-264"></a>264</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        error(&quot;Expected `func_signature = ...` with func_signature as a call or where Expr... got: $func_signature&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-265"></a>265</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-266"></a>266</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if length(func_signature.args) &lt; 2
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-267"></a>267</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        error(&quot;Missing function arguments... need something to dispatch on!&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-268"></a>268</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-269"></a>269</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-270"></a>270</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    args, kw_body, cleanup_body = create_kw_body(func_signature)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-271"></a>271</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    func = get_function_def(func_signature, args)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-272"></a>272</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-273"></a>273</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # this is where the receipe func_body is processed
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-274"></a>274</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # replace all the key =&gt; value lines with argument setting logic
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-275"></a>275</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # and break up by series.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-276"></a>276</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    process_recipe_body!(func_body)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-277"></a>277</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-278"></a>278</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # now build a function definition for apply_recipe, wrapping the return value in a tuple if needed.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-279"></a>279</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # we are creating a vector of RecipeData objects, one per series.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-280"></a>280</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    funcdef = Expr(:function, func, esc(quote
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-281"></a>281</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        if RecipesBase._debug_recipes[1]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-282"></a>282</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            println(&quot;apply_recipe args: &quot;, $args)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-283"></a>283</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-284"></a>284</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        $kw_body
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-285"></a>285</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        $cleanup_body
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-286"></a>286</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        series_list = RecipesBase.RecipeData[]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-287"></a>287</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        func_return = $func_body
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-288"></a>288</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        if func_return != nothing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-289"></a>289</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            push!(series_list, RecipesBase.RecipeData($PLOTATTRIBUTES, RecipesBase.wrap_tuple(func_return)))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-290"></a>290</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-291"></a>291</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        series_list
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-292"></a>292</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-293"></a>293</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    funcdef
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-294"></a>294</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-295"></a>295</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-296"></a>296</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-297"></a>297</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># --------------------------------------------------------------------------
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-298"></a>298</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-299"></a>299</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-300"></a>300</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Meant to be used inside a recipe to add additional RecipeData objects to the list:
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-301"></a>301</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-302"></a>302</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">```
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-303"></a>303</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@recipe function f(::T)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-304"></a>304</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # everything get this setting
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-305"></a>305</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    linecolor --&gt; :red
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-306"></a>306</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-307"></a>307</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    @series begin
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-308"></a>308</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        # this setting is only for this series
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-309"></a>309</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        fillcolor := :green
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-310"></a>310</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-311"></a>311</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        # return the args, just like in recipes
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-312"></a>312</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        rand(10)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-313"></a>313</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-314"></a>314</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-315"></a>315</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # this is the main series... though it can be skipped by returning nothing.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-316"></a>316</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # note: a @series block returns nothing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-317"></a>317</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    rand(100)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-318"></a>318</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-319"></a>319</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">```
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-320"></a>320</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-321"></a>321</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">macro series(expr::Expr)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-322"></a>322</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    esc(quote
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-323"></a>323</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        let $PLOTATTRIBUTES = copy($PLOTATTRIBUTES)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-324"></a>324</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            args = $expr
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-325"></a>325</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            push!(series_list, RecipesBase.RecipeData($PLOTATTRIBUTES, RecipesBase.wrap_tuple(args)))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-326"></a>326</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            nothing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-327"></a>327</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-328"></a>328</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-329"></a>329</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-330"></a>330</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-331"></a>331</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># --------------------------------------------------------------------------
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-332"></a>332</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-333"></a>333</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-334"></a>334</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">You can easily define your own plotting recipes with convenience methods:
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-335"></a>335</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">```
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-336"></a>336</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@userplot type GroupHist
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-337"></a>337</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    args
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-338"></a>338</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-339"></a>339</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@recipe function f(gh::GroupHist)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-340"></a>340</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # set some attributes, add some series, using gh.args as input
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-341"></a>341</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-342"></a>342</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># now you can plot like:
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-343"></a>343</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">grouphist(rand(1000,4))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-344"></a>344</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">```
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-345"></a>345</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-346"></a>346</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">macro userplot(expr)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-347"></a>347</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    _userplot(expr)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-348"></a>348</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-349"></a>349</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-350"></a>350</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _userplot(expr::Expr)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-351"></a>351</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if expr.head != :type
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-352"></a>352</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        errror(&quot;Must call userplot on a type/immutable expression.  Got: $expr&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-353"></a>353</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-354"></a>354</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-355"></a>355</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    typename = expr.args[2]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-356"></a>356</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    funcname = Symbol(lowercase(string(typename)))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-357"></a>357</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    funcname2 = Symbol(funcname, &quot;!&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-358"></a>358</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-359"></a>359</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # return a code block with the type definition and convenience plotting methods
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-360"></a>360</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    esc(quote
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-361"></a>361</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        $expr
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-362"></a>362</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        export $funcname, $funcname2
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-363"></a>363</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        $funcname(args...; kw...) = RecipesBase.plot($typename(args); kw...)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-364"></a>364</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        $funcname2(args...; kw...) = RecipesBase.plot!($typename(args); kw...)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-365"></a>365</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-366"></a>366</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-367"></a>367</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-368"></a>368</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _userplot(sym::Symbol)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-369"></a>369</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    _userplot(:(mutable struct $sym
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-370"></a>370</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            args
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-371"></a>371</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-372"></a>372</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-373"></a>373</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-374"></a>374</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">#----------------------------------------------------------------------------
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-375"></a>375</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-376"></a>376</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># define and export shorthand plotting method definitions
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-377"></a>377</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">macro shorthands(funcname::Symbol)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-378"></a>378</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    funcname2 = Symbol(funcname, &quot;!&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-379"></a>379</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    esc(quote
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-380"></a>380</td>
+          <td></td>
+          <td></td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-julia-v0-6-RecipesBase-src-RecipesBase-jl-heatmap-650-380"></a>
+              1 (0.0069%) samples spent in #heatmap#650<br />
+              0 (ex.),
+              0 (incl.)
+              when called from
+              #heatmap
+              <a href="nothing-0feca720e2c29dafb2c9-line.html#Lnothing-0feca720e2c29dafb2c9-line.html-0">line 0</a><br />
+            </div>
+            <span class="code">        export $funcname, $funcname2
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-381"></a>381</td>
+          <td></td>
+          <td>1 (0.0069%)</td>
+          <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="nothing-0feca720e2c29dafb2c9-line.html#Snothing-plot">#plot</a><br />
+            </div>
+            <span class="code">        $funcname(args...; kw...) = RecipesBase.plot(args...; kw..., seriestype = $(Meta.quot(funcname)))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-382"></a>382</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        $funcname2(args...; kw...) = RecipesBase.plot!(args...; kw..., seriestype = $(Meta.quot(funcname)))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-383"></a>383</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-384"></a>384</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-385"></a>385</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LRecipesBase-jl-6cd3d4935d4546c0d5c0-line.html-386"></a>386</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end # module
+</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

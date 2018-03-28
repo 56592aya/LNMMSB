@@ -1,4 +1,12 @@
 using StatsBase
+"""
+	To get the complement of the indices, much faster than setdiff
+	especially if the not_index is large
+"""
+function negateIndex(full_indices::Vector{Int64}, negative_index::Vector{Int64})
+	filter!(i->!in(i,negative_index), full_indices)
+end
+
 function do_linked_edges!(model::LNMMSB)
 	Src, Sink, Val= findnz(model.network)
 	model.linked_edges=Set{Dyad}()
@@ -9,22 +17,10 @@ function do_linked_edges!(model::LNMMSB)
 	end
 end
 
+
 using BenchmarkTools
 using StatsBase
-function f1(model::LNMMSB, mbnodes::Vector{Int64})
-	node_count = 0
-	# mb = deepcopy(model.mb_zeroer)
-	while node_count < 5
-		a = ceil(Int64,model.N*rand())
-		if a in mbnodes
-			continue;
-		else
-			push!(mbnodes, a)
-			node_count +=1
-		end
-	end
-	mbnodes
-end
+
 
 function minibatch_set_srns(model::LNMMSB, mb::MiniBatch)
 	model.minibatch_set = Set{Dyad}()
@@ -300,7 +296,6 @@ function init_mu(model::LNMMSB, communities::Dict{Int64, Vector{Int64}}, onlyK::
   end
 end
 
-
 # Here we need do determine the A, C, B for the first round before getting into the variational loop
 """
 	getSets(model::LNMMSB, threshold::Float64)
@@ -312,7 +307,6 @@ end
 
 function getSets!(model::LNMMSB, threshold::Float64)
 	est_θ = deepcopy(model.est_θ)
-
 	for a in 1:model.N
 		model.Korder[a] = sortperm(est_θ[a,:], rev=true)
 		F = 0.0
@@ -328,13 +322,21 @@ function getSets!(model::LNMMSB, threshold::Float64)
 		neighbors = neighbors_(model, a)
 		for b in neighbors
 			for k in model.A[b]
-				if !(k in model.A[a])
+				if (!(k in model.A[a]) && !(k in model.C[a]))
 					push!(model.C[a], k)
 				end
 			end
 		end
-		model.C[a] = unique(model.C[a])
-		model.B[a] = setdiff(model.Korder[a], union(model.A[a], model.C[a]))
+		# model.C[a] = unique(model.C[a])
+		#negatteIndex is wronf for now
+		model.B[a] = negateIndex(model.Korder[a],vcat(model.A[a], model.C[a]))
+		#model.B[a] = setdiff(model.Korder[a], union(model.A[a], model.C[a]))
+
+		# full_indices = collect(1:10000)
+		# not_index = sample(1:10000, 9800, replace=false)
+		# @btime negateIndex(full_indices, not_index)
+		# @btime setdiff(full_indices, not_index)
+
 		if !(isempty(model.B[a]))
 			bulk_θs  = sum(est_θ[a,model.B[a]])/length(model.B[a])
 			model.est_θ[a,model.B[a]] = bulk_θs
@@ -352,17 +354,63 @@ function update_sets!(model::LNMMSB, mb::MiniBatch)
 		# idea is that if have not visited we can skip it, also should be reset somewhere
 		@inbounds for b in neighbors
 			@inbounds for k in model.A[b]
-				if !(k in model.A[a])
+				if k in model.A[a]
+					continue
+				else
 					push!(model.C[a], k)
 				end
 			end
 		end
 		model.C[a] = unique(model.C[a])
-		model.B[a] = setdiff(model.Korder[a], union(model.A[a], model.C[a]))
+		# @btime union(model.A[a], model.C[a])
+		# @btime vcat(model.A[a], model.C[a])
+		model.B[a] = negateIndex(model.Korder[a],vcat(model.A[a], model.C[a]))
+		# model.B[a] = setdiff(model.Korder[a], union(model.A[a], model.C[a]))
 		if !(isempty(model.B[a]))
 			bulk_θs  = sum(model.est_θ[a,model.B[a]])/length(model.B[a])
 			model.est_θ[a,model.B[a]] = bulk_θs
 			model.μ_var[a,model.B[a]] = log.(bulk_θs)
+		end
+	end
+end
+function update_A!(model::LNMMSB, mb::MiniBatch, est_θ::Matrix{Float64},threshold::Float64)
+	for a in mb.mbnodes
+		model.Korder[a] = sortperm(est_θ[a,:],rev=true)
+		F = 0.0
+		count = 1
+		newA=Int64[]
+		#could use enumerate and continue instead
+		while (F < threshold && count < model.K)
+			k = model.Korder[a][count]
+
+			if (k in model.B[a])
+				count+=1
+			else
+				if !isempty(model.B[a])
+					if est_θ[a,k] > est_θ[a,model.B[a][1]]
+						#println("I got here!")
+						F += est_θ[a,k]
+						push!(newA, k)
+						count += 1
+					end
+				else
+					F += est_θ[a,k]
+					push!(newA, k)
+					count += 1
+				end
+			end
+		end
+		toAdd = Int64[]
+		if (threshold-F > 0.0)
+			toSample = (threshold-F)/est_θ[a,model.B[a][1]]
+			toAdd = sample(model.B[a], toSample, replace=false)
+		end
+		if !isempty(toAdd)
+			for el in toAdd
+				model.A[a]= push!(newA, el)
+			end
+		else
+			model.A[a] = newA
 		end
 	end
 end
@@ -407,5 +455,6 @@ function setup_mblnl!(model::LNMMSB, mb::MiniBatch, shuffled::Vector{Dyad})
 		end
 	end
 end
+
 
 print();
