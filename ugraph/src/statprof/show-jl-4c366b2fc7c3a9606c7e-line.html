@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on wo 28 mrt 2018 16:05:06 CEST</div>
+  <div class="generated-on">Generated on do 29 mrt 2018 08:54:27 CEST</div>
 </div>
 
     <div id="body-content">
@@ -2607,8 +2607,22 @@
         <tr>
           <td><a name="Lshow-jl-4c366b2fc7c3a9606c7e-line.html-259"></a>259</td>
           <td></td>
-          <td></td>
+          <td>2 (0.02%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-show-jl-show-259"></a>
+              2 (0.02%) samples spent in show<br />
+              0 (ex.),
+              2 (100.00%) (incl.)
+              when called from
+              print
+              <a href="io-jl-7f272ef1fa6cfc3f4fd8-line.html#Lio-jl-7f272ef1fa6cfc3f4fd8-line.html-29">line 29</a><br />
+            </div>
+            <div class="callees">
+              2 (100.00%)
+              samples spent calling
+              <a href="stream-jl-9871ead38ffc384f8a51-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-stream-jl-unsafe_write-830">unsafe_write</a><br />
+            </div>
             <span class="code">show(io::IO, n::Signed) = (write(io, dec(n)); nothing)
 </span>
           </td>
@@ -3391,17 +3405,17 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-show-jl-show_delim_array-337"></a>
-              45 (0.31%) samples spent in show_delim_array<br />
+              57 (0.47%) samples spent in show_delim_array<br />
               0 (ex.),
-              45 (100.00%) (incl.)
-              when called from
-              show_vector
-              <a href="show-jl-4c366b2fc7c3a9606c7e-line.html#Lshow-jl-4c366b2fc7c3a9606c7e-line.html-1759">line 1759</a><br />
-              0 (ex.),
-              45 (100.00%) (incl.)
+              54 (94.74%) (incl.)
               when called from
               show_delim_array
               <a href="show-jl-4c366b2fc7c3a9606c7e-line.html#Lshow-jl-4c366b2fc7c3a9606c7e-line.html-338">line 338</a><br />
+              0 (ex.),
+              57 (100.00%) (incl.)
+              when called from
+              show_vector
+              <a href="show-jl-4c366b2fc7c3a9606c7e-line.html#Lshow-jl-4c366b2fc7c3a9606c7e-line.html-1759">line 1759</a><br />
             </div>
             <span class="code">                          delim_one, i1=first(linearindices(itr)), l=last(linearindices(itr)))
 </span>
@@ -3411,12 +3425,15 @@
         <tr>
           <td><a name="Lshow-jl-4c366b2fc7c3a9606c7e-line.html-338"></a>338</td>
           <td></td>
-          <td>45 (0.31%)</td>
+          <td>60 (0.49%)</td>
           <td>
             <div class="callees">
-              45 (100.00%)
+              57 (95.00%)
               samples spent calling
               <a href="show-jl-4c366b2fc7c3a9606c7e-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-show-jl-show_delim_array-337">show_delim_array</a><br />
+              3 (5.00%)
+              samples spent calling
+              <a href="io-jl-7f272ef1fa6cfc3f4fd8-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-strings-io-jl-print-122">print</a><br />
             </div>
             <span class="code">    print(io, op)
 </span>
@@ -3556,10 +3573,10 @@
         <tr>
           <td><a name="Lshow-jl-4c366b2fc7c3a9606c7e-line.html-352"></a>352</td>
           <td></td>
-          <td>24 (0.17%)</td>
+          <td>42 (0.34%)</td>
           <td>
             <div class="callees">
-              24 (100.00%)
+              42 (100.00%)
               samples spent calling
               <a href="grisu-jl-14e0b89e37b412384bae-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-grisu-grisu-jl-show-121">show</a><br />
             </div>
@@ -3641,10 +3658,10 @@
         <tr>
           <td><a name="Lshow-jl-4c366b2fc7c3a9606c7e-line.html-360"></a>360</td>
           <td></td>
-          <td>12 (0.08%)</td>
+          <td>4 (0.03%)</td>
           <td>
             <div class="callees">
-              12 (100.00%)
+              4 (100.00%)
               samples spent calling
               <a href="io-jl-7f272ef1fa6cfc3f4fd8-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-strings-io-jl-print-122">print</a><br />
             </div>
@@ -3656,10 +3673,10 @@
         <tr>
           <td><a name="Lshow-jl-4c366b2fc7c3a9606c7e-line.html-361"></a>361</td>
           <td></td>
-          <td>9 (0.06%)</td>
+          <td>7 (0.06%)</td>
           <td>
             <div class="callees">
-              9 (100.00%)
+              7 (100.00%)
               samples spent calling
               <a href="char-jl-722be1a38f977b4834ad-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-char-jl-print-45">print</a><br />
             </div>
@@ -3701,8 +3718,13 @@
         <tr>
           <td><a name="Lshow-jl-4c366b2fc7c3a9606c7e-line.html-365"></a>365</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0082%)</td>
           <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="io-jl-7f272ef1fa6cfc3f4fd8-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-strings-io-jl-print-122">print</a><br />
+            </div>
             <span class="code">    print(io, cl)
 </span>
           </td>
@@ -16795,9 +16817,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-show-jl-showarray-263-1674"></a>
-              45 (0.31%) samples spent in #showarray#263<br />
+              57 (0.47%) samples spent in #showarray#263<br />
               0 (ex.),
-              45 (100.00%) (incl.)
+              57 (100.00%) (incl.)
               when called from
               print
               <a href="io-jl-7f272ef1fa6cfc3f4fd8-line.html#Lio-jl-7f272ef1fa6cfc3f4fd8-line.html-29">line 29</a><br />
@@ -16820,10 +16842,10 @@
         <tr>
           <td><a name="Lshow-jl-4c366b2fc7c3a9606c7e-line.html-1676"></a>1676</td>
           <td></td>
-          <td>45 (0.31%)</td>
+          <td>57 (0.47%)</td>
           <td>
             <div class="callees">
-              45 (100.00%)
+              57 (100.00%)
               samples spent calling
               <a href="show-jl-4c366b2fc7c3a9606c7e-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-show-jl-show_vector-1746">show_vector</a><br />
             </div>
@@ -17529,9 +17551,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-show-jl-show_vector-1746"></a>
-              45 (0.31%) samples spent in show_vector<br />
+              57 (0.47%) samples spent in show_vector<br />
               0 (ex.),
-              45 (100.00%) (incl.)
+              57 (100.00%) (incl.)
               when called from
               #showarray#263
               <a href="show-jl-4c366b2fc7c3a9606c7e-line.html#Lshow-jl-4c366b2fc7c3a9606c7e-line.html-1676">line 1676</a><br />
@@ -17664,10 +17686,10 @@
         <tr>
           <td><a name="Lshow-jl-4c366b2fc7c3a9606c7e-line.html-1759"></a>1759</td>
           <td></td>
-          <td>45 (0.31%)</td>
+          <td>57 (0.47%)</td>
           <td>
             <div class="callees">
-              45 (100.00%)
+              57 (100.00%)
               samples spent calling
               <a href="show-jl-4c366b2fc7c3a9606c7e-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-show-jl-show_delim_array-337">show_delim_array</a><br />
             </div>

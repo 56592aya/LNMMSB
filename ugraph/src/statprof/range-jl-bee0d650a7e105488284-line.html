@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on wo 28 mrt 2018 16:05:06 CEST</div>
+  <div class="generated-on">Generated on do 29 mrt 2018 08:54:27 CEST</div>
 </div>
 
     <div id="body-content">
@@ -4551,12 +4551,17 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-range-jl-next-453"></a>
-              1 (0.0069%) samples spent in next<br />
-              1 (100.00%) (ex.),
-              1 (100.00%) (incl.)
+              3 (0.02%) samples spent in next<br />
+              1 (33.33%) (ex.),
+              1 (33.33%) (incl.)
               when called from
               macro expansion
               <a href="train-jl-94893ea3787006a1b46c-line.html#Ltrain-jl-94893ea3787006a1b46c-line.html-149">line 149</a><br />
+              2 (66.67%) (ex.),
+              2 (66.67%) (incl.)
+              when called from
+              macro expansion
+              <a href="train-jl-94893ea3787006a1b46c-line.html#Ltrain-jl-94893ea3787006a1b46c-line.html-164">line 164</a><br />
             </div>
             <span class="code">start(r::UnitRange{T}) where {T} = oftype(r.start + oneunit(T), r.start)
 </span>
@@ -4565,9 +4570,18 @@
 
         <tr>
           <td><a name="Lrange-jl-bee0d650a7e105488284-line.html-454"></a>454</td>
-          <td>1 (0.0069%)</td>
-          <td>1 (0.0069%)</td>
+          <td>3 (0.02%)</td>
+          <td>3 (0.02%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-range-jl-done-454"></a>
+              3 (0.02%) samples spent in done<br />
+              3 (100.00%) (ex.),
+              3 (100.00%) (incl.)
+              when called from
+              macro expansion
+              <a href="train-jl-94893ea3787006a1b46c-line.html#Ltrain-jl-94893ea3787006a1b46c-line.html-149">line 149</a><br />
+            </div>
             <span class="code">next(r::AbstractUnitRange{T}, i) where {T} = (convert(T, i), i + oneunit(T))
 </span>
           </td>
@@ -4575,8 +4589,8 @@
 
         <tr>
           <td><a name="Lrange-jl-bee0d650a7e105488284-line.html-455"></a>455</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0082%)</td>
+          <td>1 (0.0082%)</td>
           <td>
             <span class="code">done(r::AbstractUnitRange{T}, i) where {T} = i == oftype(i, r.stop) + oneunit(T)
 </span>
@@ -7665,9 +7679,18 @@
 
         <tr>
           <td><a name="Lrange-jl-bee0d650a7e105488284-line.html-764"></a>764</td>
-          <td></td>
-          <td></td>
+          <td>2 (0.02%)</td>
+          <td>2 (0.02%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-range-jl-convert-764"></a>
+              2 (0.02%) samples spent in convert<br />
+              2 (100.00%) (ex.),
+              2 (100.00%) (incl.)
+              when called from
+              Type
+              <a href="indices-jl-ca62d99379281bb38e64-line.html#Lindices-jl-ca62d99379281bb38e64-line.html-233">line 233</a><br />
+            </div>
             <span class="code">convert(::Type{OneTo{T}}, r::OneTo) where {T&lt;:Real} = OneTo{T}(r.stop)
 </span>
           </td>

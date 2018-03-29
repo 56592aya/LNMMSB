@@ -1,0 +1,1318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="statprofiler.css">
+
+    <title>StatProfilerHTML.jl: /home/arashyazdiha/Documents/Programs/julia-d386e40c17/bin/../share/julia/base/./pointer.jl</title>
+  </head>
+  <body>
+<div class="report-header">
+  <div class="backlink"><a href="index.html">Report index</a></div>
+  <div class="report-title">StatProfilerHTML.jl report</div>
+  <div class="generated-on">Generated on wo 28 mrt 2018 16:05:06 CEST</div>
+</div>
+
+    <div id="body-content">
+      <table>
+        <caption>File source code</caption>
+        <tr>
+          <th>Line</td>
+          <th>Exclusive</th>
+          <th>Inclusive</th>
+          <th>Code</th>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-1"></a>1</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># This file is a part of Julia. License is MIT: https://julialang.org/license
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-2"></a>2</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-3"></a>3</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-4"></a>4</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    Ptr{T}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-5"></a>5</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-6"></a>6</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">A memory address referring to data of type `T`.  However, there is no guarantee that the
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-7"></a>7</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">memory is actually valid, or that it actually represents data of the specified type.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-8"></a>8</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-9"></a>9</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Ptr
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-10"></a>10</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-11"></a>11</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">## converting pointers to an appropriate unsigned ##
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-12"></a>12</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-13"></a>13</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-14"></a>14</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    C_NULL
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-15"></a>15</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-16"></a>16</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">The C null pointer constant, sometimes used when calling external code.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-17"></a>17</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-18"></a>18</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const C_NULL = bitcast(Ptr{Void}, 0)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-19"></a>19</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-20"></a>20</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># TODO: deprecate these conversions. C doesn&#39;t even allow them.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-21"></a>21</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-22"></a>22</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># pointer to integer
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-23"></a>23</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">convert(::Type{T}, x::Ptr) where {T&lt;:Union{Int,UInt}} = bitcast(T, x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-24"></a>24</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">convert(::Type{T}, x::Ptr) where {T&lt;:Integer} = convert(T, convert(UInt, x))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-25"></a>25</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-26"></a>26</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># integer to pointer
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-27"></a>27</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">convert(::Type{Ptr{T}}, x::UInt) where {T} = bitcast(Ptr{T}, x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-28"></a>28</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">convert(::Type{Ptr{T}}, x::Int) where {T} = bitcast(Ptr{T}, x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-29"></a>29</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-30"></a>30</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># pointer to pointer
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-31"></a>31</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">convert(::Type{Ptr{T}}, p::Ptr{T}) where {T} = p
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-32"></a>32</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">convert(::Type{Ptr{T}}, p::Ptr) where {T} = bitcast(Ptr{T}, p)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-33"></a>33</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-34"></a>34</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># object to pointer (when used with ccall)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-35"></a>35</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">unsafe_convert(::Type{Ptr{UInt8}}, x::Symbol) = ccall(:jl_symbol_name, Ptr{UInt8}, (Any,), x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-36"></a>36</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">unsafe_convert(::Type{Ptr{Int8}}, x::Symbol) = ccall(:jl_symbol_name, Ptr{Int8}, (Any,), x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-37"></a>37</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">unsafe_convert(::Type{Ptr{UInt8}}, s::String) = convert(Ptr{UInt8}, pointer_from_objref(s)+sizeof(Int))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-38"></a>38</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">unsafe_convert(::Type{Ptr{Int8}}, s::String) = convert(Ptr{Int8}, pointer_from_objref(s)+sizeof(Int))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-39"></a>39</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># convert strings to String etc. to pass as pointers
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-40"></a>40</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">cconvert(::Type{Ptr{UInt8}}, s::AbstractString) = String(s)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-41"></a>41</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">cconvert(::Type{Ptr{Int8}}, s::AbstractString) = String(s)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-42"></a>42</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-43"></a>43</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">unsafe_convert(::Type{Ptr{T}}, a::Array{T}) where {T} = ccall(:jl_array_ptr, Ptr{T}, (Any,), a)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-44"></a>44</td>
+          <td>2 (0.01%)</td>
+          <td>2 (0.01%)</td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-pointer-jl-unsafe_convert-44"></a>
+              2 (0.01%) samples spent in unsafe_convert<br />
+              2 (100.00%) (ex.),
+              2 (100.00%) (incl.)
+              when called from
+              vcat
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#Larray-jl-c31e5f0854745d9d2638-line.html-1175">line 1175</a><br />
+            </div>
+            <span class="code">unsafe_convert(::Type{Ptr{S}}, a::AbstractArray{T}) where {S,T} = convert(Ptr{S}, unsafe_convert(Ptr{T}, a))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-45"></a>45</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">unsafe_convert(::Type{Ptr{T}}, a::AbstractArray{T}) where {T} = error(&quot;conversion to pointer not defined for $(typeof(a))&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-46"></a>46</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-47"></a>47</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># unsafe pointer to array conversions
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-48"></a>48</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-49"></a>49</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    unsafe_wrap(Array, pointer::Ptr{T}, dims, own=false)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-50"></a>50</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-51"></a>51</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Wrap a Julia `Array` object around the data at the address given by `pointer`,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-52"></a>52</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">without making a copy.  The pointer element type `T` determines the array
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-53"></a>53</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">element type. `dims` is either an integer (for a 1d array) or a tuple of the array dimensions.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-54"></a>54</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">`own` optionally specifies whether Julia should take ownership of the memory,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-55"></a>55</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">calling `free` on the pointer when the array is no longer referenced.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-56"></a>56</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-57"></a>57</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">This function is labelled &quot;unsafe&quot; because it will crash if `pointer` is not
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-58"></a>58</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">a valid memory address to data of the requested length.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-59"></a>59</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-60"></a>60</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function unsafe_wrap(::Union{Type{Array},Type{Array{T}},Type{Array{T,N}}},
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-61"></a>61</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                     p::Ptr{T}, dims::NTuple{N,Int}, own::Bool=false) where {T,N}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-62"></a>62</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    ccall(:jl_ptr_to_array, Array{T,N}, (Any, Ptr{Void}, Any, Int32),
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-63"></a>63</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">          Array{T,N}, p, dims, own)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-64"></a>64</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-65"></a>65</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function unsafe_wrap(::Union{Type{Array},Type{Array{T}},Type{Array{T,1}}},
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-66"></a>66</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                     p::Ptr{T}, d::Integer, own::Bool=false) where {T}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-67"></a>67</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    ccall(:jl_ptr_to_array_1d, Array{T,1},
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-68"></a>68</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">          (Any, Ptr{Void}, Csize_t, Cint), Array{T,1}, p, d, own)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-69"></a>69</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-70"></a>70</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">unsafe_wrap(Atype::Type, p::Ptr, dims::NTuple{N,&lt;:Integer}, own::Bool=false) where {N} =
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-71"></a>71</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    unsafe_wrap(Atype, p, convert(Tuple{Vararg{Int}}, dims), own)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-72"></a>72</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-73"></a>73</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-74"></a>74</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    unsafe_load(p::Ptr{T}, i::Integer=1)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-75"></a>75</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-76"></a>76</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Load a value of type `T` from the address of the `i`th element (1-indexed) starting at `p`.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-77"></a>77</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">This is equivalent to the C expression `p[i-1]`.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-78"></a>78</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-79"></a>79</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">The `unsafe` prefix on this function indicates that no validation is performed on the
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-80"></a>80</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">pointer `p` to ensure that it is valid. Incorrect usage may segfault your program or return
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-81"></a>81</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">garbage answers, in the same manner as C.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-82"></a>82</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-83"></a>83</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">unsafe_load(p::Ptr, i::Integer=1) = pointerref(p, Int(i), 1)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-84"></a>84</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-85"></a>85</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-86"></a>86</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    unsafe_store!(p::Ptr{T}, x, i::Integer=1)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-87"></a>87</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-88"></a>88</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Store a value of type `T` to the address of the `i`th element (1-indexed) starting at `p`.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-89"></a>89</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">This is equivalent to the C expression `p[i-1] = x`.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-90"></a>90</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-91"></a>91</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">The `unsafe` prefix on this function indicates that no validation is performed on the
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-92"></a>92</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">pointer `p` to ensure that it is valid. Incorrect usage may corrupt or segfault your
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-93"></a>93</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">program, in the same manner as C.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-94"></a>94</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-95"></a>95</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">unsafe_store!(p::Ptr{Any}, x::ANY, i::Integer=1) = pointerset(p, x, Int(i), 1)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-96"></a>96</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">unsafe_store!(p::Ptr{T}, x, i::Integer=1) where {T} = pointerset(p, convert(T,x), Int(i), 1)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-97"></a>97</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-98"></a>98</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># convert a raw Ptr to an object reference, and vice-versa
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-99"></a>99</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-100"></a>100</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    unsafe_pointer_to_objref(p::Ptr)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-101"></a>101</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-102"></a>102</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Convert a `Ptr` to an object reference. Assumes the pointer refers to a valid heap-allocated
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-103"></a>103</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Julia object. If this is not the case, undefined behavior results, hence this function is
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-104"></a>104</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">considered &quot;unsafe&quot; and should be used with care.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-105"></a>105</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-106"></a>106</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">unsafe_pointer_to_objref(x::Ptr) = ccall(:jl_value_ptr, Any, (Ptr{Void},), x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-107"></a>107</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-108"></a>108</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-109"></a>109</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    pointer_from_objref(x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-110"></a>110</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-111"></a>111</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Get the memory address of a Julia object as a `Ptr`. The existence of the resulting `Ptr`
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-112"></a>112</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">will not protect the object from garbage collection, so you must ensure that the object
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-113"></a>113</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">remains referenced for the whole time that the `Ptr` will be used.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-114"></a>114</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-115"></a>115</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">pointer_from_objref(x::ANY) = ccall(:jl_value_ptr, Ptr{Void}, (Any,), x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-116"></a>116</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">data_pointer_from_objref(x::ANY) = pointer_from_objref(x)::Ptr{Void}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-117"></a>117</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-118"></a>118</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">eltype(::Type{Ptr{T}}) where {T} = T
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-119"></a>119</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-120"></a>120</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">## limited pointer arithmetic &amp; comparison ##
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-121"></a>121</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-122"></a>122</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">==(x::Ptr, y::Ptr) = UInt(x) == UInt(y)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-123"></a>123</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">isless(x::Ptr, y::Ptr) = isless(UInt(x), UInt(y))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-124"></a>124</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">-(x::Ptr, y::Ptr) = UInt(x) - UInt(y)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-125"></a>125</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-126"></a>126</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">+(x::Ptr, y::Integer) = oftype(x, (UInt(x) + (y % UInt) % UInt))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-127"></a>127</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">-(x::Ptr, y::Integer) = oftype(x, (UInt(x) - (y % UInt) % UInt))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpointer-jl-6eb0f35dd1e45507312e-line.html-128"></a>128</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">+(x::Integer, y::Ptr) = y + x
+</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on wo 28 mrt 2018 16:05:06 CEST</div>
+  <div class="generated-on">Generated on do 29 mrt 2018 08:54:27 CEST</div>
 </div>
 
     <div id="body-content">
@@ -6521,22 +6521,22 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-dense-jl-inv-650"></a>
-              210 (1.46%) samples spent in inv<br />
+              228 (1.87%) samples spent in inv<br />
               0 (ex.),
-              6 (2.86%) (incl.)
+              4 (1.75%) (incl.)
               when called from
               updateL!
-              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-270">line 270</a><br />
-              0 (ex.),
-              11 (5.24%) (incl.)
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-278">line 278</a><br />
+              1 (25.00%) (ex.),
+              14 (6.14%) (incl.)
               when called from
               updatem!
-              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-250">line 250</a><br />
-              0 (ex.),
-              193 (91.90%) (incl.)
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-258">line 258</a><br />
+              3 (75.00%) (ex.),
+              210 (92.11%) (incl.)
               when called from
               updateL!
-              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-268">line 268</a><br />
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-276">line 276</a><br />
             </div>
             <span class="code">function inv(A::StridedMatrix{T}) where T
 </span>
@@ -6576,13 +6576,8 @@
         <tr>
           <td><a name="Ldense-jl-9a4e14799b411a7dd560-line.html-654"></a>654</td>
           <td></td>
-          <td>1 (0.0069%)</td>
+          <td></td>
           <td>
-            <div class="callees">
-              1 (100.00%)
-              samples spent calling
-              <a href="generic-jl-01676efed46b9a3e440a-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-generic-jl-istriu-972">istriu</a><br />
-            </div>
             <span class="code">    if istriu(AA)
 </span>
           </td>
@@ -6590,11 +6585,11 @@
 
         <tr>
           <td><a name="Ldense-jl-9a4e14799b411a7dd560-line.html-655"></a>655</td>
-          <td></td>
-          <td>183 (1.27%)</td>
+          <td>1 (0.0082%)</td>
+          <td>206 (1.69%)</td>
           <td>
             <div class="callees">
-              183 (100.00%)
+              205 (99.51%)
               samples spent calling
               <a href="triangular-jl-a7c4d33cd3f97b27bda6-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-triangular-jl-inv-536">inv</a><br />
             </div>
@@ -6635,16 +6630,16 @@
 
         <tr>
           <td><a name="Ldense-jl-9a4e14799b411a7dd560-line.html-659"></a>659</td>
-          <td></td>
-          <td>25 (0.17%)</td>
+          <td>1 (0.0082%)</td>
+          <td>20 (0.16%)</td>
           <td>
             <div class="callees">
-              14 (56.00%)
-              samples spent calling
-              <a href="lu-jl-3dbbb8364e078b0bb3e8-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-lu-jl-inv-309">inv</a><br />
-              11 (44.00%)
+              7 (35.00%)
               samples spent calling
               <a href="lu-jl-3dbbb8364e078b0bb3e8-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-lu-jl-lufact-81">lufact</a><br />
+              12 (60.00%)
+              samples spent calling
+              <a href="lu-jl-3dbbb8364e078b0bb3e8-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-lu-jl-inv-309">inv</a><br />
             </div>
             <span class="code">        Ai = inv(lufact(AA))
 </span>
@@ -6663,14 +6658,9 @@
 
         <tr>
           <td><a name="Ldense-jl-9a4e14799b411a7dd560-line.html-661"></a>661</td>
-          <td></td>
-          <td>1 (0.0069%)</td>
+          <td>2 (0.02%)</td>
+          <td>2 (0.02%)</td>
           <td>
-            <div class="callees">
-              1 (100.00%)
-              samples spent calling
-              <a href="triangular-jl-a7c4d33cd3f97b27bda6-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-triangular-jl-convert-124">convert</a><br />
-            </div>
             <span class="code">    return convert(typeof(parent(Ai)), Ai)
 </span>
           </td>

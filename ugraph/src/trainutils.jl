@@ -118,26 +118,34 @@ function sfx(μ_var::Vector{Float64})
 	return softmax(μ_var)
 end
 
+function my_adagrad(f_grad, x0, data, args, stepsize=1e-2, fudge_factor=1e-6, max_it=1000, minibatchsize=nothing, minibatch_ratio=0.01)
+
+end
 
 
 
+function dfunci(μ_var::Vector{Float64}, model::LNMMSB, X::Vector{Float64}, x::Vector{Float64}, sumb::Float64)
+	-model.l.*model.L*(μ_var-model.m) +X - sumb.*x
+end
 function updateμ!(model::LNMMSB, a::Int64,mb::MiniBatch, check::String)
 	model.μ_var_old[a,:]=deepcopy(model.μ_var[a,:])
+
 	μ_var = deepcopy(model.μ_var[a,:])
 	x = sfx(μ_var)
-	s1 = haskey(mb.mbnot,a)?(N-1-model.train_deg[a]):0
-	c1 = haskey(mb.mbnot,a)?length(mb.mbnot[a]):1
+	s1 = haskey(mb.mbnot,a)?convert(Float64,(N-1-model.train_deg[a])):0.0
+	c1 = haskey(mb.mbnot,a)?convert(Float64, length(mb.mbnot[a])):1.0
 
-	sumb =(model.N-1)
+	sumb =(convert(Float64,model.N)*-1.0)
 	X=model.ϕlsum[a,:]+(s1/c1).*.5.*(model.ϕnloutsum[a,:]+model.ϕnlinsum[a,:])
 	##added this line
 
-	dfunci(μ_var) = -model.l.*model.L*(μ_var-model.m) +X - sumb.*x
-	opt1 = Adagrad()
 
+	opt1 = Adagrad()
+	# @code_warntype dfunci(μ_var, model, X, x, sumb)
+	# @code_warntype update(opt1,g1)
 	for i in 1:10
 		x  = sfx(μ_var)
-		g1 = dfunci(μ_var)
+		g1 = dfunci(μ_var, model, X, x, sumb)
 		δ1 = update(opt1,g1)
 		μ_var+=δ1
 	end

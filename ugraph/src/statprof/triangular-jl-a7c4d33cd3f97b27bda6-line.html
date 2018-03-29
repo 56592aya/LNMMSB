@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on wo 28 mrt 2018 16:05:06 CEST</div>
+  <div class="generated-on">Generated on do 29 mrt 2018 08:54:27 CEST</div>
 </div>
 
     <div id="body-content">
@@ -1259,15 +1259,6 @@
           <td></td>
           <td></td>
           <td>
-            <div class="call-sites">
-              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-triangular-jl-convert-124"></a>
-              1 (0.0069%) samples spent in convert<br />
-              0 (ex.),
-              1 (100.00%) (incl.)
-              when called from
-              inv
-              <a href="dense-jl-9a4e14799b411a7dd560-line.html#Ldense-jl-9a4e14799b411a7dd560-line.html-661">line 661</a><br />
-            </div>
             <span class="code">function convert(::Type{Matrix{T}}, A::UpperTriangular) where T
 </span>
           </td>
@@ -1286,13 +1277,8 @@
         <tr>
           <td><a name="Ltriangular-jl-a7c4d33cd3f97b27bda6-line.html-126"></a>126</td>
           <td></td>
-          <td>1 (0.0069%)</td>
+          <td></td>
           <td>
-            <div class="callees">
-              1 (100.00%)
-              samples spent calling
-              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-copy-128">copy!</a><br />
-            </div>
             <span class="code">    copy!(B, A.data)
 </span>
           </td>
@@ -4803,15 +4789,6 @@
           <td></td>
           <td></td>
           <td>
-            <div class="call-sites">
-              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-triangular-jl-Ac_mul_B-477"></a>
-              2 (0.01%) samples spent in Ac_mul_B!<br />
-              0 (ex.),
-              2 (100.00%) (incl.)
-              when called from
-              unwhiten!
-              <a href="pdmat-jl-df4084af2b2256e8e00a-line.html#Lpdmat-jl-df4084af2b2256e8e00a-line.html-61">line 61</a><br />
-            </div>
             <span class="code">            BLAS.trmm!(&#39;L&#39;, $uploc, &#39;C&#39;, $isunitc, one(T), A.data, B)
 </span>
           </td>
@@ -4820,13 +4797,8 @@
         <tr>
           <td><a name="Ltriangular-jl-a7c4d33cd3f97b27bda6-line.html-478"></a>478</td>
           <td></td>
-          <td>2 (0.01%)</td>
+          <td></td>
           <td>
-            <div class="callees">
-              2 (100.00%)
-              samples spent calling
-              <a href="blas-jl-44d0c987b9ac3ca2f51e-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-blas-jl-trmm-1418">trmm!</a><br />
-            </div>
             <span class="code">        Ac_mul_B!(A::$t{T,&lt;:StridedMatrix}, B::StridedMatrix{T}) where {T&lt;:BlasReal} =
 </span>
           </td>
@@ -5404,20 +5376,20 @@
 
         <tr>
           <td><a name="Ltriangular-jl-a7c4d33cd3f97b27bda6-line.html-536"></a>536</td>
-          <td>1 (0.0069%)</td>
-          <td>183 (1.27%)</td>
+          <td></td>
+          <td>205 (1.68%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-triangular-jl-inv-536"></a>
-              183 (1.27%) samples spent in inv<br />
-              1 (100.00%) (ex.),
-              183 (100.00%) (incl.)
+              205 (1.68%) samples spent in inv<br />
+              0 (ex.),
+              205 (100.00%) (incl.)
               when called from
               inv
               <a href="dense-jl-9a4e14799b411a7dd560-line.html#Ldense-jl-9a4e14799b411a7dd560-line.html-655">line 655</a><br />
             </div>
             <div class="callees">
-              182 (99.45%)
+              205 (100.00%)
               samples spent calling
               <a href="lapack-jl-e1c6ba6d4c11806c719b-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-lapack-jl-trtrs-3276">trtrs!</a><br />
             </div>

@@ -62,7 +62,7 @@ lr_μ=ones(Float64, model.N)
 lr_Λ=ones(Float64, model.N)
 count_μ = zeros(Int64, model.N)
 count_Λ = zeros(Int64, model.N)
-count_a = zeros(Int64, model.N)
+count_a = zeros(Float64, model.N)
 model.μ_var=deepcopy(_init_μ)
 
 
@@ -177,12 +177,12 @@ for i in 1:iter
 	for a in mb.mbnodes
 		if !isfullsample
 			#we also ignore the Lambda assuming its very large or cov is 0
-			count_a[a] += 1
-			expectedvisits = (iter/(4*model.N/model.mbsize))
+			count_a[a] += 1.0
+			expectedvisits = (Float64(iter)/(4.0*Float64(model.N)/Float64(model.mbsize)))
 			# updatesimulμΛ!(model, a, mb)
 			updateμ!(model, a, mb, "check")
-			lr_μ[a] = (expectedvisits/(expectedvisits+Float64(count_a[a]-1.0)))^(.5)
-			model.μ_var[a,:] = model.μ_var_old[a,:].*(1.0.-lr_μ[a])+lr_μ[a].*model.μ_var[a,:]
+			lr_μ[a] = (expectedvisits/(expectedvisits+(count_a[a]-1.0)))^(.5)
+			model.μ_var[a,:] = view(model.μ_var_old, a, :).*(1.0.-lr_μ[a])+lr_μ[a].*view(model.μ_var, a, :)
 			# if i  < 1500
 			# 	model.μ_var[a,:] .+= log.(nnz(model.network)./(2.*sum(model.ϕlsum, 1)[:]))
 			# end
@@ -247,9 +247,16 @@ for i in 1:iter
 	# x = x[:,sort(idx)]
 end
 # Plots.plot(1:count_a[2], [(500/(500+i))^.5 for i in 1:count_a[2]])
-x = deepcopy(model.est_θ)
-sort_by_argmax!(x)
-table=[sortperm(x[i,:]) for i in 1:model.N]
+
+
+# x = deepcopy(model.est_θ)
+# sort_by_argmax!(x)
+# table=[sortperm(x[i,:]) for i in 1:model.N]
+
+
+
+
+
 # count = zeros(Int64, model.K)
 # diffK = model.K-inputtomodelgen[2]
 # for k in 1:model.K
@@ -263,18 +270,25 @@ table=[sortperm(x[i,:]) for i in 1:model.N]
 # end
 # idx=sortperm(count,rev=true)[(diffK+1):end]
 # x = x[:,sort(idx)]
-est=deepcopy(model.est_θ)
-p2=Plots.heatmap(x, yflip=true)
-p3=Plots.heatmap(true_θs, yflip=true)
-Plots.plot(p2,p3, layout=(2,1))
-sort_by_argmax!(est)
-# println(maximum(nmitemp))
-Plots.plot(1:length(vec(true_θs)),sort(vec(true_θs)))
-# Plots.plot(1:length(nmitemp), nmitemp)
-est = deepcopy(model.est_θ)
-Plots.plot(1:length(vec(est)),sort(vec(est)))
-pyplot()
 
-p3=Plots.heatmap(true_θs, yflip=true)
-p4=Plots.heatmap(est, yflip=true)
-Plots.plot(p4,p3, layout=(2,1))
+
+
+
+
+
+# est=deepcopy(model.est_θ)
+#
+# p2=Plots.heatmap(x, yflip=true)
+# p3=Plots.heatmap(true_θs, yflip=true)
+# Plots.plot(p2,p3, layout=(2,1))
+# sort_by_argmax!(est)
+# # println(maximum(nmitemp))
+# Plots.plot(1:length(vec(true_θs)),sort(vec(true_θs)))
+# # Plots.plot(1:length(nmitemp), nmitemp)
+# est = deepcopy(model.est_θ)
+# Plots.plot(1:length(vec(est)),sort(vec(est)))
+# pyplot()
+
+# p3=Plots.heatmap(true_θs, yflip=true)
+# p4=Plots.heatmap(est, yflip=true)
+# Plots.plot(p4,p3, layout=(2,1))

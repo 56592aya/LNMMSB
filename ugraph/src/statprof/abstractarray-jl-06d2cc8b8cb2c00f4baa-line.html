@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on wo 28 mrt 2018 16:05:06 CEST</div>
+  <div class="generated-on">Generated on do 29 mrt 2018 08:54:27 CEST</div>
 </div>
 
     <div id="body-content">
@@ -656,34 +656,39 @@
 
         <tr>
           <td><a name="Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-64"></a>64</td>
-          <td>12 (0.08%)</td>
-          <td>12 (0.08%)</td>
+          <td>13 (0.11%)</td>
+          <td>13 (0.11%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-indices-64"></a>
-              12 (0.08%) samples spent in indices<br />
-              1 (8.33%) (ex.),
-              1 (8.33%) (incl.)
+              13 (0.11%) samples spent in indices<br />
+              1 (7.69%) (ex.),
+              1 (7.69%) (incl.)
               when called from
               _length
               <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-132">line 132</a><br />
-              2 (16.67%) (ex.),
-              2 (16.67%) (incl.)
-              when called from
-              promote_shape
-              <a href="indices-jl-ca62d99379281bb38e64-line.html#Lindices-jl-ca62d99379281bb38e64-line.html-70">line 70</a><br />
-              3 (25.00%) (ex.),
-              3 (25.00%) (incl.)
-              when called from
-              checkbounds
-              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-342">line 342</a><br />
-              3 (25.00%) (ex.),
-              3 (25.00%) (incl.)
+              1 (7.69%) (ex.),
+              1 (7.69%) (incl.)
               when called from
               to_indices
               <a href="indices-jl-ca62d99379281bb38e64-line.html#Lindices-jl-ca62d99379281bb38e64-line.html-213">line 213</a><br />
-              3 (25.00%) (ex.),
-              3 (25.00%) (incl.)
+              1 (7.69%) (ex.),
+              1 (7.69%) (incl.)
+              when called from
+              promote_shape
+              <a href="indices-jl-ca62d99379281bb38e64-line.html#Lindices-jl-ca62d99379281bb38e64-line.html-70">line 70</a><br />
+              2 (15.38%) (ex.),
+              2 (15.38%) (incl.)
+              when called from
+              indices1
+              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-71">line 71</a><br />
+              3 (23.08%) (ex.),
+              3 (23.08%) (incl.)
+              when called from
+              checkbounds
+              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-342">line 342</a><br />
+              5 (38.46%) (ex.),
+              5 (38.46%) (incl.)
               when called from
               broadcast_indices
               <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-52">line 52</a><br />
@@ -756,8 +761,22 @@
         <tr>
           <td><a name="Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-71"></a>71</td>
           <td></td>
-          <td></td>
+          <td>2 (0.02%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-indices1-71"></a>
+              2 (0.02%) samples spent in indices1<br />
+              0 (ex.),
+              2 (100.00%) (incl.)
+              when called from
+              eachindex
+              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-764">line 764</a><br />
+            </div>
+            <div class="callees">
+              2 (100.00%)
+              samples spent calling
+              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-indices-64">indices</a><br />
+            </div>
             <span class="code">indices1(A::AbstractArray) = (@_inline_meta; indices(A)[1])
 </span>
           </td>
@@ -1366,11 +1385,11 @@
         <tr>
           <td><a name="Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-132"></a>132</td>
           <td></td>
-          <td>1 (0.0069%)</td>
+          <td>1 (0.0082%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-_length-132"></a>
-              1 (0.0069%) samples spent in _length<br />
+              1 (0.0082%) samples spent in _length<br />
               0 (ex.),
               1 (100.00%) (incl.)
               when called from
@@ -3480,22 +3499,19 @@
         <tr>
           <td><a name="Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-342"></a>342</td>
           <td></td>
-          <td>4 (0.03%)</td>
+          <td>3 (0.02%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-checkbounds-342"></a>
-              4 (0.03%) samples spent in checkbounds<br />
+              3 (0.02%) samples spent in checkbounds<br />
               0 (ex.),
-              4 (100.00%) (incl.)
+              3 (100.00%) (incl.)
               when called from
               checkbounds
               <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-362">line 362</a><br />
             </div>
             <div class="callees">
-              1 (25.00%)
-              samples spent calling
-              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-checkbounds_indices-389">checkbounds_indices</a><br />
-              3 (75.00%)
+              3 (100.00%)
               samples spent calling
               <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-indices-64">indices</a><br />
             </div>
@@ -3696,25 +3712,20 @@
 
         <tr>
           <td><a name="Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-362"></a>362</td>
-          <td>1 (0.0069%)</td>
-          <td>5 (0.03%)</td>
+          <td>1 (0.0082%)</td>
+          <td>4 (0.03%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-checkbounds-362"></a>
-              5 (0.03%) samples spent in checkbounds<br />
-              0 (ex.),
-              1 (20.00%) (incl.)
-              when called from
-              macro expansion
-              <a href="multidimensional-jl-b15f86aca7aa36da9d41-line.html#Lmultidimensional-jl-b15f86aca7aa36da9d41-line.html-540">line 540</a><br />
+              4 (0.03%) samples spent in checkbounds<br />
               1 (100.00%) (ex.),
-              4 (80.00%) (incl.)
+              4 (100.00%) (incl.)
               when called from
               macro expansion
               <a href="multidimensional-jl-b15f86aca7aa36da9d41-line.html#Lmultidimensional-jl-b15f86aca7aa36da9d41-line.html-494">line 494</a><br />
             </div>
             <div class="callees">
-              4 (80.00%)
+              3 (75.00%)
               samples spent calling
               <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-checkbounds-342">checkbounds</a><br />
             </div>
@@ -3986,22 +3997,8 @@
         <tr>
           <td><a name="Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-389"></a>389</td>
           <td></td>
-          <td>1 (0.0069%)</td>
+          <td></td>
           <td>
-            <div class="call-sites">
-              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-checkbounds_indices-389"></a>
-              1 (0.0069%) samples spent in checkbounds_indices<br />
-              0 (ex.),
-              1 (100.00%) (incl.)
-              when called from
-              checkbounds
-              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-342">line 342</a><br />
-            </div>
-            <div class="callees">
-              1 (100.00%)
-              samples spent calling
-              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-checkindex-467">checkindex</a><br />
-            </div>
             <span class="code">    checkindex(Bool, IA[1], I[1]) &amp; checkbounds_indices(Bool, tail(IA), tail(I))
 </span>
           </td>
@@ -4779,18 +4776,9 @@
 
         <tr>
           <td><a name="Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-467"></a>467</td>
-          <td>1 (0.0069%)</td>
-          <td>1 (0.0069%)</td>
+          <td></td>
+          <td></td>
           <td>
-            <div class="call-sites">
-              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-checkindex-467"></a>
-              1 (0.0069%) samples spent in checkindex<br />
-              1 (100.00%) (ex.),
-              1 (100.00%) (incl.)
-              when called from
-              checkbounds_indices
-              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-389">line 389</a><br />
-            </div>
             <span class="code">    for i in I
 </span>
           </td>
@@ -5823,12 +5811,17 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-copy-570"></a>
-              2 (0.01%) samples spent in copy!<br />
+              2 (0.02%) samples spent in copy!<br />
               1 (100.00%) (ex.),
-              2 (100.00%) (incl.)
+              1 (50.00%) (incl.)
               when called from
               collect
               <a href="array-jl-c31e5f0854745d9d2638-line.html#Larray-jl-c31e5f0854745d9d2638-line.html-431">line 431</a><br />
+              0 (ex.),
+              1 (50.00%) (incl.)
+              when called from
+              _collect
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#Larray-jl-c31e5f0854745d9d2638-line.html-396">line 396</a><br />
             </div>
             <span class="code">function copy!(dest::AbstractArray, src)
 </span>
@@ -5857,13 +5850,13 @@
 
         <tr>
           <td><a name="Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-573"></a>573</td>
-          <td>1 (0.0069%)</td>
-          <td>2 (0.01%)</td>
+          <td>1 (0.0082%)</td>
+          <td>3 (0.02%)</td>
           <td>
             <div class="callees">
-              1 (50.00%)
+              1 (33.33%)
               samples spent calling
-              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-skip_deleted-565">skip_deleted</a><br />
+              <a href="generator-jl-eac3163140faf78790be-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-generator-jl-next-42">next</a><br />
             </div>
             <span class="code">    for x in src
 </span>
@@ -7773,8 +7766,27 @@
         <tr>
           <td><a name="Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-764"></a>764</td>
           <td></td>
-          <td></td>
+          <td>2 (0.02%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-eachindex-764"></a>
+              2 (0.02%) samples spent in eachindex<br />
+              0 (ex.),
+              1 (50.00%) (incl.)
+              when called from
+              macro expansion
+              <a href="multidimensional-jl-b15f86aca7aa36da9d41-line.html#Lmultidimensional-jl-b15f86aca7aa36da9d41-line.html-523">line 523</a><br />
+              0 (ex.),
+              1 (50.00%) (incl.)
+              when called from
+              #sortperm#11
+              <a href="sort-jl-02c2b25d4df9c551984a-line.html#Lsort-jl-02c2b25d4df9c551984a-line.html-623">line 623</a><br />
+            </div>
+            <div class="callees">
+              2 (100.00%)
+              samples spent calling
+              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-indices1-71">indices1</a><br />
+            </div>
             <span class="code">eachindex(A::AbstractVector) = (@_inline_meta(); indices1(A))
 </span>
           </td>
@@ -8802,9 +8814,18 @@
 
         <tr>
           <td><a name="Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-867"></a>867</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0082%)</td>
+          <td>1 (0.0082%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-pointer-867"></a>
+              1 (0.0082%) samples spent in pointer<br />
+              1 (100.00%) (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              unsafe_copy!
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#Larray-jl-c31e5f0854745d9d2638-line.html-120">line 120</a><br />
+            </div>
             <span class="code">    unsafe_convert(Ptr{T}, x) + (i - first(linearindices(x)))*elsize(x)
 </span>
           </td>
@@ -8937,14 +8958,14 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-getindex-880"></a>
-              189 (1.31%) samples spent in getindex<br />
-              68 (42.77%) (ex.),
-              81 (42.86%) (incl.)
+              176 (1.44%) samples spent in getindex<br />
+              46 (30.87%) (ex.),
+              56 (31.82%) (incl.)
               when called from
               macro expansion
               <a href="train-jl-94893ea3787006a1b46c-line.html#Ltrain-jl-94893ea3787006a1b46c-line.html-157">line 157</a><br />
-              91 (57.23%) (ex.),
-              108 (57.14%) (incl.)
+              103 (69.13%) (ex.),
+              120 (68.18%) (incl.)
               when called from
               macro expansion
               <a href="train-jl-94893ea3787006a1b46c-line.html#Ltrain-jl-94893ea3787006a1b46c-line.html-143">line 143</a><br />
@@ -8976,71 +8997,69 @@
 
         <tr>
           <td><a name="Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-883"></a>883</td>
-          <td>159 (1.10%)</td>
-          <td>362 (2.51%)</td>
+          <td>149 (1.22%)</td>
+          <td>326 (2.67%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-getindex-883"></a>
-              173 (1.20%) samples spent in getindex<br />
+              150 (1.23%) samples spent in getindex<br />
               0 (ex.),
-              1 (0.58%) (incl.)
-              when called from
-              updateμ!
-              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-125">line 125</a><br />
-              0 (ex.),
-              1 (0.58%) (incl.)
-              when called from
-              updateb0!
-              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-287">line 287</a><br />
-              0 (ex.),
-              1 (0.58%) (incl.)
-              when called from
-              estimate_θs!
-              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-315">line 315</a><br />
-              0 (ex.),
-              2 (1.16%) (incl.)
+              1 (0.67%) (incl.)
               when called from
               update_A!
               <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-378">line 378</a><br />
               0 (ex.),
-              2 (1.16%) (incl.)
+              1 (0.67%) (incl.)
+              when called from
+              updateL!
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-273">line 273</a><br />
+              0 (ex.),
+              1 (0.67%) (incl.)
+              when called from
+              updateb0!
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-295">line 295</a><br />
+              0 (ex.),
+              1 (0.67%) (incl.)
               when called from
               updateμ!
-              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-126">line 126</a><br />
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-129">line 129</a><br />
               0 (ex.),
-              3 (1.73%) (incl.)
+              1 (0.67%) (incl.)
+              when called from
+              updateμ!
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-131">line 131</a><br />
+              0 (ex.),
+              1 (0.67%) (incl.)
               when called from
               update_sets!
               <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-370">line 370</a><br />
               0 (ex.),
-              3 (1.73%) (incl.)
-              when called from
-              updateL!
-              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-265">line 265</a><br />
-              0 (ex.),
-              8 (4.62%) (incl.)
+              3 (2.00%) (incl.)
               when called from
               updateμ!
-              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-132">line 132</a><br />
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-137">line 137</a><br />
               0 (ex.),
-              75 (43.35%) (incl.)
+              70 (46.67%) (incl.)
               when called from
               updatephinlin!
               <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-104">line 104</a><br />
               0 (ex.),
-              77 (44.51%) (incl.)
+              71 (47.33%) (incl.)
               when called from
               updatephinlout!
               <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-91">line 91</a><br />
             </div>
             <div class="callees">
-              30 (8.29%)
+              147 (45.09%)
               samples spent calling
               <a href="multidimensional-jl-b15f86aca7aa36da9d41-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-multidimensional-jl-_getindex-491">_getindex</a><br />
-              3 (0.83%)
+              3 (0.92%)
               samples spent calling
               <a href="indices-jl-ca62d99379281bb38e64-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-indices-jl-to_indices-213">to_indices</a><br />
-              170 (46.96%)
+              3 (0.92%)
+              samples spent calling
+              <a href="indices-jl-ca62d99379281bb38e64-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-indices-jl-to_indices-213">to_indices</a><br />
+              24 (7.36%)
               samples spent calling
               <a href="multidimensional-jl-b15f86aca7aa36da9d41-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-multidimensional-jl-_getindex-491">_getindex</a><br />
             </div>
@@ -9866,9 +9885,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-setindex-965"></a>
-              2 (0.01%) samples spent in setindex!<br />
-              1 (100.00%) (ex.),
-              2 (100.00%) (incl.)
+              1 (0.0082%) samples spent in setindex!<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
               when called from
               macro expansion
               <a href="train-jl-94893ea3787006a1b46c-line.html#Ltrain-jl-94893ea3787006a1b46c-line.html-175">line 175</a><br />
@@ -9901,22 +9920,10 @@
         <tr>
           <td><a name="Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-968"></a>968</td>
           <td></td>
-          <td>2 (0.01%)</td>
+          <td>1 (0.0082%)</td>
           <td>
-            <div class="call-sites">
-              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-setindex-968"></a>
-              1 (0.0069%) samples spent in setindex!<br />
-              0 (ex.),
-              1 (100.00%) (incl.)
-              when called from
-              update_sets!
-              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-371">line 371</a><br />
-            </div>
             <div class="callees">
-              1 (50.00%)
-              samples spent calling
-              <a href="multidimensional-jl-b15f86aca7aa36da9d41-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-multidimensional-jl-_setindex-537">_setindex!</a><br />
-              1 (50.00%)
+              1 (100.00%)
               samples spent calling
               <a href="multidimensional-jl-b15f86aca7aa36da9d41-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-multidimensional-jl-_setindex-537">_setindex!</a><br />
             </div>

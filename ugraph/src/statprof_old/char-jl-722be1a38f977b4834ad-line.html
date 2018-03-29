@@ -1,0 +1,915 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="statprofiler.css">
+
+    <title>StatProfilerHTML.jl: /home/arashyazdiha/Documents/Programs/julia-d386e40c17/bin/../share/julia/base/./char.jl</title>
+  </head>
+  <body>
+<div class="report-header">
+  <div class="backlink"><a href="index.html">Report index</a></div>
+  <div class="report-title">StatProfilerHTML.jl report</div>
+  <div class="generated-on">Generated on wo 28 mrt 2018 16:05:06 CEST</div>
+</div>
+
+    <div id="body-content">
+      <table>
+        <caption>File source code</caption>
+        <tr>
+          <th>Line</td>
+          <th>Exclusive</th>
+          <th>Inclusive</th>
+          <th>Code</th>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-1"></a>1</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># This file is a part of Julia. License is MIT: https://julialang.org/license
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-2"></a>2</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-3"></a>3</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">convert(::Type{Char}, x::UInt32) = reinterpret(Char, x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-4"></a>4</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">convert(::Type{Char}, x::Number) = Char(UInt32(x))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-5"></a>5</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">convert(::Type{UInt32}, x::Char) = reinterpret(UInt32, x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-6"></a>6</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">convert(::Type{T}, x::Char) where {T&lt;:Number} = convert(T, UInt32(x))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-7"></a>7</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-8"></a>8</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">rem{T&lt;:Number}(x::Char, ::Type{T}) = rem(UInt32(x), T)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-9"></a>9</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-10"></a>10</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">typemax(::Type{Char}) = reinterpret(Char, typemax(UInt32))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-11"></a>11</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">typemin(::Type{Char}) = reinterpret(Char, typemin(UInt32))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-12"></a>12</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-13"></a>13</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">size(c::Char) = ()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-14"></a>14</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">size(c::Char,d) = convert(Int, d) &lt; 1 ? throw(BoundsError()) : 1
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-15"></a>15</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">ndims(c::Char) = 0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-16"></a>16</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">ndims(::Type{Char}) = 0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-17"></a>17</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">length(c::Char) = 1
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-18"></a>18</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">endof(c::Char) = 1
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-19"></a>19</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">getindex(c::Char) = c
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-20"></a>20</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">getindex(c::Char, i::Integer) = i == 1 ? c : throw(BoundsError())
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-21"></a>21</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">getindex(c::Char, I::Integer...) = all(x -&gt; x == 1, I) ? c : throw(BoundsError())
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-22"></a>22</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">first(c::Char) = c
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-23"></a>23</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">last(c::Char) = c
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-24"></a>24</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">eltype(::Type{Char}) = Char
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-25"></a>25</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-26"></a>26</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">start(c::Char) = false
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-27"></a>27</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">next(c::Char, state) = (c, true)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-28"></a>28</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">done(c::Char, state) = state
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-29"></a>29</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">isempty(c::Char) = false
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-30"></a>30</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">in(x::Char, y::Char) = x == y
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-31"></a>31</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-32"></a>32</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">==(x::Char, y::Char) = UInt32(x) == UInt32(y)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-33"></a>33</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">isless(x::Char, y::Char) = UInt32(x) &lt; UInt32(y)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-34"></a>34</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-35"></a>35</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const hashchar_seed = 0xd4d64234
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-36"></a>36</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">hash(x::Char, h::UInt) = hash_uint64(((UInt64(x)+hashchar_seed)&lt;&lt;32) ⊻ UInt64(h))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-37"></a>37</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-38"></a>38</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">-(x::Char, y::Char) = Int(x) - Int(y)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-39"></a>39</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">-(x::Char, y::Integer) = Char(Int32(x) - Int32(y))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-40"></a>40</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">+(x::Char, y::Integer) = Char(Int32(x) + Int32(y))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-41"></a>41</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">+(x::Integer, y::Char) = y + x
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-42"></a>42</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-43"></a>43</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">bswap(x::Char) = Char(bswap(UInt32(x)))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-44"></a>44</td>
+          <td></td>
+          <td></td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-char-jl-print-44"></a>
+              1 (0.0069%) samples spent in print<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              print
+              <a href="io-jl-7f272ef1fa6cfc3f4fd8-line.html#Lio-jl-7f272ef1fa6cfc3f4fd8-line.html-40">line 40</a><br />
+            </div>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-45"></a>45</td>
+          <td></td>
+          <td>10 (0.07%)</td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-char-jl-print-45"></a>
+              9 (0.06%) samples spent in print<br />
+              0 (ex.),
+              9 (100.00%) (incl.)
+              when called from
+              show_delim_array
+              <a href="show-jl-4c366b2fc7c3a9606c7e-line.html#Lshow-jl-4c366b2fc7c3a9606c7e-line.html-361">line 361</a><br />
+            </div>
+            <div class="callees">
+              9 (90.00%)
+              samples spent calling
+              <a href="io-jl-8e3ccf7533a4555a00c5-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-io-jl-write-329">write</a><br />
+              1 (10.00%)
+              samples spent calling
+              <a href="io-jl-8e3ccf7533a4555a00c5-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-io-jl-write-329">write</a><br />
+            </div>
+            <span class="code">print(io::IO, c::Char) = (write(io, c); nothing)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-46"></a>46</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-47"></a>47</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const hex_chars = UInt8[&#39;0&#39;:&#39;9&#39;;&#39;a&#39;:&#39;z&#39;]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-48"></a>48</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-49"></a>49</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function show(io::IO, c::Char)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-50"></a>50</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if c &lt;= &#39;\\&#39;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-51"></a>51</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        b = c == &#39;\0&#39; ? 0x30 :
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-52"></a>52</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            c == &#39;\a&#39; ? 0x61 :
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-53"></a>53</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            c == &#39;\b&#39; ? 0x62 :
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-54"></a>54</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            c == &#39;\t&#39; ? 0x74 :
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-55"></a>55</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            c == &#39;\n&#39; ? 0x6e :
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-56"></a>56</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            c == &#39;\v&#39; ? 0x76 :
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-57"></a>57</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            c == &#39;\f&#39; ? 0x66 :
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-58"></a>58</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            c == &#39;\r&#39; ? 0x72 :
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-59"></a>59</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            c == &#39;\e&#39; ? 0x65 :
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-60"></a>60</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            c == &#39;\&#39;&#39; ? 0x27 :
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-61"></a>61</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            c == &#39;\\&#39; ? 0x5c : 0xff
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-62"></a>62</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        if b != 0xff
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-63"></a>63</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            write(io, 0x27, 0x5c, b, 0x27)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-64"></a>64</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            return
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-65"></a>65</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-66"></a>66</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-67"></a>67</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if isprint(c)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-68"></a>68</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        write(io, 0x27, c, 0x27)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-69"></a>69</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-70"></a>70</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        u = UInt32(c)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-71"></a>71</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        write(io, 0x27, 0x5c, c &lt;= &#39;\x7f&#39; ? 0x78 : c &lt;= &#39;\uffff&#39; ? 0x75 : 0x55)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-72"></a>72</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        d = max(2, 8 - (leading_zeros(u) &gt;&gt; 2))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-73"></a>73</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        while 0 &lt; d
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-74"></a>74</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            write(io, hex_chars[((u &gt;&gt; ((d -= 1) &lt;&lt; 2)) &amp; 0xf) + 1])
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-75"></a>75</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-76"></a>76</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        write(io, 0x27)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-77"></a>77</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-78"></a>78</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    return
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-79"></a>79</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-80"></a>80</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-81"></a>81</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function show(io::IO, ::MIME&quot;text/plain&quot;, c::Char)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-82"></a>82</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    show(io, c)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-83"></a>83</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    u = UInt32(c)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-84"></a>84</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    print(io, &quot;: &quot;, isascii(c) ? &quot;ASCII/&quot; : &quot;&quot;, &quot;Unicode U+&quot;, hex(u, u &gt; 0xffff ? 6 : 4))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-85"></a>85</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    print(io, &quot; (category &quot;, UTF8proc.category_abbrev(c), &quot;: &quot;, UTF8proc.category_string(c), &quot;)&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lchar-jl-722be1a38f977b4834ad-line.html-86"></a>86</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

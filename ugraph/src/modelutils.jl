@@ -294,6 +294,12 @@ function init_mu(model::LNMMSB, communities::Dict{Int64, Vector{Int64}}, onlyK::
   for i in 1:N
     model.μ_var[i,:] = log.(model.μ_var[i,:]/(sum(model.μ_var[i,:])))
   end
+  z = zeros(Float64, 1000, 1000)
+  # x = rand(1000, 1000)
+  # y = rand(1000, 1000)
+  # @btime A_mul_B!(z, x,y)
+  # @btime x*y
+
 end
 
 # Here we need do determine the A, C, B for the first round before getting into the variational loop
