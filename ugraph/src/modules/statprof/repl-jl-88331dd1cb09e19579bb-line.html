@@ -1,0 +1,1423 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="statprofiler.css">
+
+    <title>StatProfilerHTML.jl: /home/arashyazdiha/.julia/v0.6/Atom/src/repl.jl</title>
+  </head>
+  <body>
+<div class="report-header">
+  <div class="backlink"><a href="index.html">Report index</a></div>
+  <div class="report-title">StatProfilerHTML.jl report</div>
+  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+</div>
+
+    <div id="body-content">
+      <table>
+        <caption>File source code</caption>
+        <tr>
+          <th>Line</td>
+          <th>Exclusive</th>
+          <th>Inclusive</th>
+          <th>Code</th>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-1"></a>1</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-2"></a>2</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># FIXME: Should refactor all REPL related functions into a struct that keeps track
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-3"></a>3</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">#        of global state (terminal size, current prompt, current module etc).
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-4"></a>4</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># FIXME: Find a way to reprint what&#39;s currently entered in the REPL after changing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-5"></a>5</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">#        the module (or delete it in the buffer).
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-6"></a>6</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-7"></a>7</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">isREPL() = isdefined(Base, :active_repl)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-8"></a>8</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-9"></a>9</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">handle(&quot;changeprompt&quot;) do prompt
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-10"></a>10</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  isREPL() || return
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-11"></a>11</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-12"></a>12</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  if !isempty(prompt)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-13"></a>13</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    changeREPLprompt(prompt)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-14"></a>14</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-15"></a>15</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  nothing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-16"></a>16</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-17"></a>17</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-18"></a>18</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">handle(&quot;changemodule&quot;) do data
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-19"></a>19</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  isREPL() || return
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-20"></a>20</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-21"></a>21</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  @destruct [mod || &quot;&quot;] = data
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-22"></a>22</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  if !isempty(mod) &amp;&amp; !isdebugging()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-23"></a>23</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    parts = split(mod, &#39;.&#39;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-24"></a>24</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if length(parts) &gt; 1 &amp;&amp; parts[1] == &quot;Main&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-25"></a>25</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">      shift!(parts)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-26"></a>26</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-27"></a>27</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    changeREPLmodule(mod)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-28"></a>28</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-29"></a>29</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  nothing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-30"></a>30</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-31"></a>31</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-32"></a>32</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">handle(&quot;fullpath&quot;) do uri
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-33"></a>33</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  return Atom.fullpath(uri)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-34"></a>34</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-35"></a>35</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-36"></a>36</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">handle(&quot;validatepath&quot;) do uri
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-37"></a>37</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  uri = match(r&quot;(.+)(:\d+)$&quot;, uri)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-38"></a>38</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  if uri == nothing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-39"></a>39</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    return false
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-40"></a>40</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-41"></a>41</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  uri = Atom.fullpath(uri[1])
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-42"></a>42</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  if isfile(uri) || isdir(uri)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-43"></a>43</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    return true
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-44"></a>44</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-45"></a>45</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    return false
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-46"></a>46</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-47"></a>47</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-48"></a>48</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-49"></a>49</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">juliaprompt = &quot;julia&gt; &quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-50"></a>50</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-51"></a>51</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">handle(&quot;resetprompt&quot;) do linebreak
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-52"></a>52</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  isREPL() || return
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-53"></a>53</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  linebreak &amp;&amp; println()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-54"></a>54</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  changeREPLprompt(juliaprompt)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-55"></a>55</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  nothing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-56"></a>56</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-57"></a>57</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-58"></a>58</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">current_prompt = juliaprompt
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-59"></a>59</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-60"></a>60</td>
+          <td></td>
+          <td></td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-julia-v0-6-Atom-src-repl-jl-hideprompt-60"></a>
+              9674 (100.00%) samples spent in hideprompt<br />
+              0 (ex.),
+              9674 (100.00%) (incl.)
+              when called from
+              macro expansion
+              <a href="eval-jl-cb4903314c339ad10363-line.html#Leval-jl-cb4903314c339ad10363-line.html-73">line 73</a><br />
+            </div>
+            <span class="code">function hideprompt(f)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-61"></a>61</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  isREPL() || return f()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-62"></a>62</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-63"></a>63</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  print(STDOUT, &quot;\e[1K\r&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-64"></a>64</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  flush(STDOUT)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-65"></a>65</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  flush(STDERR)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-66"></a>66</td>
+          <td></td>
+          <td>9674 (100.00%)</td>
+          <td>
+            <div class="callees">
+              9674 (100.00%)
+              samples spent calling
+              <a href="eval-jl-cb4903314c339ad10363-line.html#S-home-arashyazdiha-julia-v0-6-Atom-src-eval-jl-withpath-37">withpath</a><br />
+            </div>
+            <span class="code">  r = f()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-67"></a>67</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  flush(STDOUT)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-68"></a>68</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  flush(STDERR)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-69"></a>69</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  sleep(0.05)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-70"></a>70</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-71"></a>71</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  pos = @rpc cursorpos()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-72"></a>72</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  pos[1] != 0 &amp;&amp; println()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-73"></a>73</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  changeREPLprompt(current_prompt)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-74"></a>74</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  r
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-75"></a>75</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-76"></a>76</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-77"></a>77</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function changeREPLprompt(prompt; color = :green)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-78"></a>78</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  global current_prompt = prompt
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-79"></a>79</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  repl = Base.active_repl
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-80"></a>80</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  main_mode = repl.interface.modes[1]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-81"></a>81</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  main_mode.prompt = prompt
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-82"></a>82</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  main_mode.prompt_prefix = Base.text_colors[:bold] * Base.text_colors[color]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-83"></a>83</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  print(STDOUT, &quot;\e[1K\r&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-84"></a>84</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  print_with_color(color, prompt, bold = true)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-85"></a>85</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  nothing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-86"></a>86</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-87"></a>87</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-88"></a>88</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># FIXME: This is ugly and bad, but lets us work around the fact that REPL.run_interface
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-89"></a>89</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">#        doesn&#39;t seem to stop the currently active repl from running. This global
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-90"></a>90</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">#        switches between two interpreter codepaths when debugging over in ./debugger/stepper.jl.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-91"></a>91</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">repleval = false
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-92"></a>92</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-93"></a>93</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function changeREPLmodule(mod)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-94"></a>94</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  islocked(evallock) &amp;&amp; return nothing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-95"></a>95</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-96"></a>96</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  mod = getthing(mod)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-97"></a>97</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-98"></a>98</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  repl = Base.active_repl
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-99"></a>99</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  main_mode = repl.interface.modes[1]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-100"></a>100</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  main_mode.on_done = Base.REPL.respond(repl, main_mode; pass_empty = false) do line
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-101"></a>101</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if !isempty(line)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-102"></a>102</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">      if isdebugging()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-103"></a>103</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        quote
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-104"></a>104</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">          try
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-105"></a>105</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            Atom.msg(&quot;working&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-106"></a>106</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            Atom.Debugger.interpret($line)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-107"></a>107</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">          finally
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-108"></a>108</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            Atom.msg(&quot;updateWorkspace&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-109"></a>109</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            Atom.msg(&quot;doneWorking&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-110"></a>110</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">          end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-111"></a>111</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-112"></a>112</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">      else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-113"></a>113</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        quote
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-114"></a>114</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">          try
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-115"></a>115</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            lock($evallock)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-116"></a>116</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            Atom.msg(&quot;working&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-117"></a>117</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            eval(Atom, :(repleval = true))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-118"></a>118</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            eval($mod, :(ans = eval(parse($$line))))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-119"></a>119</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">          finally
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-120"></a>120</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            Atom.msg(&quot;updateWorkspace&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-121"></a>121</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            unlock($evallock)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-122"></a>122</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            Atom.msg(&quot;doneWorking&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-123"></a>123</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">             eval(Atom, :(repleval = false))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-124"></a>124</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">          end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-125"></a>125</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-126"></a>126</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">      end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-127"></a>127</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-128"></a>128</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-129"></a>129</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-130"></a>130</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-131"></a>131</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># make sure DisplayHook() is higher than REPLDisplay() in the display stack
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-132"></a>132</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@init begin
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-133"></a>133</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  atreplinit((i) -&gt; begin
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-134"></a>134</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    Base.Multimedia.popdisplay(Media.DisplayHook())
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-135"></a>135</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    Base.Multimedia.pushdisplay(Media.DisplayHook())
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-136"></a>136</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    Media.unsetdisplay(Editor(), Any)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-137"></a>137</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  end)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lrepl-jl-88331dd1cb09e19579bb-line.html-138"></a>138</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

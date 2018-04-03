@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on do 29 mrt 2018 08:54:27 CEST</div>
+  <div class="generated-on">Generated on ma 02 apr 2018 09:57:46 CEST</div>
 </div>
 
     <div id="body-content">
@@ -4601,9 +4601,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sparse-sparsevector-jl-getindex-458"></a>
-              2 (0.02%) samples spent in getindex<br />
+              4 (0.01%) samples spent in getindex<br />
               0 (ex.),
-              2 (100.00%) (incl.)
+              4 (100.00%) (incl.)
               when called from
               neighbors_
               <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-245">line 245</a><br />
@@ -4646,12 +4646,12 @@
         <tr>
           <td><a name="Lsparsevector-jl-636f0df533e50526596a-line.html-462"></a>462</td>
           <td></td>
-          <td>2 (0.02%)</td>
+          <td>4 (0.01%)</td>
           <td>
             <div class="callees">
-              2 (100.00%)
+              4 (100.00%)
               samples spent calling
-              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-getindex-562">getindex</a><br />
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-getindex-564">getindex</a><br />
             </div>
             <span class="code">    SparseVector(x.m, x.rowval[r1:r2], x.nzval[r1:r2])
 </span>
@@ -4853,6 +4853,15 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sparse-sparsevector-jl-getindex-482"></a>
+              1 (0.0026%) samples spent in getindex<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              macro expansion
+              <a href="train-jl-94893ea3787006a1b46c-line.html#Ltrain-jl-94893ea3787006a1b46c-line.html-5">line 5</a><br />
+            </div>
             <span class="code"># Row slices
 </span>
           </td>
@@ -4861,8 +4870,13 @@
         <tr>
           <td><a name="Lsparsevector-jl-636f0df533e50526596a-line.html-483"></a>483</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
           <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="sparsevector-jl-636f0df533e50526596a-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sparse-sparsevector-jl-getindex-484">getindex</a><br />
+            </div>
             <span class="code">getindex(A::SparseMatrixCSC, i::Integer, ::Colon) = A[i, 1:end]
 </span>
           </td>
@@ -4873,6 +4887,15 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sparse-sparsevector-jl-getindex-484"></a>
+              1 (0.0026%) samples spent in getindex<br />
+              1 (100.00%) (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              getindex
+              <a href="sparsevector-jl-636f0df533e50526596a-line.html#Lsparsevector-jl-636f0df533e50526596a-line.html-483">line 483</a><br />
+            </div>
             <span class="code">function Base.getindex(A::SparseMatrixCSC{Tv,Ti}, i::Integer, J::AbstractVector) where {Tv,Ti}
 </span>
           </td>
@@ -5020,8 +5043,8 @@
 
         <tr>
           <td><a name="Lsparsevector-jl-636f0df533e50526596a-line.html-499"></a>499</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
             <span class="code">        if ptrA &lt;= stopA
 </span>

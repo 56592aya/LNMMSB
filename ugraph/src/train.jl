@@ -175,20 +175,11 @@ for i in 1:iter
 	model.μ_var[model.mbids,:]=deepcopy(_init_μ[model.mbids,:])
 	#updating the mus for minibatch
 	for a in mb.mbnodes
-		if !isfullsample
-			#we also ignore the Lambda assuming its very large or cov is 0
-			count_a[a] += 1.0
-			expectedvisits = (Float64(iter)/(4.0*Float64(model.N)/Float64(model.mbsize)))
-			# updatesimulμΛ!(model, a, mb)
-			updateμ!(model, a, mb, "check")
-			lr_μ[a] = (expectedvisits/(expectedvisits+(count_a[a]-1.0)))^(.5)
-			model.μ_var[a,:] = view(model.μ_var_old, a, :).*(1.0.-lr_μ[a])+lr_μ[a].*view(model.μ_var, a, :)
-			# if i  < 1500
-			# 	model.μ_var[a,:] .+= log.(nnz(model.network)./(2.*sum(model.ϕlsum, 1)[:]))
-			# end
-		else
-			updatesimulμΛ!(model, a, mb,meth)
-		end
+		count_a[a] += 1.0
+		expectedvisits = (Float64(iter)/(4.0*Float64(model.N)/Float64(model.mbsize)))
+		updateμ!(model, a, mb, "check")
+		lr_μ[a] = (expectedvisits/(expectedvisits+(count_a[a]-1.0)))^(.5)
+		model.μ_var[a,:] = view(model.μ_var_old, a, :).*(1.0.-lr_μ[a])+lr_μ[a].*view(model.μ_var, a, :)
 	end
 	estimate_θs!(model, mb)
 	est_θ = deepcopy(model.est_θ)

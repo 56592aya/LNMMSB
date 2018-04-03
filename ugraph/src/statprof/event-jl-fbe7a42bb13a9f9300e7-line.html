@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on do 29 mrt 2018 08:54:27 CEST</div>
+  <div class="generated-on">Generated on ma 02 apr 2018 09:57:46 CEST</div>
 </div>
 
     <div id="body-content">
@@ -459,15 +459,6 @@
           <td></td>
           <td></td>
           <td>
-            <div class="call-sites">
-              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-event-jl-notify-44"></a>
-              1 (0.0082%) samples spent in notify<br />
-              1 (100.00%) (ex.),
-              1 (100.00%) (incl.)
-              when called from
-              unlock
-              <a href="lock-jl-4d28d7e1a12b43261cac-line.html#Llock-jl-4d28d7e1a12b43261cac-line.html-93">line 93</a><br />
-            </div>
             <span class="code">function notify(c::Condition, arg, all, error)
 </span>
           </td>
@@ -2158,6 +2149,15 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-event-jl-wait-213"></a>
+              2 (0.0053%) samples spent in wait<br />
+              0 (ex.),
+              2 (100.00%) (incl.)
+              when called from
+              uv_write
+              <a href="stream-jl-9871ead38ffc384f8a51-line.html#Lstream-jl-9871ead38ffc384f8a51-line.html-811">line 811</a><br />
+            </div>
             <span class="code">function wait()
 </span>
           </td>
@@ -2186,8 +2186,13 @@
         <tr>
           <td><a name="Levent-jl-fbe7a42bb13a9f9300e7-line.html-216"></a>216</td>
           <td></td>
-          <td></td>
+          <td>2 (0.0053%)</td>
           <td>
+            <div class="callees">
+              2 (100.00%)
+              samples spent calling
+              <a href="libuv-jl-f8006f9d8b520ee1e207-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-libuv-jl-process_events-82">process_events</a><br />
+            </div>
             <span class="code">            c = process_events(true)
 </span>
           </td>
@@ -4298,10 +4303,6 @@
           <td></td>
           <td></td>
           <td>
-            <div class="call-sites">
-              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-event-jl-300-427"></a>
-              1 (0.0082%) samples spent in #300<br />
-            </div>
             <span class="code">    waiter = Task(function()
 </span>
           </td>
@@ -4390,13 +4391,8 @@
         <tr>
           <td><a name="Levent-jl-fbe7a42bb13a9f9300e7-line.html-436"></a>436</td>
           <td></td>
-          <td>1 (0.0082%)</td>
+          <td></td>
           <td>
-            <div class="callees">
-              1 (100.00%)
-              samples spent calling
-              <a href="gui-jl-9ce5ff5fe52eebc9c290-line.html#S-home-arashyazdiha-julia-v0-6-PyCall-src-gui-jl-7-192">#7</a><br />
-            </div>
             <span class="code">            success &amp;&amp; cb(t)
 </span>
           </td>

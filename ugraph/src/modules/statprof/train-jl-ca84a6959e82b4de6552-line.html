@@ -1,0 +1,1819 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="statprofiler.css">
+
+    <title>StatProfilerHTML.jl: /home/arashyazdiha/Dropbox/Arash/EUR/Workspace/CLSM/Julia Implementation/ProjectLN/ugraph/src/modules/./train.jl</title>
+  </head>
+  <body>
+<div class="report-header">
+  <div class="backlink"><a href="index.html">Report index</a></div>
+  <div class="report-title">StatProfilerHTML.jl report</div>
+  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+</div>
+
+    <div id="body-content">
+      <table>
+        <caption>File source code</caption>
+        <tr>
+          <th>Line</td>
+          <th>Exclusive</th>
+          <th>Inclusive</th>
+          <th>Code</th>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-1"></a>1</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">__precompile__()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-2"></a>2</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">module Train
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-3"></a>3</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">export train
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-4"></a>4</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">import Utils: MiniBatch, Link, NonLink, logsumexp, softmax
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-5"></a>5</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">import TrainUtils: update_Elogβ!,updatel!,estimate_θs!
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-6"></a>6</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">import TrainUtils: updatephil!,updatephinl!,updateμ!,updatem!,updateM!,updateL!
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-7"></a>7</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">import TrainUtils: updateb0!,updateb1!,estimate_βs!
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-8"></a>8</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">import ModelUtils: getSets!,test_sets,minibatch_set_srns,setup_mblnl!,update_sets!,init_mu,update_A!,preparedata2!
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-9"></a>9</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">import Model:LNMMSB
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-10"></a>10</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">import Distributions:Wishart
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-11"></a>11</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">using Plots
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-12"></a>12</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">using GraphPlot
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-13"></a>13</td>
+          <td></td>
+          <td></td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-train-jl-train-13"></a>
+              9663 (99.89%) samples spent in train<br />
+              200 (100.00%) (ex.),
+              9663 (100.00%) (incl.)
+              when called from
+              macro expansion
+              <a href="profile-jl-8aec085f2d8dd0c607c0-line.html#Lprofile-jl-8aec085f2d8dd0c607c0-line.html-23">line 23</a><br />
+            </div>
+            <span class="code">function train(model::LNMMSB, mb::MiniBatch,iter::Int64, elboevery::Int64, communities::Dict{Int64,Array{Int64,1}})
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-14"></a>14</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	preparedata2!(model)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-15"></a>15</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	for a in 1:model.N
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-16"></a>16</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		model.train_deg[a] = sum(model.network[a,:])
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-17"></a>17</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-18"></a>18</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	train_links_num=0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-19"></a>19</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	train_nlinks_num = 0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-20"></a>20</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	link_ratio = 0.0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-21"></a>21</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	prev_ll = -1000000
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-22"></a>22</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	store_ll = Array{Float64, 1}()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-23"></a>23</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	store_nmi = Array{Float64, 1}()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-24"></a>24</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	first_converge = false
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-25"></a>25</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	model.elborecord = Vector{Float64}()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-26"></a>26</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	model.elbo = 0.0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-27"></a>27</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	model.oldelbo= -Inf
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-28"></a>28</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	train_links_num=sum(model.train_deg)/2
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-29"></a>29</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	train_nlinks_num=(model.N*model.N-model.N)/2- length(model.ho_dyads)-train_links_num
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-30"></a>30</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	link_ratio = convert(Float64, train_links_num)/convert(Float64,train_nlinks_num)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-31"></a>31</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	_init_ϕ = deepcopy(ones(Float64, model.K).*1.0/model.K)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-32"></a>32</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	link_thresh=.9
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-33"></a>33</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	init_mu(model,communities,model.K, model.N)##from Gopalan
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-34"></a>34</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	_init_μ = deepcopy(model.μ_var)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-35"></a>35</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	model.μ_var = deepcopy(_init_μ)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-36"></a>36</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	model.Λ_var = 100.0*ones(Float64, (model.N, model.K))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-37"></a>37</td>
+          <td></td>
+          <td>1 (0.01%)</td>
+          <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
+            </div>
+            <span class="code">	_init_Λ = deepcopy(model.Λ_var)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-38"></a>38</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-39"></a>39</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	update_Elogβ!(model)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-40"></a>40</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	updatel!(model)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-41"></a>41</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	lr_M = 1.0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-42"></a>42</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	lr_m = 1.0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-43"></a>43</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	lr_L = 1.0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-44"></a>44</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	lr_b = 1.0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-45"></a>45</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	true_μ = readdlm(&quot;../../data/true_mu.txt&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-46"></a>46</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	model.m = deepcopy(zeros(Float64,model.K))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-47"></a>47</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	model.M = deepcopy((100.0).*eye(Float64,model.K))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-48"></a>48</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	model.l = model.K+2
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-49"></a>49</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	Ltemp = zeros(Float64, model.K, model.K)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-50"></a>50</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		for i in 1:model.N
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-51"></a>51</td>
+          <td></td>
+          <td>2 (0.02%)</td>
+          <td>
+            <div class="callees">
+              1 (50.00%)
+              samples spent calling
+              <a href="wishart-jl-07a9df533024d7e08ec0-line.html#S-home-arashyazdiha-julia-v0-6-Distributions-src-matrix-wishart-jl-Type-34">Type</a><br />
+              1 (50.00%)
+              samples spent calling
+              <a href="wishart-jl-07a9df533024d7e08ec0-line.html#S-home-arashyazdiha-julia-v0-6-Distributions-src-matrix-wishart-jl-rand-112">rand</a><br />
+            </div>
+            <span class="code">		Ltemp .+= rand(Wishart(model.K+1,0.001*diagm(ones(Float64, model.K))))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-52"></a>52</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-53"></a>53</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	Ltemp ./= model.N
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-54"></a>54</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	model.L=deepcopy(100.0.*(Ltemp)./model.l)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-55"></a>55</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	isfullsample=false
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-56"></a>56</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	if model.mbsize == model.N
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-57"></a>57</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		isfullsample = true
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-58"></a>58</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-59"></a>59</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	lr_μ=ones(Float64, model.N)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-60"></a>60</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	lr_Λ=ones(Float64, model.N)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-61"></a>61</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	count_μ = zeros(Int64, model.N)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-62"></a>62</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	count_Λ = zeros(Int64, model.N)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-63"></a>63</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	count_a = zeros(Float64, model.N)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-64"></a>64</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	model.μ_var=deepcopy(_init_μ)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-65"></a>65</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	estimate_θs!(model)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-66"></a>66</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	threshold=.9
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-67"></a>67</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	getSets!(model, threshold,_init_μ)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-68"></a>68</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	println()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-69"></a>69</td>
+          <td></td>
+          <td>1 (0.01%)</td>
+          <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-test_sets-470">test_sets</a><br />
+            </div>
+            <span class="code">	test_sets(model)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-70"></a>70</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	for i in 1:iter
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-71"></a>71</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		#MB sampling, eveyr time we create an empty minibatch object
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-72"></a>72</td>
+          <td></td>
+          <td>4 (0.04%)</td>
+          <td>
+            <div class="callees">
+              4 (100.00%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-34">deepcopy_internal</a><br />
+            </div>
+            <span class="code">		mb=deepcopy(model.mb_zeroer)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-73"></a>73</td>
+          <td></td>
+          <td>92 (0.95%)</td>
+          <td>
+            <div class="callees">
+              92 (100.00%)
+              samples spent calling
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-minibatch_set_srns-30">minibatch_set_srns</a><br />
+            </div>
+            <span class="code">		minibatch_set_srns(model, mb, model.N)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-74"></a>74</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		model.mbids = deepcopy(mb.mbnodes)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-75"></a>75</td>
+          <td></td>
+          <td>8 (0.08%)</td>
+          <td>
+            <div class="callees">
+              3 (37.50%)
+              samples spent calling
+              <a href="random-jl-3c29f269282a0112ca95-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-shuffle-1622">shuffle!</a><br />
+              5 (62.50%)
+              samples spent calling
+              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-copy-570">copy!</a><br />
+            </div>
+            <span class="code">		shuffled = shuffle!(collect(model.minibatch_set))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-76"></a>76</td>
+          <td>2 (0.02%)</td>
+          <td>140 (1.45%)</td>
+          <td>
+            <div class="callees">
+              138 (98.57%)
+              samples spent calling
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-setup_mblnl-431">setup_mblnl!</a><br />
+            </div>
+            <span class="code">		setup_mblnl!(model, mb, shuffled,_init_ϕ)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-77"></a>77</td>
+          <td></td>
+          <td>31 (0.32%)</td>
+          <td>
+            <div class="callees">
+              31 (100.00%)
+              samples spent calling
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-update_sets-362">update_sets!</a><br />
+            </div>
+            <span class="code">		update_sets!(model, mb)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-78"></a>78</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		lr_M = 1.0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-79"></a>79</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		lr_m = 1.0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-80"></a>80</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		lr_L = 1.0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-81"></a>81</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		lr_b = 1.0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-82"></a>82</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		#Setting the learning rates for minibatch, very dubious for now
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-83"></a>83</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		if !isfullsample
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-84"></a>84</td>
+          <td></td>
+          <td>1 (0.01%)</td>
+          <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="math-jl-55feb969e311fdf4e23a-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-math-jl-699">^</a><br />
+            </div>
+            <span class="code">			lr_m = (100./(101.0+Float64(20000/(model.N/model.mbsize)-1.0)))^(.9)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-85"></a>85</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">			lr_L = (100./(101.0+Float64(20000/(model.N/model.mbsize)-1.0)))^(.9)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-86"></a>86</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">			lr_b = (100./(101.0+Float64(20000/(model.N/model.mbsize)-1.0)))^(.9)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-87"></a>87</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-88"></a>88</td>
+          <td>14 (0.14%)</td>
+          <td>38 (0.39%)</td>
+          <td>
+            <div class="callees">
+              16 (42.11%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
+              1 (2.63%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy-8">deepcopy</a><br />
+              7 (18.42%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-fill-225">fill!</a><br />
+            </div>
+            <span class="code">		model.ϕlsum = deepcopy(zeros(Float64, (model.N,model.K)))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-89"></a>89</td>
+          <td></td>
+          <td>1 (0.01%)</td>
+          <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy-8">deepcopy</a><br />
+            </div>
+            <span class="code">		model.ϕnlinoutsum = deepcopy(zeros(Float64, model.K))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-90"></a>90</td>
+          <td>11 (0.11%)</td>
+          <td>41 (0.42%)</td>
+          <td>
+            <div class="callees">
+              23 (56.10%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
+              7 (17.07%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-fill-225">fill!</a><br />
+            </div>
+            <span class="code">		model.ϕnloutsum = deepcopy(zeros(Float64, (model.N,model.K)))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-91"></a>91</td>
+          <td>9 (0.09%)</td>
+          <td>37 (0.38%)</td>
+          <td>
+            <div class="callees">
+              6 (16.22%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-fill-225">fill!</a><br />
+              22 (59.46%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
+            </div>
+            <span class="code">		model.ϕnlinsum = deepcopy(zeros(Float64, (model.N,model.K)))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-92"></a>92</td>
+          <td>1 (0.01%)</td>
+          <td>2 (0.02%)</td>
+          <td>
+            <div class="callees">
+              1 (50.00%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
+            </div>
+            <span class="code">		one_over_K = deepcopy(ones(Float64,model.K)./model.K)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-93"></a>93</td>
+          <td>2 (0.02%)</td>
+          <td>2 (0.02%)</td>
+          <td>
+            <span class="code">		for d in shuffled
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-94"></a>94</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">			## updating phis for links
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-95"></a>95</td>
+          <td>1 (0.01%)</td>
+          <td>77 (0.80%)</td>
+          <td>
+            <div class="callees">
+              73 (94.81%)
+              samples spent calling
+              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
+              3 (3.90%)
+              samples spent calling
+              <a href="utils-jl-56d1852980543f3415bf-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-utils-jl-49">==</a><br />
+            </div>
+            <span class="code">			if d in mb.mblinks
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-96"></a>96</td>
+          <td>2 (0.02%)</td>
+          <td>596 (6.16%)</td>
+          <td>
+            <div class="callees">
+              310 (52.01%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-34">deepcopy_internal</a><br />
+              72 (12.08%)
+              samples spent calling
+              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-getindex-883">getindex</a><br />
+              196 (32.89%)
+              samples spent calling
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
+              16 (2.68%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy-8">deepcopy</a><br />
+            </div>
+            <span class="code">				l=deepcopy(mb.mblinks[mb.mblinks .== d][1])
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-97"></a>97</td>
+          <td>1 (0.01%)</td>
+          <td>25 (0.26%)</td>
+          <td>
+            <div class="callees">
+              14 (56.00%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy-8">deepcopy</a><br />
+              10 (40.00%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
+            </div>
+            <span class="code">				l.ϕ = deepcopy(one_over_K)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-98"></a>98</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">				for j in 1:10
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-99"></a>99</td>
+          <td>7 (0.07%)</td>
+          <td>2058 (21.27%)</td>
+          <td>
+            <div class="callees">
+              1 (0.05%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-vcat-1159">vcat</a><br />
+              2044 (99.32%)
+              samples spent calling
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-updatephil-12">updatephil!</a><br />
+              1 (0.05%)
+              samples spent calling
+              <a href="arraymath-jl-b564666165cf37ea0005-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-arraymath-jl-47">+</a><br />
+              4 (0.19%)
+              samples spent calling
+              <a href="exp-jl-b42dee10b321eb245576-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-special-exp-jl-exp-67">exp</a><br />
+              1 (0.05%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-getindex-568">getindex</a><br />
+            </div>
+            <span class="code">					updatephil!(model, mb, l,&quot;check&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-100"></a>100</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">				end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-101"></a>101</td>
+          <td>1 (0.01%)</td>
+          <td>1 (0.01%)</td>
+          <td>
+            <span class="code">				for k in 1:model.K
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-102"></a>102</td>
+          <td>17 (0.18%)</td>
+          <td>17 (0.18%)</td>
+          <td>
+            <span class="code">					model.ϕlsum[l.src,k] += l.ϕ[k]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-103"></a>103</td>
+          <td>11 (0.11%)</td>
+          <td>11 (0.11%)</td>
+          <td>
+            <span class="code">					model.ϕlsum[l.dst,k] += l.ϕ[k]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-104"></a>104</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">				end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-105"></a>105</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">			else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-106"></a>106</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">				## updating phis for nonlinks
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-107"></a>107</td>
+          <td>2 (0.02%)</td>
+          <td>808 (8.35%)</td>
+          <td>
+            <div class="callees">
+              273 (33.79%)
+              samples spent calling
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
+              17 (2.10%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy-8">deepcopy</a><br />
+              97 (12.00%)
+              samples spent calling
+              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-getindex-883">getindex</a><br />
+              419 (51.86%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-34">deepcopy_internal</a><br />
+            </div>
+            <span class="code">				nl=deepcopy(mb.mbnonlinks[mb.mbnonlinks .== d][1])
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-108"></a>108</td>
+          <td>2 (0.02%)</td>
+          <td>36 (0.37%)</td>
+          <td>
+            <div class="callees">
+              15 (41.67%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy-8">deepcopy</a><br />
+              19 (52.78%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
+            </div>
+            <span class="code">				nl.ϕout = deepcopy(one_over_K)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-109"></a>109</td>
+          <td>1 (0.01%)</td>
+          <td>42 (0.43%)</td>
+          <td>
+            <div class="callees">
+              15 (35.71%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy-8">deepcopy</a><br />
+              26 (61.90%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
+            </div>
+            <span class="code">				nl.ϕin = deepcopy(one_over_K)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-110"></a>110</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">				for j in 1:10
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-111"></a>111</td>
+          <td>8 (0.08%)</td>
+          <td>4726 (48.85%)</td>
+          <td>
+            <div class="callees">
+              1 (0.02%)
+              samples spent calling
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-updatephinlin-66">updatephinlin!</a><br />
+              4716 (99.79%)
+              samples spent calling
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-updatephinl-41">updatephinl!</a><br />
+              1 (0.02%)
+              samples spent calling
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-updatephinlout-53">updatephinlout!</a><br />
+            </div>
+            <span class="code">					updatephinl!(model, mb, nl, &quot;check&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-112"></a>112</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">				end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-113"></a>113</td>
+          <td>1 (0.01%)</td>
+          <td>1 (0.01%)</td>
+          <td>
+            <span class="code">				for k in 1:model.K
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-114"></a>114</td>
+          <td>30 (0.31%)</td>
+          <td>30 (0.31%)</td>
+          <td>
+            <span class="code">					model.ϕnloutsum[nl.src,k] += nl.ϕout[k]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-115"></a>115</td>
+          <td>33 (0.34%)</td>
+          <td>33 (0.34%)</td>
+          <td>
+            <span class="code">					model.ϕnlinsum[nl.src,k] += nl.ϕout[k]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-116"></a>116</td>
+          <td>16 (0.17%)</td>
+          <td>16 (0.17%)</td>
+          <td>
+            <span class="code">					model.ϕnlinsum[nl.dst,k] += nl.ϕin[k]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-117"></a>117</td>
+          <td>19 (0.20%)</td>
+          <td>19 (0.20%)</td>
+          <td>
+            <span class="code">					model.ϕnloutsum[nl.dst,k] += nl.ϕin[k]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-118"></a>118</td>
+          <td>7 (0.07%)</td>
+          <td>7 (0.07%)</td>
+          <td>
+            <span class="code">					model.ϕnlinoutsum[k] += nl.ϕout[k]*nl.ϕin[k]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-119"></a>119</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">				end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-120"></a>120</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">			end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-121"></a>121</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-122"></a>122</td>
+          <td></td>
+          <td>2 (0.02%)</td>
+          <td>
+            <div class="callees">
+              2 (100.00%)
+              samples spent calling
+              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-getindex-883">getindex</a><br />
+            </div>
+            <span class="code">		model.μ_var[model.mbids,:]=deepcopy(_init_μ[model.mbids,:])
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-123"></a>123</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		#updating the mus for minibatch
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-124"></a>124</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		for a in mb.mbnodes
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-125"></a>125</td>
+          <td>1 (0.01%)</td>
+          <td>1 (0.01%)</td>
+          <td>
+            <span class="code">			count_a[a] += 1.0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-126"></a>126</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">			expectedvisits = (Float64(iter)/(4.0*Float64(model.N)/Float64(model.mbsize)))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-127"></a>127</td>
+          <td>1 (0.01%)</td>
+          <td>267 (2.76%)</td>
+          <td>
+            <div class="callees">
+              266 (99.63%)
+              samples spent calling
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-update-97">updateμ!</a><br />
+            </div>
+            <span class="code">			updateμ!(model, a, mb, &quot;check&quot;, model.N)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-128"></a>128</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">			lr_μ[a] = (expectedvisits/(expectedvisits+(count_a[a]-1.0)))^(.5)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-129"></a>129</td>
+          <td></td>
+          <td>3 (0.03%)</td>
+          <td>
+            <div class="callees">
+              3 (100.00%)
+              samples spent calling
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
+            </div>
+            <span class="code">			model.μ_var[a,:] = view(model.μ_var_old, a, :).*(1.0.-lr_μ[a])+lr_μ[a].*view(model.μ_var, a, :)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-130"></a>130</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-131"></a>131</td>
+          <td></td>
+          <td>11 (0.11%)</td>
+          <td>
+            <div class="callees">
+              11 (100.00%)
+              samples spent calling
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-estimate_-s-197">estimate_θs!</a><br />
+            </div>
+            <span class="code">		estimate_θs!(model, mb)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-132"></a>132</td>
+          <td></td>
+          <td>23 (0.24%)</td>
+          <td>
+            <div class="callees">
+              23 (100.00%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
+            </div>
+            <span class="code">		est_θ = deepcopy(model.est_θ)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-133"></a>133</td>
+          <td></td>
+          <td>19 (0.20%)</td>
+          <td>
+            <div class="callees">
+              19 (100.00%)
+              samples spent calling
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-update_A-388">update_A!</a><br />
+            </div>
+            <span class="code">		update_A!(model, mb, est_θ,threshold)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-134"></a>134</td>
+          <td></td>
+          <td>269 (2.78%)</td>
+          <td>
+            <div class="callees">
+              269 (100.00%)
+              samples spent calling
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-updatem-127">updatem!</a><br />
+            </div>
+            <span class="code">		updatem!(model, mb)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-135"></a>135</td>
+          <td></td>
+          <td>1 (0.01%)</td>
+          <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="arraymath-jl-b564666165cf37ea0005-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-arraymath-jl-37">+</a><br />
+            </div>
+            <span class="code">		model.m = model.m_old.*(1.0-lr_m)+lr_m.*model.m
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-136"></a>136</td>
+          <td></td>
+          <td>3 (0.03%)</td>
+          <td>
+            <div class="callees">
+              3 (100.00%)
+              samples spent calling
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-updateM-122">updateM!</a><br />
+            </div>
+            <span class="code">		updateM!(model, mb)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-137"></a>137</td>
+          <td></td>
+          <td>1 (0.01%)</td>
+          <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
+            </div>
+            <span class="code">		model.M = model.M_old.*(1.0-lr_M)+lr_M.*model.M
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-138"></a>138</td>
+          <td></td>
+          <td>106 (1.10%)</td>
+          <td>
+            <div class="callees">
+              106 (100.00%)
+              samples spent calling
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-updateL-142">updateL!</a><br />
+            </div>
+            <span class="code">		updateL!(model, mb, i)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-139"></a>139</td>
+          <td></td>
+          <td>4 (0.04%)</td>
+          <td>
+            <div class="callees">
+              4 (100.00%)
+              samples spent calling
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
+            </div>
+            <span class="code">		model.L = model.L_old.*(1.0-lr_L)+lr_L*model.L
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-140"></a>140</td>
+          <td></td>
+          <td>7 (0.07%)</td>
+          <td>
+            <div class="callees">
+              7 (100.00%)
+              samples spent calling
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-updateb0-166">updateb0!</a><br />
+            </div>
+            <span class="code">		updateb0!(model, mb)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-141"></a>141</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		model.b0 = (1.0-lr_b).*model.b0_old + lr_b.*((model.b0))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-142"></a>142</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		updateb1!(model,mb)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-143"></a>143</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		model.b1 = (1.0-lr_b).*model.b1_old+lr_b.*((model.b1))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-144"></a>144</td>
+          <td></td>
+          <td>4 (0.04%)</td>
+          <td>
+            <div class="callees">
+              4 (100.00%)
+              samples spent calling
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-update_Elog-213">update_Elogβ!</a><br />
+            </div>
+            <span class="code">		update_Elogβ!(model)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-145"></a>145</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		checkelbo = (i % model.N/model.mbsize == 0)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-146"></a>146</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		if checkelbo || i == 1
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-147"></a>147</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">			print(i);print(&quot;: &quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-148"></a>148</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">			estimate_βs!(model,mb)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-149"></a>149</td>
+          <td></td>
+          <td>38 (0.39%)</td>
+          <td>
+            <div class="callees">
+              38 (100.00%)
+              samples spent calling
+              <a href="io-jl-7f272ef1fa6cfc3f4fd8-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-strings-io-jl-print-36">print</a><br />
+            </div>
+            <span class="code">			println(model.est_β)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-150"></a>150</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-151"></a>151</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-152"></a>152</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-153"></a>153</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

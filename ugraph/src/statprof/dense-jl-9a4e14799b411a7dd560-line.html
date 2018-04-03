@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on do 29 mrt 2018 08:54:27 CEST</div>
+  <div class="generated-on">Generated on ma 02 apr 2018 09:57:46 CEST</div>
 </div>
 
     <div id="body-content">
@@ -6521,22 +6521,22 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-dense-jl-inv-650"></a>
-              228 (1.87%) samples spent in inv<br />
+              297 (0.78%) samples spent in inv<br />
               0 (ex.),
-              4 (1.75%) (incl.)
+              37 (12.46%) (incl.)
               when called from
               updateL!
-              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-278">line 278</a><br />
-              1 (25.00%) (ex.),
-              14 (6.14%) (incl.)
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-189">line 189</a><br />
+              1 (50.00%) (ex.),
+              52 (17.51%) (incl.)
+              when called from
+              updateL!
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-187">line 187</a><br />
+              1 (50.00%) (ex.),
+              208 (70.03%) (incl.)
               when called from
               updatem!
-              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-258">line 258</a><br />
-              3 (75.00%) (ex.),
-              210 (92.11%) (incl.)
-              when called from
-              updateL!
-              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-276">line 276</a><br />
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-169">line 169</a><br />
             </div>
             <span class="code">function inv(A::StridedMatrix{T}) where T
 </span>
@@ -6585,11 +6585,11 @@
 
         <tr>
           <td><a name="Ldense-jl-9a4e14799b411a7dd560-line.html-655"></a>655</td>
-          <td>1 (0.0082%)</td>
-          <td>206 (1.69%)</td>
+          <td></td>
+          <td>19 (0.05%)</td>
           <td>
             <div class="callees">
-              205 (99.51%)
+              19 (100.00%)
               samples spent calling
               <a href="triangular-jl-a7c4d33cd3f97b27bda6-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-triangular-jl-inv-536">inv</a><br />
             </div>
@@ -6630,14 +6630,14 @@
 
         <tr>
           <td><a name="Ldense-jl-9a4e14799b411a7dd560-line.html-659"></a>659</td>
-          <td>1 (0.0082%)</td>
-          <td>20 (0.16%)</td>
+          <td></td>
+          <td>275 (0.72%)</td>
           <td>
             <div class="callees">
-              7 (35.00%)
+              246 (89.45%)
               samples spent calling
               <a href="lu-jl-3dbbb8364e078b0bb3e8-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-lu-jl-lufact-81">lufact</a><br />
-              12 (60.00%)
+              29 (10.55%)
               samples spent calling
               <a href="lu-jl-3dbbb8364e078b0bb3e8-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-lu-jl-inv-309">inv</a><br />
             </div>
@@ -6658,9 +6658,14 @@
 
         <tr>
           <td><a name="Ldense-jl-9a4e14799b411a7dd560-line.html-661"></a>661</td>
-          <td>2 (0.02%)</td>
-          <td>2 (0.02%)</td>
+          <td>2 (0.0053%)</td>
+          <td>3 (0.0079%)</td>
           <td>
+            <div class="callees">
+              1 (33.33%)
+              samples spent calling
+              <a href="triangular-jl-a7c4d33cd3f97b27bda6-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-triangular-jl-convert-124">convert</a><br />
+            </div>
             <span class="code">    return convert(typeof(parent(Ai)), Ai)
 </span>
           </td>

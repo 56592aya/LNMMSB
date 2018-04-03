@@ -1,0 +1,403 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="statprofiler.css">
+
+    <title>StatProfilerHTML.jl: /home/arashyazdiha/.julia/v0.6/CodeTools/src/utils.jl</title>
+  </head>
+  <body>
+<div class="report-header">
+  <div class="backlink"><a href="index.html">Report index</a></div>
+  <div class="report-title">StatProfilerHTML.jl report</div>
+  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+</div>
+
+    <div id="body-content">
+      <table>
+        <caption>File source code</caption>
+        <tr>
+          <th>Line</td>
+          <th>Exclusive</th>
+          <th>Inclusive</th>
+          <th>Code</th>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-1"></a>1</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">lines(s) = split(s, &quot;\n&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-2"></a>2</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-3"></a>3</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function memoize(f)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-4"></a>4</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  mem = d()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-5"></a>5</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  (args...) -&gt; Base.@get!(mem, args, f(args...))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-6"></a>6</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-7"></a>7</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-8"></a>8</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function memoize_debounce(f, expiry = 1)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-9"></a>9</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  mem = d()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-10"></a>10</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  function (args...)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-11"></a>11</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if haskey(mem, args)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-12"></a>12</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">      result, t = mem[args]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-13"></a>13</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">      if t + expiry &gt; time()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-14"></a>14</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        mem[args] = result, time()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-15"></a>15</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        return result
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-16"></a>16</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">      end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-17"></a>17</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-18"></a>18</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    result = f(args...)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-19"></a>19</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    mem[args] = result, time()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-20"></a>20</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    return result
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-21"></a>21</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-22"></a>22</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-23"></a>23</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-24"></a>24</td>
+          <td></td>
+          <td></td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-julia-v0-6-CodeTools-src-utils-jl-withpath-24"></a>
+              9674 (100.00%) samples spent in withpath<br />
+              0 (ex.),
+              9674 (100.00%) (incl.)
+              when called from
+              withpath
+              <a href="eval-jl-cb4903314c339ad10363-line.html#Leval-jl-cb4903314c339ad10363-line.html-38">line 38</a><br />
+            </div>
+            <span class="code">function withpath(f, path)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-25"></a>25</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  tls = task_local_storage()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-26"></a>26</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  hassource = haskey(tls, :SOURCE_PATH)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-27"></a>27</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  hassource &amp;&amp; (path′ = tls[:SOURCE_PATH])
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-28"></a>28</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  tls[:SOURCE_PATH] = path
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-29"></a>29</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  try
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-30"></a>30</td>
+          <td></td>
+          <td>9674 (100.00%)</td>
+          <td>
+            <div class="callees">
+              9674 (100.00%)
+              samples spent calling
+              <a href="eval-jl-cb4903314c339ad10363-line.html#S-home-arashyazdiha-julia-v0-6-Atom-src-eval-jl-100-74">#100</a><br />
+            </div>
+            <span class="code">    return f()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-31"></a>31</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  finally
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-32"></a>32</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    hassource ?
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-33"></a>33</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">      (tls[:SOURCE_PATH] = path′) :
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-34"></a>34</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">      delete!(tls, :SOURCE_PATH)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-35"></a>35</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutils-jl-5f3ec719486c051917f5-line.html-36"></a>36</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

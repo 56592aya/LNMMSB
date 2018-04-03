@@ -1,0 +1,4361 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="statprofiler.css">
+
+    <title>StatProfilerHTML.jl: /home/arashyazdiha/.julia/v0.6/JSON/src/Parser.jl</title>
+  </head>
+  <body>
+<div class="report-header">
+  <div class="backlink"><a href="index.html">Report index</a></div>
+  <div class="report-title">StatProfilerHTML.jl report</div>
+  <div class="generated-on">Generated on ma 02 apr 2018 09:57:46 CEST</div>
+</div>
+
+    <div id="body-content">
+      <table>
+        <caption>File source code</caption>
+        <tr>
+          <th>Line</td>
+          <th>Exclusive</th>
+          <th>Inclusive</th>
+          <th>Code</th>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-1"></a>1</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">module Parser  # JSON
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-2"></a>2</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-3"></a>3</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">using Compat
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-4"></a>4</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">using Compat.Mmap
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-5"></a>5</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">using Nullables
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-6"></a>6</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">using ..Common
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-7"></a>7</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-8"></a>8</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-9"></a>9</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Like `isspace`, but work on bytes and includes only the four whitespace
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-10"></a>10</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">characters defined by the JSON standard: space, tab, line feed, and carriage
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-11"></a>11</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">return.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-12"></a>12</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-13"></a>13</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">isjsonspace(b::UInt8) = b == SPACE || b == TAB || b == NEWLINE || b == RETURN
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-14"></a>14</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-15"></a>15</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-16"></a>16</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Like `isdigit`, but for bytes.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-17"></a>17</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-18"></a>18</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">isjsondigit(b::UInt8) = DIGIT_ZERO ≤ b ≤ DIGIT_NINE
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-19"></a>19</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-20"></a>20</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">abstract type ParserState end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-21"></a>21</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-22"></a>22</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">mutable struct MemoryParserState &lt;: ParserState
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-23"></a>23</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    utf8::String
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-24"></a>24</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    s::Int
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-25"></a>25</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-26"></a>26</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-27"></a>27</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># it is convenient to access MemoryParserState like a Vector{UInt8} to avoid copies
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-28"></a>28</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Base.@propagate_inbounds Base.getindex(state::MemoryParserState, i::Int) = codeunit(state.utf8, i)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-29"></a>29</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Base.length(state::MemoryParserState) = sizeof(state.utf8)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-30"></a>30</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Base.unsafe_convert(::Type{Ptr{UInt8}}, state::MemoryParserState) = unsafe_convert(Ptr{UInt8}, state.utf8)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-31"></a>31</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-32"></a>32</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">mutable struct StreamingParserState{T &lt;: IO} &lt;: ParserState
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-33"></a>33</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    io::T
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-34"></a>34</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    cur::UInt8
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-35"></a>35</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    used::Bool
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-36"></a>36</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-37"></a>37</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">StreamingParserState(io::IO) = StreamingParserState(io, 0x00, true)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-38"></a>38</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-39"></a>39</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">struct ParserContext{DictType, IntType} end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-40"></a>40</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-41"></a>41</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-42"></a>42</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Return the byte at the current position of the `ParserState`. If there is no
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-43"></a>43</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">byte (that is, the `ParserState` is done), then an error is thrown that the
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-44"></a>44</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">input ended unexpectedly.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-45"></a>45</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-46"></a>46</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@inline function byteat(ps::MemoryParserState)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-47"></a>47</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    @inbounds if hasmore(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-48"></a>48</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        return ps[ps.s]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-49"></a>49</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-50"></a>50</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        _error(E_UNEXPECTED_EOF, ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-51"></a>51</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-52"></a>52</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-53"></a>53</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-54"></a>54</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@inline function byteat(ps::StreamingParserState)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-55"></a>55</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if ps.used
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-56"></a>56</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        ps.used = false
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-57"></a>57</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        if eof(ps.io)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-58"></a>58</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            _error(E_UNEXPECTED_EOF, ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-59"></a>59</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-60"></a>60</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            ps.cur = read(ps.io, UInt8)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-61"></a>61</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-62"></a>62</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-63"></a>63</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    ps.cur
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-64"></a>64</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-65"></a>65</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-66"></a>66</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-67"></a>67</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Like `byteat`, but with no special bounds check and error message. Useful when
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-68"></a>68</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">a current byte is known to exist.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-69"></a>69</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-70"></a>70</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@inline current(ps::MemoryParserState) = ps[ps.s]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-71"></a>71</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@inline current(ps::StreamingParserState) = byteat(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-72"></a>72</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-73"></a>73</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-74"></a>74</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Require the current byte of the `ParserState` to be the given byte, and then
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-75"></a>75</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">skip past that byte. Otherwise, an error is thrown.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-76"></a>76</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-77"></a>77</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@inline function skip!(ps::ParserState, c::UInt8)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-78"></a>78</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if byteat(ps) == c
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-79"></a>79</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        incr!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-80"></a>80</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-81"></a>81</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        _error(&quot;Expected &#39;$(Char(c))&#39; here&quot;, ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-82"></a>82</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-83"></a>83</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-84"></a>84</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-85"></a>85</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function skip!(ps::ParserState, cs::UInt8...)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-86"></a>86</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    for c in cs
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-87"></a>87</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        skip!(ps, c)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-88"></a>88</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-89"></a>89</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-90"></a>90</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-91"></a>91</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-92"></a>92</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Move the `ParserState` to the next byte.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-93"></a>93</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-94"></a>94</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@inline incr!(ps::MemoryParserState) = (ps.s += 1)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-95"></a>95</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@inline incr!(ps::StreamingParserState) = (ps.used = true)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-96"></a>96</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-97"></a>97</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-98"></a>98</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Move the `ParserState` to the next byte, and return the value at the byte before
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-99"></a>99</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">the advancement. If the `ParserState` is already done, then throw an error.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-100"></a>100</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-101"></a>101</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@inline advance!(ps::ParserState) = (b = byteat(ps); incr!(ps); b)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-102"></a>102</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-103"></a>103</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-104"></a>104</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Return `true` if there is a current byte, and `false` if all bytes have been
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-105"></a>105</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">exausted.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-106"></a>106</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-107"></a>107</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@inline hasmore(ps::MemoryParserState) = ps.s ≤ length(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-108"></a>108</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@inline hasmore(ps::StreamingParserState) = true  # no more now ≠ no more ever
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-109"></a>109</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-110"></a>110</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-111"></a>111</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Remove as many whitespace bytes as possible from the `ParserState` starting from
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-112"></a>112</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">the current byte.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-113"></a>113</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-114"></a>114</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@inline function chomp_space!(ps::ParserState)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-115"></a>115</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    @inbounds while hasmore(ps) &amp;&amp; isjsonspace(current(ps))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-116"></a>116</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        incr!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-117"></a>117</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-118"></a>118</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-119"></a>119</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-120"></a>120</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-121"></a>121</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># Used for line counts
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-122"></a>122</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _count_before(haystack::AbstractString, needle::Char, _end::Int)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-123"></a>123</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    count = 0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-124"></a>124</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    for (i,c) in enumerate(haystack)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-125"></a>125</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        i &gt;= _end &amp;&amp; return count
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-126"></a>126</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        count += c == needle
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-127"></a>127</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-128"></a>128</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    return count
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-129"></a>129</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-130"></a>130</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-131"></a>131</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-132"></a>132</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># Throws an error message with an indicator to the source
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-133"></a>133</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _error(message::AbstractString, ps::MemoryParserState)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-134"></a>134</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    orig = ps.utf8
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-135"></a>135</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    lines = _count_before(orig, &#39;\n&#39;, ps.s)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-136"></a>136</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # Replace all special multi-line/multi-space characters with a space.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-137"></a>137</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    strnl = replace(orig, r&quot;[\b\f\n\r\t\s]&quot; =&gt; &quot; &quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-138"></a>138</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    li = (ps.s &gt; 20) ? ps.s - 9 : 1 # Left index
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-139"></a>139</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    ri = min(lastindex(orig), ps.s + 20)       # Right index
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-140"></a>140</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    error(message *
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-141"></a>141</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">      &quot;\nLine: &quot; * string(lines) *
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-142"></a>142</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">      &quot;\nAround: ...&quot; * strnl[li:ri] * &quot;...&quot; *
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-143"></a>143</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">      &quot;\n           &quot; * (&quot; &quot; ^ (ps.s - li)) * &quot;^\n&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-144"></a>144</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    )
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-145"></a>145</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-146"></a>146</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-147"></a>147</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function _error(message::AbstractString, ps::StreamingParserState)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-148"></a>148</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    error(&quot;$message\n ...when parsing byte with value &#39;$(current(ps))&#39;&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-149"></a>149</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-150"></a>150</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-151"></a>151</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># PARSING
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-152"></a>152</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-153"></a>153</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-154"></a>154</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Given a `ParserState`, after possibly any amount of whitespace, return the next
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-155"></a>155</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">parseable value.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-156"></a>156</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-157"></a>157</td>
+          <td></td>
+          <td></td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-julia-v0-6-JSON-src-Parser-jl-parse_value-157"></a>
+              1 (0.0026%) samples spent in parse_value<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              parse_array
+              <a href="Parser-jl-e28a592b20670165ec95-line.html#LParser-jl-e28a592b20670165ec95-line.html-196">line 196</a><br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              parse_object
+              <a href="Parser-jl-e28a592b20670165ec95-line.html#LParser-jl-e28a592b20670165ec95-line.html-223">line 223</a><br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              #parse#2
+              <a href="Parser-jl-e28a592b20670165ec95-line.html#LParser-jl-e28a592b20670165ec95-line.html-406">line 406</a><br />
+            </div>
+            <span class="code">function parse_value(pc::ParserContext, ps::ParserState)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-158"></a>158</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    chomp_space!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-159"></a>159</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-160"></a>160</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    @inbounds byte = byteat(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-161"></a>161</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if byte == STRING_DELIM
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-162"></a>162</td>
+          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="Parser-jl-e28a592b20670165ec95-line.html#S-home-arashyazdiha-julia-v0-6-JSON-src-Parser-jl-parse_string-270">parse_string</a><br />
+            </div>
+            <span class="code">        parse_string(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-163"></a>163</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    elseif isjsondigit(byte) || byte == MINUS_SIGN
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-164"></a>164</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        parse_number(pc, ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-165"></a>165</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    elseif byte == OBJECT_BEGIN
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-166"></a>166</td>
+          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="Parser-jl-e28a592b20670165ec95-line.html#S-home-arashyazdiha-julia-v0-6-JSON-src-Parser-jl-parse_object-208">parse_object</a><br />
+            </div>
+            <span class="code">        parse_object(pc, ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-167"></a>167</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    elseif byte == ARRAY_BEGIN
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-168"></a>168</td>
+          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="Parser-jl-e28a592b20670165ec95-line.html#S-home-arashyazdiha-julia-v0-6-JSON-src-Parser-jl-parse_array-190">parse_array</a><br />
+            </div>
+            <span class="code">        parse_array(pc, ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-169"></a>169</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-170"></a>170</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        parse_jsconstant(ps::ParserState)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-171"></a>171</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-172"></a>172</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-173"></a>173</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-174"></a>174</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function parse_jsconstant(ps::ParserState)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-175"></a>175</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    c = advance!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-176"></a>176</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if c == LATIN_T      # true
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-177"></a>177</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        skip!(ps, LATIN_R, LATIN_U, LATIN_E)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-178"></a>178</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        true
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-179"></a>179</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    elseif c == LATIN_F  # false
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-180"></a>180</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        skip!(ps, LATIN_A, LATIN_L, LATIN_S, LATIN_E)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-181"></a>181</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        false
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-182"></a>182</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    elseif c == LATIN_N  # null
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-183"></a>183</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        skip!(ps, LATIN_U, LATIN_L, LATIN_L)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-184"></a>184</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        nothing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-185"></a>185</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-186"></a>186</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        _error(E_UNEXPECTED_CHAR, ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-187"></a>187</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-188"></a>188</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-189"></a>189</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-190"></a>190</td>
+          <td></td>
+          <td></td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-julia-v0-6-JSON-src-Parser-jl-parse_array-190"></a>
+              1 (0.0026%) samples spent in parse_array<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              parse_value
+              <a href="Parser-jl-e28a592b20670165ec95-line.html#LParser-jl-e28a592b20670165ec95-line.html-168">line 168</a><br />
+            </div>
+            <span class="code">function parse_array(pc::ParserContext, ps::ParserState)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-191"></a>191</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    result = Any[]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-192"></a>192</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    @inbounds incr!(ps)  # Skip over opening &#39;[&#39;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-193"></a>193</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    chomp_space!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-194"></a>194</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if byteat(ps) ≠ ARRAY_END  # special case for empty array
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-195"></a>195</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        @inbounds while true
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-196"></a>196</td>
+          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="Parser-jl-e28a592b20670165ec95-line.html#S-home-arashyazdiha-julia-v0-6-JSON-src-Parser-jl-parse_value-157">parse_value</a><br />
+            </div>
+            <span class="code">            push!(result, parse_value(pc, ps))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-197"></a>197</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            chomp_space!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-198"></a>198</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            byteat(ps) == ARRAY_END &amp;&amp; break
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-199"></a>199</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            skip!(ps, DELIMITER)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-200"></a>200</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-201"></a>201</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-202"></a>202</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-203"></a>203</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    @inbounds incr!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-204"></a>204</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    result
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-205"></a>205</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-206"></a>206</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-207"></a>207</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-208"></a>208</td>
+          <td></td>
+          <td></td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-julia-v0-6-JSON-src-Parser-jl-parse_object-208"></a>
+              1 (0.0026%) samples spent in parse_object<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              parse_value
+              <a href="Parser-jl-e28a592b20670165ec95-line.html#LParser-jl-e28a592b20670165ec95-line.html-166">line 166</a><br />
+            </div>
+            <span class="code">function parse_object(pc::ParserContext{DictType, &lt;:Real}, ps::ParserState) where DictType
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-209"></a>209</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    obj = DictType()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-210"></a>210</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    keyT = keytype(DictType)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-211"></a>211</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-212"></a>212</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    incr!(ps)  # Skip over opening &#39;{&#39;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-213"></a>213</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    chomp_space!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-214"></a>214</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if byteat(ps) ≠ OBJECT_END  # special case for empty object
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-215"></a>215</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        @inbounds while true
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-216"></a>216</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            # Read key
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-217"></a>217</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            chomp_space!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-218"></a>218</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            byteat(ps) == STRING_DELIM || _error(E_BAD_KEY, ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-219"></a>219</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            key = parse_string(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-220"></a>220</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            chomp_space!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-221"></a>221</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            skip!(ps, SEPARATOR)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-222"></a>222</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            # Read value
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-223"></a>223</td>
+          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="Parser-jl-e28a592b20670165ec95-line.html#S-home-arashyazdiha-julia-v0-6-JSON-src-Parser-jl-parse_value-157">parse_value</a><br />
+            </div>
+            <span class="code">            value = parse_value(pc, ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-224"></a>224</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            chomp_space!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-225"></a>225</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            obj[keyT === Symbol ? Symbol(key) : convert(keyT, key)] = value
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-226"></a>226</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            byteat(ps) == OBJECT_END &amp;&amp; break
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-227"></a>227</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            skip!(ps, DELIMITER)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-228"></a>228</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-229"></a>229</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-230"></a>230</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-231"></a>231</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    incr!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-232"></a>232</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    obj
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-233"></a>233</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-234"></a>234</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-235"></a>235</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-236"></a>236</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">utf16_is_surrogate(c::UInt16) = (c &amp; 0xf800) == 0xd800
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-237"></a>237</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">utf16_get_supplementary(lead::UInt16, trail::UInt16) = Char(UInt32(lead-0xd7f7)&lt;&lt;10 + trail)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-238"></a>238</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-239"></a>239</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function read_four_hex_digits!(ps::ParserState)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-240"></a>240</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    local n::UInt16 = 0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-241"></a>241</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-242"></a>242</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    for _ in 1:4
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-243"></a>243</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        b = advance!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-244"></a>244</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        n = n &lt;&lt; 4 + if isjsondigit(b)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-245"></a>245</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            b - DIGIT_ZERO
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-246"></a>246</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        elseif LATIN_A ≤ b ≤ LATIN_F
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-247"></a>247</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            b - (LATIN_A - UInt8(10))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-248"></a>248</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        elseif LATIN_UPPER_A ≤ b ≤ LATIN_UPPER_F
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-249"></a>249</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            b - (LATIN_UPPER_A - UInt8(10))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-250"></a>250</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-251"></a>251</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            _error(E_BAD_ESCAPE, ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-252"></a>252</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-253"></a>253</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-254"></a>254</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-255"></a>255</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    n
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-256"></a>256</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-257"></a>257</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-258"></a>258</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function read_unicode_escape!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-259"></a>259</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    u1 = read_four_hex_digits!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-260"></a>260</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if utf16_is_surrogate(u1)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-261"></a>261</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        skip!(ps, BACKSLASH)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-262"></a>262</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        skip!(ps, LATIN_U)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-263"></a>263</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        u2 = read_four_hex_digits!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-264"></a>264</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        utf16_get_supplementary(u1, u2)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-265"></a>265</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-266"></a>266</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        Char(u1)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-267"></a>267</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-268"></a>268</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-269"></a>269</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-270"></a>270</td>
+          <td></td>
+          <td></td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-julia-v0-6-JSON-src-Parser-jl-parse_string-270"></a>
+              1 (0.0026%) samples spent in parse_string<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              parse_value
+              <a href="Parser-jl-e28a592b20670165ec95-line.html#LParser-jl-e28a592b20670165ec95-line.html-162">line 162</a><br />
+            </div>
+            <span class="code">function parse_string(ps::ParserState)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-271"></a>271</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    b = IOBuffer()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-272"></a>272</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    incr!(ps)  # skip opening quote
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-273"></a>273</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    while true
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-274"></a>274</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        c = advance!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-275"></a>275</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-276"></a>276</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        if c == BACKSLASH
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-277"></a>277</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            c = advance!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-278"></a>278</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            if c == LATIN_U  # Unicode escape
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-279"></a>279</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                write(b, read_unicode_escape!(ps))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-280"></a>280</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-281"></a>281</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                c = get(ESCAPES, c, 0x00)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-282"></a>282</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                c == 0x00 &amp;&amp; _error(E_BAD_ESCAPE, ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-283"></a>283</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                write(b, c)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-284"></a>284</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-285"></a>285</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            continue
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-286"></a>286</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        elseif c &lt; SPACE
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-287"></a>287</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            _error(E_BAD_CONTROL, ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-288"></a>288</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        elseif c == STRING_DELIM
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-289"></a>289</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            return String(take!(b))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-290"></a>290</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-291"></a>291</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-292"></a>292</td>
+          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="iobuffer-jl-e9e664e400ca3b4c91bf-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-iobuffer-jl-write-347">write</a><br />
+            </div>
+            <span class="code">        write(b, c)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-293"></a>293</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-294"></a>294</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-295"></a>295</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-296"></a>296</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-297"></a>297</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Return `true` if the given bytes vector, starting at `from` and ending at `to`,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-298"></a>298</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">has a leading zero.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-299"></a>299</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-300"></a>300</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function hasleadingzero(bytes, from::Int, to::Int)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-301"></a>301</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    c = bytes[from]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-302"></a>302</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    from + 1 &lt; to &amp;&amp; c == UInt8(&#39;-&#39;) &amp;&amp;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-303"></a>303</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            bytes[from + 1] == DIGIT_ZERO &amp;&amp; isjsondigit(bytes[from + 2]) ||
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-304"></a>304</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    from &lt; to &amp;&amp; to &gt; from + 1 &amp;&amp; c == DIGIT_ZERO &amp;&amp;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-305"></a>305</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            isjsondigit(bytes[from + 1])
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-306"></a>306</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-307"></a>307</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-308"></a>308</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-309"></a>309</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Parse a float from the given bytes vector, starting at `from` and ending at the
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-310"></a>310</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">byte before `to`. Bytes enclosed should all be ASCII characters.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-311"></a>311</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-312"></a>312</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function float_from_bytes(bytes, from::Int, to::Int)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-313"></a>313</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # The ccall is not ideal (Base.tryparse would be better), but it actually
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-314"></a>314</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # makes an 2× difference to performance
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-315"></a>315</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    ccall(:jl_try_substrtod, Nullable{Float64},
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-316"></a>316</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            (Ptr{UInt8}, Csize_t, Csize_t), bytes, from - 1, to - from + 1)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-317"></a>317</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-318"></a>318</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-319"></a>319</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-320"></a>320</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Parse an integer from the given bytes vector, starting at `from` and ending at
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-321"></a>321</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">the byte before `to`. Bytes enclosed should all be ASCII characters.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-322"></a>322</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-323"></a>323</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function int_from_bytes(pc::ParserContext{&lt;:AbstractDict,IntType},
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-324"></a>324</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                        ps::ParserState,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-325"></a>325</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                        bytes,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-326"></a>326</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                        from::Int,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-327"></a>327</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                        to::Int) where IntType &lt;: Real
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-328"></a>328</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    @inbounds isnegative = bytes[from] == MINUS_SIGN ? (from += 1; true) : false
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-329"></a>329</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    num = IntType(0)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-330"></a>330</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    @inbounds for i in from:to
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-331"></a>331</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        num = IntType(10) * num + IntType(bytes[i] - DIGIT_ZERO)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-332"></a>332</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-333"></a>333</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    ifelse(isnegative, -num, num)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-334"></a>334</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-335"></a>335</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-336"></a>336</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function number_from_bytes(pc::ParserContext,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-337"></a>337</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                           ps::ParserState,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-338"></a>338</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                           isint::Bool,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-339"></a>339</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                           bytes,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-340"></a>340</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                           from::Int,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-341"></a>341</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                           to::Int)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-342"></a>342</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    @inbounds if hasleadingzero(bytes, from, to)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-343"></a>343</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        _error(E_LEADING_ZERO, ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-344"></a>344</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-345"></a>345</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-346"></a>346</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if isint
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-347"></a>347</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        @inbounds if to == from &amp;&amp; bytes[from] == MINUS_SIGN
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-348"></a>348</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            _error(E_BAD_NUMBER, ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-349"></a>349</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-350"></a>350</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        int_from_bytes(pc, ps, bytes, from, to)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-351"></a>351</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-352"></a>352</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        res = float_from_bytes(bytes, from, to)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-353"></a>353</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        isnull(res) ? _error(E_BAD_NUMBER, ps) : get(res)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-354"></a>354</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-355"></a>355</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-356"></a>356</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-357"></a>357</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-358"></a>358</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function parse_number(pc::ParserContext, ps::ParserState)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-359"></a>359</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # Determine the end of the floating point by skipping past ASCII values
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-360"></a>360</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # 0-9, +, -, e, E, and .
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-361"></a>361</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    number = UInt8[]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-362"></a>362</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    isint = true
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-363"></a>363</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-364"></a>364</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    @inbounds while hasmore(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-365"></a>365</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        c = current(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-366"></a>366</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-367"></a>367</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        if isjsondigit(c) || c == MINUS_SIGN
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-368"></a>368</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            push!(number, UInt8(c))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-369"></a>369</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        elseif c in (PLUS_SIGN, LATIN_E, LATIN_UPPER_E, DECIMAL_POINT)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-370"></a>370</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            push!(number, UInt8(c))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-371"></a>371</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            isint = false
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-372"></a>372</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-373"></a>373</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            break
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-374"></a>374</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-375"></a>375</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-376"></a>376</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        incr!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-377"></a>377</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-378"></a>378</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-379"></a>379</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    number_from_bytes(pc, ps, isint, number, 1, length(number))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-380"></a>380</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-381"></a>381</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-382"></a>382</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-383"></a>383</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function unparameterize_type(T::Type)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-384"></a>384</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    candidate = typeintersect(T, AbstractDict{String, Any})
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-385"></a>385</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    candidate &lt;: Union{} ? T : candidate
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-386"></a>386</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-387"></a>387</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-388"></a>388</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function parse(str::AbstractString;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-389"></a>389</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">               dicttype::Type{&lt;:AbstractDict}=Dict{String,Any},
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-390"></a>390</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">               inttype::Type{&lt;:Real}=Int64)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-391"></a>391</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    pc = ParserContext{unparameterize_type(dicttype), inttype}()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-392"></a>392</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    ps = MemoryParserState(str, 1)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-393"></a>393</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    v = parse_value(pc, ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-394"></a>394</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    chomp_space!(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-395"></a>395</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if hasmore(ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-396"></a>396</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        _error(E_EXPECTED_EOF, ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-397"></a>397</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-398"></a>398</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    v
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-399"></a>399</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-400"></a>400</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-401"></a>401</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function parse(io::IO;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-402"></a>402</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">               dicttype::Type{&lt;:AbstractDict}=Dict{String,Any},
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-403"></a>403</td>
+          <td></td>
+          <td></td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-julia-v0-6-JSON-src-Parser-jl-parse-403"></a>
+              1 (0.0026%) samples spent in parse<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              macro expansion
+              <a href="comm-jl-1c4b4727ad65fa13583c-line.html#Lcomm-jl-1c4b4727ad65fa13583c-line.html-108">line 108</a><br />
+              <a name="S-home-arashyazdiha-julia-v0-6-JSON-src-Parser-jl-parse-2-403"></a>
+              1 (0.0026%) samples spent in #parse#2<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              parse
+              <a href="Parser-jl-e28a592b20670165ec95-line.html#LParser-jl-e28a592b20670165ec95-line.html-404">line 404</a><br />
+            </div>
+            <span class="code">               inttype::Type{&lt;:Real}=Int64)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-404"></a>404</td>
+          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="Parser-jl-e28a592b20670165ec95-line.html#S-home-arashyazdiha-julia-v0-6-JSON-src-Parser-jl-parse-2-403">#parse#2</a><br />
+            </div>
+            <span class="code">    pc = ParserContext{unparameterize_type(dicttype), inttype}()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-405"></a>405</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    ps = StreamingParserState(io)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-406"></a>406</td>
+          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="Parser-jl-e28a592b20670165ec95-line.html#S-home-arashyazdiha-julia-v0-6-JSON-src-Parser-jl-parse_value-157">parse_value</a><br />
+            </div>
+            <span class="code">    parse_value(pc, ps)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-407"></a>407</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-408"></a>408</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-409"></a>409</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function parsefile(filename::AbstractString;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-410"></a>410</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                   dicttype::Type{&lt;:AbstractDict}=Dict{String, Any},
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-411"></a>411</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                   inttype::Type{&lt;:Real}=Int64,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-412"></a>412</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                   use_mmap=true)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-413"></a>413</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    sz = filesize(filename)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-414"></a>414</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    open(filename) do io
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-415"></a>415</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        s = use_mmap ? String(Mmap.mmap(io, Vector{UInt8}, sz)) : read(io, String)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-416"></a>416</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        parse(s; dicttype=dicttype, inttype=inttype)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-417"></a>417</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-418"></a>418</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-419"></a>419</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-420"></a>420</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># Efficient implementations of some of the above for in-memory parsing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-421"></a>421</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">include(&quot;specialized.jl&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-422"></a>422</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LParser-jl-e28a592b20670165ec95-line.html-423"></a>423</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end  # module Parser
+</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

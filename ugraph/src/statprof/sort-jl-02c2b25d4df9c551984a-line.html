@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on do 29 mrt 2018 08:54:27 CEST</div>
+  <div class="generated-on">Generated on ma 02 apr 2018 09:57:46 CEST</div>
 </div>
 
     <div id="body-content">
@@ -1041,14 +1041,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sort-jl-searchsortedfirst-102"></a>
-              12 (0.10%) samples spent in searchsortedfirst<br />
-              2 (16.67%) (ex.),
-              2 (16.67%) (incl.)
-              when called from
-              isalink
-              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-204">line 204</a><br />
-              10 (83.33%) (ex.),
-              10 (83.33%) (incl.)
+              50 (0.13%) samples spent in searchsortedfirst<br />
+              50 (100.00%) (ex.),
+              50 (100.00%) (incl.)
               when called from
               getindex
               <a href="sparsematrix-jl-ff519d1aab0059da5462-line.html#Lsparsematrix-jl-ff519d1aab0059da5462-line.html-1885">line 1885</a><br />
@@ -1080,8 +1075,8 @@
 
         <tr>
           <td><a name="Lsort-jl-02c2b25d4df9c551984a-line.html-105"></a>105</td>
-          <td>7 (0.06%)</td>
-          <td>7 (0.06%)</td>
+          <td>23 (0.06%)</td>
+          <td>23 (0.06%)</td>
           <td>
             <span class="code">    @inbounds while lo &lt; hi-1
 </span>
@@ -1100,8 +1095,8 @@
 
         <tr>
           <td><a name="Lsort-jl-02c2b25d4df9c551984a-line.html-107"></a>107</td>
-          <td>3 (0.02%)</td>
-          <td>3 (0.02%)</td>
+          <td>27 (0.07%)</td>
+          <td>27 (0.07%)</td>
           <td>
             <span class="code">        if lt(o, v[m], x)
 </span>
@@ -1160,8 +1155,8 @@
 
         <tr>
           <td><a name="Lsort-jl-02c2b25d4df9c551984a-line.html-113"></a>113</td>
-          <td>2 (0.02%)</td>
-          <td>2 (0.02%)</td>
+          <td></td>
+          <td></td>
           <td>
             <span class="code">    return hi
 </span>
@@ -2513,6 +2508,15 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sort-jl-sort-248"></a>
+              4 (0.01%) samples spent in sort!<br />
+              3 (100.00%) (ex.),
+              4 (100.00%) (incl.)
+              when called from
+              sort!
+              <a href="sort-jl-02c2b25d4df9c551984a-line.html#Lsort-jl-02c2b25d4df9c551984a-line.html-324">line 324</a><br />
+            </div>
             <span class="code">function sort!(v::AbstractVector, lo::Int, hi::Int, ::InsertionSortAlg, o::Ordering)
 </span>
           </td>
@@ -2560,9 +2564,14 @@
 
         <tr>
           <td><a name="Lsort-jl-02c2b25d4df9c551984a-line.html-253"></a>253</td>
-          <td></td>
-          <td></td>
+          <td>2 (0.0053%)</td>
+          <td>3 (0.0079%)</td>
           <td>
+            <div class="callees">
+              1 (33.33%)
+              samples spent calling
+              <a href="ordering-jl-bd433d2f45119293db06-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-ordering-jl-lt-53">lt</a><br />
+            </div>
             <span class="code">            if lt(o, x, v[j-1])
 </span>
           </td>
@@ -2570,8 +2579,8 @@
 
         <tr>
           <td><a name="Lsort-jl-02c2b25d4df9c551984a-line.html-254"></a>254</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
             <span class="code">                v[j] = v[j-1]
 </span>
@@ -3255,9 +3264,14 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sort-jl-sort-322"></a>
-              1 (0.0082%) samples spent in sort!<br />
-              1 (100.00%) (ex.),
-              1 (100.00%) (incl.)
+              4 (0.01%) samples spent in sort!<br />
+              0 (ex.),
+              1 (25.00%) (incl.)
+              when called from
+              sort!
+              <a href="sort-jl-02c2b25d4df9c551984a-line.html#Lsort-jl-02c2b25d4df9c551984a-line.html-333">line 333</a><br />
+              0 (ex.),
+              4 (100.00%) (incl.)
               when called from
               fpsort!
               <a href="sort-jl-02c2b25d4df9c551984a-line.html#Lsort-jl-02c2b25d4df9c551984a-line.html-917">line 917</a><br />
@@ -3279,9 +3293,14 @@
 
         <tr>
           <td><a name="Lsort-jl-02c2b25d4df9c551984a-line.html-324"></a>324</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td></td>
+          <td>4 (0.01%)</td>
           <td>
+            <div class="callees">
+              4 (100.00%)
+              samples spent calling
+              <a href="sort-jl-02c2b25d4df9c551984a-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sort-jl-sort-248">sort!</a><br />
+            </div>
             <span class="code">        hi-lo &lt;= SMALL_THRESHOLD &amp;&amp; return sort!(v, lo, hi, SMALL_ALGORITHM, o)
 </span>
           </td>
@@ -3370,8 +3389,13 @@
         <tr>
           <td><a name="Lsort-jl-02c2b25d4df9c551984a-line.html-333"></a>333</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
           <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="sort-jl-02c2b25d4df9c551984a-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sort-jl-sort-322">sort!</a><br />
+            </div>
             <span class="code">            j+1 &lt; hi &amp;&amp; sort!(v, j+1, hi, a, o)
 </span>
           </td>
@@ -6134,9 +6158,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sort-jl-sortperm-11-609"></a>
-              6 (0.05%) samples spent in #sortperm#11<br />
-              3 (100.00%) (ex.),
-              6 (100.00%) (incl.)
+              9 (0.02%) samples spent in #sortperm#11<br />
+              2 (100.00%) (ex.),
+              9 (100.00%) (incl.)
               when called from
               #sortperm
               <a href="nothing-0feca720e2c29dafb2c9-line.html#Lnothing-0feca720e2c29dafb2c9-line.html-0">line 0</a><br />
@@ -6148,9 +6172,14 @@
 
         <tr>
           <td><a name="Lsort-jl-02c2b25d4df9c551984a-line.html-610"></a>610</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td></td>
+          <td>3 (0.0079%)</td>
           <td>
+            <div class="callees">
+              3 (100.00%)
+              samples spent calling
+              <a href="ordering-jl-bd433d2f45119293db06-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-ordering-jl-ord-67">ord</a><br />
+            </div>
             <span class="code">    ordr = ord(lt,by,rev,order)
 </span>
           </td>
@@ -6268,8 +6297,8 @@
 
         <tr>
           <td><a name="Lsort-jl-02c2b25d4df9c551984a-line.html-622"></a>622</td>
-          <td></td>
-          <td></td>
+          <td>2 (0.0053%)</td>
+          <td>2 (0.0053%)</td>
           <td>
             <span class="code">    p = similar(Vector{Int}, indices(v, 1))
 </span>
@@ -6279,13 +6308,8 @@
         <tr>
           <td><a name="Lsort-jl-02c2b25d4df9c551984a-line.html-623"></a>623</td>
           <td></td>
-          <td>1 (0.0082%)</td>
+          <td></td>
           <td>
-            <div class="callees">
-              1 (100.00%)
-              samples spent calling
-              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-eachindex-764">eachindex</a><br />
-            </div>
             <span class="code">    for (i,ind) in zip(eachindex(p), indices(v, 1))
 </span>
           </td>
@@ -6313,11 +6337,11 @@
 
         <tr>
           <td><a name="Lsort-jl-02c2b25d4df9c551984a-line.html-626"></a>626</td>
-          <td>2 (0.02%)</td>
-          <td>4 (0.03%)</td>
+          <td></td>
+          <td>4 (0.01%)</td>
           <td>
             <div class="callees">
-              2 (50.00%)
+              4 (100.00%)
               samples spent calling
               <a href="sort-jl-02c2b25d4df9c551984a-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sort-jl-sort-926">sort!</a><br />
             </div>
@@ -9143,9 +9167,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sort-jl-fpsort-908"></a>
-              2 (0.02%) samples spent in fpsort!<br />
-              1 (100.00%) (ex.),
-              2 (100.00%) (incl.)
+              4 (0.01%) samples spent in fpsort!<br />
+              0 (ex.),
+              4 (100.00%) (incl.)
               when called from
               sort!
               <a href="sort-jl-02c2b25d4df9c551984a-line.html#Lsort-jl-02c2b25d4df9c551984a-line.html-927">line 927</a><br />
@@ -9237,11 +9261,11 @@
 
         <tr>
           <td><a name="Lsort-jl-02c2b25d4df9c551984a-line.html-917"></a>917</td>
-          <td>1 (0.0082%)</td>
-          <td>2 (0.02%)</td>
+          <td></td>
+          <td>4 (0.01%)</td>
           <td>
             <div class="callees">
-              1 (50.00%)
+              4 (100.00%)
               samples spent calling
               <a href="sort-jl-02c2b25d4df9c551984a-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sort-jl-sort-322">sort!</a><br />
             </div>
@@ -9337,9 +9361,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sort-jl-sort-926"></a>
-              2 (0.02%) samples spent in sort!<br />
+              4 (0.01%) samples spent in sort!<br />
               0 (ex.),
-              2 (100.00%) (incl.)
+              4 (100.00%) (incl.)
               when called from
               #sortperm#11
               <a href="sort-jl-02c2b25d4df9c551984a-line.html#Lsort-jl-02c2b25d4df9c551984a-line.html-626">line 626</a><br />
@@ -9352,10 +9376,10 @@
         <tr>
           <td><a name="Lsort-jl-02c2b25d4df9c551984a-line.html-927"></a>927</td>
           <td></td>
-          <td>2 (0.02%)</td>
+          <td>4 (0.01%)</td>
           <td>
             <div class="callees">
-              2 (100.00%)
+              4 (100.00%)
               samples spent calling
               <a href="sort-jl-02c2b25d4df9c551984a-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sort-jl-fpsort-908">fpsort!</a><br />
             </div>

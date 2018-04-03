@@ -1,0 +1,497 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="statprofiler.css">
+
+    <title>StatProfilerHTML.jl: /home/arashyazdiha/.julia/v0.6/CodeTools/src/eval.jl</title>
+  </head>
+  <body>
+<div class="report-header">
+  <div class="backlink"><a href="index.html">Report index</a></div>
+  <div class="report-title">StatProfilerHTML.jl report</div>
+  <div class="generated-on">Generated on do 29 mrt 2018 12:46:32 CEST</div>
+</div>
+
+    <div id="body-content">
+      <table>
+        <caption>File source code</caption>
+        <tr>
+          <th>Line</td>
+          <th>Exclusive</th>
+          <th>Inclusive</th>
+          <th>Code</th>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-1"></a>1</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># Qualified names → objects
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-2"></a>2</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-3"></a>3</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function getthing(mod::Module, name::Vector, default = nothing)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-4"></a>4</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  thing = mod
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-5"></a>5</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  for sym in name
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-6"></a>6</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    sym = Symbol(sym)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-7"></a>7</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if isdefined(thing, sym) &amp;&amp; !Base.isdeprecated(mod, sym)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-8"></a>8</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">      thing = getfield(thing, sym)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-9"></a>9</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    else
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-10"></a>10</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">      return default
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-11"></a>11</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-12"></a>12</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-13"></a>13</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  return thing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-14"></a>14</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-15"></a>15</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-16"></a>16</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">getthing(mod::Module, name::AbstractString, default = nothing) =
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-17"></a>17</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  name == &quot;&quot; ?
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-18"></a>18</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    default :
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-19"></a>19</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    @as x name split(x, &quot;.&quot;, keep=false) map(Symbol, x) getthing(mod, x, default)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-20"></a>20</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-21"></a>21</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">getthing(mod::Module, ::Void, default) = default
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-22"></a>22</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-23"></a>23</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">getthing(mod::Module, x, default) = error(&quot;can&#39;t get $x from a module&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-24"></a>24</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-25"></a>25</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">getthing(args...) = getthing(Main, args...)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-26"></a>26</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-27"></a>27</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># include_string with line numbers
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-28"></a>28</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-29"></a>29</td>
+          <td></td>
+          <td></td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-julia-v0-6-CodeTools-src-eval-jl-include_string-29"></a>
+              9429 (100.00%) samples spent in include_string<br />
+              0 (ex.),
+              9429 (100.00%) (incl.)
+              when called from
+              include_string
+              <a href="eval-jl-589fd7d429589b091de8-line.html#Leval-jl-589fd7d429589b091de8-line.html-34">line 34</a><br />
+            </div>
+            <span class="code">function Base.include_string(s::AbstractString, fname::AbstractString, line::Integer)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-30"></a>30</td>
+          <td></td>
+          <td>9429 (100.00%)</td>
+          <td>
+            <div class="callees">
+              9429 (100.00%)
+              samples spent calling
+              <a href="loading-jl-116737a80fd366db775d-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-loading-jl-include_string-521">include_string</a><br />
+            </div>
+            <span class="code">  include_string(&quot;\n&quot;^(line-1)*s, fname)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-31"></a>31</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-32"></a>32</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-33"></a>33</td>
+          <td></td>
+          <td></td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-julia-v0-6-CodeTools-src-eval-jl-include_string-33"></a>
+              9429 (100.00%) samples spent in include_string<br />
+              0 (ex.),
+              9429 (100.00%) (incl.)
+              when called from
+              #100
+              <a href="eval-jl-cb4903314c339ad10363-line.html#Leval-jl-cb4903314c339ad10363-line.html-75">line 75</a><br />
+            </div>
+            <span class="code">function Base.include_string(mod::Module, args...)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-34"></a>34</td>
+          <td></td>
+          <td>9429 (100.00%)</td>
+          <td>
+            <div class="callees">
+              9429 (100.00%)
+              samples spent calling
+              <a href="eval-jl-589fd7d429589b091de8-line.html#S-home-arashyazdiha-julia-v0-6-CodeTools-src-eval-jl-include_string-29">include_string</a><br />
+            </div>
+            <span class="code">  eval(mod, :(include_string($(args...))))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-35"></a>35</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-36"></a>36</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-37"></a>37</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># Get the current module for a file/pos
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-38"></a>38</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-39"></a>39</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function getmodule(code, pos; filemod = nothing)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-40"></a>40</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  codem = codemodule(code, pos)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-41"></a>41</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  modstr = (codem != &quot;&quot; &amp;&amp; filemod != nothing) ? &quot;$filemod.$codem&quot; :
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-42"></a>42</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">           codem == &quot;&quot; ? filemod : codem
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-43"></a>43</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">  getthing(modstr, Main)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Leval-jl-589fd7d429589b091de8-line.html-44"></a>44</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on do 29 mrt 2018 08:54:27 CEST</div>
+  <div class="generated-on">Generated on ma 02 apr 2018 09:57:46 CEST</div>
 </div>
 
     <div id="body-content">
@@ -121,12 +121,12 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-julia-v0-6-GradDescent-src-AdaGradOptimizer-jl-Adagrad-2-10"></a>
-              3 (0.02%) samples spent in #Adagrad#2<br />
-              3 (100.00%) (ex.),
-              3 (100.00%) (incl.)
+              1 (0.0026%) samples spent in #Adagrad#2<br />
+              1 (100.00%) (ex.),
+              1 (100.00%) (incl.)
               when called from
-              update
-              <a href="AdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html#LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-21">line 21</a><br />
+              updateμ!
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-143">line 143</a><br />
             </div>
             <span class="code">function Adagrad(; η::Float64=0.01, ϵ::Float64=1e-8)
 </span>
@@ -165,8 +165,8 @@
 
         <tr>
           <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-14"></a>14</td>
-          <td>3 (0.02%)</td>
-          <td>3 (0.02%)</td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
             <span class="code">    Adagrad(&quot;Adagrad&quot;, 0, ϵ, η, zeros(1))
 </span>
@@ -230,12 +230,12 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-julia-v0-6-GradDescent-src-AdaGradOptimizer-jl-update-20"></a>
-              3371 (27.60%) samples spent in update<br />
-              2146 (100.00%) (ex.),
-              3371 (100.00%) (incl.)
+              79 (0.21%) samples spent in update<br />
+              10 (100.00%) (ex.),
+              79 (100.00%) (incl.)
               when called from
               updateμ!
-              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-149">line 149</a><br />
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-148">line 148</a><br />
             </div>
             <span class="code">    # resize squares of gradients
 </span>
@@ -245,13 +245,8 @@
         <tr>
           <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-21"></a>21</td>
           <td></td>
-          <td>3 (0.02%)</td>
+          <td></td>
           <td>
-            <div class="callees">
-              3 (100.00%)
-              samples spent calling
-              <a href="AdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html#S-home-arashyazdiha-julia-v0-6-GradDescent-src-AdaGradOptimizer-jl-Adagrad-2-10">#Adagrad#2</a><br />
-            </div>
             <span class="code">    if opt.t == 0
 </span>
           </td>
@@ -269,8 +264,8 @@
 
         <tr>
           <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-23"></a>23</td>
-          <td>2 (0.02%)</td>
-          <td>2 (0.02%)</td>
+          <td></td>
+          <td></td>
           <td>
             <span class="code">    end
 </span>
@@ -309,8 +304,8 @@
 
         <tr>
           <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-27"></a>27</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
             <span class="code">    opt.t += 1
 </span>
@@ -339,27 +334,36 @@
 
         <tr>
           <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-30"></a>30</td>
-          <td></td>
-          <td></td>
+          <td>5 (0.01%)</td>
+          <td>32 (0.08%)</td>
           <td>
-            <span class="code">    opt.G_t += (g_t .^ 2.0)
+            <div class="callees">
+              5 (15.62%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-getindex-568">getindex</a><br />
+              3 (9.38%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-setindex-629">setindex!</a><br />
+              6 (18.75%)
+              samples spent calling
+              <a href="arraymath-jl-b564666165cf37ea0005-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-arraymath-jl-37">+</a><br />
+              12 (37.50%)
+              samples spent calling
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
+              1 (3.12%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-setindex-626">setindex!</a><br />
+            </div>
+            <span class="code">    opt.G_t[:] += (g_t .^ 2.0)
 </span>
           </td>
         </tr>
 
         <tr>
           <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-31"></a>31</td>
-          <td>325 (2.66%)</td>
-          <td>338 (2.77%)</td>
+          <td></td>
+          <td></td>
           <td>
-            <div class="callees">
-              9 (2.66%)
-              samples spent calling
-              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
-              4 (1.18%)
-              samples spent calling
-              <a href="arraymath-jl-b564666165cf37ea0005-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-arraymath-jl-37">+</a><br />
-            </div>
             <span class="code">
 </span>
           </td>
@@ -367,8 +371,8 @@
 
         <tr>
           <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-32"></a>32</td>
-          <td></td>
-          <td></td>
+          <td>2 (0.0053%)</td>
+          <td>2 (0.0053%)</td>
           <td>
             <span class="code">    δ = zeros(Float64, length(g_t))
 </span>
@@ -377,36 +381,33 @@
 
         <tr>
           <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-33"></a>33</td>
-          <td>3 (0.02%)</td>
-          <td>4 (0.03%)</td>
+          <td></td>
+          <td>35 (0.09%)</td>
           <td>
             <div class="callees">
-              1 (25.00%)
+              23 (65.71%)
               samples spent calling
-              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-fill-225">fill!</a><br />
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-getindex-568">getindex</a><br />
+              12 (34.29%)
+              samples spent calling
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
             </div>
-            <span class="code">    δ = opt.η ./ (sqrt.(opt.G_t + opt.ϵ)) .* g_t
+            <span class="code">    δ[:] = opt.η ./ (sqrt.(opt.G_t[:] .+ opt.ϵ)) .* g_t[:]
 </span>
           </td>
         </tr>
 
         <tr>
           <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-34"></a>34</td>
-          <td>1816 (14.87%)</td>
-          <td>3024 (24.76%)</td>
+          <td>1 (0.0026%)</td>
+          <td>8 (0.02%)</td>
           <td>
             <div class="callees">
-              1138 (37.63%)
+              7 (87.50%)
               samples spent calling
-              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast_c-311">broadcast_c</a><br />
-              6 (0.20%)
-              samples spent calling
-              <a href="arraymath-jl-b564666165cf37ea0005-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-arraymath-jl-47">+</a><br />
-              64 (2.12%)
-              samples spent calling
-              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-getindex-568">getindex</a><br />
             </div>
-            <span class="code">    return δ
+            <span class="code">    return δ[:]
 </span>
           </td>
         </tr>

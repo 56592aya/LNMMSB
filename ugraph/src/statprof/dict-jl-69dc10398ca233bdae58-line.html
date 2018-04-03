@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on do 29 mrt 2018 08:54:27 CEST</div>
+  <div class="generated-on">Generated on ma 02 apr 2018 09:57:46 CEST</div>
 </div>
 
     <div id="body-content">
@@ -1056,9 +1056,18 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-104"></a>104</td>
-          <td></td>
-          <td></td>
+          <td>3 (0.0079%)</td>
+          <td>3 (0.0079%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-Type-104"></a>
+              3 (0.0079%) samples spent in Type<br />
+              3 (100.00%) (ex.),
+              3 (100.00%) (incl.)
+              when called from
+              Type
+              <a href="set-jl-86e7f298e4c3455f5c55-line.html#Lset-jl-86e7f298e4c3455f5c55-line.html-6">line 6</a><br />
+            </div>
             <span class="code">        new(zeros(UInt8,n), Array{K,1}(n), Array{V,1}(n), 0, 0, 0, 1, 0)
 </span>
           </td>
@@ -2116,35 +2125,35 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-210"></a>210</td>
-          <td>1 (0.0082%)</td>
-          <td>10 (0.08%)</td>
+          <td>3 (0.0079%)</td>
+          <td>32 (0.08%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-hashindex-210"></a>
-              10 (0.08%) samples spent in hashindex<br />
+              32 (0.08%) samples spent in hashindex<br />
               0 (ex.),
-              1 (10.00%) (incl.)
+              2 (6.25%) (incl.)
               when called from
               rehash!
               <a href="dict-jl-69dc10398ca233bdae58-line.html#Ldict-jl-69dc10398ca233bdae58-line.html-244">line 244</a><br />
-              0 (ex.),
-              3 (30.00%) (incl.)
+              2 (66.67%) (ex.),
+              11 (34.38%) (incl.)
               when called from
               ht_keyindex2
               <a href="dict-jl-69dc10398ca233bdae58-line.html#Ldict-jl-69dc10398ca233bdae58-line.html-348">line 348</a><br />
-              1 (100.00%) (ex.),
-              6 (60.00%) (incl.)
+              1 (33.33%) (ex.),
+              19 (59.38%) (incl.)
               when called from
               ht_keyindex
               <a href="dict-jl-69dc10398ca233bdae58-line.html#Ldict-jl-69dc10398ca233bdae58-line.html-322">line 322</a><br />
             </div>
             <div class="callees">
-              4 (40.00%)
-              samples spent calling
-              <a href="hashing-jl-9e2e7876924e19ce2467-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-hashing-jl-hash_64_64-14">hash_64_64</a><br />
-              5 (50.00%)
+              21 (65.62%)
               samples spent calling
               <a href="utils-jl-86432145f94fb673cc6e-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-utils-jl-hash-34">hash</a><br />
+              8 (25.00%)
+              samples spent calling
+              <a href="hashing-jl-9e2e7876924e19ce2467-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-hashing-jl-hash_64_64-14">hash_64_64</a><br />
             </div>
             <span class="code">hashindex(key, sz) = (((hash(key)%Int) &amp; (sz-1)) + 1)::Int
 </span>
@@ -2208,14 +2217,14 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-rehash-216"></a>
-              12 (0.10%) samples spent in rehash!<br />
-              4 (36.36%) (ex.),
-              4 (33.33%) (incl.)
+              24 (0.06%) samples spent in rehash!<br />
+              8 (36.36%) (ex.),
+              9 (37.50%) (incl.)
               when called from
               ht_keyindex2
               <a href="dict-jl-69dc10398ca233bdae58-line.html#Ldict-jl-69dc10398ca233bdae58-line.html-388">line 388</a><br />
-              7 (63.64%) (ex.),
-              8 (66.67%) (incl.)
+              14 (63.64%) (ex.),
+              15 (62.50%) (incl.)
               when called from
               _setindex!
               <a href="dict-jl-69dc10398ca233bdae58-line.html#Ldict-jl-69dc10398ca233bdae58-line.html-407">line 407</a><br />
@@ -2387,8 +2396,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-233"></a>233</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td>4 (0.01%)</td>
+          <td>4 (0.01%)</td>
           <td>
             <span class="code">    slots = zeros(UInt8,newsz)
 </span>
@@ -2397,8 +2406,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-234"></a>234</td>
-          <td>3 (0.02%)</td>
-          <td>3 (0.02%)</td>
+          <td>5 (0.01%)</td>
+          <td>5 (0.01%)</td>
           <td>
             <span class="code">    keys = Array{K,1}(newsz)
 </span>
@@ -2407,8 +2416,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-235"></a>235</td>
-          <td>6 (0.05%)</td>
-          <td>6 (0.05%)</td>
+          <td>6 (0.02%)</td>
+          <td>6 (0.02%)</td>
           <td>
             <span class="code">    vals = Array{V,1}(newsz)
 </span>
@@ -2467,8 +2476,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-241"></a>241</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td></td>
+          <td></td>
           <td>
             <span class="code">        if olds[i] == 0x1
 </span>
@@ -2477,8 +2486,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-242"></a>242</td>
-          <td></td>
-          <td></td>
+          <td>3 (0.0079%)</td>
+          <td>3 (0.0079%)</td>
           <td>
             <span class="code">            k = oldk[i]
 </span>
@@ -2498,10 +2507,10 @@
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-244"></a>244</td>
           <td></td>
-          <td>1 (0.0082%)</td>
+          <td>2 (0.0053%)</td>
           <td>
             <div class="callees">
-              1 (100.00%)
+              2 (100.00%)
               samples spent calling
               <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-hashindex-210">hashindex</a><br />
             </div>
@@ -2512,8 +2521,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-245"></a>245</td>
-          <td></td>
-          <td></td>
+          <td>2 (0.0053%)</td>
+          <td>2 (0.0053%)</td>
           <td>
             <span class="code">            while slots[index] != 0
 </span>
@@ -2582,8 +2591,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-252"></a>252</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
             <span class="code">            vals[index] = v
 </span>
@@ -3247,19 +3256,24 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-ht_keyindex-318"></a>
-              21 (0.17%) samples spent in ht_keyindex<br />
-              1 (6.67%) (ex.),
-              2 (9.52%) (incl.)
+              94 (0.25%) samples spent in ht_keyindex<br />
+              1 (1.35%) (ex.),
+              1 (1.06%) (incl.)
               when called from
-              getindex
-              <a href="dict-jl-69dc10398ca233bdae58-line.html#Ldict-jl-69dc10398ca233bdae58-line.html-473">line 473</a><br />
-              4 (26.67%) (ex.),
-              4 (19.05%) (incl.)
+              macro expansion
+              <a href="train-jl-94893ea3787006a1b46c-line.html#Ltrain-jl-94893ea3787006a1b46c-line.html-104">line 104</a><br />
+              1 (1.35%) (ex.),
+              2 (2.13%) (incl.)
               when called from
               get
               <a href="dict-jl-69dc10398ca233bdae58-line.html#Ldict-jl-69dc10398ca233bdae58-line.html-478">line 478</a><br />
-              10 (66.67%) (ex.),
-              15 (71.43%) (incl.)
+              14 (18.92%) (ex.),
+              18 (19.15%) (incl.)
+              when called from
+              getindex
+              <a href="dict-jl-69dc10398ca233bdae58-line.html#Ldict-jl-69dc10398ca233bdae58-line.html-473">line 473</a><br />
+              58 (78.38%) (ex.),
+              73 (77.66%) (incl.)
               when called from
               haskey
               <a href="dict-jl-69dc10398ca233bdae58-line.html#Ldict-jl-69dc10398ca233bdae58-line.html-505">line 505</a><br />
@@ -3271,8 +3285,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-319"></a>319</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td>3 (0.0079%)</td>
+          <td>3 (0.0079%)</td>
           <td>
             <span class="code">    sz = length(h.keys)
 </span>
@@ -3301,11 +3315,11 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-322"></a>322</td>
-          <td></td>
-          <td>6 (0.05%)</td>
+          <td>1 (0.0026%)</td>
+          <td>20 (0.05%)</td>
           <td>
             <div class="callees">
-              6 (100.00%)
+              19 (95.00%)
               samples spent calling
               <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-hashindex-210">hashindex</a><br />
             </div>
@@ -3316,8 +3330,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-323"></a>323</td>
-          <td></td>
-          <td></td>
+          <td>3 (0.0079%)</td>
+          <td>3 (0.0079%)</td>
           <td>
             <span class="code">    keys = h.keys
 </span>
@@ -3346,8 +3360,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-326"></a>326</td>
-          <td>4 (0.03%)</td>
-          <td>4 (0.03%)</td>
+          <td>5 (0.01%)</td>
+          <td>5 (0.01%)</td>
           <td>
             <span class="code">        if isslotempty(h,index)
 </span>
@@ -3376,9 +3390,14 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-329"></a>329</td>
-          <td>6 (0.05%)</td>
-          <td>6 (0.05%)</td>
+          <td>43 (0.11%)</td>
+          <td>44 (0.12%)</td>
           <td>
+            <div class="callees">
+              1 (2.27%)
+              samples spent calling
+              <a href="utils-jl-86432145f94fb673cc6e-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-utils-jl-33">==</a><br />
+            </div>
             <span class="code">        if !isslotmissing(h,index) &amp;&amp; (key === keys[index] || isequal(key,keys[index]))
 </span>
           </td>
@@ -3386,8 +3405,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-330"></a>330</td>
-          <td></td>
-          <td></td>
+          <td>2 (0.0053%)</td>
+          <td>2 (0.0053%)</td>
           <td>
             <span class="code">            return index
 </span>
@@ -3436,8 +3455,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-335"></a>335</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td>3 (0.0079%)</td>
+          <td>3 (0.0079%)</td>
           <td>
             <span class="code">        iter &gt; maxprobe &amp;&amp; break
 </span>
@@ -3456,8 +3475,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-337"></a>337</td>
-          <td>2 (0.02%)</td>
-          <td>2 (0.02%)</td>
+          <td>4 (0.01%)</td>
+          <td>4 (0.01%)</td>
           <td>
             <span class="code">    return -1
 </span>
@@ -3521,9 +3540,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-ht_keyindex2-343"></a>
-              16 (0.13%) samples spent in ht_keyindex2<br />
-              7 (100.00%) (ex.),
-              16 (100.00%) (incl.)
+              35 (0.09%) samples spent in ht_keyindex2<br />
+              15 (100.00%) (ex.),
+              35 (100.00%) (incl.)
               when called from
               setindex!
               <a href="dict-jl-69dc10398ca233bdae58-line.html#Ldict-jl-69dc10398ca233bdae58-line.html-421">line 421</a><br />
@@ -3575,11 +3594,11 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-348"></a>348</td>
-          <td></td>
-          <td>3 (0.02%)</td>
+          <td>1 (0.0026%)</td>
+          <td>12 (0.03%)</td>
           <td>
             <div class="callees">
-              3 (100.00%)
+              11 (91.67%)
               samples spent calling
               <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-hashindex-210">hashindex</a><br />
             </div>
@@ -3630,8 +3649,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-353"></a>353</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td></td>
+          <td></td>
           <td>
             <span class="code">        if isslotempty(h,index)
 </span>
@@ -3670,8 +3689,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-357"></a>357</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td>2 (0.0053%)</td>
+          <td>2 (0.0053%)</td>
           <td>
             <span class="code">            return -index
 </span>
@@ -3700,8 +3719,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-360"></a>360</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td>5 (0.01%)</td>
+          <td>5 (0.01%)</td>
           <td>
             <span class="code">        if isslotmissing(h,index)
 </span>
@@ -3760,14 +3779,9 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-366"></a>366</td>
-          <td></td>
-          <td>2 (0.02%)</td>
+          <td>2 (0.0053%)</td>
+          <td>2 (0.0053%)</td>
           <td>
-            <div class="callees">
-              2 (100.00%)
-              samples spent calling
-              <a href="utils-jl-86432145f94fb673cc6e-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-utils-jl-33">==</a><br />
-            </div>
             <span class="code">        elseif key === keys[index] || isequal(key, keys[index])
 </span>
           </td>
@@ -3775,8 +3789,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-367"></a>367</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td></td>
+          <td></td>
           <td>
             <span class="code">            return index
 </span>
@@ -3986,10 +4000,10 @@
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-388"></a>388</td>
           <td></td>
-          <td>4 (0.03%)</td>
+          <td>9 (0.02%)</td>
           <td>
             <div class="callees">
-              4 (100.00%)
+              9 (100.00%)
               samples spent calling
               <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-rehash-216">rehash!</a><br />
             </div>
@@ -4010,8 +4024,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-390"></a>390</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
             <span class="code">    return ht_keyindex2(h, key)
 </span>
@@ -4045,9 +4059,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-_setindex-393"></a>
-              10 (0.08%) samples spent in _setindex!<br />
-              2 (100.00%) (ex.),
-              10 (100.00%) (incl.)
+              21 (0.06%) samples spent in _setindex!<br />
+              6 (100.00%) (ex.),
+              21 (100.00%) (incl.)
               when called from
               setindex!
               <a href="dict-jl-69dc10398ca233bdae58-line.html#Ldict-jl-69dc10398ca233bdae58-line.html-428">line 428</a><br />
@@ -4069,8 +4083,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-395"></a>395</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
             <span class="code">    h.keys[index] = key
 </span>
@@ -4169,8 +4183,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-405"></a>405</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
             <span class="code">    if h.ndel &gt;= ((3*sz)&gt;&gt;2) || h.count*3 &gt; sz*2
 </span>
@@ -4189,11 +4203,11 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-407"></a>407</td>
-          <td></td>
-          <td>8 (0.07%)</td>
+          <td>1 (0.0026%)</td>
+          <td>16 (0.04%)</td>
           <td>
             <div class="callees">
-              8 (100.00%)
+              15 (93.75%)
               samples spent calling
               <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-rehash-216">rehash!</a><br />
             </div>
@@ -4319,19 +4333,19 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-setindex-419"></a>
-              27 (0.22%) samples spent in setindex!<br />
+              56 (0.15%) samples spent in setindex!<br />
               0 (ex.),
-              3 (11.11%) (incl.)
+              7 (12.50%) (incl.)
               when called from
               setup_mblnl!
-              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-439">line 439</a><br />
+              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-453">line 453</a><br />
               0 (ex.),
-              3 (11.11%) (incl.)
+              10 (17.86%) (incl.)
               when called from
               setup_mblnl!
-              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-447">line 447</a><br />
-              1 (100.00%) (ex.),
-              21 (77.78%) (incl.)
+              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-445">line 445</a><br />
+              0 (ex.),
+              39 (69.64%) (incl.)
               when called from
               push!
               <a href="set-jl-86e7f298e4c3455f5c55-line.html#Lset-jl-86e7f298e4c3455f5c55-line.html-35">line 35</a><br />
@@ -4354,10 +4368,10 @@
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-421"></a>421</td>
           <td></td>
-          <td>16 (0.13%)</td>
+          <td>35 (0.09%)</td>
           <td>
             <div class="callees">
-              16 (100.00%)
+              35 (100.00%)
               samples spent calling
               <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-ht_keyindex2-343">ht_keyindex2</a><br />
             </div>
@@ -4408,8 +4422,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-426"></a>426</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td></td>
+          <td></td>
           <td>
             <span class="code">        h.vals[index] = v
 </span>
@@ -4429,10 +4443,10 @@
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-428"></a>428</td>
           <td></td>
-          <td>10 (0.08%)</td>
+          <td>21 (0.06%)</td>
           <td>
             <div class="callees">
-              10 (100.00%)
+              21 (100.00%)
               samples spent calling
               <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-_setindex-393">_setindex!</a><br />
             </div>
@@ -4884,19 +4898,34 @@
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-473"></a>473</td>
           <td></td>
-          <td>2 (0.02%)</td>
+          <td>18 (0.05%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-getindex-473"></a>
-              2 (0.02%) samples spent in getindex<br />
+              18 (0.05%) samples spent in getindex<br />
               0 (ex.),
-              2 (100.00%) (incl.)
+              2 (11.11%) (incl.)
               when called from
               setup_mblnl!
-              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-452">line 452</a><br />
+              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-458">line 458</a><br />
+              0 (ex.),
+              3 (16.67%) (incl.)
+              when called from
+              setup_mblnl!
+              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-450">line 450</a><br />
+              0 (ex.),
+              6 (33.33%) (incl.)
+              when called from
+              setup_mblnl!
+              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-447">line 447</a><br />
+              0 (ex.),
+              7 (38.89%) (incl.)
+              when called from
+              setup_mblnl!
+              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-455">line 455</a><br />
             </div>
             <div class="callees">
-              2 (100.00%)
+              18 (100.00%)
               samples spent calling
               <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-ht_keyindex-318">ht_keyindex</a><br />
             </div>
@@ -4907,17 +4936,27 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-474"></a>474</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td>5 (0.01%)</td>
+          <td>5 (0.01%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-getindex-474"></a>
-              1 (0.0082%) samples spent in getindex<br />
-              1 (100.00%) (ex.),
-              1 (100.00%) (incl.)
+              5 (0.01%) samples spent in getindex<br />
+              1 (20.00%) (ex.),
+              1 (20.00%) (incl.)
               when called from
               updateμ!
-              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-134">line 134</a><br />
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-137">line 137</a><br />
+              2 (40.00%) (ex.),
+              2 (40.00%) (incl.)
+              when called from
+              setup_mblnl!
+              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-455">line 455</a><br />
+              2 (40.00%) (ex.),
+              2 (40.00%) (incl.)
+              when called from
+              setup_mblnl!
+              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-447">line 447</a><br />
             </div>
             <span class="code">    return (index &lt; 0) ? throw(KeyError(key)) : h.vals[index]::V
 </span>
@@ -4957,24 +4996,19 @@
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-478"></a>478</td>
           <td></td>
-          <td>4 (0.03%)</td>
+          <td>2 (0.0053%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-get-478"></a>
-              4 (0.03%) samples spent in get<br />
+              2 (0.0053%) samples spent in get<br />
               0 (ex.),
-              2 (50.00%) (incl.)
+              2 (100.00%) (incl.)
               when called from
               setup_mblnl!
-              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-439">line 439</a><br />
-              0 (ex.),
-              2 (50.00%) (incl.)
-              when called from
-              setup_mblnl!
-              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-447">line 447</a><br />
+              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-445">line 445</a><br />
             </div>
             <div class="callees">
-              4 (100.00%)
+              2 (100.00%)
               samples spent calling
               <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-ht_keyindex-318">ht_keyindex</a><br />
             </div>
@@ -5246,39 +5280,39 @@
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-505"></a>505</td>
           <td></td>
-          <td>15 (0.12%)</td>
+          <td>73 (0.19%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-haskey-505"></a>
-              15 (0.12%) samples spent in haskey<br />
+              73 (0.19%) samples spent in haskey<br />
               0 (ex.),
-              1 (6.67%) (incl.)
+              1 (1.37%) (incl.)
+              when called from
+              updateμ!
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-136">line 136</a><br />
+              0 (ex.),
+              5 (6.85%) (incl.)
               when called from
               setup_mblnl!
-              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-438">line 438</a><br />
+              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-444">line 444</a><br />
               0 (ex.),
-              1 (6.67%) (incl.)
+              10 (13.70%) (incl.)
+              when called from
+              setup_mblnl!
+              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-452">line 452</a><br />
+              0 (ex.),
+              11 (15.07%) (incl.)
               when called from
               minibatch_set_srns
               <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-48">line 48</a><br />
               0 (ex.),
-              1 (6.67%) (incl.)
-              when called from
-              updateμ!
-              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-133">line 133</a><br />
-              0 (ex.),
-              3 (20.00%) (incl.)
-              when called from
-              setup_mblnl!
-              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-446">line 446</a><br />
-              0 (ex.),
-              9 (60.00%) (incl.)
+              46 (63.01%) (incl.)
               when called from
               in
               <a href="set-jl-86e7f298e4c3455f5c55-line.html#Lset-jl-86e7f298e4c3455f5c55-line.html-34">line 34</a><br />
             </div>
             <div class="callees">
-              15 (100.00%)
+              73 (100.00%)
               samples spent calling
               <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-ht_keyindex-318">ht_keyindex</a><br />
             </div>
@@ -5884,12 +5918,17 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-skip_deleted-565"></a>
-              1 (0.0082%) samples spent in skip_deleted<br />
-              1 (100.00%) (ex.),
-              1 (100.00%) (incl.)
+              5 (0.01%) samples spent in skip_deleted<br />
+              1 (20.00%) (ex.),
+              1 (20.00%) (incl.)
               when called from
               minibatch_set_srns
               <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-58">line 58</a><br />
+              4 (80.00%) (ex.),
+              4 (80.00%) (incl.)
+              when called from
+              copy!
+              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-573">line 573</a><br />
             </div>
             <span class="code">function skip_deleted(h::Dict, i)
 </span>
@@ -5908,8 +5947,8 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-567"></a>567</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td>5 (0.01%)</td>
+          <td>5 (0.01%)</td>
           <td>
             <span class="code">    while i&lt;=L &amp;&amp; !isslotfilled(h,i)
 </span>
@@ -5978,18 +6017,9 @@
 
         <tr>
           <td><a name="Ldict-jl-69dc10398ca233bdae58-line.html-574"></a>574</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td></td>
+          <td></td>
           <td>
-            <div class="call-sites">
-              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-start-574"></a>
-              1 (0.0082%) samples spent in start<br />
-              1 (100.00%) (ex.),
-              1 (100.00%) (incl.)
-              when called from
-              start
-              <a href="set-jl-86e7f298e4c3455f5c55-line.html#Lset-jl-86e7f298e4c3455f5c55-line.html-47">line 47</a><br />
-            </div>
             <span class="code">    i = skip_deleted(t, t.idxfloor)
 </span>
           </td>

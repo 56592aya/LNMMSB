@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on do 29 mrt 2018 08:54:27 CEST</div>
+  <div class="generated-on">Generated on ma 02 apr 2018 09:57:46 CEST</div>
 </div>
 
     <div id="body-content">
@@ -859,15 +859,6 @@
           <td></td>
           <td></td>
           <td>
-            <div class="call-sites">
-              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-essentials-jl-unwrap_unionall-84"></a>
-              1 (0.0082%) samples spent in unwrap_unionall<br />
-              1 (100.00%) (ex.),
-              1 (100.00%) (incl.)
-              when called from
-              _methods_by_ftype
-              <a href="reflection-jl-df9a4ef1e804020ceaf6-line.html#Lreflection-jl-df9a4ef1e804020ceaf6-line.html-510">line 510</a><br />
-            </div>
             <span class="code">function unwrap_unionall(a::ANY)
 </span>
           </td>
@@ -2500,14 +2491,19 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-essentials-jl-getindex-247"></a>
-              20 (0.16%) samples spent in getindex<br />
-              8 (40.00%) (ex.),
-              8 (40.00%) (incl.)
+              54 (0.14%) samples spent in getindex<br />
+              1 (1.85%) (ex.),
+              1 (1.85%) (incl.)
+              when called from
+              _methods_by_ftype
+              <a href="reflection-jl-df9a4ef1e804020ceaf6-line.html#Lreflection-jl-df9a4ef1e804020ceaf6-line.html-507">line 507</a><br />
+              21 (38.89%) (ex.),
+              21 (38.89%) (incl.)
               when called from
               return_type
               <a href="inference-jl-433a0418efe92bd93c9e-line.html#Linference-jl-433a0418efe92bd93c9e-line.html-5402">line 5402</a><br />
-              12 (60.00%) (ex.),
-              12 (60.00%) (incl.)
+              32 (59.26%) (ex.),
+              32 (59.26%) (incl.)
               when called from
               _methods_by_ftype
               <a href="reflection-jl-df9a4ef1e804020ceaf6-line.html#Lreflection-jl-df9a4ef1e804020ceaf6-line.html-512">line 512</a><br />
@@ -2519,8 +2515,8 @@
 
         <tr>
           <td><a name="Lessentials-jl-24c5e5d93728d1388d3d-line.html-248"></a>248</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td></td>
+          <td></td>
           <td>
             <span class="code">    if !(1 &lt;= i &lt;= length(v))
 </span>
@@ -2549,8 +2545,8 @@
 
         <tr>
           <td><a name="Lessentials-jl-24c5e5d93728d1388d3d-line.html-251"></a>251</td>
-          <td>18 (0.15%)</td>
-          <td>18 (0.15%)</td>
+          <td>43 (0.11%)</td>
+          <td>43 (0.11%)</td>
           <td>
             <span class="code">    x = unsafe_load(convert(Ptr{Ptr{Void}},data_pointer_from_objref(v)) + i*sizeof(Ptr))
 </span>
@@ -2559,8 +2555,8 @@
 
         <tr>
           <td><a name="Lessentials-jl-24c5e5d93728d1388d3d-line.html-252"></a>252</td>
-          <td></td>
-          <td></td>
+          <td>2 (0.0053%)</td>
+          <td>2 (0.0053%)</td>
           <td>
             <span class="code">    x == C_NULL &amp;&amp; throw(UndefRefError())
 </span>
@@ -2569,8 +2565,8 @@
 
         <tr>
           <td><a name="Lessentials-jl-24c5e5d93728d1388d3d-line.html-253"></a>253</td>
-          <td></td>
-          <td></td>
+          <td>3 (0.0079%)</td>
+          <td>3 (0.0079%)</td>
           <td>
             <span class="code">    return unsafe_pointer_to_objref(x)
 </span>
@@ -3334,12 +3330,12 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-essentials-jl-vector_any-329"></a>
-              1 (0.0082%) samples spent in vector_any<br />
+              1 (0.0026%) samples spent in vector_any<br />
               1 (100.00%) (ex.),
               1 (100.00%) (incl.)
               when called from
               update_A!
-              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-378">line 378</a><br />
+              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-384">line 384</a><br />
             </div>
             <span class="code">function vector_any(xs::ANY...)
 </span>
@@ -3358,8 +3354,8 @@
 
         <tr>
           <td><a name="Lessentials-jl-24c5e5d93728d1388d3d-line.html-331"></a>331</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
             <span class="code">    a = Vector{Any}(n)
 </span>

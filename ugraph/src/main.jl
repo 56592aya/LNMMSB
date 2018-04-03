@@ -1,6 +1,6 @@
 # module main
 using LightGraphs;using GraphPlot;using Gadfly;using PyPlot;
-inputtomodelgen=[250,11]; ## N, K
+inputtomodelgen=[500,14]; ## N, K
 include("utils.jl")
 include("modelgen.jl")
 true_eta0 = readdlm("../data/true_eta0.txt")[1]
@@ -22,13 +22,17 @@ mb=deepcopy(model.mb_zeroer)
 include("modelutils.jl")
 preparedata2!(model)
 include("trainutils.jl")
+# using ParallelAccelerator
 #think about number of columns getting larger and storing observations column wise# this is a big change
 function f()
     include("train.jl")
 end
+# @acc function f()
+#     include("train.jl")
+# end
 # Pkg.add("StatProfilerHTML")
 using StatProfilerHTML
-# f()
+f()
 Profile.init(100000000, 0.01)
 Profile.clear()
 @profile f()

@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on do 29 mrt 2018 08:54:27 CEST</div>
+  <div class="generated-on">Generated on ma 02 apr 2018 09:57:46 CEST</div>
 </div>
 
     <div id="body-content">
@@ -3626,14 +3626,14 @@
 
         <tr>
           <td><a name="Lassociative-jl-760dac7de1b104ba9b2f-line.html-361"></a>361</td>
-          <td>2 (0.02%)</td>
-          <td>2 (0.02%)</td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-associative-jl-getindex-361"></a>
-              2 (0.02%) samples spent in getindex<br />
-              2 (100.00%) (ex.),
-              2 (100.00%) (incl.)
+              1 (0.0026%) samples spent in getindex<br />
+              1 (100.00%) (ex.),
+              1 (100.00%) (incl.)
               when called from
               deepcopy_internal
               <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#Ldeepcopy-jl-f860bf8b8536f6dbac26-line.html-56">line 56</a><br />
@@ -3935,14 +3935,14 @@
 
         <tr>
           <td><a name="Lassociative-jl-760dac7de1b104ba9b2f-line.html-391"></a>391</td>
-          <td>65 (0.53%)</td>
-          <td>65 (0.53%)</td>
+          <td>165 (0.43%)</td>
+          <td>165 (0.43%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-associative-jl-Type-391"></a>
-              65 (0.53%) samples spent in Type<br />
-              65 (100.00%) (ex.),
-              65 (100.00%) (incl.)
+              165 (0.43%) samples spent in Type<br />
+              165 (100.00%) (ex.),
+              165 (100.00%) (incl.)
               when called from
               deepcopy
               <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#Ldeepcopy-jl-f860bf8b8536f6dbac26-line.html-8">line 8</a><br />
@@ -4144,9 +4144,18 @@
 
         <tr>
           <td><a name="Lassociative-jl-760dac7de1b104ba9b2f-line.html-411"></a>411</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-associative-jl-rehash-411"></a>
+              1 (0.0026%) samples spent in rehash!<br />
+              1 (100.00%) (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              setindex!
+              <a href="associative-jl-760dac7de1b104ba9b2f-line.html#Lassociative-jl-760dac7de1b104ba9b2f-line.html-427">line 427</a><br />
+            </div>
             <span class="code">    t.ht = ccall(:jl_idtable_rehash, Any, (Any, Csize_t), t.ht, newsz)
 </span>
           </td>
@@ -4289,14 +4298,14 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-associative-jl-setindex-425"></a>
-              17 (0.14%) samples spent in setindex!<br />
-              2 (11.76%) (ex.),
-              2 (11.76%) (incl.)
+              69 (0.18%) samples spent in setindex!<br />
+              19 (27.94%) (ex.),
+              19 (27.54%) (incl.)
               when called from
               deepcopy_internal
               <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#Ldeepcopy-jl-f860bf8b8536f6dbac26-line.html-43">line 43</a><br />
-              15 (88.24%) (ex.),
-              15 (88.24%) (incl.)
+              49 (72.06%) (ex.),
+              50 (72.46%) (incl.)
               when called from
               _deepcopy_array_t
               <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#Ldeepcopy-jl-f860bf8b8536f6dbac26-line.html-63">line 63</a><br />
@@ -4318,9 +4327,14 @@
 
         <tr>
           <td><a name="Lassociative-jl-760dac7de1b104ba9b2f-line.html-427"></a>427</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>2 (0.0053%)</td>
           <td>
+            <div class="callees">
+              1 (50.00%)
+              samples spent calling
+              <a href="associative-jl-760dac7de1b104ba9b2f-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-associative-jl-rehash-411">rehash!</a><br />
+            </div>
             <span class="code">        rehash!(t, max(length(t.ht)&gt;&gt;1, 32))
 </span>
           </td>
@@ -4348,8 +4362,8 @@
 
         <tr>
           <td><a name="Lassociative-jl-760dac7de1b104ba9b2f-line.html-430"></a>430</td>
-          <td>14 (0.11%)</td>
-          <td>14 (0.11%)</td>
+          <td>57 (0.15%)</td>
+          <td>57 (0.15%)</td>
           <td>
             <span class="code">    t.ht = ccall(:jl_eqtable_put, Array{Any,1}, (Any, Any, Any), t.ht, k, v)
 </span>
@@ -4358,8 +4372,8 @@
 
         <tr>
           <td><a name="Lassociative-jl-760dac7de1b104ba9b2f-line.html-431"></a>431</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
             <span class="code">    return t
 </span>

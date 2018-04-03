@@ -1,0 +1,1073 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="statprofiler.css">
+
+    <title>StatProfilerHTML.jl: /home/arashyazdiha/.julia/v0.6/PDMats/src/pdmat.jl</title>
+  </head>
+  <body>
+<div class="report-header">
+  <div class="backlink"><a href="index.html">Report index</a></div>
+  <div class="report-title">StatProfilerHTML.jl report</div>
+  <div class="generated-on">Generated on do 29 mrt 2018 12:46:32 CEST</div>
+</div>
+
+    <div id="body-content">
+      <table>
+        <caption>File source code</caption>
+        <tr>
+          <th>Line</td>
+          <th>Exclusive</th>
+          <th>Inclusive</th>
+          <th>Code</th>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-1"></a>1</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># Full positive definite matrix together with a Cholesky factorization object
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-2"></a>2</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">struct PDMat{T&lt;:Real,S&lt;:AbstractMatrix} &lt;: AbstractPDMat{T}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-3"></a>3</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    dim::Int
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-4"></a>4</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    mat::S
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-5"></a>5</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    chol::CholType{T,S}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-6"></a>6</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    PDMat{T,S}(d::Int,m::AbstractMatrix{T},c::CholType{T,S}) where {T,S} = new{T,S}(d,m,c)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-7"></a>7</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-8"></a>8</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-9"></a>9</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function PDMat(mat::AbstractMatrix,chol::CholType)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-10"></a>10</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    d = size(mat, 1)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-11"></a>11</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    size(chol, 1) == d ||
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-12"></a>12</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        throw(DimensionMismatch(&quot;Dimensions of mat and chol are inconsistent.&quot;))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-13"></a>13</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    PDMat{eltype(mat),typeof(mat)}(d, mat, chol)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-14"></a>14</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-15"></a>15</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-16"></a>16</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">PDMat(mat::Matrix) = PDMat(mat,cholfact(mat))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-17"></a>17</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">PDMat(mat::Symmetric) = PDMat(full(mat))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-18"></a>18</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">PDMat(fac::CholType) = PDMat(full(fac),fac)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-19"></a>19</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-20"></a>20</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">### Conversion
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-21"></a>21</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">convert(::Type{PDMat{T}},         a::PDMat) where {T&lt;:Real} = PDMat(convert(AbstractArray{T}, a.mat))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-22"></a>22</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">convert(::Type{AbstractArray{T}}, a::PDMat) where {T&lt;:Real} = convert(PDMat{T}, a)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-23"></a>23</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-24"></a>24</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">### Basics
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-25"></a>25</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-26"></a>26</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">dim(a::PDMat) = a.dim
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-27"></a>27</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">full(a::PDMat) = copy(a.mat)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-28"></a>28</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">diag(a::PDMat) = diag(a.mat)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-29"></a>29</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-30"></a>30</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-31"></a>31</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">### Arithmetics
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-32"></a>32</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-33"></a>33</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function pdadd!(r::Matrix, a::Matrix, b::PDMat, c)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-34"></a>34</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    @check_argdims size(r) == size(a) == size(b)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-35"></a>35</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    _addscal!(r, a, b.mat, c)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-36"></a>36</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-37"></a>37</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-38"></a>38</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">*(a::PDMat{S}, c::T) where {S&lt;:Real, T&lt;:Real} = PDMat(a.mat * c)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-39"></a>39</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">*(a::PDMat, x::StridedVecOrMat) = a.mat * x
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-40"></a>40</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">\(a::PDMat, x::StridedVecOrMat) = a.chol \ x
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-41"></a>41</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-42"></a>42</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-43"></a>43</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">### Algebra
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-44"></a>44</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-45"></a>45</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">inv(a::PDMat) = PDMat(inv(a.chol))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-46"></a>46</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">logdet(a::PDMat) = logdet(a.chol)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-47"></a>47</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">eigmax(a::PDMat) = eigmax(a.mat)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-48"></a>48</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">eigmin(a::PDMat) = eigmin(a.mat)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-49"></a>49</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-50"></a>50</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-51"></a>51</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">### whiten and unwhiten
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-52"></a>52</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-53"></a>53</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function whiten!(r::StridedVecOrMat, a::PDMat, x::StridedVecOrMat)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-54"></a>54</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    cf = a.chol[:UL]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-55"></a>55</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    istriu(cf) ? Ac_ldiv_B!(cf, _rcopy!(r, x)) : A_ldiv_B!(cf, _rcopy!(r, x))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-56"></a>56</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    return r
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-57"></a>57</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-58"></a>58</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-59"></a>59</td>
+          <td></td>
+          <td></td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-julia-v0-6-PDMats-src-pdmat-jl-unwhiten-59"></a>
+              1 (0.01%) samples spent in unwhiten!<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              rand
+              <a href="wishart-jl-07a9df533024d7e08ec0-line.html#Lwishart-jl-07a9df533024d7e08ec0-line.html-112">line 112</a><br />
+            </div>
+            <span class="code">function unwhiten!(r::StridedVecOrMat, a::PDMat, x::StridedVecOrMat)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-60"></a>60</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    cf = a.chol[:UL]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-61"></a>61</td>
+          <td></td>
+          <td>1 (0.01%)</td>
+          <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="triangular-jl-a7c4d33cd3f97b27bda6-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-triangular-jl-Ac_mul_B-477">Ac_mul_B!</a><br />
+            </div>
+            <span class="code">    istriu(cf) ? Ac_mul_B!(cf, _rcopy!(r, x)) : A_mul_B!(cf, _rcopy!(r, x))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-62"></a>62</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    return r
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-63"></a>63</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-64"></a>64</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-65"></a>65</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-66"></a>66</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">### quadratic forms
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-67"></a>67</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-68"></a>68</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">quad(a::PDMat, x::StridedVector) = dot(x, a * x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-69"></a>69</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">invquad(a::PDMat, x::StridedVector) = dot(x, a \ x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-70"></a>70</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-71"></a>71</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">quad!(r::AbstractArray, a::PDMat, x::StridedMatrix) = colwise_dot!(r, x, a.mat * x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-72"></a>72</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">invquad!(r::AbstractArray, a::PDMat, x::StridedMatrix) = colwise_dot!(r, x, a.mat \ x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-73"></a>73</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-74"></a>74</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-75"></a>75</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">### tri products
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-76"></a>76</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-77"></a>77</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function X_A_Xt(a::PDMat, x::StridedMatrix)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-78"></a>78</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    z = copy(x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-79"></a>79</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    cf = a.chol[:UL]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-80"></a>80</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    istriu(cf) ? A_mul_Bc!(z, cf) : A_mul_B!(z, cf)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-81"></a>81</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    A_mul_Bt(z, z)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-82"></a>82</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-83"></a>83</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-84"></a>84</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function Xt_A_X(a::PDMat, x::StridedMatrix)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-85"></a>85</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    z = copy(x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-86"></a>86</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    cf = a.chol[:UL]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-87"></a>87</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    istriu(cf) ? A_mul_B!(cf, z) : Ac_mul_B!(cf, z)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-88"></a>88</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    At_mul_B(z, z)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-89"></a>89</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-90"></a>90</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-91"></a>91</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function X_invA_Xt(a::PDMat, x::StridedMatrix)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-92"></a>92</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    z = copy(x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-93"></a>93</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    cf = a.chol[:UL]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-94"></a>94</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    istriu(cf) ? A_rdiv_B!(z, cf) : A_rdiv_Bc!(z, cf)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-95"></a>95</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    A_mul_Bt(z, z)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-96"></a>96</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-97"></a>97</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-98"></a>98</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function Xt_invA_X(a::PDMat, x::StridedMatrix)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-99"></a>99</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    z = copy(x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-100"></a>100</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    cf = a.chol[:UL]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-101"></a>101</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    istriu(cf) ? Ac_ldiv_B!(cf, z) : A_ldiv_B!(cf, z)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-102"></a>102</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    At_mul_B(z, z)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lpdmat-jl-df4084af2b2256e8e00a-line.html-103"></a>103</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on do 29 mrt 2018 08:54:27 CEST</div>
+  <div class="generated-on">Generated on ma 02 apr 2018 09:57:46 CEST</div>
 </div>
 
     <div id="body-content">
@@ -1246,9 +1246,18 @@
 
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-123"></a>123</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-mt_setfull-123"></a>
+              1 (0.0026%) samples spent in mt_setfull!<br />
+              1 (100.00%) (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              gen_rand
+              <a href="random-jl-3c29f269282a0112ca95-line.html#Lrandom-jl-3c29f269282a0112ca95-line.html-129">line 129</a><br />
+            </div>
             <span class="code">@inline mt_setfull!(r::MersenneTwister) = r.idx = 0
 </span>
           </td>
@@ -1266,14 +1275,14 @@
 
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-125"></a>125</td>
-          <td>5 (0.04%)</td>
-          <td>5 (0.04%)</td>
+          <td>10 (0.03%)</td>
+          <td>10 (0.03%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-mt_pop-125"></a>
-              5 (0.04%) samples spent in mt_pop!<br />
-              5 (100.00%) (ex.),
-              5 (100.00%) (incl.)
+              10 (0.03%) samples spent in mt_pop!<br />
+              10 (100.00%) (ex.),
+              10 (100.00%) (incl.)
               when called from
               rand_inbounds
               <a href="random-jl-3c29f269282a0112ca95-line.html#Lrandom-jl-3c29f269282a0112ca95-line.html-138">line 138</a><br />
@@ -1306,19 +1315,19 @@
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-128"></a>128</td>
           <td></td>
-          <td>5 (0.04%)</td>
+          <td>10 (0.03%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-gen_rand-128"></a>
-              5 (0.04%) samples spent in gen_rand<br />
+              10 (0.03%) samples spent in gen_rand<br />
               0 (ex.),
-              5 (100.00%) (incl.)
+              10 (100.00%) (incl.)
               when called from
               reserve_1
               <a href="random-jl-3c29f269282a0112ca95-line.html#Lrandom-jl-3c29f269282a0112ca95-line.html-132">line 132</a><br />
             </div>
             <div class="callees">
-              5 (100.00%)
+              10 (100.00%)
               samples spent calling
               <a href="dSFMT-jl-27f8faa6c18c046aa0f6-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dSFMT-jl-dsfmt_fill_array_close1_open2-72">dsfmt_fill_array_close1_open2!</a><br />
             </div>
@@ -1330,8 +1339,22 @@
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-129"></a>129</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-gen_rand-129"></a>
+              1 (0.0026%) samples spent in gen_rand<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              reserve_1
+              <a href="random-jl-3c29f269282a0112ca95-line.html#Lrandom-jl-3c29f269282a0112ca95-line.html-132">line 132</a><br />
+            </div>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="random-jl-3c29f269282a0112ca95-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-mt_setfull-123">mt_setfull!</a><br />
+            </div>
             <span class="code">    mt_setfull!(r)
 </span>
           </td>
@@ -1359,22 +1382,25 @@
 
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-132"></a>132</td>
-          <td>2 (0.02%)</td>
-          <td>7 (0.06%)</td>
+          <td>3 (0.0079%)</td>
+          <td>14 (0.04%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-reserve_1-132"></a>
-              7 (0.06%) samples spent in reserve_1<br />
-              2 (100.00%) (ex.),
-              7 (100.00%) (incl.)
+              14 (0.04%) samples spent in reserve_1<br />
+              3 (100.00%) (ex.),
+              14 (100.00%) (incl.)
               when called from
               rand_ui52_raw
               <a href="random-jl-3c29f269282a0112ca95-line.html#Lrandom-jl-3c29f269282a0112ca95-line.html-146">line 146</a><br />
             </div>
             <div class="callees">
-              5 (71.43%)
+              10 (71.43%)
               samples spent calling
               <a href="random-jl-3c29f269282a0112ca95-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-gen_rand-128">gen_rand</a><br />
+              1 (7.14%)
+              samples spent calling
+              <a href="random-jl-3c29f269282a0112ca95-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-gen_rand-129">gen_rand</a><br />
             </div>
             <span class="code">@inline reserve_1(r::MersenneTwister) = mt_empty(r) &amp;&amp; gen_rand(r)
 </span>
@@ -1434,19 +1460,19 @@
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-138"></a>138</td>
           <td></td>
-          <td>5 (0.04%)</td>
+          <td>10 (0.03%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-rand_inbounds-138"></a>
-              5 (0.04%) samples spent in rand_inbounds<br />
+              10 (0.03%) samples spent in rand_inbounds<br />
               0 (ex.),
-              5 (100.00%) (incl.)
+              10 (100.00%) (incl.)
               when called from
               rand_ui52_raw_inbounds
               <a href="random-jl-3c29f269282a0112ca95-line.html#Lrandom-jl-3c29f269282a0112ca95-line.html-145">line 145</a><br />
             </div>
             <div class="callees">
-              5 (100.00%)
+              10 (100.00%)
               samples spent calling
               <a href="random-jl-3c29f269282a0112ca95-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-mt_pop-125">mt_pop!</a><br />
             </div>
@@ -1518,19 +1544,19 @@
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-145"></a>145</td>
           <td></td>
-          <td>5 (0.04%)</td>
+          <td>10 (0.03%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-rand_ui52_raw_inbounds-145"></a>
-              5 (0.04%) samples spent in rand_ui52_raw_inbounds<br />
+              10 (0.03%) samples spent in rand_ui52_raw_inbounds<br />
               0 (ex.),
-              5 (100.00%) (incl.)
+              10 (100.00%) (incl.)
               when called from
               rand_ui52_raw
               <a href="random-jl-3c29f269282a0112ca95-line.html#Lrandom-jl-3c29f269282a0112ca95-line.html-146">line 146</a><br />
             </div>
             <div class="callees">
-              5 (100.00%)
+              10 (100.00%)
               samples spent calling
               <a href="random-jl-3c29f269282a0112ca95-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-rand_inbounds-138">rand_inbounds</a><br />
             </div>
@@ -1542,29 +1568,29 @@
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-146"></a>146</td>
           <td></td>
-          <td>12 (0.10%)</td>
+          <td>24 (0.06%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-rand_ui52_raw-146"></a>
-              12 (0.10%) samples spent in rand_ui52_raw<br />
+              24 (0.06%) samples spent in rand_ui52_raw<br />
               0 (ex.),
-              1 (8.33%) (incl.)
+              3 (12.50%) (incl.)
               when called from
               rand_lt
               <a href="random-jl-3c29f269282a0112ca95-line.html#Lrandom-jl-3c29f269282a0112ca95-line.html-1586">line 1586</a><br />
               0 (ex.),
-              11 (91.67%) (incl.)
+              21 (87.50%) (incl.)
               when called from
               rand
               <a href="random-jl-3c29f269282a0112ca95-line.html#Lrandom-jl-3c29f269282a0112ca95-line.html-344">line 344</a><br />
             </div>
             <div class="callees">
-              7 (58.33%)
-              samples spent calling
-              <a href="random-jl-3c29f269282a0112ca95-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-reserve_1-132">reserve_1</a><br />
-              5 (41.67%)
+              10 (41.67%)
               samples spent calling
               <a href="random-jl-3c29f269282a0112ca95-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-rand_ui52_raw_inbounds-145">rand_ui52_raw_inbounds</a><br />
+              14 (58.33%)
+              samples spent calling
+              <a href="random-jl-3c29f269282a0112ca95-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-reserve_1-132">reserve_1</a><br />
             </div>
             <span class="code">@inline rand_ui52_raw(r::MersenneTwister) = (reserve_1(r); rand_ui52_raw_inbounds(r))
 </span>
@@ -3544,19 +3570,24 @@
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-344"></a>344</td>
           <td></td>
-          <td>11 (0.09%)</td>
+          <td>21 (0.06%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-rand-344"></a>
-              11 (0.09%) samples spent in rand<br />
+              21 (0.06%) samples spent in rand<br />
               0 (ex.),
-              11 (100.00%) (incl.)
+              1 (4.76%) (incl.)
+              when called from
+              rand
+              <a href="random-jl-3c29f269282a0112ca95-line.html#Lrandom-jl-3c29f269282a0112ca95-line.html-620">line 620</a><br />
+              0 (ex.),
+              20 (95.24%) (incl.)
               when called from
               rand!
               <a href="random-jl-3c29f269282a0112ca95-line.html#Lrandom-jl-3c29f269282a0112ca95-line.html-398">line 398</a><br />
             </div>
             <div class="callees">
-              11 (100.00%)
+              21 (100.00%)
               samples spent calling
               <a href="random-jl-3c29f269282a0112ca95-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-rand_ui52_raw-146">rand_ui52_raw</a><br />
             </div>
@@ -4082,9 +4113,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-rand-396"></a>
-              14 (0.11%) samples spent in rand!<br />
-              3 (100.00%) (ex.),
-              14 (100.00%) (incl.)
+              23 (0.06%) samples spent in rand!<br />
+              2 (100.00%) (ex.),
+              23 (100.00%) (incl.)
               when called from
               updatephinl!
               <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-76">line 76</a><br />
@@ -4097,8 +4128,13 @@
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-397"></a>397</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
           <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-eachindex-764">eachindex</a><br />
+            </div>
             <span class="code">    for i in eachindex(A)
 </span>
           </td>
@@ -4106,11 +4142,11 @@
 
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-398"></a>398</td>
-          <td></td>
-          <td>11 (0.09%)</td>
+          <td>2 (0.0053%)</td>
+          <td>22 (0.06%)</td>
           <td>
             <div class="callees">
-              11 (100.00%)
+              20 (90.91%)
               samples spent calling
               <a href="random-jl-3c29f269282a0112ca95-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-rand-344">rand</a><br />
             </div>
@@ -4131,8 +4167,8 @@
 
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-400"></a>400</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td></td>
+          <td></td>
           <td>
             <span class="code">    A
 </span>
@@ -5541,12 +5577,12 @@
 
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-541"></a>541</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-rem_knuth-541"></a>
-              1 (0.0082%) samples spent in rem_knuth<br />
+              1 (0.0026%) samples spent in rem_knuth<br />
               1 (100.00%) (ex.),
               1 (100.00%) (incl.)
               when called from
@@ -6315,9 +6351,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-rand-617"></a>
-              2 (0.02%) samples spent in rand<br />
+              3 (0.0079%) samples spent in rand<br />
               1 (100.00%) (ex.),
-              2 (100.00%) (incl.)
+              3 (100.00%) (incl.)
               when called from
               direct_sample!
               <a href="sampling-jl-761b2de7b87d3110f41a-line.html#Lsampling-jl-761b2de7b87d3110f41a-line.html-17">line 17</a><br />
@@ -6350,8 +6386,13 @@
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-620"></a>620</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
           <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="random-jl-3c29f269282a0112ca95-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-rand-344">rand</a><br />
+            </div>
             <span class="code">        x = rand(rng, UInt32)
 </span>
           </td>
@@ -6450,7 +6491,7 @@
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-630"></a>630</td>
           <td></td>
-          <td>1 (0.0082%)</td>
+          <td>1 (0.0026%)</td>
           <td>
             <div class="callees">
               1 (100.00%)
@@ -16015,19 +16056,19 @@
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-1586"></a>1586</td>
           <td></td>
-          <td>1 (0.0082%)</td>
+          <td>3 (0.0079%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-rand_lt-1586"></a>
-              1 (0.0082%) samples spent in rand_lt<br />
+              3 (0.0079%) samples spent in rand_lt<br />
               0 (ex.),
-              1 (100.00%) (incl.)
+              3 (100.00%) (incl.)
               when called from
               shuffle!
               <a href="random-jl-3c29f269282a0112ca95-line.html#Lrandom-jl-3c29f269282a0112ca95-line.html-1628">line 1628</a><br />
             </div>
             <div class="callees">
-              1 (100.00%)
+              3 (100.00%)
               samples spent calling
               <a href="random-jl-3c29f269282a0112ca95-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-rand_ui52_raw-146">rand_ui52_raw</a><br />
             </div>
@@ -16393,9 +16434,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-shuffle-1622"></a>
-              1 (0.0082%) samples spent in shuffle!<br />
-              0 (ex.),
-              1 (100.00%) (incl.)
+              6 (0.02%) samples spent in shuffle!<br />
+              3 (100.00%) (ex.),
+              6 (100.00%) (incl.)
               when called from
               shuffle!
               <a href="random-jl-3c29f269282a0112ca95-line.html#Lrandom-jl-3c29f269282a0112ca95-line.html-1634">line 1634</a><br />
@@ -16437,8 +16478,8 @@
 
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-1626"></a>1626</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
             <span class="code">    for i = n:-1:2
 </span>
@@ -16458,10 +16499,10 @@
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-1628"></a>1628</td>
           <td></td>
-          <td>1 (0.0082%)</td>
+          <td>3 (0.0079%)</td>
           <td>
             <div class="callees">
-              1 (100.00%)
+              3 (100.00%)
               samples spent calling
               <a href="random-jl-3c29f269282a0112ca95-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-rand_lt-1586">rand_lt</a><br />
             </div>
@@ -16472,8 +16513,8 @@
 
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-1629"></a>1629</td>
-          <td></td>
-          <td></td>
+          <td>2 (0.0053%)</td>
+          <td>2 (0.0053%)</td>
           <td>
             <span class="code">        a[i], a[j] = a[j], a[i]
 </span>
@@ -16517,9 +16558,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-shuffle-1633"></a>
-              1 (0.0082%) samples spent in shuffle!<br />
+              6 (0.02%) samples spent in shuffle!<br />
               0 (ex.),
-              1 (100.00%) (incl.)
+              6 (100.00%) (incl.)
               when called from
               macro expansion
               <a href="train-jl-94893ea3787006a1b46c-line.html#Ltrain-jl-94893ea3787006a1b46c-line.html-103">line 103</a><br />
@@ -16532,10 +16573,10 @@
         <tr>
           <td><a name="Lrandom-jl-3c29f269282a0112ca95-line.html-1634"></a>1634</td>
           <td></td>
-          <td>1 (0.0082%)</td>
+          <td>6 (0.02%)</td>
           <td>
             <div class="callees">
-              1 (100.00%)
+              6 (100.00%)
               samples spent calling
               <a href="random-jl-3c29f269282a0112ca95-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-shuffle-1622">shuffle!</a><br />
             </div>

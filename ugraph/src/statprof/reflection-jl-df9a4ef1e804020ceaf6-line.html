@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on do 29 mrt 2018 08:54:27 CEST</div>
+  <div class="generated-on">Generated on ma 02 apr 2018 09:57:46 CEST</div>
 </div>
 
     <div id="body-content">
@@ -1941,9 +1941,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reflection-jl-datatype_pointerfree-192"></a>
-              3 (0.02%) samples spent in datatype_pointerfree<br />
-              3 (100.00%) (ex.),
-              3 (100.00%) (incl.)
+              2 (0.0053%) samples spent in datatype_pointerfree<br />
+              2 (100.00%) (ex.),
+              2 (100.00%) (incl.)
               when called from
               isbits
               <a href="reflection-jl-df9a4ef1e804020ceaf6-line.html#Lreflection-jl-df9a4ef1e804020ceaf6-line.html-233">line 233</a><br />
@@ -1955,8 +1955,8 @@
 
         <tr>
           <td><a name="Lreflection-jl-df9a4ef1e804020ceaf6-line.html-193"></a>193</td>
-          <td>3 (0.02%)</td>
-          <td>3 (0.02%)</td>
+          <td>2 (0.0053%)</td>
+          <td>2 (0.0053%)</td>
           <td>
             <span class="code">datatype_pointerfree(dt::DataType) = dt.layout == C_NULL ? throw(UndefRefError()) :
 </span>
@@ -2355,20 +2355,20 @@
 
         <tr>
           <td><a name="Lreflection-jl-df9a4ef1e804020ceaf6-line.html-233"></a>233</td>
-          <td>1 (0.0082%)</td>
-          <td>4 (0.03%)</td>
+          <td>1 (0.0026%)</td>
+          <td>3 (0.0079%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reflection-jl-isbits-233"></a>
-              4 (0.03%) samples spent in isbits<br />
+              3 (0.0079%) samples spent in isbits<br />
               1 (100.00%) (ex.),
-              4 (100.00%) (incl.)
+              3 (100.00%) (incl.)
               when called from
               deepcopy_internal
               <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#Ldeepcopy-jl-f860bf8b8536f6dbac26-line.html-37">line 37</a><br />
             </div>
             <div class="callees">
-              3 (75.00%)
+              2 (66.67%)
               samples spent calling
               <a href="reflection-jl-df9a4ef1e804020ceaf6-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reflection-jl-datatype_pointerfree-192">datatype_pointerfree</a><br />
             </div>
@@ -2609,9 +2609,18 @@
 
         <tr>
           <td><a name="Lreflection-jl-df9a4ef1e804020ceaf6-line.html-257"></a>257</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reflection-jl-isleaftype-257"></a>
+              1 (0.0026%) samples spent in isleaftype<br />
+              1 (100.00%) (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              broadcast_c
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-315">line 315</a><br />
+            </div>
             <span class="code">isleaftype(t::ANY) = (@_pure_meta; isa(t, DataType) &amp;&amp; t.isleaftype)
 </span>
           </td>
@@ -5044,9 +5053,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reflection-jl-_methods-500"></a>
-              557 (4.56%) samples spent in _methods<br />
-              269 (100.00%) (ex.),
-              557 (100.00%) (incl.)
+              898 (2.37%) samples spent in _methods<br />
+              512 (100.00%) (ex.),
+              898 (100.00%) (incl.)
               when called from
               return_type
               <a href="inference-jl-433a0418efe92bd93c9e-line.html#Linference-jl-433a0418efe92bd93c9e-line.html-5401">line 5401</a><br />
@@ -5058,8 +5067,8 @@
 
         <tr>
           <td><a name="Lreflection-jl-df9a4ef1e804020ceaf6-line.html-501"></a>501</td>
-          <td>27 (0.22%)</td>
-          <td>27 (0.22%)</td>
+          <td>58 (0.15%)</td>
+          <td>58 (0.15%)</td>
           <td>
             <span class="code">    ft = isa(f,Type) ? Type{f} : typeof(f)
 </span>
@@ -5068,8 +5077,8 @@
 
         <tr>
           <td><a name="Lreflection-jl-df9a4ef1e804020ceaf6-line.html-502"></a>502</td>
-          <td>206 (1.69%)</td>
-          <td>206 (1.69%)</td>
+          <td>379 (1.00%)</td>
+          <td>379 (1.00%)</td>
           <td>
             <span class="code">    tt = isa(t,Type) ? Tuple{ft, t.parameters...} : Tuple{ft, t...}
 </span>
@@ -5078,11 +5087,11 @@
 
         <tr>
           <td><a name="Lreflection-jl-df9a4ef1e804020ceaf6-line.html-503"></a>503</td>
-          <td>35 (0.29%)</td>
-          <td>323 (2.64%)</td>
+          <td>73 (0.19%)</td>
+          <td>459 (1.21%)</td>
           <td>
             <div class="callees">
-              288 (89.16%)
+              386 (84.10%)
               samples spent calling
               <a href="reflection-jl-df9a4ef1e804020ceaf6-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reflection-jl-_methods_by_ftype-506">_methods_by_ftype</a><br />
             </div>
@@ -5118,9 +5127,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reflection-jl-_methods_by_ftype-506"></a>
-              288 (2.36%) samples spent in _methods_by_ftype<br />
-              35 (100.00%) (ex.),
-              288 (100.00%) (incl.)
+              386 (1.02%) samples spent in _methods_by_ftype<br />
+              53 (100.00%) (ex.),
+              386 (100.00%) (incl.)
               when called from
               _methods
               <a href="reflection-jl-df9a4ef1e804020ceaf6-line.html#Lreflection-jl-df9a4ef1e804020ceaf6-line.html-503">line 503</a><br />
@@ -5132,14 +5141,17 @@
 
         <tr>
           <td><a name="Lreflection-jl-df9a4ef1e804020ceaf6-line.html-507"></a>507</td>
-          <td>35 (0.29%)</td>
-          <td>288 (2.36%)</td>
+          <td>52 (0.14%)</td>
+          <td>385 (1.01%)</td>
           <td>
             <div class="callees">
-              51 (17.71%)
+              70 (18.18%)
               samples spent calling
               <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-getindex-207">getindex</a><br />
-              202 (70.14%)
+              1 (0.26%)
+              samples spent calling
+              <a href="essentials-jl-24c5e5d93728d1388d3d-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-essentials-jl-getindex-247">getindex</a><br />
+              262 (68.05%)
               samples spent calling
               <a href="reflection-jl-df9a4ef1e804020ceaf6-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reflection-jl-_methods_by_ftype-509">_methods_by_ftype</a><br />
             </div>
@@ -5165,14 +5177,19 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reflection-jl-_methods_by_ftype-509"></a>
-              203 (1.66%) samples spent in _methods_by_ftype<br />
-              1 (0.53%) (ex.),
-              1 (0.49%) (incl.)
+              265 (0.70%) samples spent in _methods_by_ftype<br />
+              1 (0.43%) (ex.),
+              1 (0.38%) (incl.)
+              when called from
+              inlineable
+              <a href="inference-jl-433a0418efe92bd93c9e-line.html#Linference-jl-433a0418efe92bd93c9e-line.html-3771">line 3771</a><br />
+              2 (0.86%) (ex.),
+              2 (0.75%) (incl.)
               when called from
               abstract_call_gf_by_type
               <a href="inference-jl-433a0418efe92bd93c9e-line.html#Linference-jl-433a0418efe92bd93c9e-line.html-1311">line 1311</a><br />
-              189 (99.47%) (ex.),
-              202 (99.51%) (incl.)
+              230 (98.71%) (ex.),
+              262 (98.87%) (incl.)
               when called from
               _methods_by_ftype
               <a href="reflection-jl-df9a4ef1e804020ceaf6-line.html#Lreflection-jl-df9a4ef1e804020ceaf6-line.html-507">line 507</a><br />
@@ -5184,14 +5201,9 @@
 
         <tr>
           <td><a name="Lreflection-jl-df9a4ef1e804020ceaf6-line.html-510"></a>510</td>
-          <td>40 (0.33%)</td>
-          <td>41 (0.34%)</td>
+          <td>43 (0.11%)</td>
+          <td>43 (0.11%)</td>
           <td>
-            <div class="callees">
-              1 (2.44%)
-              samples spent calling
-              <a href="essentials-jl-24c5e5d93728d1388d3d-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-essentials-jl-unwrap_unionall-84">unwrap_unionall</a><br />
-            </div>
             <span class="code">    tp = unwrap_unionall(t).parameters::SimpleVector
 </span>
           </td>
@@ -5209,11 +5221,11 @@
 
         <tr>
           <td><a name="Lreflection-jl-df9a4ef1e804020ceaf6-line.html-512"></a>512</td>
-          <td>2 (0.02%)</td>
-          <td>14 (0.11%)</td>
+          <td>1 (0.0026%)</td>
+          <td>33 (0.09%)</td>
           <td>
             <div class="callees">
-              12 (85.71%)
+              32 (96.97%)
               samples spent calling
               <a href="essentials-jl-24c5e5d93728d1388d3d-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-essentials-jl-getindex-247">getindex</a><br />
             </div>
@@ -5224,8 +5236,8 @@
 
         <tr>
           <td><a name="Lreflection-jl-df9a4ef1e804020ceaf6-line.html-513"></a>513</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td>6 (0.02%)</td>
+          <td>6 (0.02%)</td>
           <td>
             <span class="code">        if isa(ti, Union)
 </span>
@@ -5264,8 +5276,8 @@
 
         <tr>
           <td><a name="Lreflection-jl-df9a4ef1e804020ceaf6-line.html-517"></a>517</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
             <span class="code">    if 1 &lt; nu &lt;= 64
 </span>
@@ -5304,8 +5316,8 @@
 
         <tr>
           <td><a name="Lreflection-jl-df9a4ef1e804020ceaf6-line.html-521"></a>521</td>
-          <td>145 (1.19%)</td>
-          <td>145 (1.19%)</td>
+          <td>180 (0.47%)</td>
+          <td>180 (0.47%)</td>
           <td>
             <span class="code">    return ccall(:jl_matching_methods, Any, (Any, Cint, Cint, UInt, Ptr{UInt}, Ptr{UInt}), t, lim, 0, world, min, max)
 </span>

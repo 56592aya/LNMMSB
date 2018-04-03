@@ -12,7 +12,7 @@ L0            =(.01/l0).*eye(Float64,K) #init the scale L0
 η1            =1.0 #one the beta param
 truth_comm = [Int64[] for k in 1:K]
 function gennetwork(N::Int64, K::Int64)
-  network=Network(N)
+  network=utils.Network(N)
   θ=zeros(Float64, (N,K))
   ###note the scalar
   Λ = zeros(Float64, (K,K))
@@ -41,9 +41,9 @@ function gennetwork(N::Int64, K::Int64)
   z_out = zeros(Float64,(N,N,K))
 
   for a in 1:N
-    θ[a,:]=softmax(θ[a,:])
+    θ[a,:]=utils.softmax(θ[a,:])
   end
-  sort_by_argmax!(θ)
+  utils.sort_by_argmax!(θ)
   if isfile("data/true_thetas.txt")
     rm("data/true_thetas.txt")
     writedlm("data/true_thetas.txt",θ)

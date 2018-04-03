@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on do 29 mrt 2018 08:54:27 CEST</div>
+  <div class="generated-on">Generated on ma 02 apr 2018 09:57:46 CEST</div>
 </div>
 
     <div id="body-content">
@@ -766,22 +766,22 @@
 
         <tr>
           <td><a name="Lmatmul-jl-f7b90faca49c816dec68-line.html-75"></a>75</td>
-          <td>9 (0.07%)</td>
-          <td>9 (0.07%)</td>
+          <td>6 (0.02%)</td>
+          <td>6 (0.02%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-matmul-jl-75"></a>
-              9 (0.07%) samples spent in *<br />
-              2 (22.22%) (ex.),
-              2 (22.22%) (incl.)
-              when called from
-              updatem!
-              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-258">line 258</a><br />
-              7 (77.78%) (ex.),
-              7 (77.78%) (incl.)
+              6 (0.02%) samples spent in *<br />
+              3 (50.00%) (ex.),
+              3 (50.00%) (incl.)
               when called from
               dfunci
-              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-141">line 141</a><br />
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-128">line 128</a><br />
+              3 (50.00%) (ex.),
+              3 (50.00%) (incl.)
+              when called from
+              updatem!
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-169">line 169</a><br />
             </div>
             <span class="code">    A_mul_B!(similar(x, TS, size(A,1)), A, convert(AbstractVector{TS}, x))
 </span>
@@ -2555,12 +2555,12 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-matmul-jl-gemv-252"></a>
-              22 (0.18%) samples spent in gemv!<br />
-              1 (100.00%) (ex.),
-              22 (100.00%) (incl.)
+              12 (0.03%) samples spent in gemv!<br />
+              0 (ex.),
+              12 (100.00%) (incl.)
               when called from
               dfunci
-              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-141">line 141</a><br />
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-128">line 128</a><br />
             </div>
             <span class="code">function gemv!(y::StridedVector{T}, tA::Char, A::StridedVecOrMat{T}, x::StridedVector{T}) where T&lt;:BlasFloat
 </span>
@@ -2570,13 +2570,8 @@
         <tr>
           <td><a name="Lmatmul-jl-f7b90faca49c816dec68-line.html-253"></a>253</td>
           <td></td>
-          <td>1 (0.0082%)</td>
+          <td></td>
           <td>
-            <div class="callees">
-              1 (100.00%)
-              samples spent calling
-              <a href="matmul-jl-f7b90faca49c816dec68-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-matmul-jl-lapack_size-374">lapack_size</a><br />
-            </div>
             <span class="code">    mA, nA = lapack_size(tA, A)
 </span>
           </td>
@@ -2704,11 +2699,11 @@
 
         <tr>
           <td><a name="Lmatmul-jl-f7b90faca49c816dec68-line.html-266"></a>266</td>
-          <td>1 (0.0082%)</td>
-          <td>21 (0.17%)</td>
+          <td></td>
+          <td>12 (0.03%)</td>
           <td>
             <div class="callees">
-              20 (95.24%)
+              12 (100.00%)
               samples spent calling
               <a href="blas-jl-44d0c987b9ac3ca2f51e-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-blas-jl-gemv-494">gemv!</a><br />
             </div>
@@ -3792,15 +3787,6 @@
           <td></td>
           <td></td>
           <td>
-            <div class="call-sites">
-              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-matmul-jl-lapack_size-374"></a>
-              1 (0.0082%) samples spent in lapack_size<br />
-              1 (100.00%) (ex.),
-              1 (100.00%) (incl.)
-              when called from
-              gemv!
-              <a href="matmul-jl-f7b90faca49c816dec68-line.html#Lmatmul-jl-f7b90faca49c816dec68-line.html-253">line 253</a><br />
-            </div>
             <span class="code">
 </span>
           </td>

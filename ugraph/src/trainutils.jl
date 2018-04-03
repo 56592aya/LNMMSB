@@ -128,6 +128,7 @@ function dfunci(μ_var::Vector{Float64}, model::LNMMSB, X::Vector{Float64}, x::V
 	-model.l.*model.L*(μ_var-model.m) +X - sumb.*x
 end
 function updateμ!(model::LNMMSB, a::Int64,mb::MiniBatch, check::String)
+
 	model.μ_var_old[a,:]=deepcopy(model.μ_var[a,:])
 
 	μ_var = deepcopy(model.μ_var[a,:])
@@ -137,110 +138,20 @@ function updateμ!(model::LNMMSB, a::Int64,mb::MiniBatch, check::String)
 
 	sumb =(convert(Float64,model.N)*-1.0)
 	X=model.ϕlsum[a,:]+(s1/c1).*.5.*(model.ϕnloutsum[a,:]+model.ϕnlinsum[a,:])
-	##added this line
 
 
 	opt1 = Adagrad()
-	# @code_warntype dfunci(μ_var, model, X, x, sumb)
-	# @code_warntype update(opt1,g1)
+
 	for i in 1:10
 		x  = sfx(μ_var)
 		g1 = dfunci(μ_var, model, X, x, sumb)
 		δ1 = update(opt1,g1)
+		# @code_warntype update(opt1,g1)
 		μ_var+=δ1
 	end
 	model.μ_var[a,:]=μ_var
 	print();
 end
-
-
-# function updatesimulμΛ!(model::LNMMSB, a::Int64,mb::MiniBatch)
-# 		model.μ_var_old[a,:]=deepcopy(model.μ_var[a,:])
-# 		#model.Λ_var_old[a,:]=deepcopy(model.Λ_var[a,:])
-# 		μ_var = deepcopy(model.μ_var[a,:])
-# 		#Λ_ivar = deepcopy(1.0./model.Λ_var[a,:])
-# 		#ltemp = [log(Λ_ivar[k]) for k in 1:model.K]
-# 		#x = sfx(μ_var,ltemp)
-# 		x = sfx(μ_var)
-# 		s1 = haskey(mb.mbnot,a)?(N-1-model.train_deg[a]):0
-# 		c1 = haskey(mb.mbnot,a)?length(mb.mbnot[a]):1
-#
-# 		sumb =(model.N-1)
-# 		X=model.ϕlsum[a,:]+(s1/c1).*.5.*(model.ϕnloutsum[a,:]+model.ϕnlinsum[a,:])
-# 		##added this line
-#
-# 		#model.μ_var[a,:] = model.m + inv(model.l*model.L)* (X - (model.N-1)*model.est_θ[a,:])
-# 		dfunci(μ_var) = -model.l.*model.L*(μ_var-model.m) +X - sumb.*x
-#         #
-# 		# func1i(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
-# 		# (X)'*μ_var-	sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))
-#         #
-# 		# func2i(ltemp) =-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*exp.(ltemp))))
-#         #
-# 		# # opt1 = RMSprop()
-# 		# # opt2 = RMSprop()
-# 		opt1 = Adagrad()
-# 		# opt2 = Adagrad()
-#         #
-#
-# 		for i in 1:10
-# 			# x  = sfx(μ_var,ltemp)
-# 			x  = sfx(μ_var)
-# 			g1 = dfunci(μ_var)
-# 			δ1 = update(opt1,g1)
-# 			# g2 = ForwardDiff.gradient(func2i, ltemp)
-# 			# δ2 = update(opt2,g2)
-# 			μ_var+=δ1
-# 			# ltemp+=δ2
-# 		end
-# 		model.μ_var[a,:]=μ_var
-# 		# model.Λ_var[a,:]=1.0./exp.(ltemp)
-# 	# end
-# 	print();
-# end
-# function updatesimulμΛ!(model::LNMMSB, a::Int64,mb::MiniBatch, check::String)
-# 		activecandidateidx = union(model.Active[a], model.Candidate[a])
-# 		rest = setdiff(1:model.K,activecandidateidx)
-# 		model.μ_var_old[a,activecandidateidx]=deepcopy(model.μ_var[a,activecandidateidx])
-# 		model.Λ_var_old[a,activecandidateidx]=deepcopy(model.Λ_var[a,activecandidateidx])
-# 		model.μ_var_old[a,rest].=deepcopy(model.μ_var[a,rest[1]])
-# 		model.Λ_var_old[a,rest].=deepcopy(model.Λ_var[a,rest[1]])
-# 		μ_var = deepcopy(model.μ_var[a,:])
-# 		Λ_ivar = deepcopy(1.0./model.Λ_var[a,:])
-# 		ltemp = [log(Λ_ivar[k]) for k in 1:model.K]
-# 		x = sfx(μ_var,ltemp)
-# 		s1 = haskey(mb.mbnot,a)?(N-1-model.train_deg[a]):0
-# 		c1 = haskey(mb.mbnot,a)?length(mb.mbnot[a]):1
-#
-# 		sumb =(model.N-1)
-# 		X=model.ϕlsum[a,:]+(s1/c1).*.5.*(model.ϕnloutsum[a,:]+model.ϕnlinsum[a,:])
-#
-# 		dfunci(μ_var) = -model.l.*model.L*(μ_var-model.m) +X - sumb.*x
-#
-# 		func1i(μ_var) = -.5*model.l*((μ_var-model.m)'*model.L*(μ_var-model.m))+
-# 		(X)'*μ_var-	sumb*(log(ones(model.K)'*exp.(μ_var+.5.*exp.(ltemp))))
-#
-# 		func2i(ltemp) =-.5*model.l*(diag(model.L)'*exp.(ltemp))+.5*ones(Float64, model.K)'*ltemp-sumb*(log(ones(model.K)'*exp.(model.μ_var[a,:]+.5.*exp.(ltemp))))
-#
-# 		# opt1 = RMSprop()
-# 		# opt2 = RMSprop()
-# 		opt1 = Adagrad()
-# 		opt2 = Adagrad()
-#
-# 		for i in 1:10
-# 			x  = sfx(μ_var,ltemp)
-# 			g1 = dfunci(μ_var)
-# 			δ1 = update(opt1,g1)
-# 			g2 = ForwardDiff.gradient(func2i, ltemp)
-# 			δ2 = update(opt2,g2)
-# 			μ_var+=δ1
-# 			ltemp+=δ2
-# 		end
-# 		model.μ_var[a,:]=μ_var
-# 		model.Λ_var[a,:]=1.0./exp.(ltemp)
-# 	# end
-# 	print();
-# end
 
 function updateM!(model::LNMMSB,mb::MiniBatch)
 	model.M_old = deepcopy(model.M)

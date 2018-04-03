@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on do 29 mrt 2018 08:54:27 CEST</div>
+  <div class="generated-on">Generated on ma 02 apr 2018 09:57:46 CEST</div>
 </div>
 
     <div id="body-content">
@@ -87,8 +87,22 @@
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-7"></a>7</td>
           <td></td>
-          <td></td>
+          <td>3 (0.0079%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modelutils-jl-39-7"></a>
+              3 (0.0079%) samples spent in #39<br />
+              0 (ex.),
+              3 (100.00%) (incl.)
+              when called from
+              filter!
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#Larray-jl-c31e5f0854745d9d2638-line.html-1913">line 1913</a><br />
+            </div>
+            <div class="callees">
+              3 (100.00%)
+              samples spent calling
+              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
+            </div>
             <span class="code">	filter!(i-&gt;!in(i,negative_index), full_indices)
 </span>
           </td>
@@ -271,9 +285,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modelutils-jl-minibatch_set_srns-25"></a>
-              110 (0.90%) samples spent in minibatch_set_srns<br />
-              46 (100.00%) (ex.),
-              110 (100.00%) (incl.)
+              398 (1.05%) samples spent in minibatch_set_srns<br />
+              199 (100.00%) (ex.),
+              398 (100.00%) (incl.)
               when called from
               macro expansion
               <a href="train-jl-94893ea3787006a1b46c-line.html#Ltrain-jl-94893ea3787006a1b46c-line.html-101">line 101</a><br />
@@ -405,11 +419,11 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-38"></a>38</td>
-          <td>2 (0.02%)</td>
-          <td>4 (0.03%)</td>
+          <td>1 (0.0026%)</td>
+          <td>9 (0.02%)</td>
           <td>
             <div class="callees">
-              2 (50.00%)
+              8 (88.89%)
               samples spent calling
               <a href="sampling-jl-761b2de7b87d3110f41a-line.html#S-home-arashyazdiha-julia-v0-6-StatsBase-src-sampling-jl-sample-374">sample</a><br />
             </div>
@@ -420,9 +434,14 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-39"></a>39</td>
-          <td>12 (0.10%)</td>
-          <td>12 (0.10%)</td>
+          <td>44 (0.12%)</td>
+          <td>45 (0.12%)</td>
           <td>
+            <div class="callees">
+              1 (2.22%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-done-548">done</a><br />
+            </div>
             <span class="code">			for neighbor in node_list
 </span>
           </td>
@@ -460,8 +479,8 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-43"></a>43</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td>11 (0.03%)</td>
+          <td>11 (0.03%)</td>
           <td>
             <span class="code">				if neighbor == a
 </span>
@@ -490,11 +509,11 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-46"></a>46</td>
-          <td></td>
-          <td>13 (0.11%)</td>
+          <td>13 (0.03%)</td>
+          <td>68 (0.18%)</td>
           <td>
             <div class="callees">
-              13 (100.00%)
+              55 (80.88%)
               samples spent calling
               <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modelutils-jl-isalink-201">isalink</a><br />
             </div>
@@ -505,8 +524,8 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-47"></a>47</td>
-          <td>27 (0.22%)</td>
-          <td>27 (0.22%)</td>
+          <td>128 (0.34%)</td>
+          <td>128 (0.34%)</td>
           <td>
             <span class="code">					dd = a &lt; neighbor ? Dyad(a, neighbor) : Dyad(neighbor, a)
 </span>
@@ -515,16 +534,16 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-48"></a>48</td>
-          <td></td>
-          <td>6 (0.05%)</td>
+          <td>2 (0.0053%)</td>
+          <td>55 (0.14%)</td>
           <td>
             <div class="callees">
-              1 (16.67%)
-              samples spent calling
-              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-haskey-505">haskey</a><br />
-              5 (83.33%)
+              42 (76.36%)
               samples spent calling
               <a href="set-jl-86e7f298e4c3455f5c55-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-set-jl-in-34">in</a><br />
+              11 (20.00%)
+              samples spent calling
+              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-haskey-505">haskey</a><br />
             </div>
             <span class="code">					if dd in model.linked_edges || haskey(model.ho_map,dd) ||
 </span>
@@ -564,10 +583,10 @@
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-52"></a>52</td>
           <td></td>
-          <td>3 (0.02%)</td>
+          <td>15 (0.04%)</td>
           <td>
             <div class="callees">
-              3 (100.00%)
+              15 (100.00%)
               samples spent calling
               <a href="set-jl-86e7f298e4c3455f5c55-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-set-jl-push-35">push!</a><br />
             </div>
@@ -628,14 +647,14 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-58"></a>58</td>
-          <td>4 (0.03%)</td>
-          <td>6 (0.05%)</td>
+          <td></td>
+          <td>2 (0.0053%)</td>
           <td>
             <div class="callees">
-              1 (16.67%)
+              1 (50.00%)
               samples spent calling
               <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-skip_deleted-565">skip_deleted</a><br />
-              1 (16.67%)
+              1 (50.00%)
               samples spent calling
               <a href="set-jl-86e7f298e4c3455f5c55-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-set-jl-start-47">start</a><br />
             </div>
@@ -647,10 +666,10 @@
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-59"></a>59</td>
           <td></td>
-          <td>21 (0.17%)</td>
+          <td>48 (0.13%)</td>
           <td>
             <div class="callees">
-              21 (100.00%)
+              48 (100.00%)
               samples spent calling
               <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modelutils-jl-isfadj-230">isfadj</a><br />
             </div>
@@ -672,7 +691,7 @@
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-61"></a>61</td>
           <td></td>
-          <td>17 (0.14%)</td>
+          <td>17 (0.04%)</td>
           <td>
             <div class="callees">
               17 (100.00%)
@@ -2081,22 +2100,17 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modelutils-jl-isalink-201"></a>
-              43 (0.35%) samples spent in isalink<br />
-              1 (16.67%) (ex.),
-              1 (2.33%) (incl.)
-              when called from
-              macro expansion
-              <a href="train-jl-94893ea3787006a1b46c-line.html#Ltrain-jl-94893ea3787006a1b46c-line.html-104">line 104</a><br />
-              1 (16.67%) (ex.),
-              13 (30.23%) (incl.)
+              133 (0.35%) samples spent in isalink<br />
+              2 (28.57%) (ex.),
+              55 (41.35%) (incl.)
               when called from
               minibatch_set_srns
               <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-46">line 46</a><br />
-              4 (66.67%) (ex.),
-              29 (67.44%) (incl.)
+              5 (71.43%) (ex.),
+              78 (58.65%) (incl.)
               when called from
               setup_mblnl!
-              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-422">line 422</a><br />
+              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-428">line 428</a><br />
             </div>
             <span class="code">function isalink(model::LNMMSB, place::String,a::Int64, b::Int64)
 </span>
@@ -2115,19 +2129,19 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-203"></a>203</td>
-          <td>1 (0.0082%)</td>
-          <td>23 (0.19%)</td>
+          <td>1 (0.0026%)</td>
+          <td>56 (0.15%)</td>
           <td>
             <div class="callees">
-              16 (69.57%)
-              samples spent calling
-              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-vect-75">vect</a><br />
-              3 (13.04%)
-              samples spent calling
-              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-in-631">in</a><br />
-              3 (13.04%)
+              5 (8.93%)
               samples spent calling
               <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
+              5 (8.93%)
+              samples spent calling
+              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-in-631">in</a><br />
+              45 (80.36%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-vect-75">vect</a><br />
             </div>
             <span class="code">  	if place in [&quot;network&quot;, &quot;Network&quot;, &quot;net&quot;, &quot;Net&quot;]
 </span>
@@ -2136,14 +2150,11 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-204"></a>204</td>
-          <td>3 (0.02%)</td>
-          <td>18 (0.15%)</td>
+          <td>3 (0.0079%)</td>
+          <td>74 (0.19%)</td>
           <td>
             <div class="callees">
-              2 (11.11%)
-              samples spent calling
-              <a href="sort-jl-02c2b25d4df9c551984a-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sort-jl-searchsortedfirst-102">searchsortedfirst</a><br />
-              13 (72.22%)
+              71 (95.95%)
               samples spent calling
               <a href="sparsematrix-jl-ff519d1aab0059da5462-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sparse-sparsematrix-jl-getindex-1880">getindex</a><br />
             </div>
@@ -2184,8 +2195,8 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-208"></a>208</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td></td>
+          <td></td>
           <td>
             <span class="code">	  	ret = Dyad(a,b) in ho_links
 </span>
@@ -2224,8 +2235,8 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-212"></a>212</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td></td>
+          <td></td>
           <td>
             <span class="code">  	ret
 </span>
@@ -2409,9 +2420,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modelutils-jl-isfadj-230"></a>
-              21 (0.17%) samples spent in isfadj<br />
+              48 (0.13%) samples spent in isfadj<br />
               4 (100.00%) (ex.),
-              21 (100.00%) (incl.)
+              48 (100.00%) (incl.)
               when called from
               minibatch_set_srns
               <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-59">line 59</a><br />
@@ -2433,14 +2444,17 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-232"></a>232</td>
-          <td>1 (0.0082%)</td>
-          <td>10 (0.08%)</td>
+          <td>3 (0.0079%)</td>
+          <td>23 (0.06%)</td>
           <td>
             <div class="callees">
-              2 (20.00%)
+              2 (8.70%)
+              samples spent calling
+              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-in-631">in</a><br />
+              2 (8.70%)
               samples spent calling
               <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
-              7 (70.00%)
+              16 (69.57%)
               samples spent calling
               <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-vect-75">vect</a><br />
             </div>
@@ -2452,10 +2466,10 @@
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-233"></a>233</td>
           <td></td>
-          <td>8 (0.07%)</td>
+          <td>24 (0.06%)</td>
           <td>
             <div class="callees">
-              8 (100.00%)
+              24 (100.00%)
               samples spent calling
               <a href="sparsematrix-jl-ff519d1aab0059da5462-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sparse-sparsematrix-jl-getindex-1880">getindex</a><br />
             </div>
@@ -2577,19 +2591,19 @@
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-245"></a>245</td>
           <td></td>
-          <td>2 (0.02%)</td>
+          <td>4 (0.01%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modelutils-jl-neighbors_-245"></a>
-              2 (0.02%) samples spent in neighbors_<br />
+              4 (0.01%) samples spent in neighbors_<br />
               0 (ex.),
-              2 (100.00%) (incl.)
+              4 (100.00%) (incl.)
               when called from
               update_sets!
-              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-352">line 352</a><br />
+              <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#Lmodelutils-jl-392c556fdad1ccaa7941-line.html-358">line 358</a><br />
             </div>
             <div class="callees">
-              2 (100.00%)
+              4 (100.00%)
               samples spent calling
               <a href="sparsevector-jl-636f0df533e50526596a-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sparse-sparsevector-jl-getindex-458">getindex</a><br />
             </div>
@@ -2775,9 +2789,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modelutils-jl-init_mu-263"></a>
-              1 (0.0082%) samples spent in init_mu<br />
+              3 (0.0079%) samples spent in init_mu<br />
               0 (ex.),
-              1 (100.00%) (incl.)
+              3 (100.00%) (incl.)
               when called from
               include_from_node1
               <a href="loading-jl-116737a80fd366db775d-line.html#Lloading-jl-116737a80fd366db775d-line.html-576">line 576</a><br />
@@ -2860,8 +2874,13 @@
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-271"></a>271</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
           <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-in-631">in</a><br />
+            </div>
             <span class="code">      if i in communities[k]
 </span>
           </td>
@@ -3100,12 +3119,12 @@
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-295"></a>295</td>
           <td></td>
-          <td>1 (0.0082%)</td>
+          <td>1 (0.0026%)</td>
           <td>
             <div class="callees">
               1 (100.00%)
               samples spent calling
-              <a href="arraymath-jl-b564666165cf37ea0005-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-arraymath-jl-47">/</a><br />
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-454">broadcast</a><br />
             </div>
             <span class="code">    model.μ_var[i,:] = log.(model.μ_var[i,:]/(sum(model.μ_var[i,:])))
 </span>
@@ -3125,9 +3144,14 @@
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-297"></a>297</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
           <td>
-            <span class="code">end
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-fill-225">fill!</a><br />
+            </div>
+            <span class="code">  z = zeros(Float64, 1000, 1000)
 </span>
           </td>
         </tr>
@@ -3137,7 +3161,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">
+            <span class="code">  # x = rand(1000, 1000)
 </span>
           </td>
         </tr>
@@ -3147,7 +3171,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code"># Here we need do determine the A, C, B for the first round before getting into the variational loop
+            <span class="code">  # y = rand(1000, 1000)
 </span>
           </td>
         </tr>
@@ -3157,7 +3181,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">&quot;&quot;&quot;
+            <span class="code">  # @btime A_mul_B!(z, x,y)
 </span>
           </td>
         </tr>
@@ -3167,7 +3191,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">	getSets(model::LNMMSB, threshold::Float64)
+            <span class="code">  # @btime x*y
 </span>
           </td>
         </tr>
@@ -3177,7 +3201,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">	Function that returns the A, C, B of all nodes and keeps an ordering for communities
+            <span class="code">
 </span>
           </td>
         </tr>
@@ -3187,7 +3211,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">	Input: estimated_θ&#39;s
+            <span class="code">end
 </span>
           </td>
         </tr>
@@ -3197,7 +3221,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">	Output: None, but updates A, C, B, Ordering, and mu&#39;s in the bulk set
+            <span class="code">
 </span>
           </td>
         </tr>
@@ -3207,7 +3231,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">&quot;&quot;&quot;
+            <span class="code"># Here we need do determine the A, C, B for the first round before getting into the variational loop
 </span>
           </td>
         </tr>
@@ -3217,7 +3241,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">
+            <span class="code">&quot;&quot;&quot;
 </span>
           </td>
         </tr>
@@ -3227,7 +3251,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">
+            <span class="code">	getSets(model::LNMMSB, threshold::Float64)
 </span>
           </td>
         </tr>
@@ -3237,7 +3261,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">function getSets!(model::LNMMSB, threshold::Float64)
+            <span class="code">	Function that returns the A, C, B of all nodes and keeps an ordering for communities
 </span>
           </td>
         </tr>
@@ -3247,7 +3271,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">	est_θ = deepcopy(model.est_θ)
+            <span class="code">	Input: estimated_θ&#39;s
 </span>
           </td>
         </tr>
@@ -3257,7 +3281,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">	for a in 1:model.N
+            <span class="code">	Output: None, but updates A, C, B, Ordering, and mu&#39;s in the bulk set
 </span>
           </td>
         </tr>
@@ -3267,7 +3291,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		model.Korder[a] = sortperm(est_θ[a,:], rev=true)
+            <span class="code">&quot;&quot;&quot;
 </span>
           </td>
         </tr>
@@ -3277,7 +3301,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		F = 0.0
+            <span class="code">
 </span>
           </td>
         </tr>
@@ -3287,7 +3311,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		counter = 1
+            <span class="code">
 </span>
           </td>
         </tr>
@@ -3297,7 +3321,16 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		while (F &lt; threshold &amp;&amp; counter &lt; model.K)
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modelutils-jl-getSets-314"></a>
+              1 (0.0026%) samples spent in getSets!<br />
+              1 (100.00%) (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              include_from_node1
+              <a href="loading-jl-116737a80fd366db775d-line.html#Lloading-jl-116737a80fd366db775d-line.html-576">line 576</a><br />
+            </div>
+            <span class="code">function getSets!(model::LNMMSB, threshold::Float64)
 </span>
           </td>
         </tr>
@@ -3307,7 +3340,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">			k = model.Korder[a][counter]
+            <span class="code">	est_θ = deepcopy(model.est_θ)
 </span>
           </td>
         </tr>
@@ -3317,7 +3350,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">			F += est_θ[a,k]
+            <span class="code">	for a in 1:model.N
 </span>
           </td>
         </tr>
@@ -3327,7 +3360,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">			counter += 1
+            <span class="code">		model.Korder[a] = sortperm(est_θ[a,:], rev=true)
 </span>
           </td>
         </tr>
@@ -3337,7 +3370,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">			push!(model.A[a], k)
+            <span class="code">		F = 0.0
 </span>
           </td>
         </tr>
@@ -3347,7 +3380,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		end
+            <span class="code">		counter = 1
 </span>
           </td>
         </tr>
@@ -3357,7 +3390,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">	end
+            <span class="code">		while (F &lt; threshold &amp;&amp; counter &lt; model.K)
 </span>
           </td>
         </tr>
@@ -3367,7 +3400,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">	for a in 1:model.N
+            <span class="code">			k = model.Korder[a][counter]
 </span>
           </td>
         </tr>
@@ -3377,7 +3410,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		neighbors = neighbors_(model, a)
+            <span class="code">			F += est_θ[a,k]
 </span>
           </td>
         </tr>
@@ -3387,7 +3420,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		for b in neighbors
+            <span class="code">			counter += 1
 </span>
           </td>
         </tr>
@@ -3397,7 +3430,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">			for k in model.A[b]
+            <span class="code">			push!(model.A[a], k)
 </span>
           </td>
         </tr>
@@ -3407,7 +3440,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">				if (!(k in model.A[a]) &amp;&amp; !(k in model.C[a]))
+            <span class="code">		end
 </span>
           </td>
         </tr>
@@ -3417,7 +3450,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">					push!(model.C[a], k)
+            <span class="code">	end
 </span>
           </td>
         </tr>
@@ -3427,7 +3460,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">				end
+            <span class="code">	for a in 1:model.N
 </span>
           </td>
         </tr>
@@ -3437,7 +3470,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">			end
+            <span class="code">		neighbors = neighbors_(model, a)
 </span>
           </td>
         </tr>
@@ -3447,17 +3480,17 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		end
+            <span class="code">		for b in neighbors
 </span>
           </td>
         </tr>
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-330"></a>330</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
-            <span class="code">		# model.C[a] = unique(model.C[a])
+            <span class="code">			for k in model.A[b]
 </span>
           </td>
         </tr>
@@ -3467,7 +3500,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		#negatteIndex is wronf for now
+            <span class="code">				if (!(k in model.A[a]) &amp;&amp; !(k in model.C[a]))
 </span>
           </td>
         </tr>
@@ -3477,7 +3510,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		model.B[a] = negateIndex(model.Korder[a],vcat(model.A[a], model.C[a]))
+            <span class="code">					push!(model.C[a], k)
 </span>
           </td>
         </tr>
@@ -3487,7 +3520,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		#model.B[a] = setdiff(model.Korder[a], union(model.A[a], model.C[a]))
+            <span class="code">				end
 </span>
           </td>
         </tr>
@@ -3497,7 +3530,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">
+            <span class="code">			end
 </span>
           </td>
         </tr>
@@ -3507,7 +3540,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		# full_indices = collect(1:10000)
+            <span class="code">		end
 </span>
           </td>
         </tr>
@@ -3517,7 +3550,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		# not_index = sample(1:10000, 9800, replace=false)
+            <span class="code">		# model.C[a] = unique(model.C[a])
 </span>
           </td>
         </tr>
@@ -3527,7 +3560,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		# @btime negateIndex(full_indices, not_index)
+            <span class="code">		#negatteIndex is wronf for now
 </span>
           </td>
         </tr>
@@ -3537,7 +3570,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		# @btime setdiff(full_indices, not_index)
+            <span class="code">		model.B[a] = negateIndex(model.Korder[a],vcat(model.A[a], model.C[a]))
 </span>
           </td>
         </tr>
@@ -3547,7 +3580,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">
+            <span class="code">		#model.B[a] = setdiff(model.Korder[a], union(model.A[a], model.C[a]))
 </span>
           </td>
         </tr>
@@ -3557,7 +3590,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		if !(isempty(model.B[a]))
+            <span class="code">
 </span>
           </td>
         </tr>
@@ -3567,7 +3600,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">			bulk_θs  = sum(est_θ[a,model.B[a]])/length(model.B[a])
+            <span class="code">		# full_indices = collect(1:10000)
 </span>
           </td>
         </tr>
@@ -3577,7 +3610,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">			model.est_θ[a,model.B[a]] = bulk_θs
+            <span class="code">		# not_index = sample(1:10000, 9800, replace=false)
 </span>
           </td>
         </tr>
@@ -3587,7 +3620,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">			model.μ_var[a,model.B[a]] = log.(bulk_θs)
+            <span class="code">		# @btime negateIndex(full_indices, not_index)
 </span>
           </td>
         </tr>
@@ -3597,7 +3630,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		end
+            <span class="code">		# @btime setdiff(full_indices, not_index)
 </span>
           </td>
         </tr>
@@ -3607,7 +3640,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		_init_μ[a,:] = model.μ_var[a,:]
+            <span class="code">
 </span>
           </td>
         </tr>
@@ -3617,7 +3650,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">	end
+            <span class="code">		if !(isempty(model.B[a]))
 </span>
           </td>
         </tr>
@@ -3627,7 +3660,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">end
+            <span class="code">			bulk_θs  = sum(est_θ[a,model.B[a]])/length(model.B[a])
 </span>
           </td>
         </tr>
@@ -3637,7 +3670,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">
+            <span class="code">			model.est_θ[a,model.B[a]] = bulk_θs
 </span>
           </td>
         </tr>
@@ -3647,7 +3680,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">
+            <span class="code">			model.μ_var[a,model.B[a]] = log.(bulk_θs)
 </span>
           </td>
         </tr>
@@ -3657,11 +3690,71 @@
           <td></td>
           <td></td>
           <td>
+            <span class="code">		end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-351"></a>351</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		_init_μ[a,:] = model.μ_var[a,:]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-352"></a>352</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-353"></a>353</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-354"></a>354</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-355"></a>355</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-356"></a>356</td>
+          <td></td>
+          <td></td>
+          <td>
             <div class="call-sites">
-              <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modelutils-jl-update_sets-350"></a>
-              24 (0.20%) samples spent in update_sets!<br />
-              9 (100.00%) (ex.),
-              24 (100.00%) (incl.)
+              <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modelutils-jl-update_sets-356"></a>
+              50 (0.13%) samples spent in update_sets!<br />
+              17 (100.00%) (ex.),
+              50 (100.00%) (incl.)
               when called from
               macro expansion
               <a href="train-jl-94893ea3787006a1b46c-line.html#Ltrain-jl-94893ea3787006a1b46c-line.html-106">line 106</a><br />
@@ -3672,7 +3765,7 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-351"></a>351</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-357"></a>357</td>
           <td></td>
           <td></td>
           <td>
@@ -3682,12 +3775,12 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-352"></a>352</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-358"></a>358</td>
           <td></td>
-          <td>2 (0.02%)</td>
+          <td>4 (0.01%)</td>
           <td>
             <div class="callees">
-              2 (100.00%)
+              4 (100.00%)
               samples spent calling
               <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modelutils-jl-neighbors_-245">neighbors_</a><br />
             </div>
@@ -3697,7 +3790,7 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-353"></a>353</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-359"></a>359</td>
           <td></td>
           <td></td>
           <td>
@@ -3707,7 +3800,7 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-354"></a>354</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-360"></a>360</td>
           <td></td>
           <td></td>
           <td>
@@ -3717,9 +3810,9 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-355"></a>355</td>
-          <td></td>
-          <td></td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-361"></a>361</td>
+          <td>2 (0.0053%)</td>
+          <td>2 (0.0053%)</td>
           <td>
             <span class="code">		@inbounds for b in neighbors
 </span>
@@ -3727,9 +3820,9 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-356"></a>356</td>
-          <td>7 (0.06%)</td>
-          <td>7 (0.06%)</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-362"></a>362</td>
+          <td>14 (0.04%)</td>
+          <td>14 (0.04%)</td>
           <td>
             <span class="code">			@inbounds for k in model.A[b]
 </span>
@@ -3737,12 +3830,15 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-357"></a>357</td>
-          <td>1 (0.0082%)</td>
-          <td>2 (0.02%)</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-363"></a>363</td>
+          <td></td>
+          <td>3 (0.0079%)</td>
           <td>
             <div class="callees">
-              1 (50.00%)
+              1 (33.33%)
+              samples spent calling
+              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-in-631">in</a><br />
+              2 (66.67%)
               samples spent calling
               <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
             </div>
@@ -3752,7 +3848,7 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-358"></a>358</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-364"></a>364</td>
           <td></td>
           <td></td>
           <td>
@@ -3762,7 +3858,7 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-359"></a>359</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-365"></a>365</td>
           <td></td>
           <td></td>
           <td>
@@ -3772,17 +3868,22 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-360"></a>360</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-366"></a>366</td>
           <td></td>
-          <td></td>
+          <td>2 (0.0053%)</td>
           <td>
+            <div class="callees">
+              2 (100.00%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-652">push!</a><br />
+            </div>
             <span class="code">					push!(model.C[a], k)
 </span>
           </td>
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-361"></a>361</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-367"></a>367</td>
           <td></td>
           <td></td>
           <td>
@@ -3792,7 +3893,7 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-362"></a>362</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-368"></a>368</td>
           <td></td>
           <td></td>
           <td>
@@ -3802,7 +3903,7 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-363"></a>363</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-369"></a>369</td>
           <td></td>
           <td></td>
           <td>
@@ -3812,12 +3913,12 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-364"></a>364</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-370"></a>370</td>
           <td></td>
-          <td>11 (0.09%)</td>
+          <td>17 (0.04%)</td>
           <td>
             <div class="callees">
-              11 (100.00%)
+              17 (100.00%)
               samples spent calling
               <a href="set-jl-86e7f298e4c3455f5c55-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-set-jl-unique-129">unique</a><br />
             </div>
@@ -3827,7 +3928,7 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-365"></a>365</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-371"></a>371</td>
           <td></td>
           <td></td>
           <td>
@@ -3837,7 +3938,7 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-366"></a>366</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-372"></a>372</td>
           <td></td>
           <td></td>
           <td>
@@ -3847,17 +3948,25 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-367"></a>367</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-373"></a>373</td>
+          <td>1 (0.0026%)</td>
+          <td>7 (0.02%)</td>
           <td>
+            <div class="callees">
+              3 (42.86%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-vcat-1159">vcat</a><br />
+              3 (42.86%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-filter-1905">filter!</a><br />
+            </div>
             <span class="code">		model.B[a] = negateIndex(model.Korder[a],vcat(model.A[a], model.C[a]))
 </span>
           </td>
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-368"></a>368</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-374"></a>374</td>
           <td></td>
           <td></td>
           <td>
@@ -3867,7 +3976,7 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-369"></a>369</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-375"></a>375</td>
           <td></td>
           <td></td>
           <td>
@@ -3877,9 +3986,9 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-370"></a>370</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-376"></a>376</td>
           <td></td>
-          <td>1 (0.0082%)</td>
+          <td>1 (0.0026%)</td>
           <td>
             <div class="callees">
               1 (100.00%)
@@ -3892,7 +4001,7 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-371"></a>371</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-377"></a>377</td>
           <td></td>
           <td></td>
           <td>
@@ -3902,7 +4011,7 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-372"></a>372</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-378"></a>378</td>
           <td></td>
           <td></td>
           <td>
@@ -3912,91 +4021,11 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-373"></a>373</td>
-          <td></td>
-          <td></td>
-          <td>
-            <span class="code">		end
-</span>
-          </td>
-        </tr>
-
-        <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-374"></a>374</td>
-          <td></td>
-          <td></td>
-          <td>
-            <span class="code">	end
-</span>
-          </td>
-        </tr>
-
-        <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-375"></a>375</td>
-          <td></td>
-          <td></td>
-          <td>
-            <span class="code">end
-</span>
-          </td>
-        </tr>
-
-        <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-376"></a>376</td>
-          <td></td>
-          <td></td>
-          <td>
-            <div class="call-sites">
-              <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modelutils-jl-update_A-376"></a>
-              13 (0.11%) samples spent in update_A!<br />
-              2 (100.00%) (ex.),
-              13 (100.00%) (incl.)
-              when called from
-              macro expansion
-              <a href="train-jl-94893ea3787006a1b46c-line.html#Ltrain-jl-94893ea3787006a1b46c-line.html-195">line 195</a><br />
-            </div>
-            <span class="code">function update_A!(model::LNMMSB, mb::MiniBatch, est_θ::Matrix{Float64},threshold::Float64)
-</span>
-          </td>
-        </tr>
-
-        <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-377"></a>377</td>
-          <td></td>
-          <td></td>
-          <td>
-            <span class="code">	for a in mb.mbnodes
-</span>
-          </td>
-        </tr>
-
-        <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-378"></a>378</td>
-          <td>1 (0.0082%)</td>
-          <td>12 (0.10%)</td>
-          <td>
-            <div class="callees">
-              9 (75.00%)
-              samples spent calling
-              <a href="nothing-0feca720e2c29dafb2c9-line.html#Snothing-sortperm">#sortperm</a><br />
-              1 (8.33%)
-              samples spent calling
-              <a href="essentials-jl-24c5e5d93728d1388d3d-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-essentials-jl-vector_any-329">vector_any</a><br />
-              1 (8.33%)
-              samples spent calling
-              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-getindex-883">getindex</a><br />
-            </div>
-            <span class="code">		model.Korder[a] = sortperm(est_θ[a,:],rev=true)
-</span>
-          </td>
-        </tr>
-
-        <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-379"></a>379</td>
           <td></td>
           <td></td>
           <td>
-            <span class="code">		F = 0.0
+            <span class="code">		end
 </span>
           </td>
         </tr>
@@ -4006,7 +4035,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		count = 1
+            <span class="code">	end
 </span>
           </td>
         </tr>
@@ -4016,7 +4045,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		newA=Int64[]
+            <span class="code">end
 </span>
           </td>
         </tr>
@@ -4026,7 +4055,16 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		#could use enumerate and continue instead
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modelutils-jl-update_A-382"></a>
+              18 (0.05%) samples spent in update_A!<br />
+              3 (100.00%) (ex.),
+              18 (100.00%) (incl.)
+              when called from
+              macro expansion
+              <a href="train-jl-94893ea3787006a1b46c-line.html#Ltrain-jl-94893ea3787006a1b46c-line.html-186">line 186</a><br />
+            </div>
+            <span class="code">function update_A!(model::LNMMSB, mb::MiniBatch, est_θ::Matrix{Float64},threshold::Float64)
 </span>
           </td>
         </tr>
@@ -4036,17 +4074,25 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		while (F &lt; threshold &amp;&amp; count &lt; model.K)
+            <span class="code">	for a in mb.mbnodes
 </span>
           </td>
         </tr>
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-384"></a>384</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>15 (0.04%)</td>
           <td>
-            <span class="code">			k = model.Korder[a][count]
+            <div class="callees">
+              1 (6.67%)
+              samples spent calling
+              <a href="essentials-jl-24c5e5d93728d1388d3d-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-essentials-jl-vector_any-329">vector_any</a><br />
+              13 (86.67%)
+              samples spent calling
+              <a href="nothing-0feca720e2c29dafb2c9-line.html#Snothing-sortperm">#sortperm</a><br />
+            </div>
+            <span class="code">		model.Korder[a] = sortperm(est_θ[a,:],rev=true)
 </span>
           </td>
         </tr>
@@ -4056,17 +4102,17 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">
+            <span class="code">		F = 0.0
 </span>
           </td>
         </tr>
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-386"></a>386</td>
-          <td>1 (0.0082%)</td>
-          <td>1 (0.0082%)</td>
+          <td></td>
+          <td></td>
           <td>
-            <span class="code">			if (k in model.B[a])
+            <span class="code">		count = 1
 </span>
           </td>
         </tr>
@@ -4076,7 +4122,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">				count+=1
+            <span class="code">		newA=Int64[]
 </span>
           </td>
         </tr>
@@ -4086,7 +4132,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">			else
+            <span class="code">		#could use enumerate and continue instead
 </span>
           </td>
         </tr>
@@ -4096,7 +4142,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">				if !isempty(model.B[a])
+            <span class="code">		while (F &lt; threshold &amp;&amp; count &lt; model.K)
 </span>
           </td>
         </tr>
@@ -4106,7 +4152,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">					if est_θ[a,k] &gt; est_θ[a,model.B[a][1]]
+            <span class="code">			k = model.Korder[a][count]
 </span>
           </td>
         </tr>
@@ -4116,7 +4162,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">						#println(&quot;I got here!&quot;)
+            <span class="code">
 </span>
           </td>
         </tr>
@@ -4124,9 +4170,14 @@
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-392"></a>392</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
           <td>
-            <span class="code">						F += est_θ[a,k]
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
+            </div>
+            <span class="code">			if (k in model.B[a])
 </span>
           </td>
         </tr>
@@ -4136,7 +4187,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">						push!(newA, k)
+            <span class="code">				count+=1
 </span>
           </td>
         </tr>
@@ -4146,7 +4197,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">						count += 1
+            <span class="code">			else
 </span>
           </td>
         </tr>
@@ -4156,7 +4207,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">					end
+            <span class="code">				if !isempty(model.B[a])
 </span>
           </td>
         </tr>
@@ -4166,7 +4217,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">				else
+            <span class="code">					if est_θ[a,k] &gt; est_θ[a,model.B[a][1]]
 </span>
           </td>
         </tr>
@@ -4176,7 +4227,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">					F += est_θ[a,k]
+            <span class="code">						#println(&quot;I got here!&quot;)
 </span>
           </td>
         </tr>
@@ -4186,7 +4237,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">					push!(newA, k)
+            <span class="code">						F += est_θ[a,k]
 </span>
           </td>
         </tr>
@@ -4196,7 +4247,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">					count += 1
+            <span class="code">						push!(newA, k)
 </span>
           </td>
         </tr>
@@ -4206,7 +4257,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">				end
+            <span class="code">						count += 1
 </span>
           </td>
         </tr>
@@ -4216,7 +4267,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">			end
+            <span class="code">					end
 </span>
           </td>
         </tr>
@@ -4226,7 +4277,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		end
+            <span class="code">				else
 </span>
           </td>
         </tr>
@@ -4236,7 +4287,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		toAdd = Int64[]
+            <span class="code">					F += est_θ[a,k]
 </span>
           </td>
         </tr>
@@ -4246,7 +4297,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		if (threshold-F &gt; 0.0)
+            <span class="code">					push!(newA, k)
 </span>
           </td>
         </tr>
@@ -4256,7 +4307,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">			toSample = (threshold-F)/est_θ[a,model.B[a][1]]
+            <span class="code">					count += 1
 </span>
           </td>
         </tr>
@@ -4266,7 +4317,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">			toAdd = sample(model.B[a], toSample, replace=false)
+            <span class="code">				end
 </span>
           </td>
         </tr>
@@ -4276,7 +4327,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		end
+            <span class="code">			end
 </span>
           </td>
         </tr>
@@ -4286,17 +4337,17 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		if !isempty(toAdd)
+            <span class="code">		end
 </span>
           </td>
         </tr>
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-409"></a>409</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
-            <span class="code">			for el in toAdd
+            <span class="code">		toAdd = Int64[]
 </span>
           </td>
         </tr>
@@ -4306,7 +4357,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">				model.A[a]= push!(newA, el)
+            <span class="code">		if (threshold-F &gt; 0.0)
 </span>
           </td>
         </tr>
@@ -4316,7 +4367,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">			end
+            <span class="code">			toSample = (threshold-F)/est_θ[a,model.B[a][1]]
 </span>
           </td>
         </tr>
@@ -4326,7 +4377,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">		else
+            <span class="code">			toAdd = sample(model.B[a], toSample, replace=false)
 </span>
           </td>
         </tr>
@@ -4336,17 +4387,17 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">			model.A[a] = newA
+            <span class="code">		end
 </span>
           </td>
         </tr>
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-414"></a>414</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
+          <td>1 (0.0026%)</td>
           <td>
-            <span class="code">		end
+            <span class="code">		if !isempty(toAdd)
 </span>
           </td>
         </tr>
@@ -4356,7 +4407,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">	end
+            <span class="code">			for el in toAdd
 </span>
           </td>
         </tr>
@@ -4366,7 +4417,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">end
+            <span class="code">				model.A[a]= push!(newA, el)
 </span>
           </td>
         </tr>
@@ -4376,7 +4427,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">function setup_mblnl!(model::LNMMSB, mb::MiniBatch, shuffled::Vector{Dyad})
+            <span class="code">			end
 </span>
           </td>
         </tr>
@@ -4386,7 +4437,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">	#shuffle them, so that the order is random
+            <span class="code">		else
 </span>
           </td>
         </tr>
@@ -4396,11 +4447,71 @@
           <td></td>
           <td></td>
           <td>
+            <span class="code">			model.A[a] = newA
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-420"></a>420</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-421"></a>421</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-422"></a>422</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-423"></a>423</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function setup_mblnl!(model::LNMMSB, mb::MiniBatch, shuffled::Vector{Dyad})
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-424"></a>424</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	#shuffle them, so that the order is random
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-425"></a>425</td>
+          <td></td>
+          <td></td>
+          <td>
             <div class="call-sites">
-              <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modelutils-jl-setup_mblnl-419"></a>
-              114 (0.93%) samples spent in setup_mblnl!<br />
-              30 (100.00%) (ex.),
-              114 (100.00%) (incl.)
+              <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modelutils-jl-setup_mblnl-425"></a>
+              439 (1.16%) samples spent in setup_mblnl!<br />
+              82 (100.00%) (ex.),
+              439 (100.00%) (incl.)
               when called from
               macro expansion
               <a href="train-jl-94893ea3787006a1b46c-line.html#Ltrain-jl-94893ea3787006a1b46c-line.html-104">line 104</a><br />
@@ -4411,9 +4522,9 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-420"></a>420</td>
-          <td>2 (0.02%)</td>
-          <td>2 (0.02%)</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-426"></a>426</td>
+          <td>3 (0.0079%)</td>
+          <td>3 (0.0079%)</td>
           <td>
             <span class="code">	for d in shuffled
 </span>
@@ -4421,7 +4532,7 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-421"></a>421</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-427"></a>427</td>
           <td></td>
           <td></td>
           <td>
@@ -4431,12 +4542,12 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-422"></a>422</td>
-          <td></td>
-          <td>29 (0.24%)</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-428"></a>428</td>
+          <td>2 (0.0053%)</td>
+          <td>80 (0.21%)</td>
           <td>
             <div class="callees">
-              29 (100.00%)
+              78 (97.50%)
               samples spent calling
               <a href="modelutils-jl-392c556fdad1ccaa7941-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modelutils-jl-isalink-201">isalink</a><br />
             </div>
@@ -4446,12 +4557,12 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-423"></a>423</td>
-          <td>14 (0.11%)</td>
-          <td>16 (0.13%)</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-429"></a>429</td>
+          <td>28 (0.07%)</td>
+          <td>33 (0.09%)</td>
           <td>
             <div class="callees">
-              2 (12.50%)
+              5 (15.15%)
               samples spent calling
               <a href="utils-jl-86432145f94fb673cc6e-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-utils-jl-Type-20">Type</a><br />
             </div>
@@ -4461,12 +4572,12 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-424"></a>424</td>
-          <td>1 (0.0082%)</td>
-          <td>13 (0.11%)</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-430"></a>430</td>
+          <td>2 (0.0053%)</td>
+          <td>74 (0.19%)</td>
           <td>
             <div class="callees">
-              12 (92.31%)
+              72 (97.30%)
               samples spent calling
               <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
             </div>
@@ -4476,81 +4587,11 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-425"></a>425</td>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-431"></a>431</td>
           <td></td>
           <td></td>
           <td>
             <span class="code">				continue;
-</span>
-          </td>
-        </tr>
-
-        <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-426"></a>426</td>
-          <td></td>
-          <td></td>
-          <td>
-            <span class="code">			else
-</span>
-          </td>
-        </tr>
-
-        <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-427"></a>427</td>
-          <td></td>
-          <td>4 (0.03%)</td>
-          <td>
-            <div class="callees">
-              4 (100.00%)
-              samples spent calling
-              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-652">push!</a><br />
-            </div>
-            <span class="code">				push!(mb.mblinks, l)
-</span>
-          </td>
-        </tr>
-
-        <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-428"></a>428</td>
-          <td></td>
-          <td></td>
-          <td>
-            <span class="code">			end
-</span>
-          </td>
-        </tr>
-
-        <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-429"></a>429</td>
-          <td></td>
-          <td></td>
-          <td>
-            <span class="code">		else
-</span>
-          </td>
-        </tr>
-
-        <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-430"></a>430</td>
-          <td></td>
-          <td></td>
-          <td>
-            <span class="code">			#creating nonlink objects and initializing their phis
-</span>
-          </td>
-        </tr>
-
-        <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-431"></a>431</td>
-          <td>8 (0.07%)</td>
-          <td>11 (0.09%)</td>
-          <td>
-            <div class="callees">
-              3 (27.27%)
-              samples spent calling
-              <a href="utils-jl-86432145f94fb673cc6e-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-utils-jl-Type-26">Type</a><br />
-            </div>
-            <span class="code">			nl = NonLink(d.src, d.dst, _init_ϕ,_init_ϕ)
 </span>
           </td>
         </tr>
@@ -4560,7 +4601,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">
+            <span class="code">			else
 </span>
           </td>
         </tr>
@@ -4568,14 +4609,14 @@
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-433"></a>433</td>
           <td></td>
-          <td>11 (0.09%)</td>
+          <td>1 (0.0026%)</td>
           <td>
             <div class="callees">
-              11 (100.00%)
+              1 (100.00%)
               samples spent calling
-              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-652">push!</a><br />
             </div>
-            <span class="code">			if nl in mb.mbnonlinks
+            <span class="code">				push!(mb.mblinks, l)
 </span>
           </td>
         </tr>
@@ -4585,7 +4626,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">				continue;
+            <span class="code">			end
 </span>
           </td>
         </tr>
@@ -4595,7 +4636,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">			else
+            <span class="code">		else
 </span>
           </td>
         </tr>
@@ -4605,17 +4646,22 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">				#also adding their nonsources and nonsinks
+            <span class="code">			#creating nonlink objects and initializing their phis
 </span>
           </td>
         </tr>
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-437"></a>437</td>
-          <td></td>
-          <td></td>
+          <td>27 (0.07%)</td>
+          <td>30 (0.08%)</td>
           <td>
-            <span class="code">				push!(mb.mbnonlinks, nl)
+            <div class="callees">
+              3 (10.00%)
+              samples spent calling
+              <a href="utils-jl-86432145f94fb673cc6e-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-utils-jl-Type-26">Type</a><br />
+            </div>
+            <span class="code">			nl = NonLink(d.src, d.dst, _init_ϕ,_init_ϕ)
 </span>
           </td>
         </tr>
@@ -4623,32 +4669,27 @@
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-438"></a>438</td>
           <td></td>
-          <td>1 (0.0082%)</td>
+          <td></td>
           <td>
-            <div class="callees">
-              1 (100.00%)
-              samples spent calling
-              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-haskey-505">haskey</a><br />
-            </div>
-            <span class="code">				if !haskey(mb.mbnot, nl.src)
+            <span class="code">
 </span>
           </td>
         </tr>
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-439"></a>439</td>
-          <td>2 (0.02%)</td>
-          <td>7 (0.06%)</td>
+          <td>3 (0.0079%)</td>
+          <td>124 (0.33%)</td>
           <td>
             <div class="callees">
-              2 (28.57%)
+              4 (3.23%)
               samples spent calling
-              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-get-478">get</a><br />
-              3 (42.86%)
+              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-in-631">in</a><br />
+              117 (94.35%)
               samples spent calling
-              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-setindex-419">setindex!</a><br />
+              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
             </div>
-            <span class="code">					mb.mbnot[nl.src] = get(mb.mbnot, nl.src, Vector{Int64}())
+            <span class="code">			if nl in mb.mbnonlinks
 </span>
           </td>
         </tr>
@@ -4658,22 +4699,17 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">				end
+            <span class="code">				continue;
 </span>
           </td>
         </tr>
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-441"></a>441</td>
-          <td>1 (0.0082%)</td>
-          <td>2 (0.02%)</td>
+          <td></td>
+          <td></td>
           <td>
-            <div class="callees">
-              1 (50.00%)
-              samples spent calling
-              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
-            </div>
-            <span class="code">				if nl.dst in mb.mbnot[nl.src]
+            <span class="code">			else
 </span>
           </td>
         </tr>
@@ -4683,7 +4719,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">					continue;
+            <span class="code">				#also adding their nonsources and nonsinks
 </span>
           </td>
         </tr>
@@ -4691,9 +4727,14 @@
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-443"></a>443</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0026%)</td>
           <td>
-            <span class="code">				else
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-652">push!</a><br />
+            </div>
+            <span class="code">				push!(mb.mbnonlinks, nl)
 </span>
           </td>
         </tr>
@@ -4701,20 +4742,38 @@
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-444"></a>444</td>
           <td></td>
-          <td>2 (0.02%)</td>
+          <td>5 (0.01%)</td>
           <td>
             <div class="callees">
-              2 (100.00%)
+              5 (100.00%)
               samples spent calling
-              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-652">push!</a><br />
+              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-haskey-505">haskey</a><br />
             </div>
-            <span class="code">					push!(mb.mbnot[nl.src], nl.dst)
+            <span class="code">				if !haskey(mb.mbnot, nl.src)
 </span>
           </td>
         </tr>
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-445"></a>445</td>
+          <td>6 (0.02%)</td>
+          <td>18 (0.05%)</td>
+          <td>
+            <div class="callees">
+              10 (55.56%)
+              samples spent calling
+              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-setindex-419">setindex!</a><br />
+              2 (11.11%)
+              samples spent calling
+              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-get-478">get</a><br />
+            </div>
+            <span class="code">					mb.mbnot[nl.src] = get(mb.mbnot, nl.src, Vector{Int64}())
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-446"></a>446</td>
           <td></td>
           <td></td>
           <td>
@@ -4724,34 +4783,22 @@
         </tr>
 
         <tr>
-          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-446"></a>446</td>
-          <td></td>
-          <td>3 (0.02%)</td>
-          <td>
-            <div class="callees">
-              3 (100.00%)
-              samples spent calling
-              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-haskey-505">haskey</a><br />
-            </div>
-            <span class="code">				if !haskey(mb.mbnot, nl.dst)
-</span>
-          </td>
-        </tr>
-
-        <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-447"></a>447</td>
-          <td>2 (0.02%)</td>
-          <td>7 (0.06%)</td>
+          <td>1 (0.0026%)</td>
+          <td>11 (0.03%)</td>
           <td>
             <div class="callees">
-              3 (42.86%)
+              2 (18.18%)
               samples spent calling
-              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-setindex-419">setindex!</a><br />
-              2 (28.57%)
+              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-getindex-474">getindex</a><br />
+              2 (18.18%)
               samples spent calling
-              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-get-478">get</a><br />
+              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
+              6 (54.55%)
+              samples spent calling
+              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-getindex-473">getindex</a><br />
             </div>
-            <span class="code">					mb.mbnot[nl.dst] = get(mb.mbnot, nl.dst, Vector{Int64}())
+            <span class="code">				if nl.dst in mb.mbnot[nl.src]
 </span>
           </td>
         </tr>
@@ -4761,7 +4808,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">				end
+            <span class="code">					continue;
 </span>
           </td>
         </tr>
@@ -4771,7 +4818,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">				if nl.src in mb.mbnot[nl.dst]
+            <span class="code">				else
 </span>
           </td>
         </tr>
@@ -4779,9 +4826,17 @@
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-450"></a>450</td>
           <td></td>
-          <td></td>
+          <td>11 (0.03%)</td>
           <td>
-            <span class="code">					continue;
+            <div class="callees">
+              8 (72.73%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-652">push!</a><br />
+              3 (27.27%)
+              samples spent calling
+              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-getindex-473">getindex</a><br />
+            </div>
+            <span class="code">					push!(mb.mbnot[nl.src], nl.dst)
 </span>
           </td>
         </tr>
@@ -4791,7 +4846,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">				else
+            <span class="code">				end
 </span>
           </td>
         </tr>
@@ -4799,27 +4854,29 @@
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-452"></a>452</td>
           <td></td>
-          <td>6 (0.05%)</td>
+          <td>10 (0.03%)</td>
           <td>
             <div class="callees">
-              2 (33.33%)
+              10 (100.00%)
               samples spent calling
-              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-getindex-473">getindex</a><br />
-              4 (66.67%)
-              samples spent calling
-              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-652">push!</a><br />
+              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-haskey-505">haskey</a><br />
             </div>
-            <span class="code">					push!(mb.mbnot[nl.dst], nl.src)
+            <span class="code">				if !haskey(mb.mbnot, nl.dst)
 </span>
           </td>
         </tr>
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-453"></a>453</td>
-          <td></td>
-          <td></td>
+          <td>10 (0.03%)</td>
+          <td>17 (0.04%)</td>
           <td>
-            <span class="code">				end
+            <div class="callees">
+              7 (41.18%)
+              samples spent calling
+              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-setindex-419">setindex!</a><br />
+            </div>
+            <span class="code">					mb.mbnot[nl.dst] = get(mb.mbnot, nl.dst, Vector{Int64}())
 </span>
           </td>
         </tr>
@@ -4829,7 +4886,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">			end
+            <span class="code">				end
 </span>
           </td>
         </tr>
@@ -4837,9 +4894,20 @@
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-455"></a>455</td>
           <td></td>
-          <td></td>
+          <td>16 (0.04%)</td>
           <td>
-            <span class="code">		end
+            <div class="callees">
+              7 (43.75%)
+              samples spent calling
+              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-getindex-473">getindex</a><br />
+              2 (12.50%)
+              samples spent calling
+              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-getindex-474">getindex</a><br />
+              7 (43.75%)
+              samples spent calling
+              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
+            </div>
+            <span class="code">				if nl.src in mb.mbnot[nl.dst]
 </span>
           </td>
         </tr>
@@ -4849,7 +4917,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">	end
+            <span class="code">					continue;
 </span>
           </td>
         </tr>
@@ -4859,7 +4927,7 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">end
+            <span class="code">				else
 </span>
           </td>
         </tr>
@@ -4867,9 +4935,17 @@
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-458"></a>458</td>
           <td></td>
-          <td></td>
+          <td>5 (0.01%)</td>
           <td>
-            <span class="code">
+            <div class="callees">
+              3 (60.00%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-652">push!</a><br />
+              2 (40.00%)
+              samples spent calling
+              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-getindex-473">getindex</a><br />
+            </div>
+            <span class="code">					push!(mb.mbnot[nl.dst], nl.src)
 </span>
           </td>
         </tr>
@@ -4879,13 +4955,73 @@
           <td></td>
           <td></td>
           <td>
-            <span class="code">
+            <span class="code">				end
 </span>
           </td>
         </tr>
 
         <tr>
           <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-460"></a>460</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">			end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-461"></a>461</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">		end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-462"></a>462</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">	end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-463"></a>463</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-464"></a>464</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-465"></a>465</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmodelutils-jl-392c556fdad1ccaa7941-line.html-466"></a>466</td>
           <td></td>
           <td></td>
           <td>

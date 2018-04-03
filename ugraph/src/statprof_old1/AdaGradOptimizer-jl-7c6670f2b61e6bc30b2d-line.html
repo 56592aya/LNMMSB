@@ -1,0 +1,424 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="statprofiler.css">
+
+    <title>StatProfilerHTML.jl: /home/arashyazdiha/.julia/v0.6/GradDescent/src/AdaGradOptimizer.jl</title>
+  </head>
+  <body>
+<div class="report-header">
+  <div class="backlink"><a href="index.html">Report index</a></div>
+  <div class="report-title">StatProfilerHTML.jl report</div>
+  <div class="generated-on">Generated on do 29 mrt 2018 12:46:32 CEST</div>
+</div>
+
+    <div id="body-content">
+      <table>
+        <caption>File source code</caption>
+        <tr>
+          <th>Line</td>
+          <th>Exclusive</th>
+          <th>Inclusive</th>
+          <th>Code</th>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-1"></a>1</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">mutable struct Adagrad &lt;: Optimizer
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-2"></a>2</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    opt_type::String
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-3"></a>3</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    t::Int64
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-4"></a>4</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    ϵ::Float64
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-5"></a>5</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    η::Float64
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-6"></a>6</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    G_t::Array{Float64}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-7"></a>7</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-8"></a>8</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-9"></a>9</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;Construct Adagrad optimizer&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-10"></a>10</td>
+          <td></td>
+          <td></td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-julia-v0-6-GradDescent-src-AdaGradOptimizer-jl-Adagrad-2-10"></a>
+              1 (0.01%) samples spent in #Adagrad#2<br />
+              1 (100.00%) (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              updateμ!
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-143">line 143</a><br />
+            </div>
+            <span class="code">function Adagrad(; η::Float64=0.01, ϵ::Float64=1e-8)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-11"></a>11</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    η &lt;= 0.0 &amp;&amp; error(&quot;η must be greater than 0&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-12"></a>12</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    ϵ &lt;= 0.0 &amp;&amp; error(&quot;ϵ must be greater than 0&quot;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-13"></a>13</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-14"></a>14</td>
+          <td>1 (0.01%)</td>
+          <td>1 (0.01%)</td>
+          <td>
+            <span class="code">    Adagrad(&quot;Adagrad&quot;, 0, ϵ, η, zeros(1))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-15"></a>15</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-16"></a>16</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-17"></a>17</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">params(opt::Adagrad) = &quot;ϵ=$(opt.ϵ), η=$(opt.η)&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-18"></a>18</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-19"></a>19</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function update(opt::Adagrad, g_t::Array{Float64})
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-20"></a>20</td>
+          <td></td>
+          <td></td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-julia-v0-6-GradDescent-src-AdaGradOptimizer-jl-update-20"></a>
+              59 (0.63%) samples spent in update<br />
+              16 (100.00%) (ex.),
+              59 (100.00%) (incl.)
+              when called from
+              updateμ!
+              <a href="trainutils-jl-7dc5bc0556623aa4c0ca-line.html#Ltrainutils-jl-7dc5bc0556623aa4c0ca-line.html-148">line 148</a><br />
+            </div>
+            <span class="code">    # resize squares of gradients
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-21"></a>21</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if opt.t == 0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-22"></a>22</td>
+          <td>2 (0.02%)</td>
+          <td>2 (0.02%)</td>
+          <td>
+            <span class="code">        opt.G_t = zeros(Float64, length(g_t))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-23"></a>23</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-24"></a>24</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-25"></a>25</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-26"></a>26</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # update timestep
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-27"></a>27</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    opt.t += 1
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-28"></a>28</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-29"></a>29</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    # accumulate squares of gradients
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-30"></a>30</td>
+          <td>2 (0.02%)</td>
+          <td>23 (0.24%)</td>
+          <td>
+            <div class="callees">
+              3 (13.04%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-setindex-629">setindex!</a><br />
+              8 (34.78%)
+              samples spent calling
+              <a href="arraymath-jl-b564666165cf37ea0005-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-arraymath-jl-37">+</a><br />
+              7 (30.43%)
+              samples spent calling
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
+              3 (13.04%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-getindex-568">getindex</a><br />
+            </div>
+            <span class="code">    opt.G_t[:] += (g_t .^ 2.0)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-31"></a>31</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-32"></a>32</td>
+          <td>10 (0.11%)</td>
+          <td>10 (0.11%)</td>
+          <td>
+            <span class="code">    δ = zeros(Float64, length(g_t))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-33"></a>33</td>
+          <td>2 (0.02%)</td>
+          <td>21 (0.22%)</td>
+          <td>
+            <div class="callees">
+              12 (57.14%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-getindex-568">getindex</a><br />
+              7 (33.33%)
+              samples spent calling
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
+            </div>
+            <span class="code">    δ[:] = opt.η ./ (sqrt.(opt.G_t[:] .+ opt.ϵ)) .* g_t[:]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-34"></a>34</td>
+          <td></td>
+          <td>3 (0.03%)</td>
+          <td>
+            <div class="callees">
+              3 (100.00%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-getindex-568">getindex</a><br />
+            </div>
+            <span class="code">    return δ[:]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-35"></a>35</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
