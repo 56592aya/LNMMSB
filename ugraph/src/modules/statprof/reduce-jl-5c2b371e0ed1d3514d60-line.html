@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -1791,7 +1791,7 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-mapreduce_impl-177"></a>
-              1 (0.01%) samples spent in mapreduce_impl<br />
+              1 (0.0023%) samples spent in mapreduce_impl<br />
               0 (ex.),
               1 (100.00%) (incl.)
               when called from
@@ -1886,12 +1886,12 @@
         <tr>
           <td><a name="Lreduce-jl-5c2b371e0ed1d3514d60-line.html-186"></a>186</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <div class="callees">
               1 (100.00%)
               samples spent calling
-              <a href="simdloop-jl-bbaadc55d0576e682f04-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-simdloop-jl-macro-expansion-66">macro expansion</a><br />
+              <a href="simdloop-jl-bbaadc55d0576e682f04-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-simdloop-jl-macro-expansion-73">macro expansion</a><br />
             </div>
             <span class="code">        @simd for i = ifirst + 2 : ilast
 </span>
@@ -1910,9 +1910,18 @@
 
         <tr>
           <td><a name="Lreduce-jl-5c2b371e0ed1d3514d60-line.html-188"></a>188</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-macro-expansion-188"></a>
+              1 (0.0023%) samples spent in macro expansion<br />
+              1 (100.00%) (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              macro expansion
+              <a href="simdloop-jl-bbaadc55d0576e682f04-line.html#Lsimdloop-jl-bbaadc55d0576e682f04-line.html-73">line 73</a><br />
+            </div>
             <span class="code">            v = op(v, f(ai))
 </span>
           </td>
@@ -2645,7 +2654,7 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-_mapreduce-261"></a>
-              1 (0.01%) samples spent in _mapreduce<br />
+              1 (0.0023%) samples spent in _mapreduce<br />
               0 (ex.),
               1 (100.00%) (incl.)
               when called from
@@ -2840,7 +2849,7 @@
         <tr>
           <td><a name="Lreduce-jl-5c2b371e0ed1d3514d60-line.html-280"></a>280</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <div class="callees">
               1 (100.00%)
@@ -5769,47 +5778,52 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572"></a>
-              140 (1.45%) samples spent in any<br />
-              1 (1.16%) (ex.),
-              1 (0.71%) (incl.)
+              222 (0.50%) samples spent in any<br />
+              1 (0.76%) (ex.),
+              1 (0.45%) (incl.)
               when called from
-              #1
-              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-16">line 16</a><br />
-              1 (1.16%) (ex.),
-              1 (0.71%) (incl.)
-              when called from
-              update_sets!
-              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-369">line 369</a><br />
-              1 (1.16%) (ex.),
-              1 (0.71%) (incl.)
-              when called from
-              setup_mblnl!
-              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-453">line 453</a><br />
-              4 (4.65%) (ex.),
-              4 (2.86%) (incl.)
-              when called from
-              setup_mblnl!
-              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-461">line 461</a><br />
-              6 (6.98%) (ex.),
-              8 (5.71%) (incl.)
+              init_mu
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-277">line 277</a><br />
+              1 (0.76%) (ex.),
+              3 (1.35%) (incl.)
               when called from
               isalink
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-208">line 208</a><br />
-              13 (15.12%) (ex.),
-              20 (14.29%) (incl.)
+              3 (2.27%) (ex.),
+              3 (1.35%) (incl.)
+              when called from
+              setup_mblnl!
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-461">line 461</a><br />
+              4 (3.03%) (ex.),
+              4 (1.80%) (incl.)
+              when called from
+              setup_mblnl!
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-453">line 453</a><br />
+              4 (3.03%) (ex.),
+              4 (1.80%) (incl.)
+              when called from
+              update_A!
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-398">line 398</a><br />
+              3 (2.27%) (ex.),
+              6 (2.70%) (incl.)
               when called from
               setup_mblnl!
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-436">line 436</a><br />
-              19 (22.09%) (ex.),
-              32 (22.86%) (incl.)
+              9 (6.82%) (ex.),
+              9 (4.05%) (incl.)
               when called from
-              setup_mblnl!
-              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-445">line 445</a><br />
-              41 (47.67%) (ex.),
-              73 (52.14%) (incl.)
+              #1
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-16">line 16</a><br />
+              44 (33.33%) (ex.),
+              78 (35.14%) (incl.)
               when called from
               train
               <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-95">line 95</a><br />
+              63 (47.73%) (ex.),
+              114 (51.35%) (incl.)
+              when called from
+              setup_mblnl!
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-445">line 445</a><br />
             </div>
             <span class="code">function any(f, itr)
 </span>
@@ -5818,8 +5832,8 @@
 
         <tr>
           <td><a name="Lreduce-jl-5c2b371e0ed1d3514d60-line.html-573"></a>573</td>
-          <td>55 (0.57%)</td>
-          <td>55 (0.57%)</td>
+          <td>69 (0.16%)</td>
+          <td>69 (0.16%)</td>
           <td>
             <span class="code">    for x in itr
 </span>
@@ -5828,22 +5842,22 @@
 
         <tr>
           <td><a name="Lreduce-jl-5c2b371e0ed1d3514d60-line.html-574"></a>574</td>
-          <td>28 (0.29%)</td>
-          <td>82 (0.85%)</td>
+          <td>53 (0.12%)</td>
+          <td>143 (0.32%)</td>
           <td>
             <div class="callees">
-              7 (8.54%)
+              51 (35.66%)
               samples spent calling
-              <a href="utils-jl-56d1852980543f3415bf-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-utils-jl-43">==</a><br />
-              32 (39.02%)
-              samples spent calling
-              <a href="utils-jl-56d1852980543f3415bf-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-utils-jl-49">==</a><br />
-              13 (15.85%)
-              samples spent calling
-              <a href="utils-jl-56d1852980543f3415bf-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-utils-jl-45">==</a><br />
-              2 (2.44%)
+              <a href="utils-jl-56d1852980543f3415bf-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-utils-jl-46">==</a><br />
+              2 (1.40%)
               samples spent calling
               <a href="string-jl-6d0f091da11e37edd46d-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-strings-string-jl-81">==</a><br />
+              3 (2.10%)
+              samples spent calling
+              <a href="utils-jl-56d1852980543f3415bf-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-utils-jl-44">==</a><br />
+              34 (23.78%)
+              samples spent calling
+              <a href="utils-jl-56d1852980543f3415bf-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-utils-jl-50">==</a><br />
             </div>
             <span class="code">        f(x) &amp;&amp; return true
 </span>
@@ -5862,8 +5876,8 @@
 
         <tr>
           <td><a name="Lreduce-jl-5c2b371e0ed1d3514d60-line.html-576"></a>576</td>
-          <td>1 (0.01%)</td>
-          <td>1 (0.01%)</td>
+          <td>4 (0.0090%)</td>
+          <td>4 (0.0090%)</td>
           <td>
             <span class="code">    return false
 </span>
@@ -6412,24 +6426,34 @@
 
         <tr>
           <td><a name="Lreduce-jl-5c2b371e0ed1d3514d60-line.html-631"></a>631</td>
-          <td>5 (0.05%)</td>
-          <td>5 (0.05%)</td>
+          <td>11 (0.02%)</td>
+          <td>11 (0.02%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-in-631"></a>
-              5 (0.05%) samples spent in in<br />
-              1 (20.00%) (ex.),
-              1 (20.00%) (incl.)
+              11 (0.02%) samples spent in in<br />
+              1 (9.09%) (ex.),
+              1 (9.09%) (incl.)
               when called from
-              setup_mblnl!
-              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-445">line 445</a><br />
-              2 (40.00%) (ex.),
-              2 (40.00%) (incl.)
+              isfadj
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-237">line 237</a><br />
+              1 (9.09%) (ex.),
+              1 (9.09%) (incl.)
+              when called from
+              intersect
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#Larray-jl-c31e5f0854745d9d2638-line.html-1942">line 1942</a><br />
+              1 (9.09%) (ex.),
+              1 (9.09%) (incl.)
               when called from
               setup_mblnl!
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-436">line 436</a><br />
-              2 (40.00%) (ex.),
-              2 (40.00%) (incl.)
+              3 (27.27%) (ex.),
+              3 (27.27%) (incl.)
+              when called from
+              setup_mblnl!
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-445">line 445</a><br />
+              5 (45.45%) (ex.),
+              5 (45.45%) (incl.)
               when called from
               isalink
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-208">line 208</a><br />

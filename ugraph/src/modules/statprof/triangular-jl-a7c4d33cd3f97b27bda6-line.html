@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -1261,9 +1261,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-triangular-jl-convert-124"></a>
-              1 (0.01%) samples spent in convert<br />
-              0 (ex.),
-              1 (100.00%) (incl.)
+              20 (0.05%) samples spent in convert<br />
+              17 (100.00%) (ex.),
+              20 (100.00%) (incl.)
               when called from
               inv
               <a href="dense-jl-9a4e14799b411a7dd560-line.html#Ldense-jl-9a4e14799b411a7dd560-line.html-661">line 661</a><br />
@@ -1275,8 +1275,8 @@
 
         <tr>
           <td><a name="Ltriangular-jl-a7c4d33cd3f97b27bda6-line.html-125"></a>125</td>
-          <td></td>
-          <td></td>
+          <td>17 (0.04%)</td>
+          <td>17 (0.04%)</td>
           <td>
             <span class="code">    B = Matrix{T}(size(A, 1), size(A, 1))
 </span>
@@ -1286,8 +1286,13 @@
         <tr>
           <td><a name="Ltriangular-jl-a7c4d33cd3f97b27bda6-line.html-126"></a>126</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
           <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-copy-128">copy!</a><br />
+            </div>
             <span class="code">    copy!(B, A.data)
 </span>
           </td>
@@ -1296,10 +1301,10 @@
         <tr>
           <td><a name="Ltriangular-jl-a7c4d33cd3f97b27bda6-line.html-127"></a>127</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td>2 (0.0045%)</td>
           <td>
             <div class="callees">
-              1 (100.00%)
+              2 (100.00%)
               samples spent calling
               <a href="dense-jl-9a4e14799b411a7dd560-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-dense-jl-triu-124">triu!</a><br />
             </div>
@@ -4805,9 +4810,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-triangular-jl-Ac_mul_B-477"></a>
-              1 (0.01%) samples spent in Ac_mul_B!<br />
+              11 (0.02%) samples spent in Ac_mul_B!<br />
               0 (ex.),
-              1 (100.00%) (incl.)
+              11 (100.00%) (incl.)
               when called from
               unwhiten!
               <a href="pdmat-jl-df4084af2b2256e8e00a-line.html#Lpdmat-jl-df4084af2b2256e8e00a-line.html-61">line 61</a><br />
@@ -4820,10 +4825,10 @@
         <tr>
           <td><a name="Ltriangular-jl-a7c4d33cd3f97b27bda6-line.html-478"></a>478</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td>11 (0.02%)</td>
           <td>
             <div class="callees">
-              1 (100.00%)
+              11 (100.00%)
               samples spent calling
               <a href="blas-jl-44d0c987b9ac3ca2f51e-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-blas-jl-trmm-1418">trmm!</a><br />
             </div>
@@ -5405,22 +5410,22 @@
         <tr>
           <td><a name="Ltriangular-jl-a7c4d33cd3f97b27bda6-line.html-536"></a>536</td>
           <td></td>
-          <td>22 (0.23%)</td>
+          <td>150 (0.34%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-triangular-jl-inv-536"></a>
-              22 (0.23%) samples spent in inv<br />
+              150 (0.34%) samples spent in inv<br />
               0 (ex.),
-              22 (100.00%) (incl.)
+              150 (100.00%) (incl.)
               when called from
               inv
               <a href="dense-jl-9a4e14799b411a7dd560-line.html#Ldense-jl-9a4e14799b411a7dd560-line.html-655">line 655</a><br />
             </div>
             <div class="callees">
-              20 (90.91%)
+              127 (84.67%)
               samples spent calling
               <a href="lapack-jl-e1c6ba6d4c11806c719b-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-lapack-jl-trtrs-3276">trtrs!</a><br />
-              2 (9.09%)
+              23 (15.33%)
               samples spent calling
               <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-eye-296">eye</a><br />
             </div>

@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -9339,6 +9339,15 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-generic-jl-ishermitian-932"></a>
+              1 (0.0023%) samples spent in ishermitian<br />
+              1 (100.00%) (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              cholfact
+              <a href="cholesky-jl-50f1fcaca21fcd170b25-line.html#Lcholesky-jl-50f1fcaca21fcd170b25-line.html-349">line 349</a><br />
+            </div>
             <span class="code">function ishermitian(A::AbstractMatrix)
 </span>
           </td>
@@ -9396,8 +9405,8 @@
 
         <tr>
           <td><a name="Lgeneric-jl-01676efed46b9a3e440a-line.html-938"></a>938</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <span class="code">        if A[i,j] != ctranspose(A[j,i])
 </span>
@@ -9741,9 +9750,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-generic-jl-istriu-972"></a>
-              1 (0.01%) samples spent in istriu<br />
-              1 (100.00%) (ex.),
-              1 (100.00%) (incl.)
+              20 (0.05%) samples spent in istriu<br />
+              20 (100.00%) (ex.),
+              20 (100.00%) (incl.)
               when called from
               inv
               <a href="dense-jl-9a4e14799b411a7dd560-line.html#Ldense-jl-9a4e14799b411a7dd560-line.html-654">line 654</a><br />
@@ -9765,8 +9774,8 @@
 
         <tr>
           <td><a name="Lgeneric-jl-01676efed46b9a3e440a-line.html-974"></a>974</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <span class="code">    for j = 1:min(n,m-1), i = j+1:m
 </span>
@@ -9775,8 +9784,8 @@
 
         <tr>
           <td><a name="Lgeneric-jl-01676efed46b9a3e440a-line.html-975"></a>975</td>
-          <td>1 (0.01%)</td>
-          <td>1 (0.01%)</td>
+          <td>19 (0.04%)</td>
+          <td>19 (0.04%)</td>
           <td>
             <span class="code">        if A[i,j] != 0
 </span>
@@ -10098,15 +10107,6 @@
           <td></td>
           <td></td>
           <td>
-            <div class="call-sites">
-              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-generic-jl-istril-1007"></a>
-              1 (0.01%) samples spent in istril<br />
-              1 (100.00%) (ex.),
-              1 (100.00%) (incl.)
-              when called from
-              inv
-              <a href="dense-jl-9a4e14799b411a7dd560-line.html#Ldense-jl-9a4e14799b411a7dd560-line.html-656">line 656</a><br />
-            </div>
             <span class="code">function istril(A::AbstractMatrix)
 </span>
           </td>

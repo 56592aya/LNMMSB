@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -3311,12 +3311,17 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-essentials-jl-vector_any-329"></a>
-              1 (0.01%) samples spent in vector_any<br />
-              1 (100.00%) (ex.),
-              1 (100.00%) (incl.)
+              2 (0.0045%) samples spent in vector_any<br />
+              1 (50.00%) (ex.),
+              1 (50.00%) (incl.)
               when called from
-              #sample
-              <a href="nothing-0feca720e2c29dafb2c9-line.html#Lnothing-0feca720e2c29dafb2c9-line.html-0">line 0</a><br />
+              update_A!
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-390">line 390</a><br />
+              1 (50.00%) (ex.),
+              1 (50.00%) (incl.)
+              when called from
+              minibatch_set_srns
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-43">line 43</a><br />
             </div>
             <span class="code">function vector_any(xs::ANY...)
 </span>
@@ -3335,8 +3340,8 @@
 
         <tr>
           <td><a name="Lessentials-jl-24c5e5d93728d1388d3d-line.html-331"></a>331</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <span class="code">    a = Vector{Any}(n)
 </span>

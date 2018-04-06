@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -1939,6 +1939,15 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reflection-jl-datatype_pointerfree-192"></a>
+              1 (0.0023%) samples spent in datatype_pointerfree<br />
+              1 (100.00%) (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              isbits
+              <a href="reflection-jl-df9a4ef1e804020ceaf6-line.html#Lreflection-jl-df9a4ef1e804020ceaf6-line.html-233">line 233</a><br />
+            </div>
             <span class="code">
 </span>
           </td>
@@ -1946,8 +1955,8 @@
 
         <tr>
           <td><a name="Lreflection-jl-df9a4ef1e804020ceaf6-line.html-193"></a>193</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <span class="code">datatype_pointerfree(dt::DataType) = dt.layout == C_NULL ? throw(UndefRefError()) :
 </span>
@@ -2346,17 +2355,22 @@
 
         <tr>
           <td><a name="Lreflection-jl-df9a4ef1e804020ceaf6-line.html-233"></a>233</td>
-          <td>1 (0.01%)</td>
-          <td>1 (0.01%)</td>
+          <td>1 (0.0023%)</td>
+          <td>2 (0.0045%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reflection-jl-isbits-233"></a>
-              1 (0.01%) samples spent in isbits<br />
+              2 (0.0045%) samples spent in isbits<br />
               1 (100.00%) (ex.),
-              1 (100.00%) (incl.)
+              2 (100.00%) (incl.)
               when called from
               deepcopy_internal
               <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#Ldeepcopy-jl-f860bf8b8536f6dbac26-line.html-37">line 37</a><br />
+            </div>
+            <div class="callees">
+              1 (50.00%)
+              samples spent calling
+              <a href="reflection-jl-df9a4ef1e804020ceaf6-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reflection-jl-datatype_pointerfree-192">datatype_pointerfree</a><br />
             </div>
             <span class="code">isbits(t::DataType) = (@_pure_meta; !t.mutable &amp; (t.layout != C_NULL) &amp;&amp; datatype_pointerfree(t))
 </span>

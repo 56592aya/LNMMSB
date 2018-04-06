@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -151,9 +151,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-train-jl-train-13"></a>
-              9663 (99.89%) samples spent in train<br />
-              200 (100.00%) (ex.),
-              9663 (100.00%) (incl.)
+              44409 (99.97%) samples spent in train<br />
+              2277 (100.00%) (ex.),
+              44409 (100.00%) (incl.)
               when called from
               macro expansion
               <a href="profile-jl-8aec085f2d8dd0c607c0-line.html#Lprofile-jl-8aec085f2d8dd0c607c0-line.html-23">line 23</a><br />
@@ -356,8 +356,13 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-33"></a>33</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
           <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-init_mu-268">init_mu</a><br />
+            </div>
             <span class="code">	init_mu(model,communities,model.K, model.N)##from Gopalan
 </span>
           </td>
@@ -396,13 +401,8 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-37"></a>37</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td></td>
           <td>
-            <div class="callees">
-              1 (100.00%)
-              samples spent calling
-              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
-            </div>
             <span class="code">	_init_Λ = deepcopy(model.Λ_var)
 </span>
           </td>
@@ -541,15 +541,33 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-51"></a>51</td>
           <td></td>
-          <td>2 (0.02%)</td>
+          <td>53 (0.12%)</td>
           <td>
             <div class="callees">
-              1 (50.00%)
+              3 (5.66%)
               samples spent calling
-              <a href="wishart-jl-07a9df533024d7e08ec0-line.html#S-home-arashyazdiha-julia-v0-6-Distributions-src-matrix-wishart-jl-Type-34">Type</a><br />
-              1 (50.00%)
+              <a href="matmul-jl-f7b90faca49c816dec68-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-matmul-jl-A_mul_Bt-187">A_mul_Bt</a><br />
+              11 (20.75%)
+              samples spent calling
+              <a href="wishart-jl-07a9df533024d7e08ec0-line.html#S-home-arashyazdiha-julia-v0-6-Distributions-src-matrix-wishart-jl-Type-20">Type</a><br />
+              11 (20.75%)
               samples spent calling
               <a href="wishart-jl-07a9df533024d7e08ec0-line.html#S-home-arashyazdiha-julia-v0-6-Distributions-src-matrix-wishart-jl-rand-112">rand</a><br />
+              2 (3.77%)
+              samples spent calling
+              <a href="arraymath-jl-b564666165cf37ea0005-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-arraymath-jl-44">*</a><br />
+              5 (9.43%)
+              samples spent calling
+              <a href="cholesky-jl-50f1fcaca21fcd170b25-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-cholesky-jl-cholfact-348">cholfact</a><br />
+              18 (33.96%)
+              samples spent calling
+              <a href="wishart-jl-07a9df533024d7e08ec0-line.html#S-home-arashyazdiha-julia-v0-6-Distributions-src-matrix-wishart-jl-Type-34">Type</a><br />
+              1 (1.89%)
+              samples spent calling
+              <a href="dense-jl-9a4e14799b411a7dd560-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-dense-jl-diagm-268">diagm</a><br />
+              2 (3.77%)
+              samples spent calling
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-206">broadcast!</a><br />
             </div>
             <span class="code">		Ltemp .+= rand(Wishart(model.K+1,0.001*diagm(ones(Float64, model.K))))
 </span>
@@ -709,8 +727,13 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-67"></a>67</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
           <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-getSets-320">getSets!</a><br />
+            </div>
             <span class="code">	getSets!(model, threshold,_init_μ)
 </span>
           </td>
@@ -729,7 +752,7 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-69"></a>69</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <div class="callees">
               1 (100.00%)
@@ -764,10 +787,10 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-72"></a>72</td>
           <td></td>
-          <td>4 (0.04%)</td>
+          <td>2 (0.0045%)</td>
           <td>
             <div class="callees">
-              4 (100.00%)
+              2 (100.00%)
               samples spent calling
               <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-34">deepcopy_internal</a><br />
             </div>
@@ -778,11 +801,11 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-73"></a>73</td>
-          <td></td>
-          <td>92 (0.95%)</td>
+          <td>1 (0.0023%)</td>
+          <td>152 (0.34%)</td>
           <td>
             <div class="callees">
-              92 (100.00%)
+              151 (99.34%)
               samples spent calling
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-minibatch_set_srns-30">minibatch_set_srns</a><br />
             </div>
@@ -804,13 +827,13 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-75"></a>75</td>
           <td></td>
-          <td>8 (0.08%)</td>
+          <td>14 (0.03%)</td>
           <td>
             <div class="callees">
-              3 (37.50%)
+              4 (28.57%)
               samples spent calling
               <a href="random-jl-3c29f269282a0112ca95-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-shuffle-1622">shuffle!</a><br />
-              5 (62.50%)
+              10 (71.43%)
               samples spent calling
               <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-copy-570">copy!</a><br />
             </div>
@@ -821,11 +844,11 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-76"></a>76</td>
-          <td>2 (0.02%)</td>
-          <td>140 (1.45%)</td>
+          <td>1 (0.0023%)</td>
+          <td>269 (0.61%)</td>
           <td>
             <div class="callees">
-              138 (98.57%)
+              268 (99.63%)
               samples spent calling
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-setup_mblnl-431">setup_mblnl!</a><br />
             </div>
@@ -837,10 +860,10 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-77"></a>77</td>
           <td></td>
-          <td>31 (0.32%)</td>
+          <td>48 (0.11%)</td>
           <td>
             <div class="callees">
-              31 (100.00%)
+              48 (100.00%)
               samples spent calling
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-update_sets-362">update_sets!</a><br />
             </div>
@@ -912,13 +935,8 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-84"></a>84</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td></td>
           <td>
-            <div class="callees">
-              1 (100.00%)
-              samples spent calling
-              <a href="math-jl-55feb969e311fdf4e23a-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-math-jl-699">^</a><br />
-            </div>
             <span class="code">			lr_m = (100./(101.0+Float64(20000/(model.N/model.mbsize)-1.0)))^(.9)
 </span>
           </td>
@@ -956,17 +974,14 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-88"></a>88</td>
-          <td>14 (0.14%)</td>
-          <td>38 (0.39%)</td>
+          <td>175 (0.39%)</td>
+          <td>436 (0.98%)</td>
           <td>
             <div class="callees">
-              16 (42.11%)
+              193 (44.27%)
               samples spent calling
               <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
-              1 (2.63%)
-              samples spent calling
-              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy-8">deepcopy</a><br />
-              7 (18.42%)
+              68 (15.60%)
               samples spent calling
               <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-fill-225">fill!</a><br />
             </div>
@@ -977,13 +992,16 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-89"></a>89</td>
-          <td></td>
-          <td>1 (0.01%)</td>
+          <td>1 (0.0023%)</td>
+          <td>3 (0.0068%)</td>
           <td>
             <div class="callees">
-              1 (100.00%)
+              1 (33.33%)
               samples spent calling
               <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy-8">deepcopy</a><br />
+              1 (33.33%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
             </div>
             <span class="code">		model.ϕnlinoutsum = deepcopy(zeros(Float64, model.K))
 </span>
@@ -992,16 +1010,16 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-90"></a>90</td>
-          <td>11 (0.11%)</td>
-          <td>41 (0.42%)</td>
+          <td>136 (0.31%)</td>
+          <td>369 (0.83%)</td>
           <td>
             <div class="callees">
-              23 (56.10%)
-              samples spent calling
-              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
-              7 (17.07%)
+              65 (17.62%)
               samples spent calling
               <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-fill-225">fill!</a><br />
+              168 (45.53%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
             </div>
             <span class="code">		model.ϕnloutsum = deepcopy(zeros(Float64, (model.N,model.K)))
 </span>
@@ -1010,14 +1028,14 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-91"></a>91</td>
-          <td>9 (0.09%)</td>
-          <td>37 (0.38%)</td>
+          <td>142 (0.32%)</td>
+          <td>413 (0.93%)</td>
           <td>
             <div class="callees">
-              6 (16.22%)
+              90 (21.79%)
               samples spent calling
               <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-fill-225">fill!</a><br />
-              22 (59.46%)
+              181 (43.83%)
               samples spent calling
               <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
             </div>
@@ -1028,13 +1046,13 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-92"></a>92</td>
-          <td>1 (0.01%)</td>
-          <td>2 (0.02%)</td>
+          <td>1 (0.0023%)</td>
+          <td>2 (0.0045%)</td>
           <td>
             <div class="callees">
               1 (50.00%)
               samples spent calling
-              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy-8">deepcopy</a><br />
             </div>
             <span class="code">		one_over_K = deepcopy(ones(Float64,model.K)./model.K)
 </span>
@@ -1043,8 +1061,8 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-93"></a>93</td>
-          <td>2 (0.02%)</td>
-          <td>2 (0.02%)</td>
+          <td>7 (0.02%)</td>
+          <td>7 (0.02%)</td>
           <td>
             <span class="code">		for d in shuffled
 </span>
@@ -1063,16 +1081,16 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-95"></a>95</td>
-          <td>1 (0.01%)</td>
-          <td>77 (0.80%)</td>
+          <td>5 (0.01%)</td>
+          <td>85 (0.19%)</td>
           <td>
             <div class="callees">
-              73 (94.81%)
+              2 (2.35%)
+              samples spent calling
+              <a href="utils-jl-56d1852980543f3415bf-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-utils-jl-50">==</a><br />
+              78 (91.76%)
               samples spent calling
               <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
-              3 (3.90%)
-              samples spent calling
-              <a href="utils-jl-56d1852980543f3415bf-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-utils-jl-49">==</a><br />
             </div>
             <span class="code">			if d in mb.mblinks
 </span>
@@ -1081,22 +1099,22 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-96"></a>96</td>
-          <td>2 (0.02%)</td>
-          <td>596 (6.16%)</td>
+          <td></td>
+          <td>312 (0.70%)</td>
           <td>
             <div class="callees">
-              310 (52.01%)
-              samples spent calling
-              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-34">deepcopy_internal</a><br />
-              72 (12.08%)
-              samples spent calling
-              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-getindex-883">getindex</a><br />
-              196 (32.89%)
-              samples spent calling
-              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
-              16 (2.68%)
+              3 (0.96%)
               samples spent calling
               <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy-8">deepcopy</a><br />
+              92 (29.49%)
+              samples spent calling
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
+              158 (50.64%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-34">deepcopy_internal</a><br />
+              59 (18.91%)
+              samples spent calling
+              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-getindex-883">getindex</a><br />
             </div>
             <span class="code">				l=deepcopy(mb.mblinks[mb.mblinks .== d][1])
 </span>
@@ -1105,14 +1123,14 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-97"></a>97</td>
-          <td>1 (0.01%)</td>
-          <td>25 (0.26%)</td>
+          <td></td>
+          <td>23 (0.05%)</td>
           <td>
             <div class="callees">
-              14 (56.00%)
+              11 (47.83%)
               samples spent calling
               <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy-8">deepcopy</a><br />
-              10 (40.00%)
+              12 (52.17%)
               samples spent calling
               <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
             </div>
@@ -1133,25 +1151,16 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-99"></a>99</td>
-          <td>7 (0.07%)</td>
-          <td>2058 (21.27%)</td>
+          <td>1 (0.0023%)</td>
+          <td>3079 (6.93%)</td>
           <td>
             <div class="callees">
-              1 (0.05%)
-              samples spent calling
-              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-vcat-1159">vcat</a><br />
-              2044 (99.32%)
+              3053 (99.16%)
               samples spent calling
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-updatephil-12">updatephil!</a><br />
-              1 (0.05%)
-              samples spent calling
-              <a href="arraymath-jl-b564666165cf37ea0005-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-arraymath-jl-47">+</a><br />
-              4 (0.19%)
+              25 (0.81%)
               samples spent calling
               <a href="exp-jl-b42dee10b321eb245576-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-special-exp-jl-exp-67">exp</a><br />
-              1 (0.05%)
-              samples spent calling
-              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-getindex-568">getindex</a><br />
             </div>
             <span class="code">					updatephil!(model, mb, l,&quot;check&quot;)
 </span>
@@ -1170,8 +1179,8 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-101"></a>101</td>
-          <td>1 (0.01%)</td>
-          <td>1 (0.01%)</td>
+          <td></td>
+          <td></td>
           <td>
             <span class="code">				for k in 1:model.K
 </span>
@@ -1180,8 +1189,8 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-102"></a>102</td>
-          <td>17 (0.18%)</td>
-          <td>17 (0.18%)</td>
+          <td>67 (0.15%)</td>
+          <td>67 (0.15%)</td>
           <td>
             <span class="code">					model.ϕlsum[l.src,k] += l.ϕ[k]
 </span>
@@ -1190,8 +1199,8 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-103"></a>103</td>
-          <td>11 (0.11%)</td>
-          <td>11 (0.11%)</td>
+          <td>56 (0.13%)</td>
+          <td>56 (0.13%)</td>
           <td>
             <span class="code">					model.ϕlsum[l.dst,k] += l.ϕ[k]
 </span>
@@ -1230,22 +1239,22 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-107"></a>107</td>
-          <td>2 (0.02%)</td>
-          <td>808 (8.35%)</td>
+          <td>5 (0.01%)</td>
+          <td>2081 (4.68%)</td>
           <td>
             <div class="callees">
-              273 (33.79%)
-              samples spent calling
-              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
-              17 (2.10%)
-              samples spent calling
-              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy-8">deepcopy</a><br />
-              97 (12.00%)
-              samples spent calling
-              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-getindex-883">getindex</a><br />
-              419 (51.86%)
+              895 (43.01%)
               samples spent calling
               <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-34">deepcopy_internal</a><br />
+              289 (13.89%)
+              samples spent calling
+              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-getindex-883">getindex</a><br />
+              60 (2.88%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy-8">deepcopy</a><br />
+              832 (39.98%)
+              samples spent calling
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
             </div>
             <span class="code">				nl=deepcopy(mb.mbnonlinks[mb.mbnonlinks .== d][1])
 </span>
@@ -1254,14 +1263,14 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-108"></a>108</td>
-          <td>2 (0.02%)</td>
-          <td>36 (0.37%)</td>
+          <td>7 (0.02%)</td>
+          <td>168 (0.38%)</td>
           <td>
             <div class="callees">
-              15 (41.67%)
+              45 (26.79%)
               samples spent calling
               <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy-8">deepcopy</a><br />
-              19 (52.78%)
+              116 (69.05%)
               samples spent calling
               <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
             </div>
@@ -1272,16 +1281,16 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-109"></a>109</td>
-          <td>1 (0.01%)</td>
-          <td>42 (0.43%)</td>
+          <td>2 (0.0045%)</td>
+          <td>150 (0.34%)</td>
           <td>
             <div class="callees">
-              15 (35.71%)
-              samples spent calling
-              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy-8">deepcopy</a><br />
-              26 (61.90%)
+              90 (60.00%)
               samples spent calling
               <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
+              58 (38.67%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy-8">deepcopy</a><br />
             </div>
             <span class="code">				nl.ϕin = deepcopy(one_over_K)
 </span>
@@ -1300,19 +1309,19 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-111"></a>111</td>
-          <td>8 (0.08%)</td>
-          <td>4726 (48.85%)</td>
+          <td>13 (0.03%)</td>
+          <td>30639 (68.97%)</td>
           <td>
             <div class="callees">
-              1 (0.02%)
-              samples spent calling
-              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-updatephinlin-66">updatephinlin!</a><br />
-              4716 (99.79%)
+              30624 (99.95%)
               samples spent calling
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-updatephinl-41">updatephinl!</a><br />
-              1 (0.02%)
+              1 (0.0033%)
               samples spent calling
-              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-updatephinlout-53">updatephinlout!</a><br />
+              <a href="random-jl-3c29f269282a0112ca95-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-rand-396">rand!</a><br />
+              1 (0.0033%)
+              samples spent calling
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-updatephinlin-66">updatephinlin!</a><br />
             </div>
             <span class="code">					updatephinl!(model, mb, nl, &quot;check&quot;)
 </span>
@@ -1331,8 +1340,8 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-113"></a>113</td>
-          <td>1 (0.01%)</td>
-          <td>1 (0.01%)</td>
+          <td>8 (0.02%)</td>
+          <td>8 (0.02%)</td>
           <td>
             <span class="code">				for k in 1:model.K
 </span>
@@ -1341,8 +1350,8 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-114"></a>114</td>
-          <td>30 (0.31%)</td>
-          <td>30 (0.31%)</td>
+          <td>508 (1.14%)</td>
+          <td>508 (1.14%)</td>
           <td>
             <span class="code">					model.ϕnloutsum[nl.src,k] += nl.ϕout[k]
 </span>
@@ -1351,8 +1360,8 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-115"></a>115</td>
-          <td>33 (0.34%)</td>
-          <td>33 (0.34%)</td>
+          <td>356 (0.80%)</td>
+          <td>356 (0.80%)</td>
           <td>
             <span class="code">					model.ϕnlinsum[nl.src,k] += nl.ϕout[k]
 </span>
@@ -1361,8 +1370,8 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-116"></a>116</td>
-          <td>16 (0.17%)</td>
-          <td>16 (0.17%)</td>
+          <td>334 (0.75%)</td>
+          <td>334 (0.75%)</td>
           <td>
             <span class="code">					model.ϕnlinsum[nl.dst,k] += nl.ϕin[k]
 </span>
@@ -1371,8 +1380,8 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-117"></a>117</td>
-          <td>19 (0.20%)</td>
-          <td>19 (0.20%)</td>
+          <td>371 (0.84%)</td>
+          <td>371 (0.84%)</td>
           <td>
             <span class="code">					model.ϕnloutsum[nl.dst,k] += nl.ϕin[k]
 </span>
@@ -1381,8 +1390,8 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-118"></a>118</td>
-          <td>7 (0.07%)</td>
-          <td>7 (0.07%)</td>
+          <td>75 (0.17%)</td>
+          <td>75 (0.17%)</td>
           <td>
             <span class="code">					model.ϕnlinoutsum[k] += nl.ϕout[k]*nl.ϕin[k]
 </span>
@@ -1422,12 +1431,18 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-122"></a>122</td>
           <td></td>
-          <td>2 (0.02%)</td>
+          <td>13 (0.03%)</td>
           <td>
             <div class="callees">
-              2 (100.00%)
+              1 (7.69%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy-8">deepcopy</a><br />
+              10 (76.92%)
               samples spent calling
               <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-getindex-883">getindex</a><br />
+              2 (15.38%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
             </div>
             <span class="code">		model.μ_var[model.mbids,:]=deepcopy(_init_μ[model.mbids,:])
 </span>
@@ -1446,8 +1461,8 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-124"></a>124</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <span class="code">		for a in mb.mbnodes
 </span>
@@ -1456,8 +1471,8 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-125"></a>125</td>
-          <td>1 (0.01%)</td>
-          <td>1 (0.01%)</td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <span class="code">			count_a[a] += 1.0
 </span>
@@ -1476,11 +1491,11 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-127"></a>127</td>
-          <td>1 (0.01%)</td>
-          <td>267 (2.76%)</td>
+          <td>1 (0.0023%)</td>
+          <td>2140 (4.82%)</td>
           <td>
             <div class="callees">
-              266 (99.63%)
+              2139 (99.95%)
               samples spent calling
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-update-97">updateμ!</a><br />
             </div>
@@ -1502,10 +1517,13 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-129"></a>129</td>
           <td></td>
-          <td>3 (0.03%)</td>
+          <td>4 (0.0090%)</td>
           <td>
             <div class="callees">
-              3 (100.00%)
+              1 (25.00%)
+              samples spent calling
+              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-setindex-968">setindex!</a><br />
+              3 (75.00%)
               samples spent calling
               <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
             </div>
@@ -1527,10 +1545,10 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-131"></a>131</td>
           <td></td>
-          <td>11 (0.11%)</td>
+          <td>15 (0.03%)</td>
           <td>
             <div class="callees">
-              11 (100.00%)
+              15 (100.00%)
               samples spent calling
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-estimate_-s-197">estimate_θs!</a><br />
             </div>
@@ -1541,13 +1559,16 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-132"></a>132</td>
-          <td></td>
-          <td>23 (0.24%)</td>
+          <td>1 (0.0023%)</td>
+          <td>177 (0.40%)</td>
           <td>
             <div class="callees">
-              23 (100.00%)
+              175 (98.87%)
               samples spent calling
               <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy_internal-54">deepcopy_internal</a><br />
+              1 (0.56%)
+              samples spent calling
+              <a href="deepcopy-jl-f860bf8b8536f6dbac26-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-deepcopy-jl-deepcopy-8">deepcopy</a><br />
             </div>
             <span class="code">		est_θ = deepcopy(model.est_θ)
 </span>
@@ -1557,12 +1578,15 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-133"></a>133</td>
           <td></td>
-          <td>19 (0.20%)</td>
+          <td>48 (0.11%)</td>
           <td>
             <div class="callees">
-              19 (100.00%)
+              47 (97.92%)
               samples spent calling
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-update_A-388">update_A!</a><br />
+              1 (2.08%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-update_A-388">update_A!</a><br />
             </div>
             <span class="code">		update_A!(model, mb, est_θ,threshold)
 </span>
@@ -1571,11 +1595,11 @@
 
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-134"></a>134</td>
-          <td></td>
-          <td>269 (2.78%)</td>
+          <td>1 (0.0023%)</td>
+          <td>528 (1.19%)</td>
           <td>
             <div class="callees">
-              269 (100.00%)
+              527 (99.81%)
               samples spent calling
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-updatem-127">updatem!</a><br />
             </div>
@@ -1587,12 +1611,12 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-135"></a>135</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <div class="callees">
               1 (100.00%)
               samples spent calling
-              <a href="arraymath-jl-b564666165cf37ea0005-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-arraymath-jl-37">+</a><br />
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
             </div>
             <span class="code">		model.m = model.m_old.*(1.0-lr_m)+lr_m.*model.m
 </span>
@@ -1602,10 +1626,10 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-136"></a>136</td>
           <td></td>
-          <td>3 (0.03%)</td>
+          <td>44 (0.10%)</td>
           <td>
             <div class="callees">
-              3 (100.00%)
+              44 (100.00%)
               samples spent calling
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-updateM-122">updateM!</a><br />
             </div>
@@ -1617,10 +1641,13 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-137"></a>137</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td>42 (0.09%)</td>
           <td>
             <div class="callees">
-              1 (100.00%)
+              8 (19.05%)
+              samples spent calling
+              <a href="arraymath-jl-b564666165cf37ea0005-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-arraymath-jl-37">+</a><br />
+              34 (80.95%)
               samples spent calling
               <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
             </div>
@@ -1632,10 +1659,10 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-138"></a>138</td>
           <td></td>
-          <td>106 (1.10%)</td>
+          <td>1209 (2.72%)</td>
           <td>
             <div class="callees">
-              106 (100.00%)
+              1209 (100.00%)
               samples spent calling
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-updateL-142">updateL!</a><br />
             </div>
@@ -1647,12 +1674,18 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-139"></a>139</td>
           <td></td>
-          <td>4 (0.04%)</td>
+          <td>54 (0.12%)</td>
           <td>
             <div class="callees">
-              4 (100.00%)
+              23 (42.59%)
               samples spent calling
               <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
+              14 (25.93%)
+              samples spent calling
+              <a href="arraymath-jl-b564666165cf37ea0005-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-arraymath-jl-37">+</a><br />
+              17 (31.48%)
+              samples spent calling
+              <a href="arraymath-jl-b564666165cf37ea0005-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-arraymath-jl-44">*</a><br />
             </div>
             <span class="code">		model.L = model.L_old.*(1.0-lr_L)+lr_L*model.L
 </span>
@@ -1662,10 +1695,10 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-140"></a>140</td>
           <td></td>
-          <td>7 (0.07%)</td>
+          <td>4 (0.0090%)</td>
           <td>
             <div class="callees">
-              7 (100.00%)
+              4 (100.00%)
               samples spent calling
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-updateb0-166">updateb0!</a><br />
             </div>
@@ -1687,8 +1720,13 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-142"></a>142</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
           <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-updateb1-181">updateb1!</a><br />
+            </div>
             <span class="code">		updateb1!(model,mb)
 </span>
           </td>
@@ -1707,10 +1745,10 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-144"></a>144</td>
           <td></td>
-          <td>4 (0.04%)</td>
+          <td>9 (0.02%)</td>
           <td>
             <div class="callees">
-              4 (100.00%)
+              9 (100.00%)
               samples spent calling
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-trainutils-jl-update_Elog-213">update_Elogβ!</a><br />
             </div>
@@ -1742,8 +1780,13 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-147"></a>147</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
           <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="coreio-jl-bb13d7cb071dc7ee4e93-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-coreio-jl-print-3">print</a><br />
+            </div>
             <span class="code">			print(i);print(&quot;: &quot;)
 </span>
           </td>
@@ -1762,10 +1805,10 @@
         <tr>
           <td><a name="Ltrain-jl-ca84a6959e82b4de6552-line.html-149"></a>149</td>
           <td></td>
-          <td>38 (0.39%)</td>
+          <td>34 (0.08%)</td>
           <td>
             <div class="callees">
-              38 (100.00%)
+              34 (100.00%)
               samples spent calling
               <a href="io-jl-7f272ef1fa6cfc3f4fd8-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-strings-io-jl-print-36">print</a><br />
             </div>

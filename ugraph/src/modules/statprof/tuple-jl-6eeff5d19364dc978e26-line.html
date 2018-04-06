@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -1597,8 +1597,22 @@
         <tr>
           <td><a name="Ltuple-jl-6eeff5d19364dc978e26-line.html-158"></a>158</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-tuple-jl-map-158"></a>
+              1 (0.0023%) samples spent in map<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              broadcast_indices
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-53">line 53</a><br />
+            </div>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast_indices-48">broadcast_indices</a><br />
+            </div>
             <span class="code">map(f, t::Tuple{Any,})          = (f(t[1]),)
 </span>
           </td>
@@ -2821,9 +2835,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-tuple-jl-280"></a>
-              5 (0.05%) samples spent in ==<br />
-              5 (100.00%) (ex.),
-              5 (100.00%) (incl.)
+              3 (0.0068%) samples spent in ==<br />
+              3 (100.00%) (ex.),
+              3 (100.00%) (incl.)
               when called from
               macro expansion
               <a href="multidimensional-jl-b15f86aca7aa36da9d41-line.html#Lmultidimensional-jl-b15f86aca7aa36da9d41-line.html-512">line 512</a><br />
@@ -2865,8 +2879,8 @@
 
         <tr>
           <td><a name="Ltuple-jl-6eeff5d19364dc978e26-line.html-284"></a>284</td>
-          <td>4 (0.04%)</td>
-          <td>4 (0.04%)</td>
+          <td>2 (0.0045%)</td>
+          <td>2 (0.0045%)</td>
           <td>
             <span class="code">    for i = 1:length(t1)
 </span>
@@ -2970,12 +2984,12 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-tuple-jl-hash-294"></a>
-              15 (0.16%) samples spent in hash<br />
-              6 (100.00%) (ex.),
-              15 (100.00%) (incl.)
+              19 (0.04%) samples spent in hash<br />
+              4 (100.00%) (ex.),
+              19 (100.00%) (incl.)
               when called from
               hash
-              <a href="utils-jl-56d1852980543f3415bf-line.html#Lutils-jl-56d1852980543f3415bf-line.html-43">line 43</a><br />
+              <a href="utils-jl-56d1852980543f3415bf-line.html#Lutils-jl-56d1852980543f3415bf-line.html-44">line 44</a><br />
             </div>
             <span class="code">hash(x::Tuple{Any,}, h::UInt)    = hash(x[1], hash((), h))
 </span>
@@ -2984,11 +2998,11 @@
 
         <tr>
           <td><a name="Ltuple-jl-6eeff5d19364dc978e26-line.html-295"></a>295</td>
-          <td>5 (0.05%)</td>
-          <td>14 (0.14%)</td>
+          <td>4 (0.0090%)</td>
+          <td>19 (0.04%)</td>
           <td>
             <div class="callees">
-              9 (64.29%)
+              15 (78.95%)
               samples spent calling
               <a href="hashing-jl-9e2e7876924e19ce2467-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-hashing-jl-hash_64_64-14">hash_64_64</a><br />
             </div>

@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -1276,9 +1276,18 @@
 
         <tr>
           <td><a name="Lrowvector-jl-71775e009ff557a81d0d-line.html-126"></a>126</td>
-          <td></td>
-          <td></td>
+          <td>5 (0.01%)</td>
+          <td>5 (0.01%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-rowvector-jl-getindex-126"></a>
+              5 (0.01%) samples spent in getindex<br />
+              5 (100.00%) (ex.),
+              5 (100.00%) (incl.)
+              when called from
+              _broadcast_getindex
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-135">line 135</a><br />
+            </div>
             <span class="code">    @inbounds return transpose(rowvec.vec[i.I[2]])
 </span>
           </td>
@@ -1847,19 +1856,19 @@
         <tr>
           <td><a name="Lrowvector-jl-71775e009ff557a81d0d-line.html-183"></a>183</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td>91 (0.20%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-rowvector-jl-183"></a>
-              1 (0.01%) samples spent in *<br />
+              91 (0.20%) samples spent in *<br />
               0 (ex.),
-              1 (100.00%) (incl.)
+              91 (100.00%) (incl.)
               when called from
               A_mul_Bc
               <a href="rowvector-jl-71775e009ff557a81d0d-line.html#Lrowvector-jl-71775e009ff557a81d0d-line.html-216">line 216</a><br />
             </div>
             <div class="callees">
-              1 (100.00%)
+              91 (100.00%)
               samples spent calling
               <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-455">broadcast</a><br />
             </div>
@@ -2191,19 +2200,19 @@
         <tr>
           <td><a name="Lrowvector-jl-71775e009ff557a81d0d-line.html-216"></a>216</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td>91 (0.20%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-rowvector-jl-A_mul_Bc-216"></a>
-              1 (0.01%) samples spent in A_mul_Bc<br />
+              91 (0.20%) samples spent in A_mul_Bc<br />
               0 (ex.),
-              1 (100.00%) (incl.)
+              91 (100.00%) (incl.)
               when called from
               updateL!
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-150">line 150</a><br />
             </div>
             <div class="callees">
-              1 (100.00%)
+              91 (100.00%)
               samples spent calling
               <a href="rowvector-jl-71775e009ff557a81d0d-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-rowvector-jl-183">*</a><br />
             </div>

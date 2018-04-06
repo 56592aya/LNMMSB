@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -219,6 +219,15 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-julia-v0-6-Distributions-src-matrix-wishart-jl-Type-20"></a>
+              11 (0.02%) samples spent in Type<br />
+              0 (ex.),
+              11 (100.00%) (incl.)
+              when called from
+              train
+              <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-51">line 51</a><br />
+            </div>
             <span class="code">function Wishart(df::T, S::AbstractPDMat{T}) where T&lt;:Real
 </span>
           </td>
@@ -267,8 +276,13 @@
         <tr>
           <td><a name="Lwishart-jl-07a9df533024d7e08ec0-line.html-25"></a>25</td>
           <td></td>
-          <td></td>
+          <td>11 (0.02%)</td>
           <td>
+            <div class="callees">
+              11 (100.00%)
+              samples spent calling
+              <a href="cholesky-jl-50f1fcaca21fcd170b25-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-cholesky-jl-cholfact-348">cholfact</a><br />
+            </div>
             <span class="code">    prom_S = convert(AbstractArray{T}, S)
 </span>
           </td>
@@ -357,19 +371,19 @@
         <tr>
           <td><a name="Lwishart-jl-07a9df533024d7e08ec0-line.html-34"></a>34</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td>18 (0.04%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-julia-v0-6-Distributions-src-matrix-wishart-jl-Type-34"></a>
-              1 (0.01%) samples spent in Type<br />
+              18 (0.04%) samples spent in Type<br />
               0 (ex.),
-              1 (100.00%) (incl.)
+              18 (100.00%) (incl.)
               when called from
               train
               <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-51">line 51</a><br />
             </div>
             <div class="callees">
-              1 (100.00%)
+              18 (100.00%)
               samples spent calling
               <a href="cholesky-jl-50f1fcaca21fcd170b25-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-cholesky-jl-cholfact-348">cholfact</a><br />
             </div>
@@ -1151,19 +1165,19 @@
         <tr>
           <td><a name="Lwishart-jl-07a9df533024d7e08ec0-line.html-112"></a>112</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td>11 (0.02%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-julia-v0-6-Distributions-src-matrix-wishart-jl-rand-112"></a>
-              1 (0.01%) samples spent in rand<br />
+              11 (0.02%) samples spent in rand<br />
               0 (ex.),
-              1 (100.00%) (incl.)
+              11 (100.00%) (incl.)
               when called from
               train
               <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-51">line 51</a><br />
             </div>
             <div class="callees">
-              1 (100.00%)
+              11 (100.00%)
               samples spent calling
               <a href="pdmat-jl-df4084af2b2256e8e00a-line.html#S-home-arashyazdiha-julia-v0-6-PDMats-src-pdmat-jl-unwhiten-59">unwhiten!</a><br />
             </div>

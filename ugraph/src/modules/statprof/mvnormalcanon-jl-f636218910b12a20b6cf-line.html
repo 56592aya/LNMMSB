@@ -1,0 +1,1878 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="statprofiler.css">
+
+    <title>StatProfilerHTML.jl: /home/arashyazdiha/.julia/v0.6/Distributions/src/multivariate/mvnormalcanon.jl</title>
+  </head>
+  <body>
+<div class="report-header">
+  <div class="backlink"><a href="index.html">Report index</a></div>
+  <div class="report-title">StatProfilerHTML.jl report</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
+</div>
+
+    <div id="body-content">
+      <table>
+        <caption>File source code</caption>
+        <tr>
+          <th>Line</td>
+          <th>Exclusive</th>
+          <th>Inclusive</th>
+          <th>Code</th>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-1"></a>1</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># Canonical form of multivariate normal
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-2"></a>2</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-3"></a>3</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">### Generic types
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-4"></a>4</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-5"></a>5</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-6"></a>6</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    MvNormalCanon
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-7"></a>7</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-8"></a>8</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Multivariate normal distribution is an [exponential family distribution](http://en.wikipedia.org/wiki/Exponential_family),
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-9"></a>9</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">with two *canonical parameters*: the *potential vector* ``\\mathbf{h}`` and the *precision matrix* ``\\mathbf{J}``.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-10"></a>10</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">The relation between these parameters and the conventional representation (*i.e.* the one using mean ``\\boldsymbol{\\mu}`` and
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-11"></a>11</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">covariance ``\\boldsymbol{\\Sigma}``) is:
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-12"></a>12</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-13"></a>13</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">```math
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-14"></a>14</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">\\mathbf{h} = \\boldsymbol{\\Sigma}^{-1} \\boldsymbol{\\mu}, \\quad \\text{ and } \\quad \\mathbf{J} = \\boldsymbol{\\Sigma}^{-1}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-15"></a>15</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">```
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-16"></a>16</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-17"></a>17</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">The canonical parameterization is widely used in Bayesian analysis. We provide a type `MvNormalCanon`,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-18"></a>18</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">which is also a subtype of `AbstractMvNormal` to represent a multivariate normal distribution using
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-19"></a>19</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">canonical parameters. Particularly, `MvNormalCanon` is defined as:
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-20"></a>20</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-21"></a>21</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">```julia
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-22"></a>22</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">immutable MvNormalCanon{P&lt;:AbstractPDMat,V&lt;:Union{Vector,ZeroVector}} &lt;: AbstractMvNormal
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-23"></a>23</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    μ::V    # the mean vector
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-24"></a>24</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    h::V    # potential vector, i.e. inv(Σ) * μ
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-25"></a>25</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    J::P    # precision matrix, i.e. inv(Σ)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-26"></a>26</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-27"></a>27</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">```
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-28"></a>28</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-29"></a>29</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">We also define aliases for common specializations of this parametric type:
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-30"></a>30</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-31"></a>31</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">```julia
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-32"></a>32</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const FullNormalCanon = MvNormalCanon{PDMat,    Vector{Float64}}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-33"></a>33</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const DiagNormalCanon = MvNormalCanon{PDiagMat, Vector{Float64}}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-34"></a>34</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const IsoNormalCanon  = MvNormalCanon{ScalMat,  Vector{Float64}}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-35"></a>35</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-36"></a>36</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const ZeroMeanFullNormalCanon = MvNormalCanon{PDMat,    ZeroVector{Float64}}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-37"></a>37</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const ZeroMeanDiagNormalCanon = MvNormalCanon{PDiagMat, ZeroVector{Float64}}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-38"></a>38</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const ZeroMeanIsoNormalCanon  = MvNormalCanon{ScalMat,  ZeroVector{Float64}}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-39"></a>39</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">```
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-40"></a>40</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-41"></a>41</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">A multivariate distribution with canonical parameterization can be constructed using a common constructor `MvNormalCanon` as:
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-42"></a>42</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-43"></a>43</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    MvNormalCanon(h, J)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-44"></a>44</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-45"></a>45</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Construct a multivariate normal distribution with potential vector `h` and precision matrix represented by `J`.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-46"></a>46</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-47"></a>47</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    MvNormalCanon(J)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-48"></a>48</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-49"></a>49</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Construct a multivariate normal distribution with zero mean (thus zero potential vector) and precision matrix represented by `J`.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-50"></a>50</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-51"></a>51</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    MvNormalCanon(d, J)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-52"></a>52</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-53"></a>53</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">Construct a multivariate normal distribution of dimension `d`, with zero mean and a precision matrix as `J * eye(d)`.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-54"></a>54</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-55"></a>55</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># Arguments
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-56"></a>56</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">- `d::Int`: dimension of distribution
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-57"></a>57</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">- `h::Vector{T&lt;:Real}`: the potential vector, of type `Vector{T}` with `T&lt;:Real`.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-58"></a>58</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">- `J`: the representation of the precision matrix, which can be in either of the following forms (`T&lt;:Real`):
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-59"></a>59</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    1. an instance of a subtype of `AbstractPDMat`
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-60"></a>60</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    2. a square matrix of type `Matrix{T}`
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-61"></a>61</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    3. a vector of type `Vector{T}`: indicating a diagonal precision matrix as `diagm(J)`.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-62"></a>62</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    4. a real number: indicating an isotropic precision matrix as `J * eye(d)`.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-63"></a>63</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-64"></a>64</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">**Note:** `MvNormalCanon` share the same set of methods as `MvNormal`.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-65"></a>65</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&quot;&quot;&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-66"></a>66</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">struct MvNormalCanon{T&lt;:Real,P&lt;:AbstractPDMat,V&lt;:Union{Vector,ZeroVector}} &lt;: AbstractMvNormal
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-67"></a>67</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    μ::V    # the mean vector
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-68"></a>68</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    h::V    # potential vector, i.e. inv(Σ) * μ
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-69"></a>69</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    J::P    # precision matrix, i.e. inv(Σ)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-70"></a>70</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-71"></a>71</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-72"></a>72</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const FullNormalCanon = MvNormalCanon{Float64, PDMat{Float64,Matrix{Float64}},Vector{Float64}}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-73"></a>73</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const DiagNormalCanon = MvNormalCanon{Float64,PDiagMat{Float64,Vector{Float64}},Vector{Float64}}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-74"></a>74</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const IsoNormalCanon  = MvNormalCanon{Float64,ScalMat{Float64},Vector{Float64}}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-75"></a>75</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-76"></a>76</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const ZeroMeanFullNormalCanon = MvNormalCanon{Float64,PDMat{Float64,Matrix{Float64}},ZeroVector{Float64}}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-77"></a>77</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const ZeroMeanDiagNormalCanon = MvNormalCanon{Float64,PDiagMat{Float64,Vector{Float64}},ZeroVector{Float64}}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-78"></a>78</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const ZeroMeanIsoNormalCanon  = MvNormalCanon{Float64,ScalMat{Float64},ZeroVector{Float64}}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-79"></a>79</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-80"></a>80</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-81"></a>81</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">### Constructors
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-82"></a>82</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-83"></a>83</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function MvNormalCanon(μ::Vector{T}, h::Vector{T}, J::AbstractPDMat{T}) where T&lt;:Real
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-84"></a>84</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    length(μ) == length(h) == dim(J) || throw(DimensionMismatch(&quot;Inconsistent argument dimensions&quot;))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-85"></a>85</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    MvNormalCanon{T,typeof(J),typeof(μ)}(μ, h, J)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-86"></a>86</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-87"></a>87</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-88"></a>88</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function MvNormalCanon(μ::Vector{T}, h::Vector{T}, J::P) where {T&lt;:Real, P&lt;:AbstractPDMat}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-89"></a>89</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    R = promote_type(T, eltype(J))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-90"></a>90</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    MvNormalCanon(convert(AbstractArray{R}, μ), convert(AbstractArray{R}, h), convert(AbstractArray{R}, J))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-91"></a>91</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-92"></a>92</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-93"></a>93</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function MvNormalCanon(μ::Vector{T}, h::Vector{S}, J::P) where {T&lt;:Real, S&lt;:Real, P&lt;:AbstractPDMat}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-94"></a>94</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    R = Base.promote_eltype(μ, h, J)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-95"></a>95</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    MvNormalCanon(convert(AbstractArray{R}, μ), convert(AbstractArray{R}, h), convert(AbstractArray{R}, J))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-96"></a>96</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-97"></a>97</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-98"></a>98</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function MvNormalCanon(J::P) where P&lt;:AbstractPDMat
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-99"></a>99</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    z = ZeroVector(eltype(J), dim(J))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-100"></a>100</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    MvNormalCanon{eltype(J),P,ZeroVector{eltype(J)}}(z, z, J)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-101"></a>101</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-102"></a>102</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-103"></a>103</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function MvNormalCanon(h::Vector{T}, J::P) where {T&lt;:Real, P&lt;:AbstractPDMat}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-104"></a>104</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    length(h) == dim(J) || throw(DimensionMismatch(&quot;Inconsistent argument dimensions&quot;))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-105"></a>105</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    R = Base.promote_eltype(h, J)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-106"></a>106</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    hh, JJ = convert(AbstractArray{R}, h), convert(AbstractArray{R}, J)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-107"></a>107</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    MvNormalCanon{eltype(hh),typeof(JJ),typeof(hh)}(JJ \ hh, hh, JJ)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-108"></a>108</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-109"></a>109</td>
+          <td></td>
+          <td></td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-julia-v0-6-Distributions-src-multivariate-mvnormalcanon-jl-Type-109"></a>
+              7 (0.02%) samples spent in Type<br />
+              1 (14.29%) (ex.),
+              1 (14.29%) (incl.)
+              when called from
+              updatephinl!
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-43">line 43</a><br />
+              2 (28.57%) (ex.),
+              2 (28.57%) (incl.)
+              when called from
+              updatephinlout!
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-63">line 63</a><br />
+              4 (57.14%) (ex.),
+              4 (57.14%) (incl.)
+              when called from
+              updatephinl!
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-47">line 47</a><br />
+            </div>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-110"></a>110</td>
+          <td>7 (0.02%)</td>
+          <td>7 (0.02%)</td>
+          <td>
+            <span class="code">MvNormalCanon(h::Vector{T}, J::Matrix{T}) where {T&lt;:Real} = MvNormalCanon(h, PDMat(J))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-111"></a>111</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">MvNormalCanon(h::Vector{T}, prec::Vector{T}) where {T&lt;:Real} = MvNormalCanon(h, PDiagMat(prec))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-112"></a>112</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">MvNormalCanon(h::Vector{T}, prec::T) where {T&lt;:Real} = MvNormalCanon(h, ScalMat(length(h), prec))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-113"></a>113</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-114"></a>114</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function MvNormalCanon(h::Vector{T}, J::VecOrMat{S}) where {T&lt;:Real, S&lt;:Real}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-115"></a>115</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    R = Base.promote_eltype(h, J)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-116"></a>116</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    MvNormalCanon(convert(AbstractArray{R}, h), convert(AbstractArray{R}, J))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-117"></a>117</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-118"></a>118</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function MvNormalCanon(h::Vector{T}, prec::S) where {T&lt;:Real, S&lt;:Real}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-119"></a>119</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    R = Base.promote_eltype(h, prec)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-120"></a>120</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    MvNormalCanon(convert(AbstractArray{R}, h), R(prec))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-121"></a>121</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-122"></a>122</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-123"></a>123</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">MvNormalCanon(J::Matrix) = MvNormalCanon(PDMat(J))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-124"></a>124</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">MvNormalCanon(prec::Vector) = MvNormalCanon(PDiagMat(prec))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-125"></a>125</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">MvNormalCanon(d::Int, prec) = MvNormalCanon(ScalMat(d, prec))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-126"></a>126</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-127"></a>127</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-128"></a>128</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">### Show
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-129"></a>129</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-130"></a>130</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">distrname(d::IsoNormalCanon) = &quot;IsoNormalCanon&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-131"></a>131</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">distrname(d::DiagNormalCanon) = &quot;DiagNormalCanon&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-132"></a>132</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">distrname(d::FullNormalCanon) = &quot;FullNormalCanon&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-133"></a>133</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-134"></a>134</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">distrname(d::ZeroMeanIsoNormalCanon) = &quot;ZeroMeanIsoNormalCanon&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-135"></a>135</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">distrname(d::ZeroMeanDiagNormalCanon) = &quot;ZeroMeanDiagormalCanon&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-136"></a>136</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">distrname(d::ZeroMeanFullNormalCanon) = &quot;ZeroMeanFullNormalCanon&quot;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-137"></a>137</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-138"></a>138</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">### Conversion
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-139"></a>139</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function convert(::Type{MvNormalCanon{T}}, d::MvNormalCanon) where T&lt;:Real
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-140"></a>140</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    MvNormalCanon(convert(AbstractArray{T}, d.μ), convert(AbstractArray{T}, d.h), convert(AbstractArray{T}, d.J))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-141"></a>141</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-142"></a>142</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function convert(::Type{MvNormalCanon{T}}, μ::V, h::V, J::AbstractPDMat) where {T&lt;:Real,V&lt;:Union{Vector, ZeroVector}}
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-143"></a>143</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    MvNormalCanon(convert(AbstractArray{T}, μ), convert(AbstractArray{T}, h), convert(AbstractArray{T}, J))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-144"></a>144</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-145"></a>145</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-146"></a>146</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">### conversion between conventional form and canonical form
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-147"></a>147</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-148"></a>148</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">meanform(d::MvNormalCanon) = MvNormal(d.μ, inv(d.J))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-149"></a>149</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># meanform{C, T&lt;:Real}(d::MvNormalCanon{T,C,Vector{T}}) = MvNormal(d.μ, inv(d.J))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-150"></a>150</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># meanform{C, T&lt;:Real}(d::MvNormalCanon{T,C,ZeroVector{T}}) = MvNormal(inv(d.J))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-151"></a>151</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-152"></a>152</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">canonform(d::MvNormal{T,C,Vector{T}}) where {C, T&lt;:Real} = (J = inv(d.Σ); MvNormalCanon(d.μ, J * d.μ, J))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-153"></a>153</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">canonform(d::MvNormal{T,C,ZeroVector{T}}) where {C, T&lt;:Real} = MvNormalCanon(inv(d.Σ))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-154"></a>154</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-155"></a>155</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">### Basic statistics
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-156"></a>156</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-157"></a>157</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">length(d::MvNormalCanon) = length(d.μ)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-158"></a>158</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">mean(d::MvNormalCanon) = convert(Vector{eltype(d.μ)}, d.μ)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-159"></a>159</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">params(d::MvNormalCanon) = (d.μ, d.h, d.J)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-160"></a>160</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">@inline partype(d::MvNormalCanon{T}) where {T&lt;:Real} = T
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-161"></a>161</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-162"></a>162</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">var(d::MvNormalCanon) = diag(inv(d.J))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-163"></a>163</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">cov(d::MvNormalCanon) = full(inv(d.J))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-164"></a>164</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">invcov(d::MvNormalCanon) = full(d.J)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-165"></a>165</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">logdetcov(d::MvNormalCanon) = -logdet(d.J)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-166"></a>166</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-167"></a>167</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-168"></a>168</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">### Evaluation
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-169"></a>169</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-170"></a>170</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">sqmahal(d::MvNormalCanon, x::AbstractVector) = quad(d.J, x - d.μ)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-171"></a>171</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">sqmahal!(r::AbstractVector, d::MvNormalCanon, x::AbstractMatrix) = quad!(r, d.J, x .- d.μ)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-172"></a>172</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-173"></a>173</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-174"></a>174</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># Sampling (for GenericMvNormal)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-175"></a>175</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-176"></a>176</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">unwhiten_winv!(J::AbstractPDMat, x::AbstractVecOrMat) = unwhiten!(inv(J), x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-177"></a>177</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">unwhiten_winv!(J::PDiagMat, x::AbstractVecOrMat) = whiten!(J, x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-178"></a>178</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">unwhiten_winv!(J::ScalMat, x::AbstractVecOrMat) = whiten!(J, x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-179"></a>179</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-180"></a>180</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">_rand!(rng::AbstractRNG, d::MvNormalCanon, x::AbstractMatrix) = add!(unwhiten_winv!(d.J, randn!(rng,x)), d.μ)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-181"></a>181</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">_rand!(d::MvNormalCanon, x::AbstractMatrix) = _rand!(Base.GLOBAL_RNG, d, x)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-182"></a>182</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">_rand!(rng::AbstractRNG, d::MvNormalCanon, x::AbstractVector) = add!(unwhiten_winv!(d.J, randn!(rng,x)), d.μ)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lmvnormalcanon-jl-f636218910b12a20b6cf-line.html-183"></a>183</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">_rand!(d::MvNormalCanon, x::AbstractVector) = _rand!(Base.GLOBAL_RNG, d, x)
+</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -676,17 +676,22 @@
 
         <tr>
           <td><a name="Lsimdloop-jl-bbaadc55d0576e682f04-line.html-66"></a>66</td>
-          <td>1 (0.01%)</td>
-          <td>1 (0.01%)</td>
+          <td>2 (0.0045%)</td>
+          <td>2 (0.0045%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-simdloop-jl-macro-expansion-66"></a>
-              1 (0.01%) samples spent in macro expansion<br />
-              1 (100.00%) (ex.),
-              1 (100.00%) (incl.)
+              2 (0.0045%) samples spent in macro expansion<br />
+              1 (50.00%) (ex.),
+              1 (50.00%) (incl.)
               when called from
-              mapreduce_impl
-              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#Lreduce-jl-5c2b371e0ed1d3514d60-line.html-186">line 186</a><br />
+              macro expansion
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-149">line 149</a><br />
+              1 (50.00%) (ex.),
+              1 (50.00%) (incl.)
+              when called from
+              macro expansion
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-176">line 176</a><br />
             </div>
             <span class="code">            for $j in Base.simd_outer_range($r)
 </span>
@@ -705,18 +710,9 @@
 
         <tr>
           <td><a name="Lsimdloop-jl-bbaadc55d0576e682f04-line.html-68"></a>68</td>
-          <td>2 (0.02%)</td>
-          <td>2 (0.02%)</td>
+          <td></td>
+          <td></td>
           <td>
-            <div class="call-sites">
-              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-simdloop-jl-macro-expansion-68"></a>
-              2 (0.02%) samples spent in macro expansion<br />
-              2 (100.00%) (ex.),
-              2 (100.00%) (incl.)
-              when called from
-              macro expansion
-              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-149">line 149</a><br />
-            </div>
             <span class="code">                    if zero($n) &lt; $n
 </span>
           </td>
@@ -744,19 +740,19 @@
 
         <tr>
           <td><a name="Lsimdloop-jl-bbaadc55d0576e682f04-line.html-71"></a>71</td>
-          <td>12 (0.12%)</td>
-          <td>12 (0.12%)</td>
+          <td>29 (0.07%)</td>
+          <td>29 (0.07%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-simdloop-jl-macro-expansion-71"></a>
-              12 (0.12%) samples spent in macro expansion<br />
-              4 (33.33%) (ex.),
-              4 (33.33%) (incl.)
+              29 (0.07%) samples spent in macro expansion<br />
+              5 (17.24%) (ex.),
+              5 (17.24%) (incl.)
               when called from
               macro expansion
               <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-176">line 176</a><br />
-              8 (66.67%) (ex.),
-              8 (66.67%) (incl.)
+              24 (82.76%) (ex.),
+              24 (82.76%) (incl.)
               when called from
               macro expansion
               <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-149">line 149</a><br />
@@ -779,38 +775,46 @@
         <tr>
           <td><a name="Lsimdloop-jl-bbaadc55d0576e682f04-line.html-73"></a>73</td>
           <td></td>
-          <td>1964 (20.30%)</td>
+          <td>12182 (27.42%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-simdloop-jl-macro-expansion-73"></a>
-              1964 (20.30%) samples spent in macro expansion<br />
+              12182 (27.42%) samples spent in macro expansion<br />
               0 (ex.),
-              132 (6.72%) (incl.)
+              1 (0.0082%) (incl.)
+              when called from
+              mapreduce_impl
+              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#Lreduce-jl-5c2b371e0ed1d3514d60-line.html-186">line 186</a><br />
+              0 (ex.),
+              344 (2.82%) (incl.)
               when called from
               macro expansion
               <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-176">line 176</a><br />
               0 (ex.),
-              1832 (93.28%) (incl.)
+              11837 (97.17%) (incl.)
               when called from
               macro expansion
               <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-149">line 149</a><br />
             </div>
             <div class="callees">
-              40 (2.04%)
+              1 (0.0082%)
               samples spent calling
-              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-macro-expansion-156">macro expansion</a><br />
-              99 (5.04%)
-              samples spent calling
-              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-macro-expansion-182">macro expansion</a><br />
-              37 (1.88%)
-              samples spent calling
-              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-macro-expansion-153">macro expansion</a><br />
-              1755 (89.36%)
-              samples spent calling
-              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-macro-expansion-155">macro expansion</a><br />
-              33 (1.68%)
+              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-macro-expansion-188">macro expansion</a><br />
+              69 (0.57%)
               samples spent calling
               <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-macro-expansion-180">macro expansion</a><br />
+              302 (2.48%)
+              samples spent calling
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-macro-expansion-156">macro expansion</a><br />
+              11192 (91.87%)
+              samples spent calling
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-macro-expansion-155">macro expansion</a><br />
+              343 (2.82%)
+              samples spent calling
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-macro-expansion-153">macro expansion</a><br />
+              275 (2.26%)
+              samples spent calling
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-macro-expansion-182">macro expansion</a><br />
             </div>
             <span class="code">                                $(x.args[2])        # Body of loop
 </span>
@@ -819,22 +823,22 @@
 
         <tr>
           <td><a name="Lsimdloop-jl-bbaadc55d0576e682f04-line.html-74"></a>74</td>
-          <td>9 (0.09%)</td>
-          <td>9 (0.09%)</td>
+          <td>37 (0.08%)</td>
+          <td>37 (0.08%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-simdloop-jl-macro-expansion-74"></a>
-              9 (0.09%) samples spent in macro expansion<br />
-              3 (33.33%) (ex.),
-              3 (33.33%) (incl.)
-              when called from
-              macro expansion
-              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-149">line 149</a><br />
-              6 (66.67%) (ex.),
-              6 (66.67%) (incl.)
+              37 (0.08%) samples spent in macro expansion<br />
+              16 (43.24%) (ex.),
+              16 (43.24%) (incl.)
               when called from
               macro expansion
               <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-176">line 176</a><br />
+              21 (56.76%) (ex.),
+              21 (56.76%) (incl.)
+              when called from
+              macro expansion
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-149">line 149</a><br />
             </div>
             <span class="code">                                $i += 1
 </span>

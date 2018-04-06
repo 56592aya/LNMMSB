@@ -90,6 +90,7 @@ function train(model::LNMMSB, mb::MiniBatch,iter::Int64, elboevery::Int64, commu
 		model.ϕnloutsum = deepcopy(zeros(Float64, (model.N,model.K)))
 		model.ϕnlinsum = deepcopy(zeros(Float64, (model.N,model.K)))
 		one_over_K = deepcopy(ones(Float64,model.K)./model.K)
+		
 		for d in shuffled
 			## updating phis for links
 			if d in mb.mblinks
@@ -109,6 +110,7 @@ function train(model::LNMMSB, mb::MiniBatch,iter::Int64, elboevery::Int64, commu
 				nl.ϕin = deepcopy(one_over_K)
 				for j in 1:10
 					updatephinl!(model, mb, nl, "check")
+
 				end
 				for k in 1:model.K
 					model.ϕnloutsum[nl.src,k] += nl.ϕout[k]
@@ -149,5 +151,6 @@ function train(model::LNMMSB, mb::MiniBatch,iter::Int64, elboevery::Int64, commu
 			println(model.est_β)
 		end
 	end
+	return (model, mb)
 end
 end

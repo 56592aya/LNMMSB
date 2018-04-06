@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -18821,14 +18821,14 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sparse-sparsematrix-jl-getindex-1880"></a>
-              31 (0.32%) samples spent in getindex<br />
-              3 (37.50%) (ex.),
-              7 (22.58%) (incl.)
+              45 (0.10%) samples spent in getindex<br />
+              4 (20.00%) (ex.),
+              5 (11.11%) (incl.)
               when called from
               isfadj
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-238">line 238</a><br />
-              5 (62.50%) (ex.),
-              24 (77.42%) (incl.)
+              16 (80.00%) (ex.),
+              40 (88.89%) (incl.)
               when called from
               isalink
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-209">line 209</a><br />
@@ -18840,8 +18840,8 @@
 
         <tr>
           <td><a name="Lsparsematrix-jl-ff519d1aab0059da5462-line.html-1881"></a>1881</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <span class="code">    if !(1 &lt;= i0 &lt;= A.m &amp;&amp; 1 &lt;= i1 &lt;= A.n); throw(BoundsError()); end
 </span>
@@ -18850,8 +18850,8 @@
 
         <tr>
           <td><a name="Lsparsematrix-jl-ff519d1aab0059da5462-line.html-1882"></a>1882</td>
-          <td></td>
-          <td></td>
+          <td>5 (0.01%)</td>
+          <td>5 (0.01%)</td>
           <td>
             <span class="code">    r1 = Int(A.colptr[i1])
 </span>
@@ -18860,8 +18860,8 @@
 
         <tr>
           <td><a name="Lsparsematrix-jl-ff519d1aab0059da5462-line.html-1883"></a>1883</td>
-          <td>1 (0.01%)</td>
-          <td>1 (0.01%)</td>
+          <td>3 (0.0068%)</td>
+          <td>3 (0.0068%)</td>
           <td>
             <span class="code">    r2 = Int(A.colptr[i1+1]-1)
 </span>
@@ -18880,11 +18880,11 @@
 
         <tr>
           <td><a name="Lsparsematrix-jl-ff519d1aab0059da5462-line.html-1885"></a>1885</td>
-          <td>1 (0.01%)</td>
-          <td>24 (0.25%)</td>
+          <td>1 (0.0023%)</td>
+          <td>26 (0.06%)</td>
           <td>
             <div class="callees">
-              23 (95.83%)
+              25 (96.15%)
               samples spent calling
               <a href="sort-jl-02c2b25d4df9c551984a-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sort-jl-searchsortedfirst-102">searchsortedfirst</a><br />
             </div>
@@ -18895,8 +18895,8 @@
 
         <tr>
           <td><a name="Lsparsematrix-jl-ff519d1aab0059da5462-line.html-1886"></a>1886</td>
-          <td>4 (0.04%)</td>
-          <td>4 (0.04%)</td>
+          <td>7 (0.02%)</td>
+          <td>7 (0.02%)</td>
           <td>
             <span class="code">    ((r1 &gt; r2) || (A.rowval[r1] != i0)) ? zero(T) : A.nzval[r1]
 </span>

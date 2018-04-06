@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -131,9 +131,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-bitarray-jl-Type-11"></a>
-              100 (1.03%) samples spent in Type<br />
-              100 (100.00%) (ex.),
-              100 (100.00%) (incl.)
+              199 (0.45%) samples spent in Type<br />
+              199 (100.00%) (ex.),
+              199 (100.00%) (incl.)
               when called from
               broadcast_t
               <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-279">line 279</a><br />
@@ -225,8 +225,8 @@
 
         <tr>
           <td><a name="Lbitarray-jl-ef19869afcadb276b6b9-line.html-20"></a>20</td>
-          <td>14 (0.14%)</td>
-          <td>14 (0.14%)</td>
+          <td>16 (0.04%)</td>
+          <td>16 (0.04%)</td>
           <td>
             <span class="code">        chunks = Vector{UInt64}(nc)
 </span>
@@ -245,8 +245,8 @@
 
         <tr>
           <td><a name="Lbitarray-jl-ef19869afcadb276b6b9-line.html-22"></a>22</td>
-          <td>5 (0.05%)</td>
-          <td>5 (0.05%)</td>
+          <td>6 (0.01%)</td>
+          <td>6 (0.01%)</td>
           <td>
             <span class="code">        b = new(chunks, n)
 </span>
@@ -265,8 +265,8 @@
 
         <tr>
           <td><a name="Lbitarray-jl-ef19869afcadb276b6b9-line.html-24"></a>24</td>
-          <td>1 (0.01%)</td>
-          <td>1 (0.01%)</td>
+          <td></td>
+          <td></td>
           <td>
             <span class="code">        return b
 </span>
@@ -2570,9 +2570,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-bitarray-jl-copy_to_bitarray_chunks-254"></a>
-              45 (0.47%) samples spent in copy_to_bitarray_chunks!<br />
-              45 (100.00%) (ex.),
-              45 (100.00%) (incl.)
+              104 (0.23%) samples spent in copy_to_bitarray_chunks!<br />
+              104 (100.00%) (ex.),
+              104 (100.00%) (incl.)
               when called from
               macro expansion
               <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-192">line 192</a><br />
@@ -2584,8 +2584,8 @@
 
         <tr>
           <td><a name="Lbitarray-jl-ef19869afcadb276b6b9-line.html-255"></a>255</td>
-          <td>1 (0.01%)</td>
-          <td>1 (0.01%)</td>
+          <td></td>
+          <td></td>
           <td>
             <span class="code">    kd0, ld0 = get_chunks_id(pos_d)
 </span>
@@ -3004,8 +3004,8 @@
 
         <tr>
           <td><a name="Lbitarray-jl-ef19869afcadb276b6b9-line.html-297"></a>297</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <span class="code">        ind += (ind8-1) &lt;&lt; 3
 </span>
@@ -3024,8 +3024,8 @@
 
         <tr>
           <td><a name="Lbitarray-jl-ef19869afcadb276b6b9-line.html-299"></a>299</td>
-          <td>2 (0.02%)</td>
-          <td>2 (0.02%)</td>
+          <td>8 (0.02%)</td>
+          <td>8 (0.02%)</td>
           <td>
             <span class="code">    @inbounds for i = (nc8+1):nc
 </span>
@@ -3054,8 +3054,8 @@
 
         <tr>
           <td><a name="Lbitarray-jl-ef19869afcadb276b6b9-line.html-302"></a>302</td>
-          <td>34 (0.35%)</td>
-          <td>34 (0.35%)</td>
+          <td>82 (0.18%)</td>
+          <td>82 (0.18%)</td>
           <td>
             <span class="code">            c |= (UInt64(C[ind]) &lt;&lt; j)
 </span>
@@ -3184,8 +3184,8 @@
 
         <tr>
           <td><a name="Lbitarray-jl-ef19869afcadb276b6b9-line.html-315"></a>315</td>
-          <td>1 (0.01%)</td>
-          <td>1 (0.01%)</td>
+          <td>2 (0.0045%)</td>
+          <td>2 (0.0045%)</td>
           <td>
             <span class="code">        Bc[kd1] = (Bc[kd1] &amp; msk_d1) | (c &amp; ~msk_d1)
 </span>
@@ -3304,9 +3304,18 @@
 
         <tr>
           <td><a name="Lbitarray-jl-ef19869afcadb276b6b9-line.html-327"></a>327</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-bitarray-jl-dumpbitcache-327"></a>
+              1 (0.0023%) samples spent in dumpbitcache<br />
+              1 (100.00%) (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              macro expansion
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-192">line 192</a><br />
+            </div>
             <span class="code">dumpbitcache(Bc::Vector{UInt64}, bind::Int, C::Vector{Bool}) =
 </span>
           </td>
@@ -16139,9 +16148,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-bitarray-jl-countnz-1610"></a>
-              3 (0.03%) samples spent in countnz<br />
-              3 (100.00%) (ex.),
-              3 (100.00%) (incl.)
+              7 (0.02%) samples spent in countnz<br />
+              7 (100.00%) (ex.),
+              7 (100.00%) (incl.)
               when called from
               Type
               <a href="multidimensional-jl-b15f86aca7aa36da9d41-line.html#Lmultidimensional-jl-b15f86aca7aa36da9d41-line.html-377">line 377</a><br />
@@ -16183,8 +16192,8 @@
 
         <tr>
           <td><a name="Lbitarray-jl-ef19869afcadb276b6b9-line.html-1614"></a>1614</td>
-          <td>2 (0.02%)</td>
-          <td>2 (0.02%)</td>
+          <td>6 (0.01%)</td>
+          <td>6 (0.01%)</td>
           <td>
             <span class="code">        n += count_ones(Bc[i])
 </span>

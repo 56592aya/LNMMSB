@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -717,8 +717,22 @@
         <tr>
           <td><a name="Lindices-jl-ca62d99379281bb38e64-line.html-70"></a>70</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-indices-jl-promote_shape-70"></a>
+              1 (0.0023%) samples spent in promote_shape<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              +
+              <a href="arraymath-jl-b564666165cf37ea0005-line.html#Larraymath-jl-b564666165cf37ea0005-line.html-38">line 38</a><br />
+            </div>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-indices-64">indices</a><br />
+            </div>
             <span class="code">    promote_shape(indices(a), indices(b))
 </span>
           </td>
@@ -1441,9 +1455,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-indices-jl-setindex_shape_check-142"></a>
-              1 (0.01%) samples spent in setindex_shape_check<br />
-              1 (100.00%) (ex.),
-              1 (100.00%) (incl.)
+              6 (0.01%) samples spent in setindex_shape_check<br />
+              4 (100.00%) (ex.),
+              6 (100.00%) (incl.)
               when called from
               setindex!
               <a href="array-jl-c31e5f0854745d9d2638-line.html#Larray-jl-c31e5f0854745d9d2638-line.html-627">line 627</a><br />
@@ -1455,9 +1469,14 @@
 
         <tr>
           <td><a name="Lindices-jl-ca62d99379281bb38e64-line.html-143"></a>143</td>
-          <td>1 (0.01%)</td>
-          <td>1 (0.01%)</td>
+          <td>4 (0.0090%)</td>
+          <td>6 (0.01%)</td>
           <td>
+            <div class="callees">
+              2 (33.33%)
+              samples spent calling
+              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-_length-132">_length</a><br />
+            </div>
             <span class="code">setindex_shape_check(X::AbstractArray{&lt;:Any,1}, i::Integer) =
 </span>
           </td>
@@ -2156,27 +2175,27 @@
         <tr>
           <td><a name="Lindices-jl-ca62d99379281bb38e64-line.html-213"></a>213</td>
           <td></td>
-          <td>11 (0.11%)</td>
+          <td>17 (0.04%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-indices-jl-to_indices-213"></a>
-              11 (0.11%) samples spent in to_indices<br />
+              17 (0.04%) samples spent in to_indices<br />
               0 (ex.),
-              11 (100.00%) (incl.)
+              17 (100.00%) (incl.)
               when called from
               getindex
               <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#Labstractarray-jl-06d2cc8b8cb2c00f4baa-line.html-883">line 883</a><br />
             </div>
             <div class="callees">
-              3 (27.27%)
-              samples spent calling
-              <a href="multidimensional-jl-b15f86aca7aa36da9d41-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-multidimensional-jl-to_indices-463">to_indices</a><br />
-              4 (36.36%)
-              samples spent calling
-              <a href="indices-jl-ca62d99379281bb38e64-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-indices-jl-to_indices-215">to_indices</a><br />
-              4 (36.36%)
+              7 (41.18%)
               samples spent calling
               <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-indices-64">indices</a><br />
+              3 (17.65%)
+              samples spent calling
+              <a href="indices-jl-ca62d99379281bb38e64-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-indices-jl-to_indices-215">to_indices</a><br />
+              7 (41.18%)
+              samples spent calling
+              <a href="multidimensional-jl-b15f86aca7aa36da9d41-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-multidimensional-jl-to_indices-463">to_indices</a><br />
             </div>
             <span class="code">to_indices(A, I::Tuple) = (@_inline_meta; to_indices(A, indices(A), I))
 </span>
@@ -2196,19 +2215,19 @@
         <tr>
           <td><a name="Lindices-jl-ca62d99379281bb38e64-line.html-215"></a>215</td>
           <td></td>
-          <td>4 (0.04%)</td>
+          <td>3 (0.0068%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-indices-jl-to_indices-215"></a>
-              4 (0.04%) samples spent in to_indices<br />
+              3 (0.0068%) samples spent in to_indices<br />
               0 (ex.),
-              4 (100.00%) (incl.)
+              3 (100.00%) (incl.)
               when called from
               to_indices
               <a href="indices-jl-ca62d99379281bb38e64-line.html#Lindices-jl-ca62d99379281bb38e64-line.html-213">line 213</a><br />
             </div>
             <div class="callees">
-              4 (100.00%)
+              3 (100.00%)
               samples spent calling
               <a href="multidimensional-jl-b15f86aca7aa36da9d41-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-multidimensional-jl-to_indices-469">to_indices</a><br />
             </div>
@@ -2390,29 +2409,29 @@
         <tr>
           <td><a name="Lindices-jl-ca62d99379281bb38e64-line.html-233"></a>233</td>
           <td></td>
-          <td>8 (0.08%)</td>
+          <td>6 (0.01%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-indices-jl-Type-233"></a>
-              4 (0.04%) samples spent in Type<br />
+              3 (0.0068%) samples spent in Type<br />
               0 (ex.),
               0 (incl.)
               when called from
               Type
               <a href="indices-jl-ca62d99379281bb38e64-line.html#Lindices-jl-ca62d99379281bb38e64-line.html-233">line 233</a><br />
               0 (ex.),
-              4 (100.00%) (incl.)
+              3 (100.00%) (incl.)
               when called from
               uncolon
               <a href="multidimensional-jl-b15f86aca7aa36da9d41-line.html#Lmultidimensional-jl-b15f86aca7aa36da9d41-line.html-476">line 476</a><br />
             </div>
             <div class="callees">
-              4 (50.00%)
-              samples spent calling
-              <a href="indices-jl-ca62d99379281bb38e64-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-indices-jl-Type-233">Type</a><br />
-              4 (50.00%)
+              3 (50.00%)
               samples spent calling
               <a href="range-jl-bee0d650a7e105488284-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-range-jl-convert-764">convert</a><br />
+              3 (50.00%)
+              samples spent calling
+              <a href="indices-jl-ca62d99379281bb38e64-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-indices-jl-Type-233">Type</a><br />
             </div>
             <span class="code">    indices::T
 </span>

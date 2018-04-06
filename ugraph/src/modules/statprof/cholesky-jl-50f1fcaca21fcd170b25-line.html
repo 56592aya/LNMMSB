@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -549,6 +549,15 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-cholesky-jl-_chol-53"></a>
+              30 (0.07%) samples spent in _chol!<br />
+              0 (ex.),
+              30 (100.00%) (incl.)
+              when called from
+              cholfact!
+              <a href="cholesky-jl-50f1fcaca21fcd170b25-line.html#Lcholesky-jl-50f1fcaca21fcd170b25-line.html-211">line 211</a><br />
+            </div>
             <span class="code">function _chol!(A::StridedMatrix{&lt;:BlasFloat}, ::Type{UpperTriangular})
 </span>
           </td>
@@ -557,8 +566,13 @@
         <tr>
           <td><a name="Lcholesky-jl-50f1fcaca21fcd170b25-line.html-54"></a>54</td>
           <td></td>
-          <td></td>
+          <td>30 (0.07%)</td>
           <td>
+            <div class="callees">
+              30 (100.00%)
+              samples spent calling
+              <a href="lapack-jl-e1c6ba6d4c11806c719b-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-lapack-jl-potrf-2953">potrf!</a><br />
+            </div>
             <span class="code">    C, info = LAPACK.potrf!(&#39;U&#39;, A)
 </span>
           </td>
@@ -2109,6 +2123,15 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-cholesky-jl-cholfact-209"></a>
+              30 (0.07%) samples spent in cholfact!<br />
+              0 (ex.),
+              30 (100.00%) (incl.)
+              when called from
+              cholfact
+              <a href="cholesky-jl-50f1fcaca21fcd170b25-line.html#Lcholesky-jl-50f1fcaca21fcd170b25-line.html-350">line 350</a><br />
+            </div>
             <span class="code">function cholfact!(A::Hermitian, ::Type{Val{false}})
 </span>
           </td>
@@ -2127,8 +2150,13 @@
         <tr>
           <td><a name="Lcholesky-jl-50f1fcaca21fcd170b25-line.html-211"></a>211</td>
           <td></td>
-          <td></td>
+          <td>30 (0.07%)</td>
           <td>
+            <div class="callees">
+              30 (100.00%)
+              samples spent calling
+              <a href="cholesky-jl-50f1fcaca21fcd170b25-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-cholesky-jl-_chol-53">_chol!</a><br />
+            </div>
             <span class="code">        Cholesky(_chol!(A.data, UpperTriangular).data, &#39;U&#39;)
 </span>
           </td>
@@ -2927,8 +2955,22 @@
         <tr>
           <td><a name="Lcholesky-jl-50f1fcaca21fcd170b25-line.html-291"></a>291</td>
           <td></td>
-          <td></td>
+          <td>3 (0.0068%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-cholesky-jl-cholfact-291"></a>
+              3 (0.0068%) samples spent in cholfact<br />
+              0 (ex.),
+              3 (100.00%) (incl.)
+              when called from
+              cholfact
+              <a href="cholesky-jl-50f1fcaca21fcd170b25-line.html#Lcholesky-jl-50f1fcaca21fcd170b25-line.html-345">line 345</a><br />
+            </div>
+            <div class="callees">
+              3 (100.00%)
+              samples spent calling
+              <a href="linalg-jl-b80bdcdf2758234efe52-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-linalg-jl-copy_oftype-240">copy_oftype</a><br />
+            </div>
             <span class="code">cholfact(A::Hermitian, ::Type{Val{false}}) =
 </span>
           </td>
@@ -3467,8 +3509,22 @@
         <tr>
           <td><a name="Lcholesky-jl-50f1fcaca21fcd170b25-line.html-345"></a>345</td>
           <td></td>
-          <td></td>
+          <td>3 (0.0068%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-cholesky-jl-cholfact-345"></a>
+              3 (0.0068%) samples spent in cholfact<br />
+              0 (ex.),
+              3 (100.00%) (incl.)
+              when called from
+              cholfact
+              <a href="cholesky-jl-50f1fcaca21fcd170b25-line.html#Lcholesky-jl-50f1fcaca21fcd170b25-line.html-350">line 350</a><br />
+            </div>
+            <div class="callees">
+              3 (100.00%)
+              samples spent calling
+              <a href="cholesky-jl-50f1fcaca21fcd170b25-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-cholesky-jl-cholfact-291">cholfact</a><br />
+            </div>
             <span class="code">cholfact(A::Hermitian) = cholfact(A, Val{false})
 </span>
           </td>
@@ -3501,9 +3557,19 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-cholesky-jl-cholfact-348"></a>
-              1 (0.01%) samples spent in cholfact<br />
-              1 (100.00%) (ex.),
-              1 (100.00%) (incl.)
+              34 (0.08%) samples spent in cholfact<br />
+              0 (ex.),
+              5 (14.71%) (incl.)
+              when called from
+              train
+              <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-51">line 51</a><br />
+              0 (ex.),
+              11 (32.35%) (incl.)
+              when called from
+              Type
+              <a href="wishart-jl-07a9df533024d7e08ec0-line.html#Lwishart-jl-07a9df533024d7e08ec0-line.html-25">line 25</a><br />
+              0 (ex.),
+              18 (52.94%) (incl.)
               when called from
               Type
               <a href="wishart-jl-07a9df533024d7e08ec0-line.html#Lwishart-jl-07a9df533024d7e08ec0-line.html-34">line 34</a><br />
@@ -3516,8 +3582,13 @@
         <tr>
           <td><a name="Lcholesky-jl-50f1fcaca21fcd170b25-line.html-349"></a>349</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
           <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="generic-jl-01676efed46b9a3e440a-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-generic-jl-ishermitian-932">ishermitian</a><br />
+            </div>
             <span class="code">    ishermitian(A) || non_hermitian_error(&quot;cholfact&quot;)
 </span>
           </td>
@@ -3525,9 +3596,17 @@
 
         <tr>
           <td><a name="Lcholesky-jl-50f1fcaca21fcd170b25-line.html-350"></a>350</td>
-          <td>1 (0.01%)</td>
-          <td>1 (0.01%)</td>
+          <td></td>
+          <td>33 (0.07%)</td>
           <td>
+            <div class="callees">
+              30 (90.91%)
+              samples spent calling
+              <a href="cholesky-jl-50f1fcaca21fcd170b25-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-cholesky-jl-cholfact-209">cholfact!</a><br />
+              3 (9.09%)
+              samples spent calling
+              <a href="cholesky-jl-50f1fcaca21fcd170b25-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-cholesky-jl-cholfact-345">cholfact</a><br />
+            </div>
             <span class="code">    return cholfact(Hermitian(A, uplo))
 </span>
           </td>

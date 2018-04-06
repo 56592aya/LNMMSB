@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:33:02 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -2169,15 +2169,6 @@
           <td></td>
           <td></td>
           <td>
-            <div class="call-sites">
-              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-linalg-jl-checksquare-215"></a>
-              1 (0.03%) samples spent in checksquare<br />
-              1 (100.00%) (ex.),
-              1 (100.00%) (incl.)
-              when called from
-              inv
-              <a href="dense-jl-9a4e14799b411a7dd560-line.html#Ldense-jl-9a4e14799b411a7dd560-line.html-651">line 651</a><br />
-            </div>
             <span class="code">function checksquare(A)
 </span>
           </td>
@@ -2426,8 +2417,22 @@
         <tr>
           <td><a name="Llinalg-jl-b80bdcdf2758234efe52-line.html-240"></a>240</td>
           <td></td>
-          <td></td>
+          <td>3 (0.0068%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-linalg-jl-copy_oftype-240"></a>
+              3 (0.0068%) samples spent in copy_oftype<br />
+              0 (ex.),
+              3 (100.00%) (incl.)
+              when called from
+              cholfact
+              <a href="cholesky-jl-50f1fcaca21fcd170b25-line.html#Lcholesky-jl-50f1fcaca21fcd170b25-line.html-291">line 291</a><br />
+            </div>
+            <div class="callees">
+              3 (100.00%)
+              samples spent calling
+              <a href="symmetric-jl-d6b732d1919b36d09b28-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-symmetric-jl-copy-161">copy</a><br />
+            </div>
             <span class="code">copy_oftype(A::AbstractArray{T}, ::Type{T}) where {T} = copy(A)
 </span>
           </td>

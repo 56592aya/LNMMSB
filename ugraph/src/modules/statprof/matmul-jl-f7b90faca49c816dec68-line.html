@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -766,19 +766,14 @@
 
         <tr>
           <td><a name="Lmatmul-jl-f7b90faca49c816dec68-line.html-75"></a>75</td>
-          <td>11 (0.11%)</td>
-          <td>11 (0.11%)</td>
+          <td>5 (0.01%)</td>
+          <td>5 (0.01%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-matmul-jl-75"></a>
-              11 (0.11%) samples spent in *<br />
-              4 (36.36%) (ex.),
-              4 (36.36%) (incl.)
-              when called from
-              updatem!
-              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-135">line 135</a><br />
-              7 (63.64%) (ex.),
-              7 (63.64%) (incl.)
+              5 (0.01%) samples spent in *<br />
+              5 (100.00%) (ex.),
+              5 (100.00%) (incl.)
               when called from
               dfunci
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-94">line 94</a><br />
@@ -1903,6 +1898,15 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-matmul-jl-A_mul_Bt-187"></a>
+              3 (0.0068%) samples spent in A_mul_Bt<br />
+              2 (100.00%) (ex.),
+              3 (100.00%) (incl.)
+              when called from
+              train
+              <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-51">line 51</a><br />
+            </div>
             <span class="code">function A_mul_Bt(A::AbstractMatrix{T}, B::AbstractMatrix{S}) where {T,S}
 </span>
           </td>
@@ -1920,9 +1924,14 @@
 
         <tr>
           <td><a name="Lmatmul-jl-f7b90faca49c816dec68-line.html-189"></a>189</td>
-          <td></td>
-          <td></td>
+          <td>2 (0.0045%)</td>
+          <td>3 (0.0068%)</td>
           <td>
+            <div class="callees">
+              1 (33.33%)
+              samples spent calling
+              <a href="matmul-jl-f7b90faca49c816dec68-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-matmul-jl-A_mul_Bt-191">A_mul_Bt!</a><br />
+            </div>
             <span class="code">    A_mul_Bt!(similar(B, TS, (size(A,1), size(B,1))), A, B)
 </span>
           </td>
@@ -1941,8 +1950,22 @@
         <tr>
           <td><a name="Lmatmul-jl-f7b90faca49c816dec68-line.html-191"></a>191</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-matmul-jl-A_mul_Bt-191"></a>
+              1 (0.0023%) samples spent in A_mul_Bt!<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              A_mul_Bt
+              <a href="matmul-jl-f7b90faca49c816dec68-line.html#Lmatmul-jl-f7b90faca49c816dec68-line.html-189">line 189</a><br />
+            </div>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="matmul-jl-f7b90faca49c816dec68-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-matmul-jl-syrk_wrapper-270">syrk_wrapper!</a><br />
+            </div>
             <span class="code">A_mul_Bt!(C::StridedMatrix{T}, A::StridedVecOrMat{T}, B::StridedVecOrMat{T}) where {T&lt;:BlasFloat} = A===B ? syrk_wrapper!(C, &#39;N&#39;, A) : gemm_wrapper!(C, &#39;N&#39;, &#39;T&#39;, A, B)
 </span>
           </td>
@@ -2555,14 +2578,14 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-matmul-jl-gemv-252"></a>
-              12 (0.12%) samples spent in gemv!<br />
-              0 (ex.),
-              1 (8.33%) (incl.)
+              1330 (2.99%) samples spent in gemv!<br />
+              2 (100.00%) (ex.),
+              32 (2.41%) (incl.)
               when called from
               updatem!
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-135">line 135</a><br />
               0 (ex.),
-              11 (91.67%) (incl.)
+              1298 (97.59%) (incl.)
               when called from
               dfunci
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-94">line 94</a><br />
@@ -2584,8 +2607,8 @@
 
         <tr>
           <td><a name="Lmatmul-jl-f7b90faca49c816dec68-line.html-254"></a>254</td>
-          <td></td>
-          <td></td>
+          <td>2 (0.0045%)</td>
+          <td>2 (0.0045%)</td>
           <td>
             <span class="code">    if nA != length(x)
 </span>
@@ -2705,10 +2728,10 @@
         <tr>
           <td><a name="Lmatmul-jl-f7b90faca49c816dec68-line.html-266"></a>266</td>
           <td></td>
-          <td>12 (0.12%)</td>
+          <td>1328 (2.99%)</td>
           <td>
             <div class="callees">
-              12 (100.00%)
+              1328 (100.00%)
               samples spent calling
               <a href="blas-jl-44d0c987b9ac3ca2f51e-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-blas-jl-gemv-494">gemv!</a><br />
             </div>
@@ -2752,6 +2775,15 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-matmul-jl-syrk_wrapper-270"></a>
+              1 (0.0023%) samples spent in syrk_wrapper!<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              A_mul_Bt!
+              <a href="matmul-jl-f7b90faca49c816dec68-line.html#Lmatmul-jl-f7b90faca49c816dec68-line.html-191">line 191</a><br />
+            </div>
             <span class="code">function syrk_wrapper!(C::StridedMatrix{T}, tA::Char, A::StridedVecOrMat{T}) where T&lt;:BlasFloat
 </span>
           </td>
@@ -2980,8 +3012,13 @@
         <tr>
           <td><a name="Lmatmul-jl-f7b90faca49c816dec68-line.html-293"></a>293</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
           <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="blas-jl-44d0c987b9ac3ca2f51e-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-blas-jl-syrk-1202">syrk!</a><br />
+            </div>
             <span class="code">        return copytri!(BLAS.syrk!(&#39;U&#39;, tA, one(T), A, zero(T), C), &#39;U&#39;)
 </span>
           </td>

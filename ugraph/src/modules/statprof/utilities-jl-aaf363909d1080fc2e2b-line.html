@@ -1,0 +1,1793 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="statprofiler.css">
+
+    <title>StatProfilerHTML.jl: /home/arashyazdiha/.julia/v0.6/Tokenize/src/utilities.jl</title>
+  </head>
+  <body>
+<div class="report-header">
+  <div class="backlink"><a href="index.html">Report index</a></div>
+  <div class="report-title">StatProfilerHTML.jl report</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
+</div>
+
+    <div id="body-content">
+      <table>
+        <caption>File source code</caption>
+        <tr>
+          <th>Line</td>
+          <th>Exclusive</th>
+          <th>Inclusive</th>
+          <th>Code</th>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-1"></a>1</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">#=
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-2"></a>2</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">The code in here has been extracted from the JuliaParser.jl package
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-3"></a>3</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">with license:
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-4"></a>4</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-5"></a>5</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">The JuliaParser.jl package is licensed under the MIT &quot;Expat&quot; License:
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-6"></a>6</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-7"></a>7</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt; Copyright (c) 2014: Jake Bolewski.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-8"></a>8</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-9"></a>9</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt; Permission is hereby granted, free of charge, to any person obtaining
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-10"></a>10</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt; a copy of this software and associated documentation files (the
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-11"></a>11</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt; &quot;Software&quot;), to deal in the Software without restriction, including
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-12"></a>12</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt; without limitation the rights to use, copy, modify, merge, publish,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-13"></a>13</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt; distribute, sublicense, and/or sell copies of the Software, and to
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-14"></a>14</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt; permit persons to whom the Software is furnished to do so, subject to
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-15"></a>15</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt; the following conditions:
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-16"></a>16</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-17"></a>17</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt; The above copyright notice and this permission notice shall be
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-18"></a>18</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt; included in all copies or substantial portions of the Software.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-19"></a>19</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-20"></a>20</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt; THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-21"></a>21</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt; EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-22"></a>22</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt; MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-23"></a>23</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt; IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-24"></a>24</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt; CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-25"></a>25</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt; TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-26"></a>26</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">&gt; SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-27"></a>27</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">=#
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-28"></a>28</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-29"></a>29</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">import Base.UTF8proc
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-30"></a>30</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-31"></a>31</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const EOF_CHAR = convert(Char,typemax(UInt32))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-32"></a>32</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-33"></a>33</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function is_cat_id_start(ch::Char, cat::Integer)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-34"></a>34</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    c = UInt32(ch)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-35"></a>35</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    return (cat == UTF8proc.UTF8PROC_CATEGORY_LU || cat == UTF8proc.UTF8PROC_CATEGORY_LL ||
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-36"></a>36</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            cat == UTF8proc.UTF8PROC_CATEGORY_LT || cat == UTF8proc.UTF8PROC_CATEGORY_LM ||
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-37"></a>37</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            cat == UTF8proc.UTF8PROC_CATEGORY_LO || cat == UTF8proc.UTF8PROC_CATEGORY_NL ||
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-38"></a>38</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            cat == UTF8proc.UTF8PROC_CATEGORY_SC ||  # allow currency symbols
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-39"></a>39</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            cat == UTF8proc.UTF8PROC_CATEGORY_SO ||  # other symbols
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-40"></a>40</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-41"></a>41</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            # math symbol (category Sm) whitelist
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-42"></a>42</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            (c &gt;= 0x2140 &amp;&amp; c &lt;= 0x2a1c &amp;&amp;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-43"></a>43</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">             ((c &gt;= 0x2140 &amp;&amp; c &lt;= 0x2144) || # ⅀, ⅁, ⅂, ⅃, ⅄
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-44"></a>44</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">              c == 0x223f || c == 0x22be || c == 0x22bf || # ∿, ⊾, ⊿
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-45"></a>45</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">              c == 0x22a4 || c == 0x22a5 || # ⊤ ⊥
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-46"></a>46</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">              (c &gt;= 0x22ee &amp;&amp; c &lt;= 0x22f1) || # ⋮, ⋯, ⋰, ⋱
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-47"></a>47</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-48"></a>48</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">              (c &gt;= 0x2202 &amp;&amp; c &lt;= 0x2233 &amp;&amp;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-49"></a>49</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">               (c == 0x2202 || c == 0x2205 || c == 0x2206 || # ∂, ∅, ∆
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-50"></a>50</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                c == 0x2207 || c == 0x220e || c == 0x220f || # ∇, ∎, ∏
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-51"></a>51</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                c == 0x2210 || c == 0x2211 || # ∐, ∑
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-52"></a>52</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                c == 0x221e || c == 0x221f || # ∞, ∟
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-53"></a>53</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                c &gt;= 0x222b)) || # ∫, ∬, ∭, ∮, ∯, ∰, ∱, ∲, ∳
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-54"></a>54</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-55"></a>55</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">              (c &gt;= 0x22c0 &amp;&amp; c &lt;= 0x22c3) ||  # N-ary big ops: ⋀, ⋁, ⋂, ⋃
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-56"></a>56</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">              (c &gt;= 0x25F8 &amp;&amp; c &lt;= 0x25ff) ||  # ◸, ◹, ◺, ◻, ◼, ◽, ◾, ◿
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-57"></a>57</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-58"></a>58</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">              (c &gt;= 0x266f &amp;&amp;
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-59"></a>59</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">               (c == 0x266f || c == 0x27d8 || c == 0x27d9 || # ♯, ⟘, ⟙
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-60"></a>60</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                (c &gt;= 0x27c0 &amp;&amp; c &lt;= 0x27c2) ||  # ⟀, ⟁, ⟂
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-61"></a>61</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                (c &gt;= 0x29b0 &amp;&amp; c &lt;= 0x29b4) ||  # ⦰, ⦱, ⦲, ⦳, ⦴
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-62"></a>62</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                (c &gt;= 0x2a00 &amp;&amp; c &lt;= 0x2a06) ||  # ⨀, ⨁, ⨂, ⨃, ⨄, ⨅, ⨆
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-63"></a>63</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                (c &gt;= 0x2a09 &amp;&amp; c &lt;= 0x2a16) ||  # ⨉, ⨊, ⨋, ⨌, ⨍, ⨎, ⨏, ⨐, ⨑, ⨒,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-64"></a>64</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                                                 # ⨓, ⨔, ⨕, ⨖
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-65"></a>65</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                c == 0x2a1b || c == 0x2a1c)))) || # ⨛, ⨜
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-66"></a>66</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-67"></a>67</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            (c &gt;= 0x1d6c1 &amp;&amp; # variants of \nabla and \partial
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-68"></a>68</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">             (c == 0x1d6c1 || c == 0x1d6db ||
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-69"></a>69</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">              c == 0x1d6fb || c == 0x1d715 ||
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-70"></a>70</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">              c == 0x1d735 || c == 0x1d74f ||
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-71"></a>71</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">              c == 0x1d76f || c == 0x1d789 ||
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-72"></a>72</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">              c == 0x1d7a9 || c == 0x1d7c3)) ||
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-73"></a>73</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-74"></a>74</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            # super- and subscript +-=()
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-75"></a>75</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            (c &gt;= 0x207a &amp;&amp; c &lt;= 0x207e) ||
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-76"></a>76</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            (c &gt;= 0x208a &amp;&amp; c &lt;= 0x208e) ||
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-77"></a>77</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-78"></a>78</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            # angle symbols
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-79"></a>79</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            (c &gt;= 0x2220 &amp;&amp; c &lt;= 0x2222) || # ∠, ∡, ∢
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-80"></a>80</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            (c &gt;= 0x299b &amp;&amp; c &lt;= 0x29af) || # ⦛, ⦜, ⦝, ⦞, ⦟, ⦠, ⦡, ⦢, ⦣, ⦤, ⦥,
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-81"></a>81</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                                            # ⦦, ⦧, ⦨, ⦩, ⦪, ⦫, ⦬, ⦭, ⦮, ⦯
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-82"></a>82</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            # Other_ID_Start
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-83"></a>83</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            c == 0x2118 || c == 0x212E || # ℘, ℮
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-84"></a>84</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">            (c &gt;= 0x309B &amp;&amp; c &lt;= 0x309C)) # katakana-hiragana sound marks
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-85"></a>85</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-86"></a>86</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-87"></a>87</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function is_identifier_char(c::Char)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-88"></a>88</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if ((c &gt;= &#39;A&#39; &amp;&amp; c &lt;= &#39;Z&#39;) ||
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-89"></a>89</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        (c &gt;= &#39;a&#39; &amp;&amp; c &lt;= &#39;z&#39;) || c == &#39;_&#39; ||
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-90"></a>90</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        (c &gt;= &#39;0&#39; &amp;&amp; c &lt;= &#39;9&#39;) || c == &#39;!&#39;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-91"></a>91</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        return true
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-92"></a>92</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    elseif (UInt32(c) &lt; 0xA1 || UInt32(c) &gt; 0x10ffff)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-93"></a>93</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        return false
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-94"></a>94</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-95"></a>95</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    cat = UTF8proc.category_code(c)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-96"></a>96</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    is_cat_id_start(c, cat) &amp;&amp; return true
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-97"></a>97</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if cat == UTF8proc.UTF8PROC_CATEGORY_MN || cat == UTF8proc.UTF8PROC_CATEGORY_MC ||
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-98"></a>98</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        cat == UTF8proc.UTF8PROC_CATEGORY_ND || cat == UTF8proc.UTF8PROC_CATEGORY_PC ||
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-99"></a>99</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        cat == UTF8proc.UTF8PROC_CATEGORY_SK || cat == UTF8proc.UTF8PROC_CATEGORY_ME ||
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-100"></a>100</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        cat == UTF8proc.UTF8PROC_CATEGORY_NO ||
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-101"></a>101</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        (0x2032 &lt;= UInt32(c) &lt;= 0x2034) || # primes
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-102"></a>102</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        UInt32(c) == 0x0387 || UInt32(c) == 0x19da ||
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-103"></a>103</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        (0x1369 &lt;= UInt32(c) &lt;= 0x1371)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-104"></a>104</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">       return true
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-105"></a>105</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-106"></a>106</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    return false
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-107"></a>107</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-108"></a>108</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-109"></a>109</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function is_identifier_start_char(c::Char)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-110"></a>110</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if ((c &gt;= &#39;A&#39; &amp;&amp; c &lt;= &#39;Z&#39;) || (c &gt;= &#39;a&#39; &amp;&amp; c &lt;= &#39;z&#39;) || c == &#39;_&#39;)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-111"></a>111</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        return true
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-112"></a>112</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    elseif (UInt32(c) &lt; 0xA1 || UInt32(c) &gt; 0x10ffff)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-113"></a>113</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        return false
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-114"></a>114</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-115"></a>115</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    cat = UTF8proc.category_code(c)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-116"></a>116</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    return is_cat_id_start(c, cat)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-117"></a>117</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-118"></a>118</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-119"></a>119</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-120"></a>120</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function peekchar(io::(isdefined(Base, :GenericIOBuffer) ?
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-121"></a>121</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">                       Base.GenericIOBuffer : Base.AbstractIOBuffer))
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-122"></a>122</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if !io.readable || io.ptr &gt; io.size
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-123"></a>123</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        return EOF_CHAR
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-124"></a>124</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-125"></a>125</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    ch, _ = readutf(io)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-126"></a>126</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    return ch
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-127"></a>127</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-128"></a>128</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-129"></a>129</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function readutf(io, offset = 0)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-130"></a>130</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    ch = convert(UInt8, io.data[io.ptr + offset])
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-131"></a>131</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if ch &lt; 0x80
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-132"></a>132</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        return convert(Char, ch), 0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-133"></a>133</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-134"></a>134</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    trailing = Base.utf8_trailing[ch + 1]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-135"></a>135</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    c::UInt32 = 0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-136"></a>136</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    for j = 1:trailing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-137"></a>137</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        c += ch
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-138"></a>138</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        c &lt;&lt;= 6
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-139"></a>139</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        ch = convert(UInt8, io.data[io.ptr + j + offset])
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-140"></a>140</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-141"></a>141</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    c += ch
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-142"></a>142</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    c -= Base.utf8_offset[trailing + 1]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-143"></a>143</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    return convert(Char, c), trailing
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-144"></a>144</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-145"></a>145</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-146"></a>146</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">function dpeekchar(io::IOBuffer)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-147"></a>147</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if !io.readable || io.ptr &gt; io.size
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-148"></a>148</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        return EOF_CHAR, EOF_CHAR
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-149"></a>149</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-150"></a>150</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    ch1, trailing = readutf(io)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-151"></a>151</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    offset = trailing + 1
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-152"></a>152</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-153"></a>153</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if io.ptr + offset &gt; io.size
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-154"></a>154</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        return ch1, EOF_CHAR
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-155"></a>155</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-156"></a>156</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    ch2, _ = readutf(io, offset)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-157"></a>157</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-158"></a>158</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    return ch1, ch2
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-159"></a>159</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-160"></a>160</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-161"></a>161</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code"># this implementation is copied from Base
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-162"></a>162</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">const _CHTMP = Vector{Char}(1)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-163"></a>163</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-164"></a>164</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">peekchar(s::IOStream) = begin
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-165"></a>165</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    if ccall(:ios_peekutf8, Int32, (Ptr{Void}, Ptr{Char}), s, _CHTMP) &lt; 0
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-166"></a>166</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">        return EOF_CHAR
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-167"></a>167</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-168"></a>168</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">    return _CHTMP[1]
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-169"></a>169</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">end
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-170"></a>170</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-171"></a>171</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">eof(io::IO) = Base.eof(io)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-172"></a>172</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">eof(c::Char) = c === EOF_CHAR
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-173"></a>173</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-174"></a>174</td>
+          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-julia-v0-6-Tokenize-src-utilities-jl-readchar-174"></a>
+              1 (0.0023%) samples spent in readchar<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              readchar
+              <a href="lexer-jl-b16776343e123fe66f2c-line.html#Llexer-jl-b16776343e123fe66f2c-line.html-157">line 157</a><br />
+            </div>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="io-jl-8e3ccf7533a4555a00c5-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-io-jl-read-402">read</a><br />
+            </div>
+            <span class="code">readchar(io::IO) = eof(io) ? EOF_CHAR : read(io, Char)
+</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td><a name="Lutilities-jl-aaf363909d1080fc2e2b-line.html-175"></a>175</td>
+          <td></td>
+          <td></td>
+          <td>
+            <span class="code">takechar(io::IO) = (readchar(io); io)
+</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

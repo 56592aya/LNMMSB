@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -771,14 +771,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-vect-75"></a>
-              18 (0.19%) samples spent in vect<br />
-              6 (33.33%) (ex.),
-              6 (33.33%) (incl.)
-              when called from
-              isfadj
-              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-237">line 237</a><br />
-              12 (66.67%) (ex.),
-              12 (66.67%) (incl.)
+              28 (0.06%) samples spent in vect<br />
+              28 (100.00%) (ex.),
+              28 (100.00%) (incl.)
               when called from
               isalink
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-208">line 208</a><br />
@@ -790,8 +785,8 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-76"></a>76</td>
-          <td>18 (0.19%)</td>
-          <td>18 (0.19%)</td>
+          <td>25 (0.06%)</td>
+          <td>25 (0.06%)</td>
           <td>
             <span class="code">vect(X::T...) where {T} = T[ X[i] for i = 1:length(X) ]
 </span>
@@ -1160,14 +1155,14 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-113"></a>113</td>
-          <td>133 (1.37%)</td>
-          <td>133 (1.37%)</td>
+          <td>1044 (2.35%)</td>
+          <td>1044 (2.35%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-unsafe_copy-113"></a>
-              133 (1.37%) samples spent in unsafe_copy!<br />
-              133 (100.00%) (ex.),
-              133 (100.00%) (incl.)
+              1044 (2.35%) samples spent in unsafe_copy!<br />
+              1044 (100.00%) (ex.),
+              1044 (100.00%) (incl.)
               when called from
               unsafe_copy!
               <a href="array-jl-c31e5f0854745d9d2638-line.html#Larray-jl-c31e5f0854745d9d2638-line.html-120">line 120</a><br />
@@ -1224,27 +1219,22 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-unsafe_copy-118"></a>
-              166 (1.72%) samples spent in unsafe_copy!<br />
+              1086 (2.44%) samples spent in unsafe_copy!<br />
               0 (ex.),
-              1 (0.60%) (incl.)
+              1 (0.09%) (incl.)
               when called from
-              getindex
-              <a href="array-jl-c31e5f0854745d9d2638-line.html#Larray-jl-c31e5f0854745d9d2638-line.html-564">line 564</a><br />
-              1 (3.12%) (ex.),
-              1 (0.60%) (incl.)
-              when called from
-              updatephinl!
-              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-44">line 44</a><br />
-              15 (46.88%) (ex.),
-              76 (45.78%) (incl.)
-              when called from
-              getindex
-              <a href="array-jl-c31e5f0854745d9d2638-line.html#Larray-jl-c31e5f0854745d9d2638-line.html-572">line 572</a><br />
-              16 (50.00%) (ex.),
-              88 (53.01%) (incl.)
+              copy!
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#Larray-jl-c31e5f0854745d9d2638-line.html-134">line 134</a><br />
+              25 (62.50%) (ex.),
+              229 (21.09%) (incl.)
               when called from
               setindex!
               <a href="array-jl-c31e5f0854745d9d2638-line.html#Larray-jl-c31e5f0854745d9d2638-line.html-629">line 629</a><br />
+              15 (37.50%) (ex.),
+              856 (78.82%) (incl.)
+              when called from
+              getindex
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#Larray-jl-c31e5f0854745d9d2638-line.html-572">line 572</a><br />
             </div>
             <span class="code">function unsafe_copy!(dest::Array{T}, doffs, src::Array{T}, soffs, n) where T
 </span>
@@ -1263,14 +1253,14 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-120"></a>120</td>
-          <td>3 (0.03%)</td>
-          <td>137 (1.42%)</td>
+          <td>3 (0.0068%)</td>
+          <td>1049 (2.36%)</td>
           <td>
             <div class="callees">
-              133 (97.08%)
+              1044 (99.52%)
               samples spent calling
               <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-unsafe_copy-113">unsafe_copy!</a><br />
-              1 (0.73%)
+              2 (0.19%)
               samples spent calling
               <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-pointer-867">pointer</a><br />
             </div>
@@ -1321,8 +1311,8 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-125"></a>125</td>
-          <td>12 (0.12%)</td>
-          <td>12 (0.12%)</td>
+          <td>7 (0.02%)</td>
+          <td>7 (0.02%)</td>
           <td>
             <span class="code">    return dest
 </span>
@@ -1354,6 +1344,15 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-copy-128"></a>
+              1 (0.0023%) samples spent in copy!<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              convert
+              <a href="triangular-jl-a7c4d33cd3f97b27bda6-line.html#Ltriangular-jl-a7c4d33cd3f97b27bda6-line.html-126">line 126</a><br />
+            </div>
             <span class="code">function copy!(dest::Array{T}, doffs::Integer, src::Array{T}, soffs::Integer, n::Integer) where T
 </span>
           </td>
@@ -1412,8 +1411,13 @@
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-134"></a>134</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
           <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-unsafe_copy-118">unsafe_copy!</a><br />
+            </div>
             <span class="code">    unsafe_copy!(dest, doffs, src, soffs, n)
 </span>
           </td>
@@ -2274,6 +2278,15 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-fill-220"></a>
+              2 (0.0045%) samples spent in fill!<br />
+              2 (100.00%) (ex.),
+              2 (100.00%) (incl.)
+              when called from
+              rehash!
+              <a href="dict-jl-69dc10398ca233bdae58-line.html#Ldict-jl-69dc10398ca233bdae58-line.html-233">line 233</a><br />
+            </div>
             <span class="code">function fill!(a::Union{Array{UInt8}, Array{Int8}}, x::Integer)
 </span>
           </td>
@@ -2281,8 +2294,8 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-221"></a>221</td>
-          <td></td>
-          <td></td>
+          <td>2 (0.0045%)</td>
+          <td>2 (0.0045%)</td>
           <td>
             <span class="code">    ccall(:memset, Ptr{Void}, (Ptr{Void}, Cint, Csize_t), a, x, length(a))
 </span>
@@ -2326,22 +2339,32 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-fill-225"></a>
-              20 (0.21%) samples spent in fill!<br />
-              6 (30.00%) (ex.),
-              6 (30.00%) (incl.)
+              231 (0.52%) samples spent in fill!<br />
+              2 (0.87%) (ex.),
+              2 (0.87%) (incl.)
               when called from
-              train
-              <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-91">line 91</a><br />
-              7 (35.00%) (ex.),
-              7 (35.00%) (incl.)
+              update
+              <a href="AdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html#LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-32">line 32</a><br />
+              6 (2.60%) (ex.),
+              6 (2.60%) (incl.)
+              when called from
+              eye
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#Larray-jl-c31e5f0854745d9d2638-line.html-297">line 297</a><br />
+              65 (28.14%) (ex.),
+              65 (28.14%) (incl.)
               when called from
               train
               <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-90">line 90</a><br />
-              7 (35.00%) (ex.),
-              7 (35.00%) (incl.)
+              68 (29.44%) (ex.),
+              68 (29.44%) (incl.)
               when called from
               train
               <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-88">line 88</a><br />
+              90 (38.96%) (ex.),
+              90 (38.96%) (incl.)
+              when called from
+              train
+              <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-91">line 91</a><br />
             </div>
             <span class="code">function fill!(a::Array{T}, x) where T&lt;:Union{Integer,AbstractFloat}
 </span>
@@ -2360,8 +2383,8 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-227"></a>227</td>
-          <td>2 (0.02%)</td>
-          <td>2 (0.02%)</td>
+          <td>75 (0.17%)</td>
+          <td>75 (0.17%)</td>
           <td>
             <span class="code">    for i in eachindex(a)
 </span>
@@ -2370,8 +2393,8 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-228"></a>228</td>
-          <td>18 (0.19%)</td>
-          <td>18 (0.19%)</td>
+          <td>156 (0.35%)</td>
+          <td>156 (0.35%)</td>
           <td>
             <span class="code">        @inbounds a[i] = xT
 </span>
@@ -3055,9 +3078,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-eye-296"></a>
-              2 (0.02%) samples spent in eye<br />
-              2 (100.00%) (ex.),
-              2 (100.00%) (incl.)
+              23 (0.05%) samples spent in eye<br />
+              17 (100.00%) (ex.),
+              23 (100.00%) (incl.)
               when called from
               inv
               <a href="triangular-jl-a7c4d33cd3f97b27bda6-line.html#Ltriangular-jl-a7c4d33cd3f97b27bda6-line.html-536">line 536</a><br />
@@ -3069,9 +3092,14 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-297"></a>297</td>
-          <td>2 (0.02%)</td>
-          <td>2 (0.02%)</td>
+          <td>16 (0.04%)</td>
+          <td>22 (0.05%)</td>
           <td>
+            <div class="callees">
+              6 (27.27%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-fill-225">fill!</a><br />
+            </div>
             <span class="code">    a = zeros(T,m,n)
 </span>
           </td>
@@ -3089,8 +3117,8 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-299"></a>299</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <span class="code">        a[i,i] = oneunit(T)
 </span>
@@ -3982,6 +4010,15 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-update_A-388"></a>
+              1 (0.0023%) samples spent in update_A!<br />
+              1 (100.00%) (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              train
+              <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-133">line 133</a><br />
+            </div>
             <span class="code"> 1.0
 </span>
           </td>
@@ -5719,14 +5756,14 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-562"></a>562</td>
-          <td>1 (0.01%)</td>
-          <td>1 (0.01%)</td>
+          <td>3 (0.0068%)</td>
+          <td>3 (0.0068%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-getindex-562"></a>
-              1 (0.01%) samples spent in getindex<br />
-              1 (100.00%) (ex.),
-              1 (100.00%) (incl.)
+              3 (0.0068%) samples spent in getindex<br />
+              3 (100.00%) (ex.),
+              3 (100.00%) (incl.)
               when called from
               getindex
               <a href="sparsevector-jl-636f0df533e50526596a-line.html#Lsparsevector-jl-636f0df533e50526596a-line.html-462">line 462</a><br />
@@ -5749,22 +5786,8 @@
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-564"></a>564</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td></td>
           <td>
-            <div class="call-sites">
-              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-getindex-564"></a>
-              1 (0.01%) samples spent in getindex<br />
-              0 (ex.),
-              1 (100.00%) (incl.)
-              when called from
-              getindex
-              <a href="sparsevector-jl-636f0df533e50526596a-line.html#Lsparsevector-jl-636f0df533e50526596a-line.html-462">line 462</a><br />
-            </div>
-            <div class="callees">
-              1 (100.00%)
-              samples spent calling
-              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-unsafe_copy-118">unsafe_copy!</a><br />
-            </div>
             <span class="code">        unsafe_copy!(X, 1, A, first(I), lI)
 </span>
           </td>
@@ -5807,49 +5830,39 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-getindex-568"></a>
-              839 (8.67%) samples spent in getindex<br />
-              1 (0.13%) (ex.),
-              1 (0.12%) (incl.)
-              when called from
-              train
-              <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-99">line 99</a><br />
-              1 (0.13%) (ex.),
-              1 (0.12%) (incl.)
-              when called from
-              updatephinl!
-              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-44">line 44</a><br />
-              4 (0.52%) (ex.),
-              4 (0.48%) (incl.)
+              3863 (8.70%) samples spent in getindex<br />
+              4 (0.13%) (ex.),
+              4 (0.10%) (incl.)
               when called from
               update
               <a href="AdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html#LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-34">line 34</a><br />
-              9 (1.18%) (ex.),
-              10 (1.19%) (incl.)
+              5 (0.17%) (ex.),
+              6 (0.16%) (incl.)
               when called from
               update
               <a href="AdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html#LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-30">line 30</a><br />
-              12 (1.57%) (ex.),
-              14 (1.67%) (incl.)
+              9 (0.30%) (ex.),
+              10 (0.26%) (incl.)
               when called from
               update
               <a href="AdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html#LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-33">line 33</a><br />
-              83 (10.88%) (ex.),
-              91 (10.85%) (incl.)
+              113 (3.76%) (ex.),
+              122 (3.16%) (incl.)
               when called from
               updatephil!
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-19">line 19</a><br />
-              179 (23.46%) (ex.),
-              205 (24.43%) (incl.)
+              230 (7.65%) (ex.),
+              299 (7.74%) (incl.)
               when called from
               updatephil!
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-27">line 27</a><br />
-              228 (29.88%) (ex.),
-              254 (30.27%) (incl.)
+              1252 (41.64%) (ex.),
+              1651 (42.74%) (incl.)
               when called from
               updatephinlin!
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-76">line 76</a><br />
-              246 (32.24%) (ex.),
-              259 (30.87%) (incl.)
+              1394 (46.36%) (ex.),
+              1771 (45.85%) (incl.)
               when called from
               updatephinlout!
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-63">line 63</a><br />
@@ -5871,8 +5884,8 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-570"></a>570</td>
-          <td>729 (7.54%)</td>
-          <td>729 (7.54%)</td>
+          <td>2960 (6.66%)</td>
+          <td>2960 (6.66%)</td>
           <td>
             <span class="code">    X = similar(A, lI)
 </span>
@@ -5881,8 +5894,8 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-571"></a>571</td>
-          <td>1 (0.01%)</td>
-          <td>1 (0.01%)</td>
+          <td></td>
+          <td></td>
           <td>
             <span class="code">    if lI &gt; 0
 </span>
@@ -5891,11 +5904,11 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-572"></a>572</td>
-          <td>11 (0.11%)</td>
-          <td>87 (0.90%)</td>
+          <td>11 (0.02%)</td>
+          <td>867 (1.95%)</td>
           <td>
             <div class="callees">
-              76 (87.36%)
+              856 (98.73%)
               samples spent calling
               <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-unsafe_copy-118">unsafe_copy!</a><br />
             </div>
@@ -5916,8 +5929,8 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-574"></a>574</td>
-          <td>12 (0.12%)</td>
-          <td>12 (0.12%)</td>
+          <td>10 (0.02%)</td>
+          <td>10 (0.02%)</td>
           <td>
             <span class="code">    return X
 </span>
@@ -6076,9 +6089,18 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-590"></a>590</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-setindex-590"></a>
+              1 (0.0023%) samples spent in setindex!<br />
+              1 (100.00%) (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              macro expansion
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-191">line 191</a><br />
+            </div>
             <span class="code">    for i in I
 </span>
           </td>
@@ -6086,17 +6108,24 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-591"></a>591</td>
-          <td>62 (0.64%)</td>
-          <td>62 (0.64%)</td>
+          <td>80 (0.18%)</td>
+          <td>80 (0.18%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-setindex-591"></a>
-              62 (0.64%) samples spent in setindex!<br />
-              62 (100.00%) (ex.),
-              62 (100.00%) (incl.)
+              78 (0.18%) samples spent in setindex!<br />
+              78 (100.00%) (ex.),
+              78 (100.00%) (incl.)
               when called from
               macro expansion
               <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-191">line 191</a><br />
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-macro-expansion-591"></a>
+              2 (0.0045%) samples spent in macro expansion<br />
+              2 (100.00%) (ex.),
+              2 (100.00%) (incl.)
+              when called from
+              _broadcast!
+              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-164">line 164</a><br />
             </div>
             <span class="code">        A[i] = x
 </span>
@@ -6445,29 +6474,29 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-626"></a>626</td>
-          <td>6 (0.06%)</td>
-          <td>6 (0.06%)</td>
+          <td>13 (0.03%)</td>
+          <td>13 (0.03%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-setindex-626"></a>
-              6 (0.06%) samples spent in setindex!<br />
-              1 (16.67%) (ex.),
-              1 (16.67%) (incl.)
+              13 (0.03%) samples spent in setindex!<br />
+              1 (7.69%) (ex.),
+              1 (7.69%) (incl.)
               when called from
-              updatephil!
-              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-19">line 19</a><br />
-              1 (16.67%) (ex.),
-              1 (16.67%) (incl.)
+              updatephinlin!
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-70">line 70</a><br />
+              2 (15.38%) (ex.),
+              2 (15.38%) (incl.)
+              when called from
+              updatephinlin!
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-76">line 76</a><br />
+              4 (30.77%) (ex.),
+              4 (30.77%) (incl.)
               when called from
               updatephinlout!
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-57">line 57</a><br />
-              1 (16.67%) (ex.),
-              1 (16.67%) (incl.)
-              when called from
-              updatephil!
-              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-27">line 27</a><br />
-              3 (50.00%) (ex.),
-              3 (50.00%) (incl.)
+              6 (46.15%) (ex.),
+              6 (46.15%) (incl.)
               when called from
               updatephinlout!
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-63">line 63</a><br />
@@ -6479,25 +6508,35 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-627"></a>627</td>
-          <td>1 (0.01%)</td>
-          <td>2 (0.02%)</td>
+          <td>2 (0.0045%)</td>
+          <td>8 (0.02%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-setindex-627"></a>
-              2 (0.02%) samples spent in setindex!<br />
-              1 (100.00%) (ex.),
-              1 (50.00%) (incl.)
-              when called from
-              updatephil!
-              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-19">line 19</a><br />
+              8 (0.02%) samples spent in setindex!<br />
               0 (ex.),
-              1 (50.00%) (incl.)
+              2 (25.00%) (incl.)
+              when called from
+              updatephinlout!
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-57">line 57</a><br />
+              0 (ex.),
+              2 (25.00%) (incl.)
+              when called from
+              updatephinlout!
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-63">line 63</a><br />
+              1 (50.00%) (ex.),
+              2 (25.00%) (incl.)
+              when called from
+              updatephinlin!
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-70">line 70</a><br />
+              1 (50.00%) (ex.),
+              2 (25.00%) (incl.)
               when called from
               updatephinlin!
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-76">line 76</a><br />
             </div>
             <div class="callees">
-              1 (50.00%)
+              6 (75.00%)
               samples spent calling
               <a href="indices-jl-ca62d99379281bb38e64-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-indices-jl-setindex_shape_check-142">setindex_shape_check</a><br />
             </div>
@@ -6518,55 +6557,50 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-629"></a>629</td>
-          <td>5 (0.05%)</td>
-          <td>93 (0.96%)</td>
+          <td>11 (0.02%)</td>
+          <td>240 (0.54%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-setindex-629"></a>
-              93 (0.96%) samples spent in setindex!<br />
-              1 (20.00%) (ex.),
-              2 (2.15%) (incl.)
+              240 (0.54%) samples spent in setindex!<br />
+              2 (18.18%) (ex.),
+              2 (0.83%) (incl.)
               when called from
               update
               <a href="AdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html#LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-30">line 30</a><br />
-              0 (ex.),
-              2 (2.15%) (incl.)
-              when called from
-              update
-              <a href="AdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html#LAdaGradOptimizer-jl-7c6670f2b61e6bc30b2d-line.html-33">line 33</a><br />
-              0 (ex.),
-              9 (9.68%) (incl.)
-              when called from
-              updatephil!
-              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-27">line 27</a><br />
-              0 (ex.),
-              12 (12.90%) (incl.)
-              when called from
-              updatephinlin!
-              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-70">line 70</a><br />
-              1 (20.00%) (ex.),
-              14 (15.05%) (incl.)
+              1 (9.09%) (ex.),
+              11 (4.58%) (incl.)
               when called from
               updatephil!
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-19">line 19</a><br />
-              1 (20.00%) (ex.),
-              14 (15.05%) (incl.)
+              0 (ex.),
+              12 (5.00%) (incl.)
+              when called from
+              updatephil!
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-27">line 27</a><br />
+              2 (18.18%) (ex.),
+              40 (16.67%) (incl.)
+              when called from
+              updatephinlin!
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-70">line 70</a><br />
+              1 (9.09%) (ex.),
+              48 (20.00%) (incl.)
               when called from
               updatephinlout!
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-57">line 57</a><br />
-              0 (ex.),
-              20 (21.51%) (incl.)
-              when called from
-              updatephinlin!
-              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-76">line 76</a><br />
-              2 (40.00%) (ex.),
-              20 (21.51%) (incl.)
+              2 (18.18%) (ex.),
+              61 (25.42%) (incl.)
               when called from
               updatephinlout!
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-63">line 63</a><br />
+              3 (27.27%) (ex.),
+              66 (27.50%) (incl.)
+              when called from
+              updatephinlin!
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-76">line 76</a><br />
             </div>
             <div class="callees">
-              88 (94.62%)
+              229 (95.42%)
               samples spent calling
               <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-unsafe_copy-118">unsafe_copy!</a><br />
             </div>
@@ -6797,52 +6831,47 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-652"></a>652</td>
-          <td>15 (0.16%)</td>
-          <td>15 (0.16%)</td>
+          <td>29 (0.07%)</td>
+          <td>29 (0.07%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-652"></a>
-              15 (0.16%) samples spent in push!<br />
-              1 (6.67%) (ex.),
-              1 (6.67%) (incl.)
-              when called from
-              setup_mblnl!
-              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-449">line 449</a><br />
-              1 (6.67%) (ex.),
-              1 (6.67%) (incl.)
-              when called from
-              update_A!
-              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-405">line 405</a><br />
-              1 (6.67%) (ex.),
-              1 (6.67%) (incl.)
-              when called from
-              minibatch_set_srns
-              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-38">line 38</a><br />
-              1 (6.67%) (ex.),
-              1 (6.67%) (incl.)
-              when called from
-              update_sets!
-              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-372">line 372</a><br />
-              1 (6.67%) (ex.),
-              1 (6.67%) (incl.)
-              when called from
-              setup_mblnl!
-              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-439">line 439</a><br />
-              2 (13.33%) (ex.),
-              2 (13.33%) (incl.)
-              when called from
-              setup_mblnl!
-              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-456">line 456</a><br />
-              2 (13.33%) (ex.),
-              2 (13.33%) (incl.)
+              29 (0.07%) samples spent in push!<br />
+              1 (3.45%) (ex.),
+              1 (3.45%) (incl.)
               when called from
               unique_from
               <a href="set-jl-86e7f298e4c3455f5c55-line.html#Lset-jl-86e7f298e4c3455f5c55-line.html-164">line 164</a><br />
-              6 (40.00%) (ex.),
-              6 (40.00%) (incl.)
+              1 (3.45%) (ex.),
+              1 (3.45%) (incl.)
+              when called from
+              setup_mblnl!
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-439">line 439</a><br />
+              2 (6.90%) (ex.),
+              2 (6.90%) (incl.)
+              when called from
+              update_A!
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-405">line 405</a><br />
+              3 (10.34%) (ex.),
+              3 (10.34%) (incl.)
+              when called from
+              setup_mblnl!
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-449">line 449</a><br />
+              4 (13.79%) (ex.),
+              4 (13.79%) (incl.)
+              when called from
+              update_sets!
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-372">line 372</a><br />
+              9 (31.03%) (ex.),
+              9 (31.03%) (incl.)
               when called from
               setup_mblnl!
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-464">line 464</a><br />
+              9 (31.03%) (ex.),
+              9 (31.03%) (incl.)
+              when called from
+              setup_mblnl!
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-456">line 456</a><br />
             </div>
             <span class="code">    ccall(:jl_array_grow_end, Void, (Any, UInt), a, 1)
 </span>
@@ -6851,37 +6880,17 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-653"></a>653</td>
-          <td>6 (0.06%)</td>
-          <td>6 (0.06%)</td>
+          <td>2 (0.0045%)</td>
+          <td>2 (0.0045%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-653"></a>
-              6 (0.06%) samples spent in push!<br />
-              1 (16.67%) (ex.),
-              1 (16.67%) (incl.)
-              when called from
-              setup_mblnl!
-              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-464">line 464</a><br />
-              1 (16.67%) (ex.),
-              1 (16.67%) (incl.)
+              1 (0.0023%) samples spent in push!<br />
+              1 (100.00%) (ex.),
+              1 (100.00%) (incl.)
               when called from
               setup_mblnl!
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-449">line 449</a><br />
-              1 (16.67%) (ex.),
-              1 (16.67%) (incl.)
-              when called from
-              unique_from
-              <a href="set-jl-86e7f298e4c3455f5c55-line.html#Lset-jl-86e7f298e4c3455f5c55-line.html-164">line 164</a><br />
-              1 (16.67%) (ex.),
-              1 (16.67%) (incl.)
-              when called from
-              setup_mblnl!
-              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-456">line 456</a><br />
-              2 (33.33%) (ex.),
-              2 (33.33%) (incl.)
-              when called from
-              update_sets!
-              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-372">line 372</a><br />
             </div>
             <span class="code">    a[end] = itemT
 </span>
@@ -11945,29 +11954,24 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-vcat-1159"></a>
-              338 (3.49%) samples spent in vcat<br />
-              1 (0.30%) (ex.),
-              1 (0.30%) (incl.)
-              when called from
-              train
-              <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-99">line 99</a><br />
-              80 (23.74%) (ex.),
-              80 (23.67%) (incl.)
-              when called from
-              updatephil!
-              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-16">line 16</a><br />
-              80 (23.74%) (ex.),
-              80 (23.67%) (incl.)
-              when called from
-              updatephinlout!
-              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-58">line 58</a><br />
-              85 (25.22%) (ex.),
-              86 (25.44%) (incl.)
+              667 (1.50%) samples spent in vcat<br />
+              34 (5.10%) (ex.),
+              34 (5.10%) (incl.)
               when called from
               updatephil!
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-15">line 15</a><br />
-              91 (27.00%) (ex.),
-              91 (26.92%) (incl.)
+              58 (8.70%) (ex.),
+              58 (8.70%) (incl.)
+              when called from
+              updatephil!
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-16">line 16</a><br />
+              276 (41.38%) (ex.),
+              276 (41.38%) (incl.)
+              when called from
+              updatephinlout!
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-58">line 58</a><br />
+              299 (44.83%) (ex.),
+              299 (44.83%) (incl.)
               when called from
               updatephinlin!
               <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-71">line 71</a><br />
@@ -11989,8 +11993,8 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-1161"></a>1161</td>
-          <td></td>
-          <td></td>
+          <td>2 (0.0045%)</td>
+          <td>2 (0.0045%)</td>
           <td>
             <span class="code">    for a in arrays
 </span>
@@ -11999,8 +12003,8 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-1162"></a>1162</td>
-          <td>18 (0.19%)</td>
-          <td>18 (0.19%)</td>
+          <td>58 (0.13%)</td>
+          <td>58 (0.13%)</td>
           <td>
             <span class="code">        n += length(a)
 </span>
@@ -12019,8 +12023,8 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-1164"></a>1164</td>
-          <td>235 (2.43%)</td>
-          <td>235 (2.43%)</td>
+          <td>495 (1.11%)</td>
+          <td>495 (1.11%)</td>
           <td>
             <span class="code">    arr = Array{T,1}(n)
 </span>
@@ -12099,8 +12103,8 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-1172"></a>1172</td>
-          <td>5 (0.05%)</td>
-          <td>5 (0.05%)</td>
+          <td>3 (0.0068%)</td>
+          <td>3 (0.0068%)</td>
           <td>
             <span class="code">        na = length(a)
 </span>
@@ -12109,8 +12113,8 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-1173"></a>1173</td>
-          <td></td>
-          <td></td>
+          <td>2 (0.0045%)</td>
+          <td>2 (0.0045%)</td>
           <td>
             <span class="code">        nba = na * elsz
 </span>
@@ -12129,14 +12133,9 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-1175"></a>1175</td>
-          <td>57 (0.59%)</td>
-          <td>58 (0.60%)</td>
+          <td>90 (0.20%)</td>
+          <td>90 (0.20%)</td>
           <td>
-            <div class="callees">
-              1 (1.72%)
-              samples spent calling
-              <a href="pointer-jl-6eb0f35dd1e45507312e-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-pointer-jl-unsafe_convert-44">unsafe_convert</a><br />
-            </div>
             <span class="code">            ccall(:memcpy, Ptr{Void}, (Ptr{Void}, Ptr{Void}, UInt),
 </span>
           </td>
@@ -12214,8 +12213,8 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-1183"></a>1183</td>
-          <td>5 (0.05%)</td>
-          <td>5 (0.05%)</td>
+          <td>5 (0.01%)</td>
+          <td>5 (0.01%)</td>
           <td>
             <span class="code">    return arr
 </span>
@@ -19439,9 +19438,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-filter-1905"></a>
-              3 (0.03%) samples spent in filter!<br />
+              10 (0.02%) samples spent in filter!<br />
               1 (100.00%) (ex.),
-              3 (100.00%) (incl.)
+              10 (100.00%) (incl.)
               when called from
               update_sets!
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-379">line 379</a><br />
@@ -19454,13 +19453,8 @@
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-1906"></a>1906</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td></td>
           <td>
-            <div class="callees">
-              1 (100.00%)
-              samples spent calling
-              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-isempty-831">isempty</a><br />
-            </div>
             <span class="code">    isempty(a) &amp;&amp; return a
 </span>
           </td>
@@ -19518,8 +19512,8 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-1912"></a>1912</td>
-          <td>1 (0.01%)</td>
-          <td>1 (0.01%)</td>
+          <td></td>
+          <td></td>
           <td>
             <span class="code">    for acurr in a
 </span>
@@ -19529,10 +19523,10 @@
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-1913"></a>1913</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td>9 (0.02%)</td>
           <td>
             <div class="callees">
-              1 (100.00%)
+              9 (100.00%)
               samples spent calling
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-1-16">#1</a><br />
             </div>
@@ -19553,8 +19547,8 @@
 
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-1915"></a>1915</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <span class="code">            i, state = next(idx, state)
 </span>
@@ -19776,6 +19770,15 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-intersect-1937"></a>
+              1 (0.0023%) samples spent in intersect<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              test_sets
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-473">line 473</a><br />
+            </div>
             <span class="code">function intersect(v1, vs...)
 </span>
           </td>
@@ -19824,8 +19827,13 @@
         <tr>
           <td><a name="Larray-jl-c31e5f0854745d9d2638-line.html-1942"></a>1942</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
           <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-in-631">in</a><br />
+            </div>
             <span class="code">            if !in(v_elem, vsi)
 </span>
           </td>

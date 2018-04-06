@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -177,19 +177,19 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-16"></a>16</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td>9 (0.02%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-1-16"></a>
-              1 (0.01%) samples spent in #1<br />
+              9 (0.02%) samples spent in #1<br />
               0 (ex.),
-              1 (100.00%) (incl.)
+              9 (100.00%) (incl.)
               when called from
               filter!
               <a href="array-jl-c31e5f0854745d9d2638-line.html#Larray-jl-c31e5f0854745d9d2638-line.html-1913">line 1913</a><br />
             </div>
             <div class="callees">
-              1 (100.00%)
+              9 (100.00%)
               samples spent calling
               <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
             </div>
@@ -335,9 +335,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-minibatch_set_srns-30"></a>
-              92 (0.95%) samples spent in minibatch_set_srns<br />
-              4 (100.00%) (ex.),
-              92 (100.00%) (incl.)
+              151 (0.34%) samples spent in minibatch_set_srns<br />
+              10 (100.00%) (ex.),
+              151 (100.00%) (incl.)
               when called from
               train
               <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-73">line 73</a><br />
@@ -350,8 +350,13 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-31"></a>31</td>
           <td></td>
-          <td></td>
+          <td>2 (0.0045%)</td>
           <td>
+            <div class="callees">
+              2 (100.00%)
+              samples spent calling
+              <a href="set-jl-86e7f298e4c3455f5c55-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-set-jl-Type-6">Type</a><br />
+            </div>
             <span class="code">	model.minibatch_set = Set{Dyad}()
 </span>
           </td>
@@ -380,8 +385,13 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-34"></a>34</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
           <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="random-jl-3c29f269282a0112ca95-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-random-jl-rand-282">rand</a><br />
+            </div>
             <span class="code">		a = ceil(Int64,model.N*rand())
 </span>
           </td>
@@ -420,13 +430,8 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-38"></a>38</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td></td>
           <td>
-            <div class="callees">
-              1 (100.00%)
-              samples spent calling
-              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-652">push!</a><br />
-            </div>
             <span class="code">			push!(mb.mbnodes, a)
 </span>
           </td>
@@ -475,12 +480,15 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-43"></a>43</td>
           <td></td>
-          <td>10 (0.10%)</td>
+          <td>9 (0.02%)</td>
           <td>
             <div class="callees">
-              10 (100.00%)
+              8 (88.89%)
               samples spent calling
               <a href="nothing-0feca720e2c29dafb2c9-line.html#Snothing-sample">#sample</a><br />
+              1 (11.11%)
+              samples spent calling
+              <a href="essentials-jl-24c5e5d93728d1388d3d-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-essentials-jl-vector_any-329">vector_any</a><br />
             </div>
             <span class="code">			node_list = sample(1:N, minibatch_size*2)
 </span>
@@ -489,8 +497,8 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-44"></a>44</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <span class="code">			for neighbor in node_list
 </span>
@@ -499,8 +507,8 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-45"></a>45</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <span class="code">				if p &lt; 1
 </span>
@@ -559,11 +567,11 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-51"></a>51</td>
-          <td>3 (0.03%)</td>
-          <td>24 (0.25%)</td>
+          <td>6 (0.01%)</td>
+          <td>54 (0.12%)</td>
           <td>
             <div class="callees">
-              21 (87.50%)
+              48 (88.89%)
               samples spent calling
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-isalink-206">isalink</a><br />
             </div>
@@ -585,15 +593,15 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-53"></a>53</td>
           <td></td>
-          <td>19 (0.20%)</td>
+          <td>43 (0.10%)</td>
           <td>
             <div class="callees">
-              8 (42.11%)
-              samples spent calling
-              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-haskey-505">haskey</a><br />
-              11 (57.89%)
+              26 (60.47%)
               samples spent calling
               <a href="set-jl-86e7f298e4c3455f5c55-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-set-jl-in-34">in</a><br />
+              17 (39.53%)
+              samples spent calling
+              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-haskey-505">haskey</a><br />
             </div>
             <span class="code">					if dd in model.linked_edges || haskey(model.ho_map,dd) ||
 </span>
@@ -633,10 +641,10 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-57"></a>57</td>
           <td></td>
-          <td>11 (0.11%)</td>
+          <td>24 (0.05%)</td>
           <td>
             <div class="callees">
-              11 (100.00%)
+              24 (100.00%)
               samples spent calling
               <a href="set-jl-86e7f298e4c3455f5c55-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-set-jl-push-35">push!</a><br />
             </div>
@@ -697,8 +705,8 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-63"></a>63</td>
-          <td>1 (0.01%)</td>
-          <td>3 (0.03%)</td>
+          <td>1 (0.0023%)</td>
+          <td>3 (0.0068%)</td>
           <td>
             <div class="callees">
               1 (33.33%)
@@ -716,10 +724,10 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-64"></a>64</td>
           <td></td>
-          <td>13 (0.13%)</td>
+          <td>7 (0.02%)</td>
           <td>
             <div class="callees">
-              13 (100.00%)
+              7 (100.00%)
               samples spent calling
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-isfadj-235">isfadj</a><br />
             </div>
@@ -741,10 +749,10 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-66"></a>66</td>
           <td></td>
-          <td>11 (0.11%)</td>
+          <td>5 (0.01%)</td>
           <td>
             <div class="callees">
-              11 (100.00%)
+              5 (100.00%)
               samples spent calling
               <a href="set-jl-86e7f298e4c3455f5c55-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-set-jl-push-35">push!</a><br />
             </div>
@@ -2150,17 +2158,17 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-isalink-206"></a>
-              52 (0.54%) samples spent in isalink<br />
-              1 (16.67%) (ex.),
-              21 (40.38%) (incl.)
-              when called from
-              minibatch_set_srns
-              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-51">line 51</a><br />
-              5 (83.33%) (ex.),
-              31 (59.62%) (incl.)
+              86 (0.19%) samples spent in isalink<br />
+              4 (40.00%) (ex.),
+              38 (44.19%) (incl.)
               when called from
               setup_mblnl!
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-434">line 434</a><br />
+              6 (60.00%) (ex.),
+              48 (55.81%) (incl.)
+              when called from
+              minibatch_set_srns
+              <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-51">line 51</a><br />
             </div>
             <span class="code">function isalink(model::LNMMSB, place::String,a::Int64, b::Int64)
 </span>
@@ -2179,19 +2187,19 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-208"></a>208</td>
-          <td>2 (0.02%)</td>
-          <td>24 (0.25%)</td>
+          <td>2 (0.0045%)</td>
+          <td>38 (0.09%)</td>
           <td>
             <div class="callees">
-              8 (33.33%)
+              3 (7.89%)
               samples spent calling
               <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
-              2 (8.33%)
-              samples spent calling
-              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-in-631">in</a><br />
-              12 (50.00%)
+              28 (73.68%)
               samples spent calling
               <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-vect-75">vect</a><br />
+              5 (13.16%)
+              samples spent calling
+              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-in-631">in</a><br />
             </div>
             <span class="code">  	if place in [&quot;network&quot;, &quot;Network&quot;, &quot;net&quot;, &quot;Net&quot;]
 </span>
@@ -2200,11 +2208,11 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-209"></a>209</td>
-          <td>1 (0.01%)</td>
-          <td>25 (0.26%)</td>
+          <td>4 (0.0090%)</td>
+          <td>44 (0.10%)</td>
           <td>
             <div class="callees">
-              24 (96.00%)
+              40 (90.91%)
               samples spent calling
               <a href="sparsematrix-jl-ff519d1aab0059da5462-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sparse-sparsematrix-jl-getindex-1880">getindex</a><br />
             </div>
@@ -2245,8 +2253,8 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-213"></a>213</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <span class="code">	  	ret = Dyad(a,b) in ho_links
 </span>
@@ -2285,8 +2293,8 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-217"></a>217</td>
-          <td>1 (0.01%)</td>
-          <td>1 (0.01%)</td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <span class="code">  	ret
 </span>
@@ -2470,9 +2478,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-isfadj-235"></a>
-              13 (0.13%) samples spent in isfadj<br />
-              0 (ex.),
-              13 (100.00%) (incl.)
+              7 (0.02%) samples spent in isfadj<br />
+              1 (100.00%) (ex.),
+              7 (100.00%) (incl.)
               when called from
               minibatch_set_srns
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-64">line 64</a><br />
@@ -2495,12 +2503,12 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-237"></a>237</td>
           <td></td>
-          <td>6 (0.06%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <div class="callees">
-              6 (100.00%)
+              1 (100.00%)
               samples spent calling
-              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-vect-75">vect</a><br />
+              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-in-631">in</a><br />
             </div>
             <span class="code">  if place in [&quot;network&quot;, &quot;Network&quot;, &quot;net&quot;, &quot;Net&quot;]
 </span>
@@ -2510,10 +2518,10 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-238"></a>238</td>
           <td></td>
-          <td>7 (0.07%)</td>
+          <td>5 (0.01%)</td>
           <td>
             <div class="callees">
-              7 (100.00%)
+              5 (100.00%)
               samples spent calling
               <a href="sparsematrix-jl-ff519d1aab0059da5462-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sparse-sparsematrix-jl-getindex-1880">getindex</a><br />
             </div>
@@ -2594,8 +2602,8 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-246"></a>246</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <span class="code">  ret
 </span>
@@ -2635,19 +2643,19 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-250"></a>250</td>
           <td></td>
-          <td>3 (0.03%)</td>
+          <td>4 (0.0090%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-neighbors_-250"></a>
-              3 (0.03%) samples spent in neighbors_<br />
+              4 (0.0090%) samples spent in neighbors_<br />
               0 (ex.),
-              3 (100.00%) (incl.)
+              4 (100.00%) (incl.)
               when called from
               update_sets!
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#Lmodelutils-jl-0e942ddeee191981d920-line.html-364">line 364</a><br />
             </div>
             <div class="callees">
-              3 (100.00%)
+              4 (100.00%)
               samples spent calling
               <a href="sparsevector-jl-636f0df533e50526596a-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-sparse-sparsevector-jl-getindex-458">getindex</a><br />
             </div>
@@ -2831,6 +2839,15 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-init_mu-268"></a>
+              1 (0.0023%) samples spent in init_mu<br />
+              0 (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              train
+              <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-33">line 33</a><br />
+            </div>
             <span class="code">function init_mu(model::LNMMSB, communities::Dict{Int64, Vector{Int64}}, onlyK::Int64, N::Int64)
 </span>
           </td>
@@ -2919,8 +2936,13 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-277"></a>277</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
           <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
+            </div>
             <span class="code">      if i in communities[k]
 </span>
           </td>
@@ -3351,6 +3373,15 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-getSets-320"></a>
+              1 (0.0023%) samples spent in getSets!<br />
+              1 (100.00%) (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              train
+              <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-67">line 67</a><br />
+            </div>
             <span class="code">function getSets!(model::LNMMSB, threshold::Float64, _init_μ::Array{Float64,2})
 </span>
           </td>
@@ -3508,8 +3539,8 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-336"></a>336</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <span class="code">			for k in model.A[b]
 </span>
@@ -3773,9 +3804,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-update_sets-362"></a>
-              31 (0.32%) samples spent in update_sets!<br />
-              4 (100.00%) (ex.),
-              31 (100.00%) (incl.)
+              48 (0.11%) samples spent in update_sets!<br />
+              13 (100.00%) (ex.),
+              48 (100.00%) (incl.)
               when called from
               train
               <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-77">line 77</a><br />
@@ -3798,10 +3829,10 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-364"></a>364</td>
           <td></td>
-          <td>3 (0.03%)</td>
+          <td>4 (0.0090%)</td>
           <td>
             <div class="callees">
-              3 (100.00%)
+              4 (100.00%)
               samples spent calling
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-neighbors_-250">neighbors_</a><br />
             </div>
@@ -3842,8 +3873,8 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-368"></a>368</td>
-          <td>3 (0.03%)</td>
-          <td>3 (0.03%)</td>
+          <td>10 (0.02%)</td>
+          <td>10 (0.02%)</td>
           <td>
             <span class="code">			@inbounds for k in model.A[b]
 </span>
@@ -3853,13 +3884,8 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-369"></a>369</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td></td>
           <td>
-            <div class="callees">
-              1 (100.00%)
-              samples spent calling
-              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
-            </div>
             <span class="code">				if k in model.A[a]
 </span>
           </td>
@@ -3887,14 +3913,11 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-372"></a>372</td>
-          <td></td>
-          <td>3 (0.03%)</td>
+          <td>2 (0.0045%)</td>
+          <td>6 (0.01%)</td>
           <td>
             <div class="callees">
-              2 (66.67%)
-              samples spent calling
-              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-653">push!</a><br />
-              1 (33.33%)
+              4 (66.67%)
               samples spent calling
               <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-652">push!</a><br />
             </div>
@@ -3935,11 +3958,11 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-376"></a>376</td>
-          <td></td>
-          <td>12 (0.12%)</td>
+          <td>1 (0.0023%)</td>
+          <td>5 (0.01%)</td>
           <td>
             <div class="callees">
-              12 (100.00%)
+              4 (80.00%)
               samples spent calling
               <a href="set-jl-86e7f298e4c3455f5c55-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-set-jl-unique-129">unique</a><br />
             </div>
@@ -3970,11 +3993,11 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-379"></a>379</td>
-          <td>1 (0.01%)</td>
-          <td>4 (0.04%)</td>
+          <td></td>
+          <td>10 (0.02%)</td>
           <td>
             <div class="callees">
-              3 (75.00%)
+              10 (100.00%)
               samples spent calling
               <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-filter-1905">filter!</a><br />
             </div>
@@ -4006,15 +4029,15 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-382"></a>382</td>
           <td></td>
-          <td>2 (0.02%)</td>
+          <td>6 (0.01%)</td>
           <td>
             <div class="callees">
-              1 (50.00%)
-              samples spent calling
-              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-_mapreduce-261">_mapreduce</a><br />
-              1 (50.00%)
+              5 (83.33%)
               samples spent calling
               <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-getindex-883">getindex</a><br />
+              1 (16.67%)
+              samples spent calling
+              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-_mapreduce-261">_mapreduce</a><br />
             </div>
             <span class="code">			bulk_θs  = sum(model.est_θ[a,model.B[a]])/length(model.B[a])
 </span>
@@ -4024,13 +4047,8 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-383"></a>383</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td></td>
           <td>
-            <div class="callees">
-              1 (100.00%)
-              samples spent calling
-              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-setindex-968">setindex!</a><br />
-            </div>
             <span class="code">			model.est_θ[a,model.B[a]] = bulk_θs
 </span>
           </td>
@@ -4039,12 +4057,15 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-384"></a>384</td>
           <td></td>
-          <td>2 (0.02%)</td>
+          <td>7 (0.02%)</td>
           <td>
             <div class="callees">
-              2 (100.00%)
+              1 (14.29%)
               samples spent calling
               <a href="broadcast-jl-ef111e8220ee56a27253-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-broadcast-jl-broadcast-16">broadcast</a><br />
+              6 (85.71%)
+              samples spent calling
+              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-setindex-968">setindex!</a><br />
             </div>
             <span class="code">			model.μ_var[a,model.B[a]] = log.(bulk_θs)
 </span>
@@ -4088,9 +4109,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-update_A-388"></a>
-              19 (0.20%) samples spent in update_A!<br />
-              6 (100.00%) (ex.),
-              19 (100.00%) (incl.)
+              47 (0.11%) samples spent in update_A!<br />
+              11 (100.00%) (ex.),
+              47 (100.00%) (incl.)
               when called from
               train
               <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-133">line 133</a><br />
@@ -4112,11 +4133,17 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-390"></a>390</td>
-          <td>4 (0.04%)</td>
-          <td>16 (0.17%)</td>
+          <td>6 (0.01%)</td>
+          <td>36 (0.08%)</td>
           <td>
             <div class="callees">
-              12 (75.00%)
+              2 (5.56%)
+              samples spent calling
+              <a href="abstractarray-jl-06d2cc8b8cb2c00f4baa-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-abstractarray-jl-getindex-883">getindex</a><br />
+              1 (2.78%)
+              samples spent calling
+              <a href="essentials-jl-24c5e5d93728d1388d3d-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-essentials-jl-vector_any-329">vector_any</a><br />
+              27 (75.00%)
               samples spent calling
               <a href="nothing-0feca720e2c29dafb2c9-line.html#Snothing-sortperm">#sortperm</a><br />
             </div>
@@ -4147,8 +4174,8 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-393"></a>393</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <span class="code">		newA=Int64[]
 </span>
@@ -4198,8 +4225,13 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-398"></a>398</td>
           <td></td>
-          <td></td>
+          <td>4 (0.0090%)</td>
           <td>
+            <div class="callees">
+              4 (100.00%)
+              samples spent calling
+              <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
+            </div>
             <span class="code">			if (k in model.B[a])
 </span>
           </td>
@@ -4227,8 +4259,8 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-401"></a>401</td>
-          <td>1 (0.01%)</td>
-          <td>1 (0.01%)</td>
+          <td></td>
+          <td></td>
           <td>
             <span class="code">				if !isempty(model.B[a])
 </span>
@@ -4268,10 +4300,10 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-405"></a>405</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td>2 (0.0045%)</td>
           <td>
             <div class="callees">
-              1 (100.00%)
+              2 (100.00%)
               samples spent calling
               <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-652">push!</a><br />
             </div>
@@ -4372,8 +4404,8 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-415"></a>415</td>
-          <td></td>
-          <td></td>
+          <td>2 (0.0045%)</td>
+          <td>2 (0.0045%)</td>
           <td>
             <span class="code">		toAdd = Int64[]
 </span>
@@ -4422,8 +4454,8 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-420"></a>420</td>
-          <td>1 (0.01%)</td>
-          <td>1 (0.01%)</td>
+          <td>2 (0.0045%)</td>
+          <td>2 (0.0045%)</td>
           <td>
             <span class="code">		if !isempty(toAdd)
 </span>
@@ -4537,9 +4569,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-setup_mblnl-431"></a>
-              138 (1.43%) samples spent in setup_mblnl!<br />
-              13 (100.00%) (ex.),
-              138 (100.00%) (incl.)
+              268 (0.60%) samples spent in setup_mblnl!<br />
+              28 (100.00%) (ex.),
+              268 (100.00%) (incl.)
               when called from
               train
               <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-76">line 76</a><br />
@@ -4551,8 +4583,8 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-432"></a>432</td>
-          <td>2 (0.02%)</td>
-          <td>2 (0.02%)</td>
+          <td></td>
+          <td></td>
           <td>
             <span class="code">	for d in shuffled
 </span>
@@ -4571,11 +4603,11 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-434"></a>434</td>
-          <td>1 (0.01%)</td>
-          <td>32 (0.33%)</td>
+          <td></td>
+          <td>38 (0.09%)</td>
           <td>
             <div class="callees">
-              31 (96.88%)
+              38 (100.00%)
               samples spent calling
               <a href="modelutils-jl-0e942ddeee191981d920-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-isalink-206">isalink</a><br />
             </div>
@@ -4586,8 +4618,8 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-435"></a>435</td>
-          <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <span class="code">			l = Link(d.src, d.dst,_init_ϕ)
 </span>
@@ -4596,14 +4628,14 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-436"></a>436</td>
-          <td>1 (0.01%)</td>
-          <td>23 (0.24%)</td>
+          <td></td>
+          <td>7 (0.02%)</td>
           <td>
             <div class="callees">
-              2 (8.70%)
+              1 (14.29%)
               samples spent calling
               <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-in-631">in</a><br />
-              20 (86.96%)
+              6 (85.71%)
               samples spent calling
               <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
             </div>
@@ -4635,7 +4667,7 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-439"></a>439</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td>1 (0.0023%)</td>
           <td>
             <div class="callees">
               1 (100.00%)
@@ -4679,8 +4711,8 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-443"></a>443</td>
-          <td>2 (0.02%)</td>
-          <td>2 (0.02%)</td>
+          <td>4 (0.0090%)</td>
+          <td>4 (0.0090%)</td>
           <td>
             <span class="code">			nl = NonLink(d.src, d.dst, _init_ϕ,_init_ϕ)
 </span>
@@ -4699,14 +4731,17 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-445"></a>445</td>
-          <td>1 (0.01%)</td>
-          <td>34 (0.35%)</td>
+          <td>6 (0.01%)</td>
+          <td>124 (0.28%)</td>
           <td>
             <div class="callees">
-              1 (2.94%)
+              3 (2.42%)
               samples spent calling
               <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-in-631">in</a><br />
-              32 (94.12%)
+              1 (0.81%)
+              samples spent calling
+              <a href="utils-jl-56d1852980543f3415bf-line.html#S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-utils-jl-46">==</a><br />
+              114 (91.94%)
               samples spent calling
               <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
             </div>
@@ -4748,13 +4783,13 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-449"></a>449</td>
           <td></td>
-          <td>2 (0.02%)</td>
+          <td>4 (0.0090%)</td>
           <td>
             <div class="callees">
-              1 (50.00%)
+              3 (75.00%)
               samples spent calling
               <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-652">push!</a><br />
-              1 (50.00%)
+              1 (25.00%)
               samples spent calling
               <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-653">push!</a><br />
             </div>
@@ -4766,10 +4801,10 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-450"></a>450</td>
           <td></td>
-          <td>2 (0.02%)</td>
+          <td>4 (0.0090%)</td>
           <td>
             <div class="callees">
-              2 (100.00%)
+              4 (100.00%)
               samples spent calling
               <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-haskey-505">haskey</a><br />
             </div>
@@ -4780,11 +4815,11 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-451"></a>451</td>
-          <td>1 (0.01%)</td>
-          <td>4 (0.04%)</td>
+          <td>10 (0.02%)</td>
+          <td>24 (0.05%)</td>
           <td>
             <div class="callees">
-              3 (75.00%)
+              14 (58.33%)
               samples spent calling
               <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-setindex-419">setindex!</a><br />
             </div>
@@ -4806,15 +4841,18 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-453"></a>453</td>
           <td></td>
-          <td>2 (0.02%)</td>
+          <td>6 (0.01%)</td>
           <td>
             <div class="callees">
-              1 (50.00%)
+              1 (16.67%)
               samples spent calling
-              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-getindex-473">getindex</a><br />
-              1 (50.00%)
+              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-getindex-474">getindex</a><br />
+              4 (66.67%)
               samples spent calling
               <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
+              1 (16.67%)
+              samples spent calling
+              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-getindex-473">getindex</a><br />
             </div>
             <span class="code">				if nl.dst in mb.mbnot[nl.src]
 </span>
@@ -4844,18 +4882,18 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-456"></a>456</td>
           <td></td>
-          <td>5 (0.05%)</td>
+          <td>13 (0.03%)</td>
           <td>
             <div class="callees">
-              1 (20.00%)
-              samples spent calling
-              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-653">push!</a><br />
-              2 (40.00%)
-              samples spent calling
-              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-652">push!</a><br />
-              2 (40.00%)
+              3 (23.08%)
               samples spent calling
               <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-getindex-473">getindex</a><br />
+              9 (69.23%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-652">push!</a><br />
+              1 (7.69%)
+              samples spent calling
+              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-getindex-474">getindex</a><br />
             </div>
             <span class="code">					push!(mb.mbnot[nl.src], nl.dst)
 </span>
@@ -4875,7 +4913,7 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-458"></a>458</td>
           <td></td>
-          <td>2 (0.02%)</td>
+          <td>2 (0.0045%)</td>
           <td>
             <div class="callees">
               2 (100.00%)
@@ -4889,14 +4927,11 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-459"></a>459</td>
-          <td>5 (0.05%)</td>
-          <td>13 (0.13%)</td>
+          <td>6 (0.01%)</td>
+          <td>18 (0.04%)</td>
           <td>
             <div class="callees">
-              1 (7.69%)
-              samples spent calling
-              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-get-478">get</a><br />
-              7 (53.85%)
+              12 (66.67%)
               samples spent calling
               <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-setindex-419">setindex!</a><br />
             </div>
@@ -4917,16 +4952,19 @@
 
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-461"></a>461</td>
-          <td></td>
-          <td>5 (0.05%)</td>
+          <td>1 (0.0023%)</td>
+          <td>10 (0.02%)</td>
           <td>
             <div class="callees">
-              4 (80.00%)
+              3 (30.00%)
               samples spent calling
               <a href="reduce-jl-5c2b371e0ed1d3514d60-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-reduce-jl-any-572">any</a><br />
-              1 (20.00%)
+              5 (50.00%)
               samples spent calling
               <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-getindex-473">getindex</a><br />
+              1 (10.00%)
+              samples spent calling
+              <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-getindex-474">getindex</a><br />
             </div>
             <span class="code">				if nl.src in mb.mbnot[nl.dst]
 </span>
@@ -4956,16 +4994,13 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-464"></a>464</td>
           <td></td>
-          <td>9 (0.09%)</td>
+          <td>12 (0.03%)</td>
           <td>
             <div class="callees">
-              6 (66.67%)
+              9 (75.00%)
               samples spent calling
               <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-652">push!</a><br />
-              1 (11.11%)
-              samples spent calling
-              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-push-653">push!</a><br />
-              2 (22.22%)
+              3 (25.00%)
               samples spent calling
               <a href="dict-jl-69dc10398ca233bdae58-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-dict-jl-getindex-473">getindex</a><br />
             </div>
@@ -5031,7 +5066,7 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Dropbox-Arash-EUR-Workspace-CLSM-Julia-Implementation-ProjectLN-ugraph-src-modules-modelutils-jl-test_sets-470"></a>
-              1 (0.01%) samples spent in test_sets<br />
+              1 (0.0023%) samples spent in test_sets<br />
               0 (ex.),
               1 (100.00%) (incl.)
               when called from
@@ -5066,8 +5101,13 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-473"></a>473</td>
           <td></td>
-          <td></td>
+          <td>1 (0.0023%)</td>
           <td>
+            <div class="callees">
+              1 (100.00%)
+              samples spent calling
+              <a href="array-jl-c31e5f0854745d9d2638-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-array-jl-intersect-1937">intersect</a><br />
+            </div>
             <span class="code">		cond = isempty(intersect(model.A[a], model.C[a])) &amp;&amp;	isempty(intersect(model.A[a], model.B[a])) &amp;&amp;
 </span>
           </td>
@@ -5136,13 +5176,8 @@
         <tr>
           <td><a name="Lmodelutils-jl-0e942ddeee191981d920-line.html-480"></a>480</td>
           <td></td>
-          <td>1 (0.01%)</td>
+          <td></td>
           <td>
-            <div class="callees">
-              1 (100.00%)
-              samples spent calling
-              <a href="io-jl-7f272ef1fa6cfc3f4fd8-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-strings-io-jl-print-36">print</a><br />
-            </div>
             <span class="code">		println(&quot;sets correctly set&quot;)
 </span>
           </td>

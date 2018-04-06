@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -969,6 +969,15 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-math-jl-digamma_-95"></a>
+              1 (0.0023%) samples spent in digamma_<br />
+              1 (100.00%) (ex.),
+              1 (100.00%) (incl.)
+              when called from
+              update_Elogβ!
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-215">line 215</a><br />
+            </div>
             <span class="code">efficient Goertzel-like algorithm.
 </span>
           </td>
@@ -1169,15 +1178,6 @@
           <td></td>
           <td></td>
           <td>
-            <div class="call-sites">
-              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-math-jl-logsumexp-115"></a>
-              1 (0.01%) samples spent in logsumexp<br />
-              1 (100.00%) (ex.),
-              1 (100.00%) (incl.)
-              when called from
-              updatephil!
-              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-26">line 26</a><br />
-            </div>
             <span class="code">        a = :(muladd(r, $ai, $b))
 </span>
           </td>
@@ -1188,6 +1188,20 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-math-jl-logsumexp-116"></a>
+              3 (0.0068%) samples spent in logsumexp<br />
+              1 (33.33%) (ex.),
+              1 (33.33%) (incl.)
+              when called from
+              updatephinlin!
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-75">line 75</a><br />
+              2 (66.67%) (ex.),
+              2 (66.67%) (incl.)
+              when called from
+              updatephinlout!
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-62">line 62</a><br />
+            </div>
             <span class="code">        b = :($(esc(p[i])) - s * $ai) # see issue #15985 on fused mul-subtract
 </span>
           </td>
@@ -3025,22 +3039,22 @@
 
         <tr>
           <td><a name="Lmath-jl-55feb969e311fdf4e23a-line.html-300"></a>300</td>
-          <td>10 (0.10%)</td>
-          <td>10 (0.10%)</td>
+          <td>8 (0.02%)</td>
+          <td>8 (0.02%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-math-jl-nan_dom_err-300"></a>
-              7 (0.07%) samples spent in nan_dom_err<br />
-              1 (14.29%) (ex.),
-              1 (14.29%) (incl.)
-              when called from
-              ^
-              <a href="math-jl-55feb969e311fdf4e23a-line.html#Lmath-jl-55feb969e311fdf4e23a-line.html-699">line 699</a><br />
-              6 (85.71%) (ex.),
-              6 (85.71%) (incl.)
+              4 (0.0090%) samples spent in nan_dom_err<br />
+              1 (25.00%) (ex.),
+              1 (25.00%) (incl.)
               when called from
               log1p
               <a href="math-jl-55feb969e311fdf4e23a-line.html#Lmath-jl-55feb969e311fdf4e23a-line.html-419">line 419</a><br />
+              3 (75.00%) (ex.),
+              3 (75.00%) (incl.)
+              when called from
+              ^
+              <a href="math-jl-55feb969e311fdf4e23a-line.html#Lmath-jl-55feb969e311fdf4e23a-line.html-699">line 699</a><br />
             </div>
             <span class="code">@inline nan_dom_err(f, x) = isnan(f) &amp; !isnan(x) ? throw(DomainError()) : f
 </span>
@@ -4229,42 +4243,42 @@
 
         <tr>
           <td><a name="Lmath-jl-55feb969e311fdf4e23a-line.html-419"></a>419</td>
-          <td>140 (1.45%)</td>
-          <td>146 (1.51%)</td>
+          <td>291 (0.66%)</td>
+          <td>292 (0.66%)</td>
           <td>
             <div class="call-sites">
-              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-math-jl-log1p-419"></a>
-              141 (1.46%) samples spent in log1p<br />
-              30 (22.22%) (ex.),
-              31 (21.99%) (incl.)
-              when called from
-              updatephinlin!
-              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-69">line 69</a><br />
-              35 (25.93%) (ex.),
-              35 (24.82%) (incl.)
-              when called from
-              updatephinlout!
-              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-56">line 56</a><br />
-              70 (51.85%) (ex.),
-              75 (53.19%) (incl.)
-              when called from
-              logsumexp
-              <a href="utils-jl-56d1852980543f3415bf-line.html#Lutils-jl-56d1852980543f3415bf-line.html-127">line 127</a><br />
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-math-jl-log-419"></a>
-              5 (0.05%) samples spent in log<br />
-              2 (40.00%) (ex.),
-              2 (40.00%) (incl.)
+              6 (0.01%) samples spent in log<br />
+              1 (16.67%) (ex.),
+              1 (16.67%) (incl.)
               when called from
               broadcast
               <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-16">line 16</a><br />
-              3 (60.00%) (ex.),
-              3 (60.00%) (incl.)
+              5 (83.33%) (ex.),
+              5 (83.33%) (incl.)
               when called from
               digamma_
-              <a href="utils-jl-56d1852980543f3415bf-line.html#Lutils-jl-56d1852980543f3415bf-line.html-99">line 99</a><br />
+              <a href="utils-jl-56d1852980543f3415bf-line.html#Lutils-jl-56d1852980543f3415bf-line.html-100">line 100</a><br />
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-math-jl-log1p-419"></a>
+              286 (0.64%) samples spent in log1p<br />
+              58 (20.35%) (ex.),
+              58 (20.28%) (incl.)
+              when called from
+              updatephinlout!
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-56">line 56</a><br />
+              69 (24.21%) (ex.),
+              69 (24.13%) (incl.)
+              when called from
+              updatephinlin!
+              <a href="trainutils-jl-24f2bf461fb71fb4e996-line.html#Ltrainutils-jl-24f2bf461fb71fb4e996-line.html-69">line 69</a><br />
+              158 (55.44%) (ex.),
+              159 (55.59%) (incl.)
+              when called from
+              logsumexp
+              <a href="utils-jl-56d1852980543f3415bf-line.html#Lutils-jl-56d1852980543f3415bf-line.html-128">line 128</a><br />
             </div>
             <div class="callees">
-              6 (4.11%)
+              1 (0.34%)
               samples spent calling
               <a href="math-jl-55feb969e311fdf4e23a-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-math-jl-nan_dom_err-300">nan_dom_err</a><br />
             </div>
@@ -7065,25 +7079,20 @@
 
         <tr>
           <td><a name="Lmath-jl-55feb969e311fdf4e23a-line.html-699"></a>699</td>
-          <td>1 (0.01%)</td>
-          <td>2 (0.02%)</td>
+          <td></td>
+          <td>3 (0.0068%)</td>
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-math-jl-699"></a>
-              2 (0.02%) samples spent in ^<br />
-              1 (100.00%) (ex.),
-              1 (50.00%) (incl.)
-              when called from
-              train
-              <a href="train-jl-ca84a6959e82b4de6552-line.html#Ltrain-jl-ca84a6959e82b4de6552-line.html-84">line 84</a><br />
+              3 (0.0068%) samples spent in ^<br />
               0 (ex.),
-              1 (50.00%) (incl.)
+              3 (100.00%) (incl.)
               when called from
               #3
               <a href="nothing-0feca720e2c29dafb2c9-line.html#Lnothing-0feca720e2c29dafb2c9-line.html-0">line 0</a><br />
             </div>
             <div class="callees">
-              1 (50.00%)
+              3 (100.00%)
               samples spent calling
               <a href="math-jl-55feb969e311fdf4e23a-line.html#S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-math-jl-nan_dom_err-300">nan_dom_err</a><br />
             </div>
@@ -9819,23 +9828,6 @@
           <td>
             <span class="code">end # module
 </span>
-          </td>
-        </tr>
-
-        <tr>
-          <td><a name="S-3"></a></td>
-          <td></td>
-          <td></td>
-          <td>
-            <div class="call-sites">
-              2 (0.02%) samples spent in #3<br />
-              2 (100.00%) (ex.),
-              2 (100.00%) (incl.)
-              when called from
-              macro expansion
-              <a href="broadcast-jl-ef111e8220ee56a27253-line.html#Lbroadcast-jl-ef111e8220ee56a27253-line.html-155">line 155</a><br />
-            </div>
-            <span class="code">sub #3 # xsub</span>
           </td>
         </tr>
       </table>

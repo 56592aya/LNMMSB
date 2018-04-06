@@ -11,7 +11,7 @@
 <div class="report-header">
   <div class="backlink"><a href="index.html">Report index</a></div>
   <div class="report-title">StatProfilerHTML.jl report</div>
-  <div class="generated-on">Generated on di 03 apr 2018 13:39:33 CEST</div>
+  <div class="generated-on">Generated on wo 04 apr 2018 12:37:42 CEST</div>
 </div>
 
     <div id="body-content">
@@ -5301,9 +5301,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-lapack-jl-getrf-528"></a>
-              287 (2.97%) samples spent in getrf!<br />
-              287 (100.00%) (ex.),
-              287 (100.00%) (incl.)
+              525 (1.18%) samples spent in getrf!<br />
+              525 (100.00%) (ex.),
+              525 (100.00%) (incl.)
               when called from
               lufact!
               <a href="lu-jl-3dbbb8364e078b0bb3e8-line.html#Llu-jl-3dbbb8364e078b0bb3e8-line.html-19">line 19</a><br />
@@ -5345,8 +5345,8 @@
 
         <tr>
           <td><a name="Llapack-jl-e1c6ba6d4c11806c719b-line.html-532"></a>532</td>
-          <td>2 (0.02%)</td>
-          <td>2 (0.02%)</td>
+          <td>2 (0.0045%)</td>
+          <td>2 (0.0045%)</td>
           <td>
             <span class="code">            ipiv = similar(A, BlasInt, min(m,n))
 </span>
@@ -5365,8 +5365,8 @@
 
         <tr>
           <td><a name="Llapack-jl-e1c6ba6d4c11806c719b-line.html-534"></a>534</td>
-          <td>285 (2.95%)</td>
-          <td>285 (2.95%)</td>
+          <td>523 (1.18%)</td>
+          <td>523 (1.18%)</td>
           <td>
             <span class="code">            ccall((@blasfunc($getrf), liblapack), Void,
 </span>
@@ -9470,9 +9470,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-lapack-jl-getri-944"></a>
-              21 (0.22%) samples spent in getri!<br />
-              21 (100.00%) (ex.),
-              21 (100.00%) (incl.)
+              547 (1.23%) samples spent in getri!<br />
+              547 (100.00%) (ex.),
+              547 (100.00%) (incl.)
               when called from
               inv!
               <a href="lu-jl-3dbbb8364e078b0bb3e8-line.html#Llu-jl-3dbbb8364e078b0bb3e8-line.html-308">line 308</a><br />
@@ -9584,8 +9584,8 @@
 
         <tr>
           <td><a name="Llapack-jl-e1c6ba6d4c11806c719b-line.html-955"></a>955</td>
-          <td>19 (0.20%)</td>
-          <td>19 (0.20%)</td>
+          <td>520 (1.17%)</td>
+          <td>520 (1.17%)</td>
           <td>
             <span class="code">                ccall((@blasfunc($getri), liblapack), Void,
 </span>
@@ -9654,8 +9654,8 @@
 
         <tr>
           <td><a name="Llapack-jl-e1c6ba6d4c11806c719b-line.html-962"></a>962</td>
-          <td>2 (0.02%)</td>
-          <td>2 (0.02%)</td>
+          <td>27 (0.06%)</td>
+          <td>27 (0.06%)</td>
           <td>
             <span class="code">                    work  = Vector{$elty}(lwork)
 </span>
@@ -29567,6 +29567,15 @@
           <td></td>
           <td></td>
           <td>
+            <div class="call-sites">
+              <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-lapack-jl-potrf-2953"></a>
+              30 (0.07%) samples spent in potrf!<br />
+              30 (100.00%) (ex.),
+              30 (100.00%) (incl.)
+              when called from
+              _chol!
+              <a href="cholesky-jl-50f1fcaca21fcd170b25-line.html#Lcholesky-jl-50f1fcaca21fcd170b25-line.html-54">line 54</a><br />
+            </div>
             <span class="code">        function potrf!(uplo::Char, A::StridedMatrix{$elty})
 </span>
           </td>
@@ -29654,8 +29663,8 @@
 
         <tr>
           <td><a name="Llapack-jl-e1c6ba6d4c11806c719b-line.html-2962"></a>2962</td>
-          <td></td>
-          <td></td>
+          <td>30 (0.07%)</td>
+          <td>30 (0.07%)</td>
           <td>
             <span class="code">            ccall((@blasfunc($potrf), liblapack), Void,
 </span>
@@ -32799,9 +32808,9 @@
           <td>
             <div class="call-sites">
               <a name="S-home-arashyazdiha-Documents-Programs-julia-d386e40c17-bin-share-julia-base-linalg-lapack-jl-trtrs-3276"></a>
-              20 (0.21%) samples spent in trtrs!<br />
-              20 (100.00%) (ex.),
-              20 (100.00%) (incl.)
+              127 (0.29%) samples spent in trtrs!<br />
+              127 (100.00%) (ex.),
+              127 (100.00%) (incl.)
               when called from
               inv
               <a href="triangular-jl-a7c4d33cd3f97b27bda6-line.html#Ltriangular-jl-a7c4d33cd3f97b27bda6-line.html-536">line 536</a><br />
@@ -32903,8 +32912,8 @@
 
         <tr>
           <td><a name="Llapack-jl-e1c6ba6d4c11806c719b-line.html-3286"></a>3286</td>
-          <td>20 (0.21%)</td>
-          <td>20 (0.21%)</td>
+          <td>127 (0.29%)</td>
+          <td>127 (0.29%)</td>
           <td>
             <span class="code">            ccall((@blasfunc($trtrs), liblapack), Void,
 </span>
