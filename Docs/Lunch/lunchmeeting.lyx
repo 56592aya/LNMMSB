@@ -308,55 +308,6 @@ LatexCommand tableofcontents
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Structuring a talk is a difficult task and the following structure may not
- be suitable.
- Here are some rules that apply for this solution: 
-\end_layout
-
-\begin_layout Itemize
-Exactly two or three sections (other than the summary).
- 
-\end_layout
-
-\begin_layout Itemize
-At *most* three subsections per section.
- 
-\end_layout
-
-\begin_layout Itemize
-Talk about 30s to 2min per frame.
- So there should be between about 15 and 30 frames, all told.
-\end_layout
-
-\begin_layout Itemize
-A conference audience is likely to know very little of what you are going
- to talk about.
- So *simplify*! 
-\end_layout
-
-\begin_layout Itemize
-In a 20min talk, getting the main ideas across is hard enough.
- Leave out details, even if it means being less precise than you think necessary.
- 
-\end_layout
-
-\begin_layout Itemize
-If you omit details that are vital to the proof/implementation, just say
- so once.
- Everybody will be happy with that.
- 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \end_deeper
 \begin_layout Section
 Motivation
@@ -373,7 +324,7 @@ Motivation
 \end_layout
 
 \begin_layout Subsection
-A Prologue to Opinion Leadership
+Introduction
 \begin_inset Argument 2
 status open
 
@@ -400,56 +351,20 @@ Networks and Influentials
 \end_layout
 
 \begin_deeper
-\begin_layout FrameSubtitle
-Frame subtitles are optional.
- Use upper- or lowercase letters.
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-A title should summarize the slide in an understandable fashion for anyone
- how does not follow everything on the slide itself.
- 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Itemize
 This is a very well known problem in networks and marketing in general
 \end_layout
 
-\begin_deeper
-\begin_layout Pause
-
-\end_layout
-
-\end_deeper
 \begin_layout Itemize
 Who is an influential?
 \end_layout
 
-\begin_deeper
-\begin_layout Pause
-
-\end_layout
-
-\end_deeper
 \begin_layout Itemize
-Abundant literature on identifying influence and detecting opinion leaders(Paper
-s)
+Abundant literature on identifying influence and detecting opinion leaders
 \end_layout
 
-\begin_deeper
-\begin_layout Pause
-
-\end_layout
-
-\end_deeper
 \begin_layout Itemize
-Among these the role of sociometric data has been quite common
+Among these the role of network metrics has been quite common
 \end_layout
 
 \end_deeper
@@ -482,21 +397,7 @@ A lot of attention is given to testing influence w.r.t individual positions
 \begin_deeper
 \begin_layout Itemize
 i.e.
- Network centrality:degree, betweenness, prestige, etc
-\end_layout
-
-\begin_layout Pause
-
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Take co-authorship network; Who is the most influential?
-\end_layout
-
-\begin_deeper
-\begin_layout Pause
-
+ Network centrality:degree, betweenness,closeness, prestige, etc
 \end_layout
 
 \end_deeper
@@ -506,134 +407,15 @@ Almost all of the previous works deals with the global view of the network
 
 \begin_deeper
 \begin_layout Itemize
-hubs(),degrees(), betweenness(), ...
- 
+Watts & Dodds 2007, Goldenberg et al 2009, etc
 \end_layout
 
 \end_deeper
 \end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
 \begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
-Previous Research
-\end_layout
-
-\end_inset
-
 
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-With this view some conclusion can contradict
-\end_layout
-
-\begin_layout Itemize
-Influentials have high degree(paper)
-\end_layout
-
-\begin_layout Itemize
-Degree is irrelevant, betweenness matters(paper)
-\end_layout
-
-\begin_layout Itemize
-For a comparison see (paper)
-\end_layout
-
-\begin_layout Itemize
-This is mainly due to disregard of the story behind network structure
-\end_layout
-
-\end_deeper
-\begin_layout Subsection
-Our View of the Problem
-\end_layout
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
-About the Network Structure
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Homophily: birds of a feather flock together
-\end_layout
-
-\begin_layout Itemize
-Result: Networks end up with communities, where connections are:
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Denser within vs.
- across 
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-As a matter of fact, networks are a multiplex of smaller sub-networks
-\end_layout
-
-\begin_layout Itemize
-Communities as a signal for domains suggest a finer grained opinion leadership
- 
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
-Application of Community Detection in SNs
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Gain insights at the community level about individual positions rather than
- at the global network level, (Project 1)
-\end_layout
-
-\begin_layout Itemize
-Allows for a good control when identifying influence by disentangling selection
- from causality, (Project 2)
-\end_layout
-
-\begin_layout Itemize
-Enables dynamic monitoring of network and behavior evolution in a time-stamped
- data, (Project 3)
-\end_layout
-
-\end_deeper
 \begin_layout Subsection
 Findings from Email data 
 \end_layout
@@ -779,7 +561,91 @@ Degree centrality for the ground truth communities(blue line), and degree
 
 \end_deeper
 \begin_layout Section
-1st Project
+Community Detection
+\end_layout
+
+\begin_layout Subsection
+Our View of the Problem
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+About the Network Structure
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Homophily: birds of a feather flock together
+\end_layout
+
+\begin_layout Itemize
+Result: Networks end up with communities, where connections are:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Denser within vs.
+ across 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+As a matter of fact, networks are a multiplex of smaller sub-networks
+\end_layout
+
+\begin_layout Itemize
+Communities as a signal for domains suggest a finer grained opinion leadership
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Application of Community Detection in SNs
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Gain insights at the community level about individual positions rather than
+ at the global network level, (Project 1)
+\end_layout
+
+\begin_layout Itemize
+Allows for a good control when identifying influence by disentangling selection
+ from causality, (Project 2)
+\end_layout
+
+\begin_layout Itemize
+Enables dynamic monitoring of network and behavior evolution in a time-stamped
+ data, (Project 3)
+\end_layout
+
+\end_deeper
+\begin_layout Section
+1st Project: Community Detection
 \begin_inset Argument 2
 status open
 
@@ -879,22 +745,26 @@ node[vertex, fill={rgb:black,1;white,2}] (y) at (6,0) {$y_{ij}$};
 
 
 \backslash
-node[vertex] (zi) at (4,4) {$z_{i}$};
+node[vertex] (thetai) at (4,4) {$
+\backslash
+theta_{i}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zj) at (8,4) {$z_j$};
+node[vertex] (thetaj) at (8,4) {$
+\backslash
+theta_j$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node [draw=red, fit= (zi) (zj),  inner sep=1.30cm, dashed, ultra thick, fill=red!
-10, fill opacity=0.2] {};
+node [draw=red, fit= (thetai) (thetaj),  inner sep=1.30cm, dashed, ultra
+ thick, fill=red!10, fill opacity=0.2] {};
 \end_layout
 
 \begin_layout Plain Layout
@@ -906,14 +776,14 @@ node [draw=red, fit= (zi) (zj),  inner sep=1.30cm, dashed, ultra thick, fill=red
 
 
 \backslash
-draw[edge] (zi) to [out=300,in=110] (y);
+draw[edge] (thetai) to [out=300,in=110] (y);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge] (zj) to [out=240,in=70] (y);
+draw[edge] (thetaj) to [out=240,in=70] (y);
 \end_layout
 
 \begin_layout Plain Layout
@@ -1003,315 +873,6 @@ Individuals form a link to each other based on the chance of communication
 \begin_layout Itemize
 This is mainly a mixed membership stochstic blockmodel, that allows for
  overlapping communities.
-\end_layout
-
-\begin_layout Standard
-
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
-Generative Algorithm
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\paragraph_spacing single
-\noindent
-
-\family typewriter
-\shape smallcaps
-\size tiny
-\begin_inset Formula $\forall k\in[1,..,K]$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\paragraph_spacing single
-\noindent
-
-\family typewriter
-\shape smallcaps
-\size tiny
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-\size scriptsize
-
-\backslash
-hspace{.4cm}
-\end_layout
-
-\end_inset
-
-draw the diagonal elements of the block matrix 
-\series bold
-
-\begin_inset Formula $B$
-\end_inset
-
-
-\series default
- via 
-\begin_inset Formula $\beta_{k,k}\sim Beta(\eta_{0},\eta_{1})$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\paragraph_spacing single
-\noindent
-
-\family typewriter
-\shape smallcaps
-\size tiny
-\begin_inset Formula $\forall i\in\mathcal{N}$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\paragraph_spacing single
-\noindent
-
-\family typewriter
-\shape smallcaps
-\size tiny
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-\size scriptsize
-
-\backslash
-hspace{.4cm}
-\end_layout
-
-\end_inset
-
-draw the mean of the logit mixed membership vector through 
-\begin_inset Formula $\boldsymbol{\mu}\sim Normal(\boldsymbol{\mu}_{0},\boldsymbol{\Lambda}_{0})$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\paragraph_spacing single
-\noindent
-
-\family typewriter
-\shape smallcaps
-\size tiny
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-\size scriptsize
-
-\backslash
-hspace{.4cm}
-\end_layout
-
-\end_inset
-
-draw the precision of the logit mixed membership vector through 
-\begin_inset Formula $\boldsymbol{\Lambda}\sim Wishart(\boldsymbol{\ell}_{0},\boldsymbol{L}_{0})$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\paragraph_spacing single
-\noindent
-
-\family typewriter
-\shape smallcaps
-\size tiny
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-\size scriptsize
-
-\backslash
-hspace{.4cm}
-\end_layout
-
-\end_inset
-
-draw a 
-\begin_inset Formula $K$
-\end_inset
-
--dimensional vector,
-\begin_inset Formula $\boldsymbol{\theta}_{i}^{*}\sim Normal(\boldsymbol{\mu},\boldsymbol{\Lambda})$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\paragraph_spacing single
-\noindent
-
-\family typewriter
-\shape smallcaps
-\size tiny
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-\size scriptsize
-
-\backslash
-hspace{.4cm}
-\end_layout
-
-\end_inset
-
-build the membership vector on a simplex via logistic function, 
-\begin_inset Formula $\boldsymbol{\theta}_{i,k}=\frac{exp(\boldsymbol{\theta}_{i,k}^{*})}{\sum_{l}exp(\boldsymbol{\theta}_{i,l}^{*})}$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\paragraph_spacing single
-\noindent
-
-\family typewriter
-\shape smallcaps
-\size tiny
-\begin_inset Formula $\forall(i,j)\in\mathcal{E}$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\paragraph_spacing single
-\noindent
-
-\family typewriter
-\shape smallcaps
-\size tiny
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-\size scriptsize
-
-\backslash
-hspace{.4cm}
-\end_layout
-
-\end_inset
-
-draw one-hot membership indicator vector for 
-\begin_inset Formula $i$
-\end_inset
-
- when contacting 
-\begin_inset Formula $j$
-\end_inset
-
-, 
-\begin_inset Formula $\boldsymbol{z}_{i\rightarrow j}\sim Categorical(\boldsymbol{\theta}_{i})$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\paragraph_spacing single
-\noindent
-
-\family typewriter
-\shape smallcaps
-\size tiny
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-\size scriptsize
-
-\backslash
-hspace{.4cm}
-\end_layout
-
-\end_inset
-
-draw one-hot membership indicator vector for 
-\begin_inset Formula $j$
-\end_inset
-
- when contacted by i, 
-\begin_inset Formula $\boldsymbol{z}_{i\leftarrow j}\sim Categorical(\boldsymbol{\theta}_{j})$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\paragraph_spacing single
-\noindent
-
-\family typewriter
-\shape smallcaps
-\size tiny
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-\size scriptsize
-
-\backslash
-hspace{.4cm}
-\end_layout
-
-\end_inset
-
-sample a link between 
-\begin_inset Formula $i\rightarrow j$
-\end_inset
-
- with probability 
-\begin_inset Formula $\boldsymbol{z}_{i\rightarrow j}\boldsymbol{B}\boldsymbol{z}_{i\leftarrow j},\boldsymbol{Y}(i,j)\sim Bern(\boldsymbol{z}_{i\rightarrow j}\boldsymbol{B}\boldsymbol{z}_{i\leftarrow j})$
-\end_inset
-
-
 \end_layout
 
 \end_deeper
@@ -1419,7 +980,7 @@ beta_{kk}$};
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 node[vertex, shape=circle, fill, scale=.3] (eta) at (0,6.5) {$
 \backslash
@@ -1428,7 +989,7 @@ eta$};
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 node [yshift=3.0ex, black] at (-0.5,6.5) {$
 \backslash
@@ -1455,7 +1016,7 @@ node[vertex] (zba) at (4,8.5) {$z_{ji}$};
 \backslash
 node[vertex] (thetaa) at (0,10) {$
 \backslash
-theta^{*}_{i}$};
+theta_{i}$};
 \end_layout
 
 \begin_layout Plain Layout
@@ -1464,12 +1025,12 @@ theta^{*}_{i}$};
 \backslash
 node[vertex] (thetab) at (4,10) {$
 \backslash
-theta^{*}_{j}$};
+theta_{j}$};
 \end_layout
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 node[vertex] (mu) at (0.5,12) {$
 \backslash
@@ -1478,7 +1039,7 @@ mu$};
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 node[vertex] (Lambda) at (3.5,12) {$
 \backslash
@@ -1487,7 +1048,7 @@ Lambda$};
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 node[vertex, shape=circle, fill, scale=.3] (mu0) at (-.5,13) {$
 \backslash
@@ -1496,7 +1057,7 @@ mu_0$};
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 node [yshift=3.0ex, black] at (mu0.north) {$
 \backslash
@@ -1505,7 +1066,7 @@ mu_0$};
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 node[vertex, shape=circle, fill, scale=.3] (Lambda0) at (1.5,13) {$
 \backslash
@@ -1514,7 +1075,7 @@ Lambda_0$};
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 node [yshift=3.0ex, black] at (Lambda0.north) {$
 \backslash
@@ -1523,7 +1084,7 @@ Lambda_0$};
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 node[vertex, shape=circle, fill, scale=.3] (l0) at (2.5,13) {$
 \backslash
@@ -1532,7 +1093,7 @@ ell_0$};
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 node [yshift=3.0ex, black] at (l0.north) {$
 \backslash
@@ -1541,14 +1102,14 @@ ell_0$};
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 node[vertex, shape=circle, fill, scale=.3] (L0) at (4.5,13) {$L_0$};
 \end_layout
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 node [yshift=3.0ex, black] at (L0.north) {$L_0$};
 \end_layout
@@ -1664,7 +1225,7 @@ draw[edge] (zj3) to [out=270,in=0] (Aj);
 
 
 \backslash
-draw[edge] (eta) to  (b);
+%draw[edge] (eta) to  (b);
 \end_layout
 
 \begin_layout Plain Layout
@@ -1704,56 +1265,56 @@ draw[edge] (thetab) to  (zba);
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 draw[edge] (mu) to  (thetaa);
 \end_layout
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 draw[edge] (Lambda) to  (thetaa);
 \end_layout
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 draw[edge] (mu) to  (thetab);
 \end_layout
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 draw[edge] (Lambda) to  (thetab);
 \end_layout
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 draw[edge] (mu0) to  (mu);
 \end_layout
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 draw[edge] (Lambda0) to  (mu);
 \end_layout
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 draw[edge] (l0) to  (Lambda);
 \end_layout
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 draw[edge] (L0) to  (Lambda);
 \end_layout
@@ -1894,7 +1455,7 @@ Parallel implementation of batch updates(ongoing)
 \end_deeper
 \end_deeper
 \begin_layout Subsection
-Some Preliminary Results
+About the Data
 \end_layout
 
 \begin_layout Frame
@@ -1902,7 +1463,7 @@ Some Preliminary Results
 status open
 
 \begin_layout Plain Layout
-Accuracy(When ground truth is available)
+Co-authorship network (From Mkt Sci Database subimssions)
 \end_layout
 
 \end_inset
@@ -1912,24 +1473,82 @@ Accuracy(When ground truth is available)
 
 \begin_deeper
 \begin_layout Itemize
-For simulated data, we assess the performance by using the Normalized Mutual
- Information(NMI)
+A Network of authors in marketing that publish together(from 1973 to 2009)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+authors are the nodes
 \end_layout
 
 \begin_layout Itemize
-NMI scores are lied between 0, and 1.
+co-authorships are edges
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+including JM, JMR,JCR, J of Mark.
+ Sci, etc
 \end_layout
 
 \begin_layout Itemize
-Given the ground truths communities, we can check the overlap in the clustering
+more than 50000 authors
 \end_layout
 
-\begin_layout Itemize
-Higher NMI score signals better community detection
+\end_deeper
+\begin_layout Subsection
+Some Preliminary Findings
 \end_layout
 
-\begin_layout Itemize
-For various simulated data, we achieve NMI score of 0.8 and above
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Co-authorship network(cont'd)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/arashyazdiha/Dropbox/Arash/EUR/Workspace/CLSM/Julia Implementation/ProjectLN/ugraph/src/modules/Results/73.bmp
+	scale 12
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+1973
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_deeper
@@ -1945,7 +1564,7 @@ For various simulated data, we achieve NMI score of 0.8 and above
 status open
 
 \begin_layout Plain Layout
-Accuracy(When ground truth is unavailable)
+Co-authorship network(cont'd)
 \end_layout
 
 \end_inset
@@ -1954,22 +1573,97 @@ Accuracy(When ground truth is unavailable)
 \end_layout
 
 \begin_deeper
-\begin_layout Itemize
-We use the accuracy measures on the holdout set
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/arashyazdiha/Dropbox/Arash/EUR/Workspace/CLSM/Julia Implementation/ProjectLN/ugraph/src/modules/Results/74.bmp
+	scale 12
+
+\end_inset
+
+
 \end_layout
 
-\begin_layout Itemize
-We use the training set to train our model and learn the parameters
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+1974
 \end_layout
 
-\begin_layout Itemize
-We use perplexity (exponential of the predicted weighted average of the
- log likelihood of holdout sample)
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Co-authorship network(cont'd)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/arashyazdiha/Dropbox/Arash/EUR/Workspace/CLSM/Julia Implementation/ProjectLN/ugraph/src/modules/Results/75.bmp
+	scale 12
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+1975
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_deeper
 \begin_layout Section
-2nd Project
+2nd Project: Joint Model of Behavior and Structure
 \begin_inset Argument 2
 status open
 
@@ -2121,42 +1815,54 @@ node[vertex,fill={rgb:black,1;white,2}] (y) at (4,3) {$y_{ij}$};
 
 
 \backslash
-node[vertex] (zi1) at (3,6) {$z_{i1}$};
+node[vertex] (thetai1) at (3,6) {$
+\backslash
+theta_{i1}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zi2) at (2,6) {$z_{i2}$};
+node[vertex] (thetai2) at (2,6) {$
+\backslash
+theta_{i2}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zi3) at (0,6) {$z_{i3}$};
+node[vertex] (thetai3) at (0,6) {$
+\backslash
+theta_{i3}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zj1) at (5,6) {$z_{j1}$};
+node[vertex] (thetaj1) at (5,6) {$
+\backslash
+theta_{j1}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zj2) at (6,6) {$z_{j2}$};
+node[vertex] (thetaj2) at (6,6) {$
+\backslash
+theta_{j2}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zj3) at (8,6) {$z_{j3}$};
+node[vertex] (thetaj3) at (8,6) {$
+\backslash
+theta_{j3}$};
 \end_layout
 
 \begin_layout Plain Layout
@@ -2181,16 +1887,16 @@ node[vertex,fill={rgb:black,1;white,2}] (Aj) at (5.5,3.5) {$A_j$};
 
 
 \backslash
-draw[red,thick,dotted] ($(zi2.north west)+(-0.3,0.6)$)  rectangle ($(zj2.south
- east)+(0.3,-0.6)$);
+draw[red,thick,dotted] ($(thetai2.north west)+(-0.3,0.6)$)  rectangle ($(thetaj2.sou
+th east)+(0.3,-0.6)$);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[blue,thick,dotted] ($(zi3.north west)+(-0.5,1.0)$)  rectangle ($(zj3.south
- east)+(0.5,-1.0)$);
+draw[blue,thick,dotted] ($(thetai3.north west)+(-0.5,1.0)$)  rectangle ($(thetaj3.so
+uth east)+(0.5,-1.0)$);
 \end_layout
 
 \begin_layout Plain Layout
@@ -2220,56 +1926,56 @@ scriptsize{Latent Space}};
 
 
 \backslash
-draw[edge] (zi1) to [out=300,in=110] (y);
+draw[edge] (thetai1) to [out=300,in=110] (y);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge] (zj1) to [out=240,in=70] (y);
+draw[edge] (thetaj1) to [out=240,in=70] (y);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge] (zi2) -- (y);
+draw[edge] (thetai2) -- (y);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge] (zj2) -- (y);
+draw[edge] (thetaj2) -- (y);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge] (zi2) to [out=270,in=110] (Ai);
+draw[edge] (thetai2) to [out=270,in=110] (Ai);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge] (zj2) to [out=270,in=70] (Aj);
+draw[edge] (thetaj2) to [out=270,in=70] (Aj);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge] (zi3) to [out=270,in=180] (Ai);
+draw[edge] (thetai3) to [out=270,in=180] (Ai);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge] (zj3) to [out=270,in=0] (Aj);
+draw[edge] (thetaj3) to [out=270,in=0] (Aj);
 \end_layout
 
 \begin_layout Plain Layout
@@ -2404,42 +2110,54 @@ node[vertex,fill={rgb:black,1;white,2}] (y) at (4,2) {$y_{ij}$};
 
 
 \backslash
-node[vertex] (zi1) at (3,6) {$z_{i1}$};
+node[vertex] (thetai1) at (3,6) {$
+\backslash
+theta_{i1}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zi2) at (2,6) {$z_{i2}$};
+node[vertex] (thetai2) at (2,6) {$
+\backslash
+theta_{i2}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zi3) at (0,6) {$z_{i3}$};
+node[vertex] (thetai3) at (0,6) {$
+\backslash
+theta_{i3}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zj1) at (5,6) {$z_{j1}$};
+node[vertex] (thetaj1) at (5,6) {$
+\backslash
+theta_{j1}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zj2) at (6,6) {$z_{j2}$};
+node[vertex] (thetaj2) at (6,6) {$
+\backslash
+theta_{j2}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zj3) at (8,6) {$z_{j3}$};
+node[vertex] (thetaj3) at (8,6) {$
+\backslash
+theta_{j3}$};
 \end_layout
 
 \begin_layout Plain Layout
@@ -2464,16 +2182,16 @@ node[vertex,fill={rgb:black,1;white,2}] (Aj) at (5.5,3.5) {$A_j$};
 
 
 \backslash
-draw[red,thick,dotted] ($(zi2.north west)+(-0.3,0.6)$)  rectangle ($(zj2.south
- east)+(0.3,-0.6)$);
+draw[red,thick,dotted] ($(thetai2.north west)+(-0.3,0.6)$)  rectangle ($(thetaj2.sou
+th east)+(0.3,-0.6)$);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[blue,thick,dotted] ($(zi3.north west)+(-0.5,1.0)$)  rectangle ($(zj3.south
- east)+(0.5,-1.0)$);
+draw[blue,thick,dotted] ($(thetai3.north west)+(-0.5,1.0)$)  rectangle ($(thetaj3.so
+uth east)+(0.5,-1.0)$);
 \end_layout
 
 \begin_layout Plain Layout
@@ -2503,56 +2221,56 @@ scriptsize{Latent Space}};
 
 
 \backslash
-draw[edge, red] (zi1) to [out=300,in=110] (y);
+draw[edge, red] (thetai1) to [out=300,in=110] (y);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge, red] (zj1) to [out=240,in=70] (y);
+draw[edge, red] (thetaj1) to [out=240,in=70] (y);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge, red] (zi2) -- (y);
+draw[edge, red] (thetai2) -- (y);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge, red] (zj2) -- (y);
+draw[edge, red] (thetaj2) -- (y);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge, red] (zi2) to [out=270,in=110] (Ai);
+draw[edge, red] (thetai2) to [out=270,in=110] (Ai);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge, red] (zj2) to [out=270,in=70] (Aj);
+draw[edge, red] (thetaj2) to [out=270,in=70] (Aj);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge, red] (zi3) to [out=270,in=180] (Ai);
+draw[edge, red] (thetai3) to [out=270,in=180] (Ai);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge, red] (zj3) to [out=270,in=0] (Aj);
+draw[edge, red] (thetaj3) to [out=270,in=0] (Aj);
 \end_layout
 
 \begin_layout Plain Layout
@@ -2699,42 +2417,54 @@ node[vertex,fill={rgb:black,1;white,2}] (y) at (4,2) {$y_{ij}$};
 
 
 \backslash
-node[vertex] (zi1) at (3,8) {$z_{i1}$};
+node[vertex] (thetai1) at (3,8) {$
+\backslash
+theta_{i1}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zi2) at (2,8) {$z_{i2}$};
+node[vertex] (thetai2) at (2,8) {$
+\backslash
+theta_{i2}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zi3) at (0,8) {$z_{i3}$};
+node[vertex] (thetai3) at (0,8) {$
+\backslash
+theta_{i3}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zj1) at (5,8) {$z_{j1}$};
+node[vertex] (thetaj1) at (5,8) {$
+\backslash
+theta_{j1}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zj2) at (6,8) {$z_{j2}$};
+node[vertex] (thetaj2) at (6,8) {$
+\backslash
+theta_{j2}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zj3) at (8,8) {$z_{j3}$};
+node[vertex] (thetaj3) at (8,8) {$
+\backslash
+theta_{j3}$};
 \end_layout
 
 \begin_layout Plain Layout
@@ -2792,28 +2522,28 @@ node[vertex,fill={rgb:black,1;white,2}] (Aj) at (5.5,3.5) {$A_j$};
 
 
 \backslash
-draw[edge] (zi1) to  (xi1);
+draw[edge] (thetai1) to  (xi1);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge] (zj1) to  (xj1);
+draw[edge] (thetaj1) to  (xj1);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge] (zi2) -- (xi1);
+draw[edge] (thetai2) -- (xi1);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge] (zj2) -- (xj1);
+draw[edge] (thetaj2) -- (xj1);
 \end_layout
 
 \begin_layout Plain Layout
@@ -2862,14 +2592,14 @@ draw[edge] (xj1) to  (y);
 
 
 \backslash
-draw[edge] (zi3) to  (xi2);
+draw[edge] (thetai3) to  (xi2);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge] (zj3) to  (xj2);
+draw[edge] (thetaj3) to  (xj2);
 \end_layout
 
 \begin_layout Plain Layout
@@ -2920,552 +2650,8 @@ Solution to the confounding path
 \end_layout
 
 \end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
-What we do in practice
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Float figure
-placement H
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-usetikzlibrary{arrows}
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-tikzset{     
-\end_layout
-
-\begin_layout Plain Layout
-
-	vertex/.style={circle,draw,minimum size=0.7em},
-\end_layout
-
-\begin_layout Plain Layout
-
-    edge/.style={->,> = latex'} 
-\end_layout
-
-\begin_layout Plain Layout
-
-}
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{center}
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{tikzpicture}[thick,scale=0.6, every node/.style={scale=0.6}]
-\end_layout
-
-\begin_layout Plain Layout
-
-% vertices 
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node[vertex,fill={rgb:black,1;white,2}] (y) at (2,8) {$y_{ij}$};
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node[vertex,fill={rgb:black,1;white,2}] (w) at (-1.5,6.5) {$A_{i}$};
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node[vertex] (b) at (2,6.5) {$
-\backslash
-beta_{kk}$};
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node[vertex, shape=circle, fill, scale=.3] (eta) at (0,6.5) {$
-\backslash
-eta$};
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node [yshift=3.0ex, black] at (-0.5,6.5) {$
-\backslash
-eta$};
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node[vertex] (zab) at (0,8.5) {$z_{ij}$};
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node[vertex] (za) at (-1.5,8.5) {$z_{i}$};
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node[vertex] (zba) at (4,8.5) {$z_{ji}$};
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node[vertex] (thetaa) at (0,10) {$
-\backslash
-theta^{*}_{i}$};
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node[vertex] (thetab) at (4,10) {$
-\backslash
-theta^{*}_{j}$};
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node[vertex] (mu) at (0.5,11) {$
-\backslash
-mu$};
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node[vertex] (Lambda) at (3.5,11) {$
-\backslash
-Lambda$};
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node[vertex, shape=circle, fill, scale=.3] (mu0) at (-.5,12) {$
-\backslash
-mu_0$};
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node [yshift=3.0ex, black] at (mu0.north) {$
-\backslash
-mu_0$};
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node[vertex, shape=circle, fill, scale=.3] (Lambda0) at (1.5,12) {$
-\backslash
-Lambda_0$};
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node [yshift=3.0ex, black] at (Lambda0.north) {$
-\backslash
-Lambda_0$};
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node[vertex, shape=circle, fill, scale=.3] (l0) at (2.5,12) {$
-\backslash
-ell_0$};
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node [yshift=3.0ex, black] at (l0.north) {$
-\backslash
-ell_0$};
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node[vertex, shape=circle, fill, scale=.3] (L0) at (4.5,12) {$L_0$};
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-node [yshift=3.0ex, black] at (L0.north) {$L_0$};
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-node[draw=red, fit= (zi1) (zj1) (zi2) (zj2),  inner sep=.60cm, dashed, ultra
- thick, fill=red!10, fill %opacity=0.2] {};
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-node[draw=blue, fit= (zi1) (zj1) (zi2) (zj2) (zi3) (zj3),  inner sep=1.20cm,
- dashed, ultra thick, fill=blue!%10, fill opacity=0.2] {};
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-node [yshift=3.0ex, black] at (2.4,4.3) {Link Preferences};
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-node [yshift=3.0ex, black] at (-.5,4.8) {Latent Space};
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-node[draw=black, fit= (zi1) (zj1) (zi2) (zj2) (zi3) (zj3) (y) (Ai) (Aj),
-  inner sep=1.40cm, dashed, ultra %thick, fill=black!10, fill opacity=0.2]
- {};
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-node [yshift=3.0ex, black] at (13,-3.5) {$t=1..T$};
-\end_layout
-
-\begin_layout Plain Layout
-
-%edges 
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-draw[edge] (zi1) to [out=300,in=110] (y);
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-draw[edge] (zj1) to [out=240,in=70] (y);
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-draw[edge] (zi2) -- (y);
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-draw[edge] (zj2) -- (y);
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-draw[edge] (zi2) to [out=270,in=110] (Ai);
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-draw[edge] (zj2) to [out=270,in=70] (Aj);
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-draw[edge] (zi3) to [out=270,in=180] (Ai);
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-draw[edge] (zj3) to [out=270,in=0] (Aj);
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-draw[edge] (eta) to  (b);
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-draw[edge] (b) to  (y);
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-draw[edge] (za) to  (w);
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-draw[edge] (zab) to  (y);
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-draw[edge] (zba) to  (y);
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-draw[edge] (thetaa) to  (za);
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-draw[edge] (thetaa) to  (zab);
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-draw[edge] (thetab) to  (zba);
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-draw[edge] (mu) to  (thetaa);
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-draw[edge] (Lambda) to  (thetaa);
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-draw[edge] (mu) to  (thetab);
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-draw[edge] (Lambda) to  (thetab);
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-draw[edge] (mu0) to  (mu);
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-draw[edge] (Lambda0) to  (mu);
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-draw[edge] (l0) to  (Lambda);
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-draw[edge] (L0) to  (Lambda);
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{tikzpicture}
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{center}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Modified graph for identification
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-Current Status
-\end_layout
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
-Stage where we are
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-We are still on the theory
-\end_layout
-
-\begin_layout Itemize
-But have implementation recipe(variational derivations)
-\end_layout
-
-\end_deeper
 \begin_layout Section
-3rd Project
+3rd Project: Network Evolution
 \begin_inset Argument 2
 status open
 
@@ -3617,42 +2803,54 @@ node[vertex,fill={rgb:black,1;white,2}] (y) at (4,3) {$y_{ijt}$};
 
 
 \backslash
-node[vertex] (zi1) at (3,6) {$z_{i1t}$};
+node[vertex] (thetai1) at (3,6) {$
+\backslash
+theta_{i1t}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zi2) at (2,6) {$z_{i2t}$};
+node[vertex] (thetai2) at (2,6) {$
+\backslash
+theta_{i2t}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zi3) at (0,6) {$z_{i3t}$};
+node[vertex] (thetai3) at (0,6) {$
+\backslash
+theta_{i3t}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zj1) at (5,6) {$z_{j1t}$};
+node[vertex] (thetaj1) at (5,6) {$
+\backslash
+theta_{j1t}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zj2) at (6,6) {$z_{j2t}$};
+node[vertex] (thetaj2) at (6,6) {$
+\backslash
+theta_{j2t}$};
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-node[vertex] (zj3) at (8,6) {$z_{j3t}$};
+node[vertex] (thetaj3) at (8,6) {$
+\backslash
+theta_{j3t}$};
 \end_layout
 
 \begin_layout Plain Layout
@@ -3673,16 +2871,16 @@ node[vertex,fill={rgb:black,1;white,2}] (Aj) at (5.5,3.5) {$A_{jt}$};
 
 
 \backslash
-draw[red,thick,dotted] ($(zi2.north west)+(-0.3,0.6)$)  rectangle ($(zj2.south
- east)+(0.3,-0.6)$);
+draw[red,thick,dotted] ($(thetai2.north west)+(-0.3,0.6)$)  rectangle ($(thetaj2.sou
+th east)+(0.3,-0.6)$);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[blue,thick,dotted] ($(zi3.north west)+(-0.5,.8)$)  rectangle ($(zj3.south
- east)+(0.5,-.8)$);
+draw[blue,thick,dotted] ($(thetai3.north west)+(-0.5,.8)$)  rectangle ($(thetaj3.sou
+th east)+(0.5,-.8)$);
 \end_layout
 
 \begin_layout Plain Layout
@@ -3707,8 +2905,9 @@ scriptsize{Latent Space}};
 
 
 \backslash
-node[draw=black, fit= (zi1) (zj1) (zi2) (zj2) (zi3) (zj3) (y) (Ai) (Aj),
-  inner sep=1.0cm, dashed, ultra thick, fill=black!10, fill opacity=0.2] {};
+node[draw=black, fit= (thetai1) (thetaj1) (thetai2) (thetaj2) (thetai3)
+ (thetaj3) (y) (Ai) (Aj),  inner sep=1.0cm, dashed, ultra thick, fill=black!10,
+ fill opacity=0.2] {};
 \end_layout
 
 \begin_layout Plain Layout
@@ -3727,56 +2926,56 @@ node [yshift=3.0ex, black] at (8.2,1.8) {$t=1..T$};
 
 
 \backslash
-draw[edge] (zi1) to [out=300,in=110] (y);
+draw[edge] (thetai1) to [out=300,in=110] (y);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge] (zj1) to [out=240,in=70] (y);
+draw[edge] (thetaj1) to [out=240,in=70] (y);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge] (zi2) -- (y);
+draw[edge] (thetai2) -- (y);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge] (zj2) -- (y);
+draw[edge] (thetaj2) -- (y);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge] (zi2) to [out=270,in=110] (Ai);
+draw[edge] (thetai2) to [out=270,in=110] (Ai);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge] (zj2) to [out=270,in=70] (Aj);
+draw[edge] (thetaj2) to [out=270,in=70] (Aj);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge] (zi3) to [out=270,in=180] (Ai);
+draw[edge] (thetai3) to [out=270,in=180] (Ai);
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-draw[edge] (zj3) to [out=270,in=0] (Aj);
+draw[edge] (thetaj3) to [out=270,in=0] (Aj);
 \end_layout
 
 \begin_layout Plain Layout
@@ -3820,6 +3019,10 @@ Dynamic evolution of network and behavior
 \end_layout
 
 \end_deeper
+\begin_layout Frame
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset Separator plain
 \end_inset
@@ -3832,7 +3035,7 @@ Dynamic evolution of network and behavior
 status open
 
 \begin_layout Plain Layout
-Data that we use for now
+Questions and Feedbakcs 
 \end_layout
 
 \end_inset
@@ -3842,146 +3045,17 @@ Data that we use for now
 
 \begin_deeper
 \begin_layout Itemize
-Simulated data:
+Directions to be focused more or less
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-small(100-250 nodes) 
-\end_layout
-
-\begin_layout Itemize
-relatively larger networks(1000-10000 nodes).
- 
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Real data: co-authorship data from the Marketing Science database submission
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-network data of authors in marketing from 1973 to 2009 are available on
- a yearly basis.
-\end_layout
-
-\begin_layout Itemize
-more than 25000 authors and approx.
- 1500 estimated communities(Ongoing)
-\end_layout
-
-\end_deeper
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
-Some speed up improvement
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Infromative sets for updating community specific parameters(done)
-\end_layout
-
-\begin_layout Itemize
-Parallel computing(ongoing)
-\end_layout
-
-\begin_layout Itemize
-Adjusting learning rate and mini-batch size(ongoing)
-\end_layout
-
-\end_deeper
-\begin_layout Section*
-Questions
-\end_layout
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
-Questions
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
 \begin_layout Itemize
 Positioning
 \end_layout
 
 \begin_layout Itemize
-Job Market
-\end_layout
-
-\begin_layout Itemize
-Which aspect to be avoided or further followed
+Job market suggestions
 \end_layout
 
 \end_deeper
-\begin_layout Section*
-\start_of_appendix
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-All of the following is optional and typically not needed.
-\end_layout
-
-\end_inset
-
-Appendix
-\end_layout
-
-\begin_layout Subsection*
-For Further Reading
-\end_layout
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
-Questions
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-My Github: https://github.com/56592aya/LNMMSB
-\end_layout
-
-\end_deeper
-\begin_layout Frame
-
-\end_layout
-
-\begin_layout Frame
-
-\end_layout
-
 \end_body
 \end_document
